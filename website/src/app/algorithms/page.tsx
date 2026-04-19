@@ -221,6 +221,87 @@ const RECOMMENDATIONS = [
   },
 ];
 
+// ============================================================
+// 3D Products backtest data (15 strategies, 1064+ draws)
+// ============================================================
+
+const BACKTEST_RESULTS_3D = {
+  "3d": {
+    label: "Max 3D",
+    totalDraws: 1064,
+    baseline: { exactPct: 2.0 },
+    strategies: [
+      { name: "Tần suất cao (Whole Hot)", exactPct: 2.334, roi: -35.5, type: "best" as const },
+      { name: "Tier Focus ĐB", exactPct: 2.186, roi: -42.2, type: "old" as const },
+      { name: "Digit Hot", exactPct: 2.137, roi: -39.5, type: "old" as const },
+      { name: "★ Bayesian Digit", exactPct: 2.087, roi: -39.6, type: "new" as const },
+      { name: "★★ SumRange Filter", exactPct: 2.055, roi: -40.0, type: "research" as const },
+      { name: "★ Bayes Sharp", exactPct: 2.055, roi: -42.0, type: "new" as const },
+      { name: "Digit Cold", exactPct: 2.038, roi: -44.4, type: "old" as const },
+      { name: "Pattern 3D", exactPct: 2.005, roi: -46.2, type: "old" as const },
+      { name: "★★ Markov Digit", exactPct: 1.972, roi: -46.5, type: "research" as const },
+      { name: "★ MaxEntropy", exactPct: 1.972, roi: -46.9, type: "new" as const },
+      { name: "★ Adaptive", exactPct: 1.940, roi: -46.2, type: "new" as const },
+      { name: "Random", exactPct: 1.874, roi: -55.7, type: "base" as const },
+      { name: "★ Bayesian Whole", exactPct: 1.841, roi: -46.0, type: "new" as const },
+      { name: "★★ Composite Score", exactPct: 1.808, roi: -59.0, type: "research" as const },
+      { name: "Freq Whole Cold", exactPct: 1.644, roi: -54.7, type: "old" as const },
+    ],
+  },
+  "3d_pro": {
+    label: "Max 3D Pro",
+    totalDraws: 711,
+    baseline: { exactPct: 2.0 },
+    strategies: [
+      { name: "Tần suất cao (Whole Hot)", exactPct: 2.345, roi: -47.2, type: "best" as const },
+      { name: "★★ SumRange Filter", exactPct: 2.295, roi: -35.1, type: "research" as const },
+      { name: "★ MaxEntropy", exactPct: 2.269, roi: -43.8, type: "new" as const },
+      { name: "Random", exactPct: 2.219, roi: -38.0, type: "base" as const },
+      { name: "Tier Focus ĐB", exactPct: 2.068, roi: -51.1, type: "old" as const },
+      { name: "★ Bayesian Digit", exactPct: 2.068, roi: -43.6, type: "new" as const },
+      { name: "★ Adaptive", exactPct: 2.068, roi: -47.7, type: "new" as const },
+      { name: "★ Bayes Sharp", exactPct: 2.017, roi: -36.3, type: "new" as const },
+      { name: "Pattern 3D", exactPct: 1.992, roi: -41.2, type: "old" as const },
+      { name: "Freq Whole Cold", exactPct: 1.942, roi: -52.7, type: "old" as const },
+      { name: "★ Bayesian Whole", exactPct: 1.866, roi: -43.9, type: "new" as const },
+      { name: "Digit Hot", exactPct: 1.815, roi: -50.0, type: "old" as const },
+      { name: "Digit Cold", exactPct: 1.815, roi: -44.8, type: "old" as const },
+      { name: "★★ Markov Digit", exactPct: 1.790, roi: -51.1, type: "research" as const },
+      { name: "★★ Composite Score", exactPct: 1.790, roi: -39.3, type: "research" as const },
+    ],
+  },
+};
+
+const RECOMMENDATIONS_3D = [
+  {
+    product: "Max 3D",
+    emoji: "🟠",
+    color: "hsl(24, 95%, 53%)",
+    primary: "Tần suất cao",
+    primaryEmoji: "📊",
+    secondary: "SumRange Filter",
+    secondaryEmoji: "🎯",
+    reason:
+      "Freq Whole Hot có tỷ lệ trúng cao nhất (2.334%) và ROI tốt nhất (-35.5%). " +
+      "Với pool 1.000 số (000-999), tần suất đơn giản khai thác bias hiệu quả nhất. " +
+      "SumRange Filter (#5) là chiến lược dựa trên research mạnh nhất.",
+    special: "🔬 SumRange Filter sử dụng tổng chữ số (digit-sum) — phương pháp mới từ internet research",
+  },
+  {
+    product: "Max 3D Pro",
+    emoji: "🟡",
+    color: "hsl(48, 96%, 53%)",
+    primary: "Tần suất cao",
+    primaryEmoji: "📊",
+    secondary: "SumRange Filter",
+    secondaryEmoji: "🎯",
+    reason:
+      "Freq Whole Hot vẫn dẫn đầu (2.345%), nhưng SumRange Filter đạt ROI tốt nhất toàn nghiên cứu (-35.1%). " +
+      "Max 3D Pro có ít dữ liệu hơn (711 kỳ) nên chiến lược lọc theo tổng chữ số càng hiệu quả.",
+    special: "💎 SumRange Filter: ROI -35.1% — tốt nhất trong toàn bộ 15 chiến lược Max 3D Pro!",
+  },
+];
+
 export default function AlgorithmsPage() {
   return (
     <div className="space-y-12">
@@ -232,22 +313,22 @@ export default function AlgorithmsPage() {
           Thuật Toán Gợi Ý
         </h1>
         <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Giải thích chi tiết 6 thuật toán phân tích dữ liệu, đánh giá xác suất trên 1.300+ kỳ quay thực tế,
-          và khuyến nghị thuật toán phù hợp nhất cho từng loại xổ số.
+          Giải thích chi tiết 6 thuật toán phân tích dữ liệu cho xổ số dạng ma trận (Power/Mega/Lotto)
+          và 15 chiến lược cho Max 3D/3D Pro, đánh giá trên 4.900+ kỳ quay thực tế.
         </p>
         <div className="flex justify-center gap-8 mt-6">
           <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">6</div>
+            <div className="text-3xl font-extrabold text-primary">6+15</div>
             <div className="text-xs text-muted-foreground mt-0.5">Thuật toán</div>
           </div>
           <div className="h-10 w-px bg-border" />
           <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">15</div>
-            <div className="text-xs text-muted-foreground mt-0.5">Biến thể backtest</div>
+            <div className="text-3xl font-extrabold text-primary">5</div>
+            <div className="text-xs text-muted-foreground mt-0.5">Sản phẩm</div>
           </div>
           <div className="h-10 w-px bg-border" />
           <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">3.173</div>
+            <div className="text-3xl font-extrabold text-primary">4.948</div>
             <div className="text-xs text-muted-foreground mt-0.5">Kỳ quay phân tích</div>
           </div>
         </div>
@@ -476,12 +557,201 @@ export default function AlgorithmsPage() {
         </div>
       </section>
 
-      {/* Recommendations */}
+      {/* ═══════════════════════════════════════════════════
+          3D Products section
+          ═══════════════════════════════════════════════════ */}
+
+      {/* 3D Backtest results */}
+      <section>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="h-8 w-1 rounded-full bg-orange-500" />
+          <div>
+            <h2 className="text-xl font-bold">Max 3D / 3D Pro — Đánh Giá 15 Chiến Lược</h2>
+            <p className="text-sm text-muted-foreground">
+              Walk-forward backtest trên 1.775 kỳ quay, bao gồm 3 chiến lược mới từ internet research (★★)
+            </p>
+          </div>
+        </div>
+
+        {/* 3D Methodology */}
+        <Card className="mb-6 border-dashed">
+          <CardContent className="py-4">
+            <div className="flex gap-3">
+              <span className="text-xl shrink-0">🎰</span>
+              <div className="space-y-2">
+                <h4 className="font-semibold text-sm">Khác biệt với xổ số ma trận</h4>
+                <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
+                  <li>
+                    <strong>Pool 1.000 số</strong> (000-999) thay vì 35-55 số — không gian lớn hơn nhiều
+                  </li>
+                  <li>
+                    <strong>20 số trúng/kỳ</strong> gồm 4 hạng giải: Đặc biệt (2), Nhất (4), Nhì (6), Ba (8)
+                  </li>
+                  <li>
+                    <strong>Dự đoán 2 số/lần</strong> — đánh giá bằng % kỳ có ít nhất 1 số trùng khớp (exact match)
+                  </li>
+                  <li>
+                    <strong>Baseline</strong>: Xác suất random = 2.0% (exact match), ROI kỳ vọng ≈ -65%
+                  </li>
+                  <li>
+                    <strong>★★</strong> = chiến lược mới từ internet research (Markov Chain, SumRange Filter, Composite Score)
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="space-y-8">
+          {Object.entries(BACKTEST_RESULTS_3D).map(([key, product]) => (
+            <Card key={key}>
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <CardTitle className="text-base">{product.label}</CardTitle>
+                  <div className="flex gap-3 text-xs text-muted-foreground">
+                    <span>{product.totalDraws.toLocaleString()} kỳ quay</span>
+                    <span>•</span>
+                    <span>Baseline exact = {product.baseline.exactPct}%</span>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-8">#</TableHead>
+                        <TableHead>Chiến lược</TableHead>
+                        <TableHead className="text-right">Exact %</TableHead>
+                        <TableHead className="text-right">vs Baseline</TableHead>
+                        <TableHead className="text-right">ROI</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {product.strategies.map((s, i) => (
+                        <TableRow
+                          key={s.name}
+                          className={
+                            i === 0
+                              ? "bg-primary/5 font-medium"
+                              : s.type === "base"
+                                ? "bg-muted/30"
+                                : s.type === "research"
+                                  ? "bg-orange-500/5"
+                                  : ""
+                          }
+                        >
+                          <TableCell className="text-muted-foreground text-xs">
+                            {i === 0 ? "🏆" : i + 1}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-sm">{s.name}</span>
+                              {s.type === "new" && (
+                                <Badge variant="secondary" className="text-[9px] px-1 py-0">MỚI</Badge>
+                              )}
+                              {s.type === "research" && (
+                                <Badge className="bg-orange-500 text-white text-[9px] px-1 py-0">RESEARCH</Badge>
+                              )}
+                              {s.type === "base" && (
+                                <Badge variant="outline" className="text-[9px] px-1 py-0">baseline</Badge>
+                              )}
+                              {s.type === "best" && (
+                                <Badge className="bg-green-600 text-white text-[9px] px-1 py-0">TỐT NHẤT</Badge>
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right font-mono text-sm">
+                            {s.exactPct.toFixed(3)}%
+                          </TableCell>
+                          <TableCell
+                            className={`text-right font-mono text-sm ${
+                              s.exactPct > product.baseline.exactPct
+                                ? "text-green-400"
+                                : s.exactPct < product.baseline.exactPct - 0.05
+                                  ? "text-red-400"
+                                  : "text-muted-foreground"
+                            }`}
+                          >
+                            {s.exactPct > product.baseline.exactPct ? "+" : ""}
+                            {(s.exactPct - product.baseline.exactPct).toFixed(3)}%
+                          </TableCell>
+                          <TableCell className="text-right font-mono text-sm text-red-400">
+                            {s.roi.toFixed(1)}%
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* 3D Recommendations */}
+      <section>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="h-8 w-1 rounded-full bg-orange-500" />
+          <div>
+            <h2 className="text-xl font-bold">Khuyến Nghị — Max 3D / 3D Pro</h2>
+            <p className="text-sm text-muted-foreground">
+              Dựa trên 15 chiến lược backtest + 3 chiến lược internet research
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {RECOMMENDATIONS_3D.map((r) => (
+            <Card key={r.product} className="relative overflow-hidden">
+              <div
+                className="absolute top-0 left-0 right-0 h-1"
+                style={{ backgroundColor: r.color }}
+              />
+              <CardHeader className="pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">{r.emoji}</span>
+                  <CardTitle className="text-base">{r.product}</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="rounded-lg border p-3 space-y-1.5" style={{ borderColor: `${r.color}40` }}>
+                  <Badge className="text-white text-[10px]" style={{ backgroundColor: r.color }}>
+                    #1 Khuyến nghị
+                  </Badge>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xl">{r.primaryEmoji}</span>
+                    <span className="font-bold text-sm">{r.primary}</span>
+                  </div>
+                </div>
+                <div className="rounded-lg border border-border/50 p-3 space-y-1.5">
+                  <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                    Lựa chọn phụ
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">{r.secondaryEmoji}</span>
+                    <span className="text-sm">{r.secondary}</span>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">{r.reason}</p>
+                {r.special && (
+                  <div className="rounded-lg bg-orange-500/10 border border-orange-500/30 p-2.5">
+                    <p className="text-xs text-orange-300 leading-relaxed">{r.special}</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Recommendations - Matrix products */}
       <section>
         <div className="flex items-center gap-3 mb-6">
           <div className="h-8 w-1 rounded-full bg-yellow-500" />
           <div>
-            <h2 className="text-xl font-bold">Khuyến Nghị Theo Loại Chơi</h2>
+            <h2 className="text-xl font-bold">Khuyến Nghị — Xổ Số Ma Trận</h2>
             <p className="text-sm text-muted-foreground">
               Thuật toán nào phù hợp nhất cho từng sản phẩm xổ số
             </p>
@@ -570,9 +840,19 @@ export default function AlgorithmsPage() {
               desc: "Dù số trùng trung bình thấp hơn, MaxEntropy là thuật toán DUY NHẤT đạt trùng 5/6 số (trên Mega 6/45). ROI tốt nhất (-62% so với -90% thông thường). Phù hợp người chơi thích rủi ro cao.",
             },
             {
+              icon: "🎰",
+              title: "3D: Tần suất đơn giản thắng cả AI",
+              desc: "Với pool 1.000 số (000-999), tần suất đếm đơn giản (Freq Whole Hot) đạt 2.33-2.35% — vượt tất cả thuật toán phức tạp bao gồm Bayesian, Markov Chain, và Composite Score. Đôi khi đơn giản là tốt nhất.",
+            },
+            {
+              icon: "🔬",
+              title: "SumRange Filter — phát hiện từ research",
+              desc: "Lọc theo tổng chữ số (digit-sum range mean±1σ) là chiến lược research mạnh nhất cho 3D. ROI -35.1% trên Max 3D Pro — tốt nhất trong 15 chiến lược. Nhiều lottery analysis trên Github sử dụng phương pháp tương tự.",
+            },
+            {
               icon: "📊",
               title: "Không thuật toán nào thắng xổ số",
-              desc: "Tất cả thuật toán đều có ROI âm (-62% đến -97%). Xổ số Vietlott là ngẫu nhiên thật sự. Các thuật toán chỉ giúp cải thiện nhỏ so với chọn random, không phải công cụ kiếm tiền.",
+              desc: "Tất cả thuật toán đều có ROI âm (-35% đến -97%). Xổ số Vietlott là ngẫu nhiên thật sự. Các thuật toán chỉ giúp cải thiện nhỏ so với chọn random, không phải công cụ kiếm tiền.",
             },
             {
               icon: "🌡️",
@@ -612,9 +892,9 @@ export default function AlgorithmsPage() {
               và trong khả năng tài chính của bạn.
             </p>
             <p className="text-[10px] text-muted-foreground/60">
-              Dữ liệu backtest: {Object.values(BACKTEST_RESULTS).reduce((s, p) => s + p.totalDraws, 0).toLocaleString()} kỳ quay
+              Dữ liệu backtest: {(Object.values(BACKTEST_RESULTS).reduce((s, p) => s + p.totalDraws, 0) + Object.values(BACKTEST_RESULTS_3D).reduce((s, p) => s + p.totalDraws, 0)).toLocaleString()} kỳ quay
               • Phương pháp: Walk-forward validation, 3 runs, seed=42
-              • Nguồn nghiên cứu: Dirichlet-Multinomial, Covering Designs (Gordon et al. 1995), Maximum Entropy (Jaynes 1957)
+              • Nguồn nghiên cứu: Dirichlet-Multinomial, Covering Designs (Gordon et al. 1995), Maximum Entropy (Jaynes 1957), Markov Chains, SumRange Filtering
             </p>
           </div>
         </div>

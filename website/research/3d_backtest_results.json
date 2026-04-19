@@ -1,0 +1,504 @@
+{
+  "max_3d": {
+    "baseline": {
+      "p_per_number": 2.0,
+      "p_any_match": 3.96,
+      "expected_matches": 0.04,
+      "digit_accuracy_baseline": 10.0
+    },
+    "total_draws": 1064,
+    "strategies": {
+      "Random": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.8738,
+        "exact_matches_total": 114,
+        "avg_digit_accuracy": 10.0137,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 49,
+          "Gi\u1ea3i Nh\u1ea5t": 26,
+          "Gi\u1ea3i Nh\u00ec": 33,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 6
+        },
+        "total_cost": 60840000,
+        "total_revenue": 26930000,
+        "net_profit": -33910000,
+        "roi_pct": -55.74,
+        "sharpe_ratio": -1.3254,
+        "elapsed_seconds": 0.03
+      },
+      "Freq_Whole_Hot": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.334,
+        "exact_matches_total": 142,
+        "avg_digit_accuracy": 10.0857,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u00ec": 40,
+          "Gi\u1ea3i ba": 61,
+          "Gi\u1ea3i Nh\u1ea5t": 25,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 16
+        },
+        "total_cost": 60840000,
+        "total_revenue": 39250000,
+        "net_profit": -21590000,
+        "roi_pct": -35.49,
+        "sharpe_ratio": -0.5883,
+        "elapsed_seconds": 1.44
+      },
+      "Freq_Whole_Cold": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.6437,
+        "exact_matches_total": 100,
+        "avg_digit_accuracy": 9.9203,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 36,
+          "Gi\u1ea3i Nh\u1ea5t": 30,
+          "Gi\u1ea3i Nh\u00ec": 26,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 8
+        },
+        "total_cost": 60840000,
+        "total_revenue": 27560000,
+        "net_profit": -33280000,
+        "roi_pct": -54.7,
+        "sharpe_ratio": -1.2078,
+        "elapsed_seconds": 0.9
+      },
+      "Digit_Hot": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.1368,
+        "exact_matches_total": 130,
+        "avg_digit_accuracy": 10.0808,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u00ec": 39,
+          "Gi\u1ea3i Nh\u1ea5t": 24,
+          "Gi\u1ea3i ba": 52,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 15
+        },
+        "total_cost": 60840000,
+        "total_revenue": 36790000,
+        "net_profit": -24050000,
+        "roi_pct": -39.53,
+        "sharpe_ratio": -0.7051,
+        "elapsed_seconds": 3.84
+      },
+      "Digit_Cold": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0381,
+        "exact_matches_total": 124,
+        "avg_digit_accuracy": 9.9118,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 58,
+          "Gi\u1ea3i Nh\u1ea5t": 28,
+          "Gi\u1ea3i Nh\u00ec": 25,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 13
+        },
+        "total_cost": 60840000,
+        "total_revenue": 33850000,
+        "net_profit": -26990000,
+        "roi_pct": -44.36,
+        "sharpe_ratio": -0.8378,
+        "elapsed_seconds": 3.81
+      },
+      "Pattern_3D": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0053,
+        "exact_matches_total": 122,
+        "avg_digit_accuracy": 10.0263,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u1ea5t": 21,
+          "Gi\u1ea3i Nh\u00ec": 49,
+          "Gi\u1ea3i ba": 41,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 11
+        },
+        "total_cost": 60840000,
+        "total_revenue": 32740000,
+        "net_profit": -28100000,
+        "roi_pct": -46.19,
+        "sharpe_ratio": -0.9201,
+        "elapsed_seconds": 2.11
+      },
+      "Tier_Focus_DB": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.1861,
+        "exact_matches_total": 133,
+        "avg_digit_accuracy": 10.0173,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 52,
+          "Gi\u1ea3i Nh\u00ec": 44,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 12,
+          "Gi\u1ea3i Nh\u1ea5t": 25
+        },
+        "total_cost": 60840000,
+        "total_revenue": 35190000,
+        "net_profit": -25650000,
+        "roi_pct": -42.16,
+        "sharpe_ratio": -0.7896,
+        "elapsed_seconds": 0.37
+      },
+      "\u2605Bayesian_Digit": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0874,
+        "exact_matches_total": 127,
+        "avg_digit_accuracy": 10.02,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u00ec": 34,
+          "Gi\u1ea3i Nh\u1ea5t": 38,
+          "Gi\u1ea3i ba": 43,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 12
+        },
+        "total_cost": 60840000,
+        "total_revenue": 36740000,
+        "net_profit": -24100000,
+        "roi_pct": -39.61,
+        "sharpe_ratio": -0.7347,
+        "elapsed_seconds": 5.39
+      },
+      "\u2605Bayes_Sharp": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0546,
+        "exact_matches_total": 125,
+        "avg_digit_accuracy": 10.0178,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 55,
+          "Gi\u1ea3i Nh\u1ea5t": 29,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 14,
+          "Gi\u1ea3i Nh\u00ec": 27
+        },
+        "total_cost": 60840000,
+        "total_revenue": 35320000,
+        "net_profit": -25520000,
+        "roi_pct": -41.95,
+        "sharpe_ratio": -0.7647,
+        "elapsed_seconds": 3.86
+      },
+      "\u2605Bayesian_Whole": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.8409,
+        "exact_matches_total": 112,
+        "avg_digit_accuracy": 10.0036,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u1ea5t": 24,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 14,
+          "Gi\u1ea3i Nh\u00ec": 28,
+          "Gi\u1ea3i ba": 46
+        },
+        "total_cost": 60840000,
+        "total_revenue": 32880000,
+        "net_profit": -27960000,
+        "roi_pct": -45.96,
+        "sharpe_ratio": -0.8533,
+        "elapsed_seconds": 2.33
+      },
+      "\u2605MaxEntropy": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9724,
+        "exact_matches_total": 120,
+        "avg_digit_accuracy": 9.9014,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u00ec": 41,
+          "Gi\u1ea3i Nh\u1ea5t": 20,
+          "Gi\u1ea3i ba": 47,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 12
+        },
+        "total_cost": 60840000,
+        "total_revenue": 32310000,
+        "net_profit": -28530000,
+        "roi_pct": -46.89,
+        "sharpe_ratio": -0.9178,
+        "elapsed_seconds": 5.54
+      },
+      "\u2605Adaptive": {
+        "total_predictions": 3042,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9395,
+        "exact_matches_total": 118,
+        "avg_digit_accuracy": 9.9529,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u00ec": 43,
+          "Gi\u1ea3i ba": 44,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 13,
+          "Gi\u1ea3i Nh\u1ea5t": 18
+        },
+        "total_cost": 60840000,
+        "total_revenue": 32730000,
+        "net_profit": -28110000,
+        "roi_pct": -46.2,
+        "sharpe_ratio": -0.8863,
+        "elapsed_seconds": 135.32
+      }
+    }
+  },
+  "max_3d_pro": {
+    "baseline": {
+      "p_per_number": 2.0,
+      "p_any_match": 3.96,
+      "expected_matches": 0.04,
+      "digit_accuracy_baseline": 10.0
+    },
+    "total_draws": 711,
+    "strategies": {
+      "Random": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.2189,
+        "exact_matches_total": 88,
+        "avg_digit_accuracy": 10.0109,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u00ec": 21,
+          "Gi\u1ea3i Nh\u1ea5t": 18,
+          "Gi\u1ea3i ba": 39,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 10
+        },
+        "total_cost": 39660000,
+        "total_revenue": 24610000,
+        "net_profit": -15050000,
+        "roi_pct": -37.95,
+        "sharpe_ratio": -0.6702,
+        "elapsed_seconds": 0.02
+      },
+      "Freq_Whole_Hot": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.3449,
+        "exact_matches_total": 93,
+        "avg_digit_accuracy": 10.0647,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 43,
+          "Gi\u1ea3i Nh\u00ec": 34,
+          "Gi\u1ea3i Nh\u1ea5t": 10,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 6
+        },
+        "total_cost": 39660000,
+        "total_revenue": 20940000,
+        "net_profit": -18720000,
+        "roi_pct": -47.2,
+        "sharpe_ratio": -1.0093,
+        "elapsed_seconds": 0.92
+      },
+      "Freq_Whole_Cold": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9415,
+        "exact_matches_total": 77,
+        "avg_digit_accuracy": 9.9672,
+        "tier_hits": {
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 4,
+          "Gi\u1ea3i Nh\u00ec": 20,
+          "Gi\u1ea3i ba": 32,
+          "Gi\u1ea3i Nh\u1ea5t": 21
+        },
+        "total_cost": 39660000,
+        "total_revenue": 18750000,
+        "net_profit": -20910000,
+        "roi_pct": -52.72,
+        "sharpe_ratio": -1.2225,
+        "elapsed_seconds": 0.57
+      },
+      "Digit_Hot": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.8154,
+        "exact_matches_total": 72,
+        "avg_digit_accuracy": 10.0967,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u1ea5t": 17,
+          "Gi\u1ea3i ba": 29,
+          "Gi\u1ea3i Nh\u00ec": 19,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 7
+        },
+        "total_cost": 39660000,
+        "total_revenue": 19840000,
+        "net_profit": -19820000,
+        "roi_pct": -49.97,
+        "sharpe_ratio": -1.0141,
+        "elapsed_seconds": 2.35
+      },
+      "Digit_Cold": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.8154,
+        "exact_matches_total": 72,
+        "avg_digit_accuracy": 9.9202,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u00ec": 21,
+          "Gi\u1ea3i Nh\u1ea5t": 10,
+          "Gi\u1ea3i ba": 30,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 11
+        },
+        "total_cost": 39660000,
+        "total_revenue": 21910000,
+        "net_profit": -17750000,
+        "roi_pct": -44.76,
+        "sharpe_ratio": -0.7901,
+        "elapsed_seconds": 2.36
+      },
+      "Pattern_3D": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9919,
+        "exact_matches_total": 79,
+        "avg_digit_accuracy": 9.9849,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 29,
+          "Gi\u1ea3i Nh\u1ea5t": 20,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 9,
+          "Gi\u1ea3i Nh\u00ec": 21
+        },
+        "total_cost": 39660000,
+        "total_revenue": 23310000,
+        "net_profit": -16350000,
+        "roi_pct": -41.23,
+        "sharpe_ratio": -0.7519,
+        "elapsed_seconds": 1.37
+      },
+      "Tier_Focus_DB": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0676,
+        "exact_matches_total": 82,
+        "avg_digit_accuracy": 9.8937,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 41,
+          "Gi\u1ea3i Nh\u00ec": 21,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 6,
+          "Gi\u1ea3i Nh\u1ea5t": 14
+        },
+        "total_cost": 39660000,
+        "total_revenue": 19410000,
+        "net_profit": -20250000,
+        "roi_pct": -51.06,
+        "sharpe_ratio": -1.1001,
+        "elapsed_seconds": 0.23
+      },
+      "\u2605Bayesian_Digit": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0676,
+        "exact_matches_total": 82,
+        "avg_digit_accuracy": 10.0214,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 37,
+          "Gi\u1ea3i Nh\u00ec": 21,
+          "Gi\u1ea3i Nh\u1ea5t": 15,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 9
+        },
+        "total_cost": 39660000,
+        "total_revenue": 22360000,
+        "net_profit": -17300000,
+        "roi_pct": -43.62,
+        "sharpe_ratio": -0.8119,
+        "elapsed_seconds": 3.27
+      },
+      "\u2605Bayes_Sharp": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0171,
+        "exact_matches_total": 80,
+        "avg_digit_accuracy": 9.966,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 33,
+          "Gi\u1ea3i Nh\u1ea5t": 13,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 13,
+          "Gi\u1ea3i Nh\u00ec": 21
+        },
+        "total_cost": 39660000,
+        "total_revenue": 25260000,
+        "net_profit": -14400000,
+        "roi_pct": -36.31,
+        "sharpe_ratio": -0.5916,
+        "elapsed_seconds": 2.39
+      },
+      "\u2605Bayesian_Whole": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.8659,
+        "exact_matches_total": 74,
+        "avg_digit_accuracy": 9.9576,
+        "tier_hits": {
+          "Gi\u1ea3i ba": 31,
+          "Gi\u1ea3i Nh\u00ec": 17,
+          "Gi\u1ea3i Nh\u1ea5t": 16,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 10
+        },
+        "total_cost": 39660000,
+        "total_revenue": 22270000,
+        "net_profit": -17390000,
+        "roi_pct": -43.85,
+        "sharpe_ratio": -0.7671,
+        "elapsed_seconds": 1.43
+      },
+      "\u2605MaxEntropy": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.2693,
+        "exact_matches_total": 90,
+        "avg_digit_accuracy": 10.0071,
+        "tier_hits": {
+          "Gi\u1ea3i Nh\u00ec": 29,
+          "Gi\u1ea3i ba": 31,
+          "Gi\u1ea3i Nh\u1ea5t": 26,
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 4
+        },
+        "total_cost": 39660000,
+        "total_revenue": 22290000,
+        "net_profit": -17370000,
+        "roi_pct": -43.8,
+        "sharpe_ratio": -0.9539,
+        "elapsed_seconds": 3.27
+      },
+      "\u2605Adaptive": {
+        "total_predictions": 1983,
+        "n_runs": 3,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0676,
+        "exact_matches_total": 82,
+        "avg_digit_accuracy": 10.0412,
+        "tier_hits": {
+          "Gi\u1ea3i \u0110\u1eb7c bi\u1ec7t": 7,
+          "Gi\u1ea3i ba": 36,
+          "Gi\u1ea3i Nh\u00ec": 25,
+          "Gi\u1ea3i Nh\u1ea5t": 14
+        },
+        "total_cost": 39660000,
+        "total_revenue": 20750000,
+        "net_profit": -18910000,
+        "roi_pct": -47.68,
+        "sharpe_ratio": -0.97,
+        "elapsed_seconds": 82.16
+      }
+    }
+  }
+}
