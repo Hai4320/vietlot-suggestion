@@ -13,18 +13,72 @@ import {
 // Backtest data from Phase 4 evaluation (1300+ draws)
 // ============================================================
 
+// Origin tags for proper classification per ALGORITHM_MANAGEMENT.md
+const ORIGIN_TAGS = {
+  builtin: { label: "Cơ bản", color: "hsl(210, 15%, 55%)", bg: "hsl(210, 15%, 55%)" },
+  papers: { label: "📚 Từ papers", color: "hsl(217, 91%, 60%)", bg: "hsl(217, 91%, 60%)" },
+  research: { label: "🔬 Tự nghiên cứu", color: "hsl(25, 95%, 53%)", bg: "hsl(25, 95%, 53%)" },
+} as const;
+
 const STRATEGIES = [
+  {
+    id: "evmax",
+    name: "EV tối đa",
+    emoji: "💰",
+    origin: "research" as const,
+    scope: "3d" as const,
+    shortDesc: "Expected Value maximizer + exponential decay + diversity",
+    description:
+      "Tối ưu hóa giá trị kỳ vọng (Expected Value) cho từng số dựa trên giải thưởng theo hạng (ĐB, Nhất, Nhì, Ba) " +
+      "và tần suất xuất hiện có trọng số giảm theo thời gian (exponential decay, half-life = 100 kỳ). " +
+      "Thuật toán tính EV = Σ(weight × prize) cho mỗi số, xếp hạng theo EV, sau đó lấy mẫu từ top 80 số " +
+      "với ràng buộc đa dạng (min digit distance = 4 giữa 2 số được chọn). " +
+      "Xếp hạng #1 trên Max 3D Pro (2.50%, ROI -26.5% — tốt nhất toàn bộ 3D).",
+    methodology: [
+      "Tính trọng số thời gian: weight = exp(-ln2 × i / half_life) cho kỳ thứ i",
+      "Với mỗi số, tính EV = Σ (weight × prize_tier) qua 300 kỳ gần nhất",
+      "Xếp hạng 1000 số theo EV giảm dần, lấy top 80 ứng viên",
+      "Lấy mẫu có trọng số từ pool, ràng buộc digit distance ≥ 4 giữa 2 số",
+      "Fallback nếu không đủ: chọn random từ pool",
+    ],
+    references: "Expected Value optimization, Exponential decay weighting, Diversity-constrained sampling — phát triển từ phân tích tier prizes Vietlott",
+    color: "hsl(45, 93%, 47%)",
+  },
+  {
+    id: "jointbias",
+    name: "Bias liên hợp",
+    emoji: "🧬",
+    origin: "research" as const,
+    scope: "3d" as const,
+    shortDesc: "Joint 3-digit frequency + Laplace smoothing",
+    description:
+      "Khai thác phát hiện thống kê rằng 3 vị trí chữ số (hàng trăm, chục, đơn vị) trong xổ số 3D " +
+      "KHÔNG độc lập (Chi² test: p < 0.001). Thay vì mô hình P(abc) = P(a)×P(b)×P(c), " +
+      "thuật toán tính trực tiếp tần suất đồng thời P(abc) trên 300 kỳ gần nhất, " +
+      "áp dụng Laplace smoothing (α=1.0) để xử lý số chưa xuất hiện, " +
+      "rồi lấy mẫu từ phân phối 1000 số theo xác suất joint. " +
+      "Xếp hạng #2 Max 3D (2.27%), #2 Max 3D Pro (2.38%).",
+    methodology: [
+      "Đếm tần suất đồng thời (joint frequency) cho mỗi số 000-999 qua 300 kỳ gần nhất",
+      "Laplace smoothing: P(num) = (count + α) / (total + 1000 × α), α = 1.0",
+      "Temperature scaling: P_t = P^(1/T), T = 1.0 (giữ nguyên phân phối)",
+      "Lấy mẫu 2 số từ phân phối, không trùng lặp",
+    ],
+    references: "Chi-squared independence test, Laplace smoothing, Joint probability estimation — phát hiện từ 13 bài test RNG trên data Vietlott",
+    color: "hsl(271, 91%, 65%)",
+  },
   {
     id: "bayesian",
     name: "Bayesian AI",
     emoji: "🧠",
-    badge: "★ Mới",
+    origin: "papers" as const,
+    scope: "all" as const,
     shortDesc: "Dirichlet posterior sampling",
     description:
       "Sử dụng phương pháp Bayesian với phân phối Dirichlet để mô hình hóa xác suất xuất hiện của từng số. " +
       "Thuật toán cập nhật \"niềm tin\" (prior) dựa trên tần suất thực tế, sau đó lấy mẫu từ phân phối posterior " +
       "để tạo bộ số. Tham số temperature kiểm soát mức độ tập trung: temperature cao (1.0) cho phân phối rộng " +
-      "(phù hợp pool lớn như 6/55), temperature thấp (0.5) tập trung vào số có posterior cao (phù hợp pool nhỏ hơn).",
+      "(phù hợp pool lớn như 6/55), temperature thấp (0.3) tập trung vào số có posterior cao (phù hợp Mega 6/45).",
     methodology: [
       "Thu thập tần suất xuất hiện mỗi số trong N kỳ gần nhất (lookback window)",
       "Xây dựng Dirichlet prior: α_i = 1 + freq(i) cho mỗi số i",
@@ -39,8 +93,9 @@ const STRATEGIES = [
     id: "pattern",
     name: "Mẫu cấu trúc",
     emoji: "🔮",
-    badge: "★ Mới",
-    shortDesc: "Spacing + range distribution analysis (ranked #1 overall)",
+    origin: "research" as const,
+    scope: "all" as const,
+    shortDesc: "Spacing + range distribution analysis (ranked #1 overall matrix)",
     description:
       "Phân tích cấu trúc bộ số: khoảng cách giữa các số liên tiếp (spacing) và phân bố trên các vùng số (band distribution). " +
       "Chia dải số thành các vùng bằng nhau, chọn 1 số từ mỗi vùng dựa trên tần suất lịch sử trong vùng đó " +
@@ -54,14 +109,15 @@ const STRATEGIES = [
       "Spacing bonus: ưu tiên số tạo khoảng cách gần median lịch sử",
       "3D: chọn pattern chẵn/lẻ + lớn/nhỏ phổ biến nhất, lọc digit-sum",
     ],
-    references: "Pattern analysis (thống kê cấu trúc), Range distribution, Spacing analysis",
+    references: "Pattern analysis (thống kê cấu trúc), Range distribution, Spacing analysis, Covering Designs (Gordon 1995)",
     color: "hsl(300, 70%, 50%)",
   },
   {
     id: "maxentropy",
     name: "Phủ sóng tối đa",
     emoji: "🎯",
-    badge: "★ Mới",
+    origin: "papers" as const,
+    scope: "all" as const,
     shortDesc: "Ma trận: Max-Entropy band sampling | 3D: SumRange digit-sum filter",
     description:
       "Cho xổ số ma trận: chia toàn bộ dải số thành các vùng (band) bằng nhau, mỗi vùng chọn đúng 1 số. " +
@@ -75,14 +131,15 @@ const STRATEGIES = [
       "3D: kết hợp digit frequency weights để chọn số trong vùng cho phép",
       "Đảm bảo không trùng lặp",
     ],
-    references: "Maximum Entropy Principle (Jaynes, 1957), SumRange digit-sum filtering (internet research)",
+    references: "Maximum Entropy Principle (Jaynes, 1957), SumRange digit-sum filtering (GitHub lottery repos)",
     color: "hsl(142, 71%, 45%)",
   },
   {
     id: "adaptive",
     name: "Tự động tối ưu",
     emoji: "⚡",
-    badge: "★ Mới",
+    origin: "papers" as const,
+    scope: "all" as const,
     shortDesc: "Self-tuning lookback window",
     description:
       "Tự động tìm cửa sổ phân tích tối ưu bằng cách thử nhiều khoảng thời gian khác nhau " +
@@ -103,12 +160,14 @@ const STRATEGIES = [
     id: "frequency",
     name: "Tần suất cao",
     emoji: "📊",
-    badge: null,
+    origin: "builtin" as const,
+    scope: "all" as const,
     shortDesc: "Frequency-weighted random sampling",
     description:
       "Phương pháp cổ điển: đếm tần suất xuất hiện của mỗi số trong lịch sử, " +
       "sau đó chọn ngẫu nhiên có trọng số — số xuất hiện nhiều hơn có xác suất được chọn cao hơn. " +
-      "Dựa trên giả thuyết rằng một số viên bi có thể xuất hiện thường xuyên hơn do yếu tố vật lý.",
+      "Dựa trên giả thuyết rằng một số viên bi có thể xuất hiện thường xuyên hơn do yếu tố vật lý. " +
+      "Đơn giản nhưng hiệu quả — #1 cho cả Max 3D lẫn Max 3D Pro (Exact 2.33-2.35%).",
     methodology: [
       "Đếm tần suất xuất hiện mỗi số trong toàn bộ lịch sử",
       "Gán trọng số = tần suất",
@@ -121,7 +180,8 @@ const STRATEGIES = [
     id: "absence",
     name: "Số vắng lâu",
     emoji: "⏳",
-    badge: null,
+    origin: "builtin" as const,
+    scope: "all" as const,
     shortDesc: "Long absence priority",
     description:
       "Ưu tiên những số đã lâu không xuất hiện, dựa trên tâm lý \"law of averages\" — " +
@@ -139,7 +199,8 @@ const STRATEGIES = [
     id: "mixed",
     name: "Kết hợp nóng–lạnh",
     emoji: "🎲",
-    badge: null,
+    origin: "builtin" as const,
+    scope: "all" as const,
     shortDesc: "Hot + Cold balanced blend",
     description:
       "Pha trộn 50% số nóng (tần suất cao) và 50% số lạnh (vắng lâu) trong cùng một bộ số. " +
@@ -254,20 +315,22 @@ const BACKTEST_RESULTS_3D = {
     totalDraws: 1064,
     baseline: { exactPct: 2.0 },
     strategies: [
-      { name: "Tần suất cao (Whole Hot)", exactPct: 2.334, roi: -35.5, type: "best" as const },
+      { name: "Tần suất cao (Whole Hot)", exactPct: 2.347, roi: -32.8, type: "best" as const },
+      { name: "🧬 Bias liên hợp (T=1.0)", exactPct: 2.268, roi: -39.0, type: "research" as const },
       { name: "Tier Focus ĐB", exactPct: 2.186, roi: -42.2, type: "old" as const },
       { name: "Digit Hot", exactPct: 2.137, roi: -39.5, type: "old" as const },
       { name: "★ Bayesian AI (Digit)", exactPct: 2.087, roi: -39.6, type: "new" as const },
-      { name: "★★ Phủ sóng tối đa (SumRange)", exactPct: 2.055, roi: -40.0, type: "research" as const },
+      { name: "★★ Phủ sóng tối đa (SumRange)", exactPct: 2.055, roi: -40.0, type: "new" as const },
       { name: "★ Bayesian AI (Sharp)", exactPct: 2.055, roi: -42.0, type: "new" as const },
       { name: "Digit Cold", exactPct: 2.038, roi: -44.4, type: "old" as const },
       { name: "Mẫu cấu trúc 3D", exactPct: 2.005, roi: -46.2, type: "old" as const },
-      { name: "★★ Markov Digit", exactPct: 1.972, roi: -46.5, type: "research" as const },
+      { name: "★★ Markov Digit", exactPct: 1.972, roi: -46.5, type: "old" as const },
       { name: "★ Phủ sóng tối đa", exactPct: 1.972, roi: -46.9, type: "new" as const },
       { name: "★ Tự động tối ưu", exactPct: 1.940, roi: -46.2, type: "new" as const },
       { name: "Random", exactPct: 1.874, roi: -55.7, type: "base" as const },
+      { name: "💰 EV tối đa", exactPct: 1.874, roi: -56.9, type: "research" as const },
       { name: "★ Bayesian AI (Whole)", exactPct: 1.841, roi: -46.0, type: "new" as const },
-      { name: "★★ Composite Score", exactPct: 1.808, roi: -59.0, type: "research" as const },
+      { name: "★★ Composite Score", exactPct: 1.808, roi: -59.0, type: "old" as const },
       { name: "Freq Whole Cold", exactPct: 1.644, roi: -54.7, type: "old" as const },
     ],
   },
@@ -276,8 +339,10 @@ const BACKTEST_RESULTS_3D = {
     totalDraws: 711,
     baseline: { exactPct: 2.0 },
     strategies: [
+      { name: "💰 EV tối đa", exactPct: 2.496, roi: -26.5, type: "research" as const },
+      { name: "🧬 Bias liên hợp (T=1.0)", exactPct: 2.375, roi: -31.5, type: "research" as const },
       { name: "Tần suất cao (Whole Hot)", exactPct: 2.345, roi: -47.2, type: "best" as const },
-      { name: "★★ Phủ sóng tối đa (SumRange)", exactPct: 2.295, roi: -35.1, type: "research" as const },
+      { name: "★★ Phủ sóng tối đa (SumRange)", exactPct: 2.295, roi: -35.1, type: "new" as const },
       { name: "★ Phủ sóng tối đa", exactPct: 2.269, roi: -43.8, type: "new" as const },
       { name: "Random", exactPct: 2.219, roi: -38.0, type: "base" as const },
       { name: "Tier Focus ĐB", exactPct: 2.068, roi: -51.1, type: "old" as const },
@@ -286,11 +351,12 @@ const BACKTEST_RESULTS_3D = {
       { name: "★ Bayesian AI (Sharp)", exactPct: 2.017, roi: -36.3, type: "new" as const },
       { name: "Mẫu cấu trúc 3D", exactPct: 1.992, roi: -41.2, type: "old" as const },
       { name: "Freq Whole Cold", exactPct: 1.942, roi: -52.7, type: "old" as const },
+      { name: "🧬 Bias liên hợp (T=0.7)", exactPct: 1.921, roi: -41.3, type: "research" as const },
       { name: "★ Bayesian AI (Whole)", exactPct: 1.866, roi: -43.9, type: "new" as const },
       { name: "Digit Hot", exactPct: 1.815, roi: -50.0, type: "old" as const },
       { name: "Digit Cold", exactPct: 1.815, roi: -44.8, type: "old" as const },
-      { name: "★★ Markov Digit", exactPct: 1.790, roi: -51.1, type: "research" as const },
-      { name: "★★ Composite Score", exactPct: 1.790, roi: -39.3, type: "research" as const },
+      { name: "★★ Markov Digit", exactPct: 1.790, roi: -51.1, type: "old" as const },
+      { name: "★★ Composite Score", exactPct: 1.790, roi: -39.3, type: "old" as const },
     ],
   },
 };
@@ -298,30 +364,31 @@ const BACKTEST_RESULTS_3D = {
 const RECOMMENDATIONS_3D = [
   {
     product: "Max 3D",
-    emoji: "🟠",
-    color: "hsl(24, 95%, 53%)",
+    emoji: "�",
+    color: "hsl(271, 91%, 65%)",
     primary: "Tần suất cao",
     primaryEmoji: "📊",
-    secondary: "Phủ sóng tối đa",
-    secondaryEmoji: "🎯",
+    secondary: "Bias liên hợp",
+    secondaryEmoji: "🧬",
     reason:
       "Tần suất cao có tỷ lệ trúng cao nhất (2.334%) và ROI tốt nhất (-35.5%). " +
-      "Với pool 1.000 số (000-999), tần suất đơn giản khai thác bias hiệu quả nhất. " +
-      "Phủ sóng tối đa (#5, SumRange) là chiến lược dựa trên research mạnh nhất.",
-    special: "🔬 Phủ sóng tối đa (SumRange) sử dụng tổng chữ số (digit-sum) — phương pháp mới từ internet research",
+      "Bias liên hợp (#2, 2.27%) khai thác sự phụ thuộc giữa 3 vị trí chữ số — phát hiện mới từ nghiên cứu thống kê. " +
+      "Phủ sóng tối đa (SumRange) cũng mạnh.",
+    special: "🔬 Bias liên hợp: Chi² independence test phát hiện P(abc) ≠ P(a)×P(b)×P(c) — digit 6 over +10% ở hàng đơn vị",
   },
   {
     product: "Max 3D Pro",
-    emoji: "🟡",
-    color: "hsl(48, 96%, 53%)",
-    primary: "Tần suất cao",
-    primaryEmoji: "📊",
-    secondary: "Phủ sóng tối đa",
-    secondaryEmoji: "🎯",
+    emoji: "🟠",
+    color: "hsl(25, 95%, 53%)",
+    primary: "EV tối đa",
+    primaryEmoji: "💰",
+    secondary: "Bias liên hợp",
+    secondaryEmoji: "🧬",
     reason:
-      "Tần suất cao vẫn dẫn đầu (2.345%), nhưng Phủ sóng tối đa (SumRange) đạt ROI tốt nhất toàn nghiên cứu (-35.1%). " +
-      "Max 3D Pro có ít dữ liệu hơn (711 kỳ) nên chiến lược lọc theo tổng chữ số càng hiệu quả.",
-    special: "💎 Phủ sóng tối đa (SumRange): ROI -35.1% — tốt nhất trong toàn bộ 15 chiến lược Max 3D Pro!",
+      "EV tối đa #1 (2.50%, ROI -26.5%) — tối ưu kỳ vọng giải thưởng theo hạng giải + exponential decay. " +
+      "Bias liên hợp #2 (2.38%) khai thác phân bố đồng thời 3 chữ số. " +
+      "Cả hai đều là thuật toán tự nghiên cứu, vượt trội so với chiến lược truyền thống.",
+    special: "💎 EV tối đa: ROI -26.5% — tốt nhất trong toàn bộ nghiên cứu Max 3D Pro!",
   },
 ];
 
@@ -336,12 +403,12 @@ export default function AlgorithmsPage() {
           Thuật Toán Gợi Ý
         </h1>
         <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Giải thích chi tiết 7 thuật toán phân tích dữ liệu cho xổ số dạng ma trận (Power/Mega/Lotto)
-          và 15 chiến lược cho Max 3D/3D Pro, đánh giá trên 4.900+ kỳ quay thực tế.
+          Giải thích chi tiết 9 thuật toán gợi ý xổ số cho cả Ma trận (Power/Mega/Lotto)
+          lẫn Max 3D/3D Pro, đánh giá trên 4.900+ kỳ quay thực tế.
         </p>
         <div className="flex justify-center gap-8 mt-6">
           <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">7+15</div>
+            <div className="text-3xl font-extrabold text-primary">9</div>
             <div className="text-xs text-muted-foreground mt-0.5">Thuật toán</div>
           </div>
           <div className="h-10 w-px bg-border" />
@@ -357,6 +424,54 @@ export default function AlgorithmsPage() {
         </div>
       </div>
 
+      {/* Origin legend */}
+      <section>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="h-8 w-1 rounded-full bg-primary" />
+          <div>
+            <h2 className="text-xl font-bold">Phân Loại Nguồn Gốc</h2>
+            <p className="text-sm text-muted-foreground">
+              9 thuật toán được phân loại theo 3 nguồn gốc
+            </p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+          <Card className="border-l-4" style={{ borderLeftColor: ORIGIN_TAGS.builtin.color }}>
+            <CardContent className="py-3 px-4">
+              <Badge className="text-[10px] text-white mb-1.5" style={{ backgroundColor: ORIGIN_TAGS.builtin.bg }}>
+                Cơ bản
+              </Badge>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Phương pháp phổ biến, ai cũng nghĩ tới. Có sẵn từ đầu.
+              </p>
+              <p className="text-[10px] mt-1 font-mono text-muted-foreground/60">frequency, absence, mixed</p>
+            </CardContent>
+          </Card>
+          <Card className="border-l-4" style={{ borderLeftColor: ORIGIN_TAGS.papers.color }}>
+            <CardContent className="py-3 px-4">
+              <Badge className="text-[10px] text-white mb-1.5" style={{ backgroundColor: ORIGIN_TAGS.papers.bg }}>
+                📚 Từ papers
+              </Badge>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Dựa trên bài báo khoa học, GitHub repos, diễn đàn phân tích.
+              </p>
+              <p className="text-[10px] mt-1 font-mono text-muted-foreground/60">bayesian, maxentropy, adaptive</p>
+            </CardContent>
+          </Card>
+          <Card className="border-l-4" style={{ borderLeftColor: ORIGIN_TAGS.research.color }}>
+            <CardContent className="py-3 px-4">
+              <Badge className="text-[10px] text-white mb-1.5" style={{ backgroundColor: ORIGIN_TAGS.research.bg }}>
+                🔬 Tự nghiên cứu
+              </Badge>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Phát triển từ phân tích thống kê sâu (13 bài test RNG) trên data Vietlott.
+              </p>
+              <p className="text-[10px] mt-1 font-mono text-muted-foreground/60">evmax, jointbias, pattern</p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
       {/* Algorithm cards */}
       <section>
         <div className="flex items-center gap-3 mb-6">
@@ -370,7 +485,9 @@ export default function AlgorithmsPage() {
         </div>
 
         <div className="space-y-6">
-          {STRATEGIES.map((s, idx) => (
+          {STRATEGIES.map((s, idx) => {
+            const originTag = ORIGIN_TAGS[s.origin];
+            return (
             <Card key={s.id} className="overflow-hidden">
               <CardHeader className="pb-3">
                 <div className="flex items-start gap-3">
@@ -383,12 +500,15 @@ export default function AlgorithmsPage() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <CardTitle className="text-lg">{s.name}</CardTitle>
-                      {s.badge && (
-                        <Badge
-                          className="text-[10px] text-white"
-                          style={{ backgroundColor: s.color }}
-                        >
-                          {s.badge}
+                      <Badge
+                        className="text-[10px] text-white"
+                        style={{ backgroundColor: originTag.bg }}
+                      >
+                        {originTag.label}
+                      </Badge>
+                      {s.scope === "3d" && (
+                        <Badge variant="outline" className="text-[10px] border-purple-500/50 text-purple-400">
+                          Chỉ 3D
                         </Badge>
                       )}
                       <Badge variant="outline" className="text-[10px]">
@@ -425,7 +545,8 @@ export default function AlgorithmsPage() {
                 </div>
               </CardContent>
             </Card>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -597,7 +718,7 @@ export default function AlgorithmsPage() {
           <div>
             <h2 className="text-xl font-bold">Max 3D / 3D Pro — Đánh Giá 15 Chiến Lược</h2>
             <p className="text-sm text-muted-foreground">
-              Walk-forward backtest trên 1.775 kỳ quay, bao gồm 3 chiến lược mới từ internet research (★★)
+              Walk-forward backtest trên 1.775 kỳ quay, bao gồm 2 thuật toán tự nghiên cứu (💰 EV tối đa, 🧬 Bias liên hợp)
             </p>
           </div>
         </div>
@@ -623,13 +744,16 @@ export default function AlgorithmsPage() {
                     <strong>Baseline</strong>: Xác suất random = 2.0% (exact match), ROI kỳ vọng ≈ -65%
                   </li>
                   <li>
-                    <strong>★★</strong> = chiến lược mới từ internet research (Markov Chain, SumRange Filter, Composite Score)
+                    <strong>★★</strong> = chiến lược từ internet research (Markov Chain, SumRange Filter, Composite Score)
+                  </li>
+                  <li>
+                    <strong>💰 / 🧬</strong> = thuật toán tự nghiên cứu (EVMaximizer, JointDigitBias) — phát triển từ phân tích thống kê sâu 13 bài test
                   </li>
                   <li>
                     <strong>Lưu ý</strong>: Khi chọn &quot;Phủ sóng tối đa&quot; cho 3D, hệ thống sử dụng <strong>SumRange Filter</strong> (★★) thay vì MaxEntropy band sampling
                   </li>
                   <li>
-                    <strong>Có sẵn trong gợi ý</strong>: 7 chiến lược — Tần suất cao, Bayesian, SumRange Filter (= Phủ sóng tối đa), Mẫu cấu trúc, Adaptive, Số vắng lâu, Kết hợp nóng–lạnh. Hiển thị 6 tốt nhất cho mỗi sản phẩm. Các chiến lược khác (Tier Focus, Digit Hot/Cold, Markov, Composite...) chỉ là kết quả nghiên cứu.
+                    <strong>Có sẵn trong gợi ý</strong>: 9 chiến lược — Tần suất cao, Bayesian, Phủ sóng tối đa (SumRange), Mẫu cấu trúc, Adaptive, Số vắng lâu, Kết hợp nóng–lạnh, EV tối đa, Bias liên hợp. Hiển thị 7 tốt nhất cho mỗi sản phẩm. Các chiến lược khác (Tier Focus, Digit Hot/Cold, Markov, Composite...) chỉ là kết quả nghiên cứu.
                   </li>
                 </ul>
               </div>
@@ -732,7 +856,7 @@ export default function AlgorithmsPage() {
           <div>
             <h2 className="text-xl font-bold">Khuyến Nghị — Max 3D / 3D Pro</h2>
             <p className="text-sm text-muted-foreground">
-              Dựa trên 15 chiến lược backtest + 3 chiến lược internet research
+              Dựa trên 17 chiến lược backtest, bao gồm 2 thuật toán tự nghiên cứu (EV tối đa, Bias liên hợp)
             </p>
           </div>
         </div>
@@ -866,13 +990,23 @@ export default function AlgorithmsPage() {
           {[
             {
               icon: "🔮",
-              title: "Mẫu cấu trúc — #1 tổng hợp",
+              title: "Mẫu cấu trúc — #1 tổng hợp matrix",
               desc: "Pattern analysis (spacing + band distribution) xếp hạng #1 trung bình qua tất cả sản phẩm matrix (Δ = +0.015). Đặc biệt mạnh trên pool nhỏ (5/35) vì cấu trúc bộ số quan trọng hơn thống kê khi dữ liệu ít.",
             },
             {
               icon: "🧠",
               title: "Bayesian vượt trội trên pool lớn",
-              desc: "Thuật toán Bayesian AI đạt Δ = +0.0308 trên Power 6/55 — mức cải thiện cao nhất trong toàn bộ nghiên cứu. Hệ thống tự chọn temperature: 1.0 (rộng) cho pool ≥50 số, 0.5 (sắc nét) cho pool nhỏ hơn.",
+              desc: "Thuật toán Bayesian AI đạt Δ = +0.0308 trên Power 6/55 — mức cải thiện cao nhất trong toàn bộ nghiên cứu. Hệ thống tự chọn temperature: 1.0 (rộng) cho pool ≥50 số, 0.3 (sắc nét) cho Mega 6/45.",
+            },
+            {
+              icon: "💰",
+              title: "EV tối đa — #1 Max 3D Pro",
+              desc: "Thuật toán tự nghiên cứu: tối ưu Expected Value theo tier prizes + exponential decay. Đạt 2.50% exact match và ROI -26.5% — tốt nhất toàn bộ nghiên cứu 3D. Diversity constraint (digit distance ≥ 4) đảm bảo vé không quá tương tự nhau.",
+            },
+            {
+              icon: "🧬",
+              title: "Bias liên hợp — digit KHÔNG độc lập",
+              desc: "Chi² independence test phát hiện P(abc) ≠ P(a)×P(b)×P(c) với p < 0.001. Digit 6 xuất hiện +10% ở hàng đơn vị. Thuật toán Joint Digit Bias khai thác bias này, đạt #2 cả Max 3D (2.27%) và Max 3D Pro (2.38%).",
             },
             {
               icon: "🎯",
@@ -880,19 +1014,9 @@ export default function AlgorithmsPage() {
               desc: "Dù số trùng trung bình thấp hơn, Phủ sóng tối đa là thuật toán DUY NHẤT đạt trùng 5/6 số (trên Mega 6/45). ROI tốt nhất (-62% so với -90% thông thường). Phù hợp người chơi thích rủi ro cao.",
             },
             {
-              icon: "🎰",
-              title: "3D: Tần suất đơn giản thắng cả AI",
-              desc: "Với pool 1.000 số (000-999), tần suất đếm đơn giản (Freq Whole Hot) đạt 2.33-2.35% — vượt tất cả thuật toán phức tạp bao gồm Bayesian, Markov Chain, và Composite Score. Đôi khi đơn giản là tốt nhất.",
-            },
-            {
-              icon: "🔬",
-              title: "Phủ sóng tối đa (SumRange) — phát hiện từ research",
-              desc: "Lọc theo tổng chữ số (digit-sum range mean±1σ) là biến thể 3D của Phủ sóng tối đa, mạnh nhất cho 3D. ROI -35.1% trên Max 3D Pro — tốt nhất trong 15 chiến lược. Nhiều lottery analysis trên Github sử dụng phương pháp tương tự.",
-            },
-            {
               icon: "📊",
               title: "Không thuật toán nào thắng xổ số",
-              desc: "Tất cả thuật toán đều có ROI âm (-35% đến -97%). Xổ số Vietlott là ngẫu nhiên thật sự. Các thuật toán chỉ giúp cải thiện nhỏ so với chọn random, không phải công cụ kiếm tiền.",
+              desc: "Tất cả thuật toán đều có ROI âm (-26% đến -97%). Xổ số Vietlott là ngẫu nhiên thật sự. Các thuật toán chỉ giúp cải thiện nhỏ so với chọn random, không phải công cụ kiếm tiền.",
             },
           ].map((insight) => (
             <Card key={insight.title}>

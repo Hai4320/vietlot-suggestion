@@ -63,7 +63,10 @@ export function Navbar() {
                   <span>{p.emoji}</span><span>{p.name}</span>
                 </Link>
               ))}
-              <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Nghiên cứu</div>
+              <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Công cụ & Nghiên cứu</div>
+              <Link href="/suggest" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/suggest" && "bg-accent font-medium")}>
+                <span>✨</span><span>Gợi ý số</span>
+              </Link>
               <Link href="/algorithms" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/algorithms" && "bg-accent font-medium")}>
                 <span>🔬</span><span>Thuật toán</span>
               </Link>
@@ -110,6 +113,15 @@ export function Navbar() {
             </Link>
           ))}
           <div className="w-px h-5 bg-border mx-1" />
+          <Link
+            href="/suggest"
+            className={cn(
+              "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
+              pathname === "/suggest" && "bg-accent font-medium text-primary"
+            )}
+          >
+            ✨ Gợi ý
+          </Link>
           <Link
             href="/algorithms"
             className={cn(

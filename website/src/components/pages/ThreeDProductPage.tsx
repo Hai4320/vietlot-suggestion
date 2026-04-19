@@ -4,12 +4,10 @@ import { useEffect, useState } from "react";
 import { getProduct } from "@/lib/products-config";
 import { loadThreeDData } from "@/lib/data-loader";
 import { calcDigitFrequency, calcTopNumbers } from "@/lib/stats-3d";
-import { generate3DSuggestions } from "@/lib/suggest-3d";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThreeDResultTable } from "@/components/products/ThreeDResultTable";
 import { DigitPositionChart } from "@/components/charts/DigitPositionChart";
-import { SuggestionPanel } from "@/components/products/SuggestionPanel";
 import { TimeFilterSelect } from "@/components/common/TimeFilter";
 import { Disclaimer } from "@/components/common/Disclaimer";
 import { PlayGuide } from "@/components/products/PlayGuide";
@@ -26,8 +24,6 @@ import { Badge } from "@/components/ui/badge";
 import type {
   ThreeDDraw,
   TimeFilter,
-  SuggestionStrategy,
-  ThreeDSuggestionSet,
   ThreeDTier,
 } from "@/lib/types";
 
@@ -71,10 +67,6 @@ export default function ThreeDProductPage({ slug }: Props) {
   const digit1 = calcDigitFrequency(draws, 1, tier, timeFilter);
   const digit2 = calcDigitFrequency(draws, 2, tier, timeFilter);
   const topNumbers = calcTopNumbers(draws, tier, timeFilter, 30);
-
-  const handleGenerate = (strategy: SuggestionStrategy, count: number): ThreeDSuggestionSet[] => {
-    return generate3DSuggestions(draws, strategy, count);
-  };
 
   const lastDraw = draws[0];
 
@@ -124,9 +116,6 @@ export default function ThreeDProductPage({ slug }: Props) {
           <TabsTrigger value="digits">Tần suất chữ số</TabsTrigger>
           <TabsTrigger value="top">Top số</TabsTrigger>
           <TabsTrigger value="guide">Cách chơi</TabsTrigger>
-          <TabsTrigger value="suggest" className="relative">
-            ✨ Gợi ý
-          </TabsTrigger>
         </TabsList>
 
         {/* Results Tab */}
@@ -226,10 +215,6 @@ export default function ThreeDProductPage({ slug }: Props) {
           </Card>
         </TabsContent>
 
-        {/* Suggestion Tab */}
-        <TabsContent value="suggest">
-          <SuggestionPanel type="3d" slug={slug as "max-3d" | "max-3d-pro"} onGenerate={handleGenerate} color={product.color} />
-        </TabsContent>
         {/* Play Guide Tab */}
         <TabsContent value="guide">
           {PLAY_GUIDES[product.key] && (

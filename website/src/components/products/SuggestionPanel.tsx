@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useMemo, useCallback } from "react";
+import { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,16 @@ import { Input } from "@/components/ui/input";
 import { NumberBall } from "./NumberBall";
 import type { SuggestionStrategy, SuggestionSet, ThreeDSuggestionSet } from "@/lib/types";
 import { calculatePrizeProbabilities, formatProbability, type PrizeTierProbability } from "@/lib/prize-probability";
+
+// ── Module-level cache: survives across page navigations ──
+interface CachedPanelState {
+  strategy: SuggestionStrategy;
+  count: number;
+  countInput: string;
+  results: (SuggestionSet | ThreeDSuggestionSet)[];
+  page: number;
+}
+const panelStateCache = new Map<string, CachedPanelState>();
 
 interface MatrixSuggestionPanelProps {
   type: "matrix";
@@ -30,6 +40,20 @@ type SuggestionPanelProps = MatrixSuggestionPanelProps | ThreeDSuggestionPanelPr
 const PAGE_SIZE = 20;
 
 const ALL_STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; description: string; badge?: string }[] = [
+  {
+    key: "evmax",
+    emoji: "💰",
+    label: "EV tối đa",
+    description: "Tối ưu kỳ vọng giải thưởng × exponential decay + đa dạng vé — #1 Max 3D Pro (2.50%)",
+    badge: "🔬 Nghiên cứu",
+  },
+  {
+    key: "jointbias",
+    emoji: "🧬",
+    label: "Bias liên hợp",
+    description: "Khai thác phân bố đồng thời 3 chữ số — #2 Max 3D (2.27%), #3 Max 3D Pro (2.38%)",
+    badge: "🔬 Nghiên cứu",
+  },
   {
     key: "bayesian",
     emoji: "🧠",
@@ -82,50 +106,56 @@ const ALL_STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; d
 // Order = rank (1 = best). Derived from walk-forward backtest on real data.
 // Each product shows only the top 6 strategies (MAX_SHOWN=6) out of 7 total.
 type ProductSlug = "power-655" | "power-645" | "power-535" | "max-3d" | "max-3d-pro";
-const MAX_STRATEGIES_SHOWN = 6;
+const MAX_STRATEGIES_SHOWN = 7;
 const PRODUCT_RANKS: Record<ProductSlug, { ranks: Record<SuggestionStrategy, number>; stats: Record<SuggestionStrategy, string>; rec1: SuggestionStrategy; rec2: SuggestionStrategy; recReason: string }> = {
   "power-655": {
-    ranks: { bayesian: 1, frequency: 2, pattern: 3, maxentropy: 4, adaptive: 5, mixed: 6, absence: 7 },
-    stats: { bayesian: "Δ+0.031, Win 1.65%", frequency: "Δ+0.024, Win 1.51%", pattern: "Δ+0.003, ổn định #1 tổng hợp", maxentropy: "Win 1.54%, ROI -62%", adaptive: "Δ-0.014", mixed: "50/50 nóng+lạnh", absence: "Win 1.24%, Δ-0.015" },
+    ranks: { bayesian: 1, frequency: 2, pattern: 3, maxentropy: 4, adaptive: 5, mixed: 6, absence: 7, evmax: 8, jointbias: 9 },
+    stats: { bayesian: "Δ+0.031, Win 1.65%", frequency: "Δ+0.024, Win 1.51%", pattern: "Δ+0.003, ổn định #1 tổng hợp", maxentropy: "Win 1.54%, ROI -62%", adaptive: "Δ-0.014", mixed: "50/50 nóng+lạnh", absence: "Win 1.24%, Δ-0.015", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
     rec1: "bayesian", rec2: "frequency",
     recReason: "Pool 55 số lớn nhất — Bayesian AI (temp=1.0) khai thác posterior rộng, vượt trội +0.031 avg matches.",
   },
   "power-645": {
-    ranks: { bayesian: 1, pattern: 2, frequency: 3, maxentropy: 4, mixed: 5, adaptive: 6, absence: 7 },
-    stats: { bayesian: "Δ+0.023, Win 3.14%", pattern: "Δ+0.017, ổn định", frequency: "Δ+0.006, Win 2.78%", maxentropy: "5/6 trùng! ROI -62%", mixed: "50/50 nóng+lạnh", adaptive: "Win 1.94%", absence: "Win 2.78%, Δ-0.005" },
+    ranks: { bayesian: 1, pattern: 2, frequency: 3, maxentropy: 4, mixed: 5, adaptive: 6, absence: 7, evmax: 8, jointbias: 9 },
+    stats: { bayesian: "Sharp T=0.3, Win 3.14%", pattern: "Δ+0.017, ổn định", frequency: "Δ+0.006, Win 2.78%", maxentropy: "5/6 trùng! ROI -62%", mixed: "50/50 nóng+lạnh", adaptive: "Win 1.94%", absence: "Win 2.78%, Δ-0.005", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
     rec1: "bayesian", rec2: "pattern",
-    recReason: "Bayesian AI (Sharp, temp=0.5) đạt win rate 3.14%. Mẫu cấu trúc #2 ổn định qua mọi sản phẩm. Phủ sóng tối đa đạt 5/6 trùng duy nhất!",
+    recReason: "Bayesian AI (Sharp T=0.3) đạt win rate 3.14% — cải thiện +0.64pp so với T=0.5 cũ. Phủ sóng tối đa đạt 5/6 trùng duy nhất!",
   },
   "power-535": {
-    ranks: { pattern: 1, adaptive: 2, frequency: 3, bayesian: 4, maxentropy: 5, mixed: 6, absence: 7 },
-    stats: { pattern: "Δ+0.025, Win 1.78%", adaptive: "Δ+0.025, hòa #1", frequency: "Win 1.58%, ROI -74%", bayesian: "Δ-0.028", maxentropy: "Δ-0.026", mixed: "50/50 nóng+lạnh", absence: "Win 0.79%, Δ-0.008" },
+    ranks: { pattern: 1, adaptive: 2, frequency: 3, bayesian: 4, maxentropy: 5, mixed: 6, absence: 7, evmax: 8, jointbias: 9 },
+    stats: { pattern: "Δ+0.025, Win 1.78%", adaptive: "Δ+0.025, hòa #1", frequency: "Win 1.58%, ROI -74%", bayesian: "Δ-0.028", maxentropy: "Δ-0.026", mixed: "50/50 nóng+lạnh", absence: "Win 0.79%, Δ-0.008", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
     rec1: "pattern", rec2: "adaptive",
     recReason: "Pool nhỏ 35 số — Mẫu cấu trúc phân tích vùng số + khoảng cách hiệu quả, hòa với Tự động tối ưu ở Δ+0.025.",
   },
   "max-3d": {
-    ranks: { frequency: 1, bayesian: 2, maxentropy: 3, pattern: 4, adaptive: 5, mixed: 6, absence: 7 },
-    stats: { frequency: "Exact 2.33%, ROI -35.5%", bayesian: "Exact 2.09%, 38× trúng Nhất", maxentropy: "Phủ sóng 2.06%, ROI -40%", pattern: "Exact ~2.0%", adaptive: "Exact 1.94%", mixed: "digit-by-digit", absence: "chưa backtest" },
-    rec1: "frequency", rec2: "maxentropy",
-    recReason: "Pool 1.000 số — tần suất đơn giản khai thác bias hiệu quả nhất (2.33%). Phủ sóng tối đa (SumRange) ROI tốt (-40%).",
+    ranks: { frequency: 1, jointbias: 2, bayesian: 3, maxentropy: 4, pattern: 5, adaptive: 6, mixed: 7, evmax: 8, absence: 9 },
+    stats: { frequency: "Exact 2.35%, ROI -32.8%", jointbias: "🔬 Exact 2.27%, ROI -39.0%", bayesian: "Exact 2.09%, 38× trúng Nhất", maxentropy: "Phủ sóng 2.06%, ROI -40%", pattern: "Exact ~2.0%", adaptive: "Exact 1.94%", mixed: "digit-by-digit", evmax: "Chỉ tốt cho 3D Pro", absence: "chưa backtest" },
+    rec1: "frequency", rec2: "jointbias",
+    recReason: "Tần suất cao #1 (2.35%). Bias liên hợp (#2, 2.27%) khai thác sự phụ thuộc giữa 3 vị trí chữ số — phát hiện mới từ nghiên cứu thống kê.",
   },
   "max-3d-pro": {
-    ranks: { frequency: 1, maxentropy: 2, bayesian: 3, adaptive: 4, pattern: 5, mixed: 6, absence: 7 },
-    stats: { frequency: "Exact 2.35%, #1", maxentropy: "Phủ sóng 2.30%, ROI -35.1%", bayesian: "Exact 2.07%", adaptive: "Exact 2.07%", pattern: "Exact ~2.0%", mixed: "digit-by-digit", absence: "chưa backtest" },
-    rec1: "frequency", rec2: "maxentropy",
-    recReason: "Phủ sóng tối đa (SumRange) ROI tốt nhất -35.1%. Tần suất cao dẫn đầu exact match 2.35%.",
+    ranks: { evmax: 1, jointbias: 2, frequency: 3, maxentropy: 4, bayesian: 5, adaptive: 6, mixed: 7, pattern: 8, absence: 9 },
+    stats: { evmax: "🔬 Exact 2.50%, ROI -26.5% 🏆", jointbias: "🔬 Exact 2.38%, ROI -31.5%", frequency: "Exact 1.94%", maxentropy: "Phủ sóng 2.30%, ROI -35.1%", bayesian: "Exact 2.07%", adaptive: "Exact 2.07%", mixed: "digit-by-digit", pattern: "Exact ~2.0%", absence: "chưa backtest" },
+    rec1: "evmax", rec2: "jointbias",
+    recReason: "EV tối đa #1 (2.50%, ROI -26.5%) — tối ưu kỳ vọng giải thưởng + exponential decay. Bias liên hợp #2 (2.38%) khai thác phân bố đồng thời 3 chữ số.",
   },
 };
 
 export function SuggestionPanel(props: SuggestionPanelProps) {
   const productRank = PRODUCT_RANKS[props.slug];
-  const [strategy, setStrategy] = useState<SuggestionStrategy>(productRank.rec1);
-  const [count, setCount] = useState(5);
-  const [countInput, setCountInput] = useState("5");
-  const [results, setResults] = useState<(SuggestionSet | ThreeDSuggestionSet)[]>([]);
+  const cached = panelStateCache.get(props.slug);
+  const [strategy, setStrategy] = useState<SuggestionStrategy>(cached?.strategy ?? productRank.rec1);
+  const [count, setCount] = useState(cached?.count ?? 5);
+  const [countInput, setCountInput] = useState(cached?.countInput ?? "5");
+  const [results, setResults] = useState<(SuggestionSet | ThreeDSuggestionSet)[]>(cached?.results ?? []);
   const [isRevealing, setIsRevealing] = useState(false);
-  const [revealedCount, setRevealedCount] = useState(0);
-  const [page, setPage] = useState(0);
+  const [revealedCount, setRevealedCount] = useState(cached?.results?.length ? PAGE_SIZE : 0);
+  const [page, setPage] = useState(cached?.page ?? 0);
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  // Persist state to module-level cache on every change
+  useEffect(() => {
+    panelStateCache.set(props.slug, { strategy, count, countInput, results, page });
+  }, [props.slug, strategy, count, countInput, results, page]);
 
   const sortedStrategies = useMemo(() => {
     return [...ALL_STRATEGIES]

@@ -56,8 +56,18 @@ export function Sidebar() {
         ))}
 
         <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Nghiên cứu
+          Công cụ & Nghiên cứu
         </div>
+        <Link
+          href="/suggest"
+          className={cn(
+            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
+            pathname === "/suggest" && "bg-accent text-accent-foreground font-medium"
+          )}
+        >
+          <span>✨</span>
+          <span>Gợi ý số</span>
+        </Link>
         <Link
           href="/algorithms"
           className={cn(

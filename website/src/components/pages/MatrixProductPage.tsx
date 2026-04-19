@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback } from "react";
 import { getProduct } from "@/lib/products-config";
 import { loadMatrixData } from "@/lib/data-loader";
 import { calcFrequency, calcHotCold, calcPairFrequency, calcTrend } from "@/lib/stats-matrix";
-import { generateSuggestions } from "@/lib/suggest-matrix";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MatrixResultTable } from "@/components/products/MatrixResultTable";
@@ -12,7 +11,6 @@ import { FrequencyBarChart } from "@/components/charts/FrequencyBarChart";
 import { TrendLineChart } from "@/components/charts/TrendLineChart";
 import { HotColdCards } from "@/components/charts/HotColdCards";
 import { PairFrequencyTable } from "@/components/charts/PairFrequencyTable";
-import { SuggestionPanel } from "@/components/products/SuggestionPanel";
 import { NumberBall } from "@/components/products/NumberBall";
 import { TimeFilterSelect } from "@/components/common/TimeFilter";
 import { Disclaimer } from "@/components/common/Disclaimer";
@@ -21,8 +19,6 @@ import { PLAY_GUIDES } from "@/lib/play-guides";
 import type {
   MatrixDraw,
   TimeFilter,
-  SuggestionStrategy,
-  SuggestionSet,
 } from "@/lib/types";
 
 interface Props {
@@ -60,20 +56,6 @@ export default function MatrixProductPage({ slug }: Props) {
   const hotCold = calcHotCold(draws, product.minNumber, product.maxNumber, product.mainCount);
   const pairs = calcPairFrequency(draws, product.mainCount, 30);
   const trend = calcTrend(draws, selectedNumbers, product.mainCount);
-
-  const handleGenerate = (strategy: SuggestionStrategy, count: number): SuggestionSet[] => {
-    const specialMax = product.key === "power_535" ? 12 : product.maxNumber;
-    return generateSuggestions(
-      draws,
-      product.mainCount,
-      product.minNumber,
-      product.maxNumber,
-      product.hasSpecial,
-      specialMax,
-      strategy,
-      count,
-    );
-  };
 
   const toggleNumber = (n: number) => {
     setSelectedNumbers((prev) =>
@@ -116,9 +98,6 @@ export default function MatrixProductPage({ slug }: Props) {
           <TabsTrigger value="trend">Xu hướng</TabsTrigger>
           <TabsTrigger value="pairs">Cặp số</TabsTrigger>
           <TabsTrigger value="guide">Cách chơi</TabsTrigger>
-          <TabsTrigger value="suggest" className="relative">
-            ✨ Gợi ý
-          </TabsTrigger>
         </TabsList>
 
         {/* Results Tab */}
@@ -203,16 +182,6 @@ export default function MatrixProductPage({ slug }: Props) {
           </Card>
         </TabsContent>
 
-        {/* Suggestion Tab */}
-        <TabsContent value="suggest">
-          <SuggestionPanel
-            type="matrix"
-            slug={slug as "power-655" | "power-645" | "power-535"}
-            onGenerate={handleGenerate}
-            hasSpecial={product.hasSpecial}
-            color={product.color}
-          />
-        </TabsContent>
         {/* Play Guide Tab */}
         <TabsContent value="guide">
           {PLAY_GUIDES[product.key] && (

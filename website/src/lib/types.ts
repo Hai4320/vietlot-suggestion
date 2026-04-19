@@ -123,7 +123,7 @@ export interface ThreeDNumberFrequency {
 // Suggestion types
 // ============================================================
 
-export type SuggestionStrategy = "frequency" | "absence" | "mixed" | "bayesian" | "maxentropy" | "adaptive" | "pattern";
+export type SuggestionStrategy = "frequency" | "absence" | "mixed" | "bayesian" | "maxentropy" | "adaptive" | "pattern" | "evmax" | "jointbias";
 
 export interface SuggestionSet {
   numbers: number[];
