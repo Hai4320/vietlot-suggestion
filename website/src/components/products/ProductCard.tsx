@@ -1,32 +1,100 @@
 import Link from "next/link";
-import type { ProductInfo } from "@/lib/types";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import type { ProductInfo, MatrixDraw, ThreeDDraw } from "@/lib/types";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 interface ProductCardProps {
   product: ProductInfo;
   totalDraws?: number;
   lastDate?: string;
+  latestDraw?: MatrixDraw | ThreeDDraw;
 }
 
-export function ProductCard({ product, totalDraws, lastDate }: ProductCardProps) {
+function isMatrixDraw(draw: MatrixDraw | ThreeDDraw): draw is MatrixDraw {
+  return Array.isArray((draw as MatrixDraw).result);
+}
+
+export function ProductCard({ product, totalDraws, lastDate, latestDraw }: ProductCardProps) {
   return (
     <Link href={`/${product.slug}`}>
-      <Card className="h-full transition-all hover:shadow-lg hover:border-primary/50 hover:-translate-y-0.5 cursor-pointer">
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <span className="text-2xl">{product.emoji}</span>
-              {product.name}
-            </CardTitle>
-            <Badge variant="secondary" className="text-xs">
+      <Card className="h-full transition-all hover:shadow-lg hover:shadow-primary/5 hover:border-primary/40 hover:-translate-y-0.5 cursor-pointer group overflow-hidden">
+        {/* Color accent bar */}
+        <div className="h-1" style={{ background: product.color }} />
+        <CardContent className="p-5 space-y-4">
+          {/* Header */}
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">{product.emoji}</span>
+              <div>
+                <h3 className="font-bold text-lg group-hover:text-primary transition-colors">
+                  {product.name}
+                </h3>
+                <p className="text-xs text-muted-foreground line-clamp-1">
+                  {product.descriptionVi}
+                </p>
+              </div>
+            </div>
+            <Badge
+              variant="outline"
+              className="text-[10px] shrink-0"
+              style={{ borderColor: product.color, color: product.color }}
+            >
               {product.group === "matrix" ? "Ma trận" : "Dãy số"}
             </Badge>
           </div>
-          <CardDescription>{product.descriptionVi}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-4 text-sm text-muted-foreground">
+
+          {/* Latest result */}
+          {latestDraw && (
+            <div className="bg-muted/50 rounded-lg p-3 space-y-2">
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>Kỳ #{latestDraw.id}</span>
+                <span>{latestDraw.date}</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {isMatrixDraw(latestDraw) ? (
+                  <>
+                    {latestDraw.result.map((n, i) => (
+                      <span
+                        key={i}
+                        className="inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold text-white shadow-sm"
+                        style={{ backgroundColor: product.color }}
+                      >
+                        {String(n).padStart(2, "0")}
+                      </span>
+                    ))}
+                    {latestDraw.special !== undefined && (
+                      <span className="inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold bg-yellow-500 text-black shadow-sm">
+                        {String(latestDraw.special).padStart(2, "0")}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {latestDraw.result.special?.map((n, i) => (
+                      <span
+                        key={`s-${i}`}
+                        className="inline-flex items-center justify-center px-2.5 h-8 rounded-md text-sm font-mono font-bold text-white shadow-sm"
+                        style={{ backgroundColor: product.color }}
+                      >
+                        {n}
+                      </span>
+                    ))}
+                    {latestDraw.result.first?.map((n, i) => (
+                      <span
+                        key={`f-${i}`}
+                        className="inline-flex items-center justify-center px-2.5 h-8 rounded-md text-sm font-mono font-bold bg-muted-foreground/20 text-foreground"
+                      >
+                        {n}
+                      </span>
+                    ))}
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Stats row */}
+          <div className="flex gap-4 text-xs text-muted-foreground pt-1 border-t border-border/50">
             {totalDraws !== undefined && (
               <div>
                 <span className="font-semibold text-foreground">{totalDraws.toLocaleString()}</span>{" "}
@@ -34,8 +102,8 @@ export function ProductCard({ product, totalDraws, lastDate }: ProductCardProps)
               </div>
             )}
             {lastDate && (
-              <div>
-                Mới nhất: <span className="font-semibold text-foreground">{lastDate}</span>
+              <div className="ml-auto">
+                Cập nhật: <span className="font-semibold text-foreground">{lastDate}</span>
               </div>
             )}
           </div>

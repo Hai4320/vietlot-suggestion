@@ -12,6 +12,8 @@ import { DigitPositionChart } from "@/components/charts/DigitPositionChart";
 import { SuggestionPanel } from "@/components/products/SuggestionPanel";
 import { TimeFilterSelect } from "@/components/common/TimeFilter";
 import { Disclaimer } from "@/components/common/Disclaimer";
+import { PlayGuide } from "@/components/products/PlayGuide";
+import { PLAY_GUIDES } from "@/lib/play-guides";
 import {
   Table,
   TableBody,
@@ -121,7 +123,10 @@ export default function ThreeDProductPage({ slug }: Props) {
           <TabsTrigger value="results">Kết quả</TabsTrigger>
           <TabsTrigger value="digits">Tần suất chữ số</TabsTrigger>
           <TabsTrigger value="top">Top số</TabsTrigger>
-          <TabsTrigger value="suggest">Gợi ý</TabsTrigger>
+          <TabsTrigger value="guide">Cách chơi</TabsTrigger>
+          <TabsTrigger value="suggest" className="relative">
+            ✨ Gợi ý
+          </TabsTrigger>
         </TabsList>
 
         {/* Results Tab */}
@@ -223,15 +228,13 @@ export default function ThreeDProductPage({ slug }: Props) {
 
         {/* Suggestion Tab */}
         <TabsContent value="suggest">
-          <Card>
-            <CardHeader>
-              <CardTitle>Gợi ý số</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Disclaimer />
-              <SuggestionPanel type="3d" onGenerate={handleGenerate} />
-            </CardContent>
-          </Card>
+          <SuggestionPanel type="3d" onGenerate={handleGenerate} color={product.color} />
+        </TabsContent>
+        {/* Play Guide Tab */}
+        <TabsContent value="guide">
+          {PLAY_GUIDES[product.key] && (
+            <PlayGuide data={PLAY_GUIDES[product.key]} color={product.color} />
+          )}
         </TabsContent>
       </Tabs>
     </div>

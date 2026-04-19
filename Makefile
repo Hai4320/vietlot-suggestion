@@ -6,7 +6,7 @@ LOGURU_LEVEL := INFO
 export
 
 all: lint test
-.PHONY: all requirements-dev test lint build pypi run-crawl run-missing
+.PHONY: all requirements-dev test lint build pypi run-crawl run-missing website-install website-dev website-build website-data
 
 .venv:
 	@echo "Initializing virtual environment..."
@@ -44,3 +44,20 @@ run-missing: .venv
 	@echo "Running missing scripts..."
 	LOGURU_LEVEL=$(LOGURU_LEVEL) PYTHONPATH=src $(UV) run python src/vietlott/cli/missing.py keno
 	LOGURU_LEVEL=$(LOGURU_LEVEL) PYTHONPATH=src $(UV) run python src/vietlott/cli/missing.py power_535
+
+# ── Website ──────────────────────────────────────────────────
+website-install:
+	@echo "Installing website dependencies..."
+	cd website && npm install
+
+website-data: .venv
+	@echo "Building website data from JSONL..."
+	$(VENV_DIR)/bin/python website/scripts/build_data.py
+
+website-dev: website-data
+	@echo "Starting website dev server..."
+	cd website && npm run dev
+
+website-build: website-data
+	@echo "Building website for production..."
+	cd website && npm run build

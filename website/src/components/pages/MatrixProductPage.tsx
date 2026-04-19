@@ -16,6 +16,8 @@ import { SuggestionPanel } from "@/components/products/SuggestionPanel";
 import { NumberBall } from "@/components/products/NumberBall";
 import { TimeFilterSelect } from "@/components/common/TimeFilter";
 import { Disclaimer } from "@/components/common/Disclaimer";
+import { PlayGuide } from "@/components/products/PlayGuide";
+import { PLAY_GUIDES } from "@/lib/play-guides";
 import type {
   MatrixDraw,
   TimeFilter,
@@ -113,7 +115,10 @@ export default function MatrixProductPage({ slug }: Props) {
           <TabsTrigger value="hotcold">Nóng / Lạnh</TabsTrigger>
           <TabsTrigger value="trend">Xu hướng</TabsTrigger>
           <TabsTrigger value="pairs">Cặp số</TabsTrigger>
-          <TabsTrigger value="suggest">Gợi ý</TabsTrigger>
+          <TabsTrigger value="guide">Cách chơi</TabsTrigger>
+          <TabsTrigger value="suggest" className="relative">
+            ✨ Gợi ý
+          </TabsTrigger>
         </TabsList>
 
         {/* Results Tab */}
@@ -200,19 +205,18 @@ export default function MatrixProductPage({ slug }: Props) {
 
         {/* Suggestion Tab */}
         <TabsContent value="suggest">
-          <Card>
-            <CardHeader>
-              <CardTitle>Gợi ý số</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Disclaimer />
-              <SuggestionPanel
-                type="matrix"
-                onGenerate={handleGenerate}
-                hasSpecial={product.hasSpecial}
-              />
-            </CardContent>
-          </Card>
+          <SuggestionPanel
+            type="matrix"
+            onGenerate={handleGenerate}
+            hasSpecial={product.hasSpecial}
+            color={product.color}
+          />
+        </TabsContent>
+        {/* Play Guide Tab */}
+        <TabsContent value="guide">
+          {PLAY_GUIDES[product.key] && (
+            <PlayGuide data={PLAY_GUIDES[product.key]} color={product.color} />
+          )}
         </TabsContent>
       </Tabs>
     </div>
