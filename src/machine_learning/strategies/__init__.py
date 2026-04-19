@@ -31,12 +31,33 @@ ExponentialDecayStrategy
 PairFrequencyStrategy
     Builds a co-occurrence matrix and greedily selects numbers that
     historically appear together, capturing second-order correlations.
+BayesianDirichletStrategy
+    Samples from the posterior Dirichlet distribution over number
+    probabilities, properly quantifying uncertainty and avoiding
+    overfitting to small frequency differences.
+EnsembleStrategy
+    Borda-count rank aggregation across multiple base strategies.
+    Combines diverse signals for robust number selection.
+MaxEntropyStrategy
+    Maximum-entropy stratified sampling — divides number range into
+    equal bands and samples one number per band using Bayesian weights.
+MinDistanceDiversityStrategy
+    Generates tickets maximizing minimum pairwise Jaccard distance,
+    ensuring portfolio-level coverage with minimal redundancy.
+AdaptiveWindowStrategy
+    Self-tuning frequency strategy that selects the optimal lookback
+    window via recent mini-backtesting.
 """
 
+from .adaptive_window import AdaptiveWindowStrategy
 from .base import PredictModel
+from .bayesian_dirichlet import BayesianDirichletStrategy
+from .ensemble import EnsembleStrategy
 from .exponential_decay import ExponentialDecayStrategy
 from .frequency import ColdNumbersStrategy, FrequencyStrategy, HotNumbersStrategy
 from .long_absence import LongAbsenceStrategy
+from .max_entropy import MaxEntropyStrategy
+from .min_distance_diversity import MinDistanceDiversityStrategy
 from .not_repeat import NotRepeatStrategy
 from .pair_frequency import PairFrequencyStrategy
 from .pattern import PatternStrategy
@@ -53,4 +74,9 @@ __all__ = [
     "LongAbsenceStrategy",
     "ExponentialDecayStrategy",
     "PairFrequencyStrategy",
+    "BayesianDirichletStrategy",
+    "EnsembleStrategy",
+    "MaxEntropyStrategy",
+    "MinDistanceDiversityStrategy",
+    "AdaptiveWindowStrategy",
 ]

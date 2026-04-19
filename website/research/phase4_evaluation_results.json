@@ -1,0 +1,1010 @@
+{
+  "power_655": {
+    "baseline": {
+      "E": 0.6545,
+      "win_pct": 1.33294
+    },
+    "strategies": {
+      "Random": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6764,
+        "std_matches": 0.7388,
+        "win_rate_pct": 1.4587,
+        "total_cost": 37020000,
+        "total_revenue": 2160000,
+        "net_profit": -34860000,
+        "roi_pct": -94.17,
+        "sharpe_ratio": -8.6984,
+        "max_drawdown": 34850000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1745,
+          "1": 1466,
+          "2": 437,
+          "3": 52,
+          "4": 2
+        },
+        "elapsed_seconds": 0.69
+      },
+      "Freq_Hot": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.678,
+        "std_matches": 0.7385,
+        "win_rate_pct": 1.5127,
+        "total_cost": 37020000,
+        "total_revenue": 2490000,
+        "net_profit": -34530000,
+        "roi_pct": -93.27,
+        "sharpe_ratio": -7.2788,
+        "max_drawdown": 34520000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1735,
+          "1": 1483,
+          "2": 428,
+          "3": 53,
+          "4": 3
+        },
+        "elapsed_seconds": 1.47
+      },
+      "Freq_Cold": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6334,
+        "std_matches": 0.7149,
+        "win_rate_pct": 1.0805,
+        "total_cost": 37020000,
+        "total_revenue": 1470000,
+        "net_profit": -35550000,
+        "roi_pct": -96.03,
+        "sharpe_ratio": -11.9385,
+        "max_drawdown": 35550000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1831,
+          "1": 1438,
+          "2": 393,
+          "3": 39,
+          "4": 1
+        },
+        "elapsed_seconds": 1.38
+      },
+      "LongAbsence": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6394,
+        "std_matches": 0.7202,
+        "win_rate_pct": 1.2426,
+        "total_cost": 37020000,
+        "total_revenue": 2190000,
+        "net_profit": -34830000,
+        "roi_pct": -94.08,
+        "sharpe_ratio": -7.4443,
+        "max_drawdown": 34820000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1816,
+          "1": 1454,
+          "2": 386,
+          "3": 43,
+          "4": 3
+        },
+        "elapsed_seconds": 43.96
+      },
+      "NotRepeat": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.654,
+        "std_matches": 0.7329,
+        "win_rate_pct": 1.4587,
+        "total_cost": 37020000,
+        "total_revenue": 2160000,
+        "net_profit": -34860000,
+        "roi_pct": -94.17,
+        "sharpe_ratio": -8.6984,
+        "max_drawdown": 34850000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1798,
+          "1": 1443,
+          "2": 407,
+          "3": 52,
+          "4": 2
+        },
+        "elapsed_seconds": 1.09
+      },
+      "Pattern": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6575,
+        "std_matches": 0.7369,
+        "win_rate_pct": 1.5937,
+        "total_cost": 37020000,
+        "total_revenue": 2580000,
+        "net_profit": -34440000,
+        "roi_pct": -93.03,
+        "sharpe_ratio": -7.2304,
+        "max_drawdown": 34430000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1791,
+          "1": 1450,
+          "2": 402,
+          "3": 56,
+          "4": 3
+        },
+        "elapsed_seconds": 8.14
+      },
+      "ExpDecay_Hot": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6372,
+        "std_matches": 0.7153,
+        "win_rate_pct": 1.3776,
+        "total_cost": 37020000,
+        "total_revenue": 1800000,
+        "net_profit": -35220000,
+        "roi_pct": -95.14,
+        "sharpe_ratio": -11.3962,
+        "max_drawdown": 35210000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1809,
+          "1": 1479,
+          "2": 363,
+          "3": 50,
+          "4": 1
+        },
+        "elapsed_seconds": 35.75
+      },
+      "ExpDecay_Cold": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6402,
+        "std_matches": 0.7212,
+        "win_rate_pct": 1.1885,
+        "total_cost": 37020000,
+        "total_revenue": 2130000,
+        "net_profit": -34890000,
+        "roi_pct": -94.25,
+        "sharpe_ratio": -7.4782,
+        "max_drawdown": 34880000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1818,
+          "1": 1445,
+          "2": 395,
+          "3": 41,
+          "4": 3
+        },
+        "elapsed_seconds": 35.14
+      },
+      "PairFreq": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6167,
+        "std_matches": 0.7144,
+        "win_rate_pct": 1.1345,
+        "total_cost": 37020000,
+        "total_revenue": 2070000,
+        "net_profit": -34950000,
+        "roi_pct": -94.41,
+        "sharpe_ratio": -7.5124,
+        "max_drawdown": 34940000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1878,
+          "1": 1410,
+          "2": 372,
+          "3": 39,
+          "4": 3
+        },
+        "elapsed_seconds": 4.22
+      },
+      "\u2605Bayesian": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6853,
+        "std_matches": 0.7469,
+        "win_rate_pct": 1.6478,
+        "total_cost": 37020000,
+        "total_revenue": 3180000,
+        "net_profit": -33840000,
+        "roi_pct": -91.41,
+        "sharpe_ratio": -5.6844,
+        "max_drawdown": 33830000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1727,
+          "1": 1479,
+          "2": 435,
+          "3": 56,
+          "4": 5
+        },
+        "elapsed_seconds": 1.47
+      },
+      "\u2605MaxEntropy": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6613,
+        "std_matches": 0.7353,
+        "win_rate_pct": 1.5397,
+        "total_cost": 37020000,
+        "total_revenue": 1980000,
+        "net_profit": -35040000,
+        "roi_pct": -94.65,
+        "sharpe_ratio": -11.1237,
+        "max_drawdown": 35030000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1781,
+          "1": 1452,
+          "2": 412,
+          "3": 56,
+          "4": 1
+        },
+        "elapsed_seconds": 1.5
+      },
+      "\u2605Ensemble": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6556,
+        "std_matches": 0.7104,
+        "win_rate_pct": 1.1345,
+        "total_cost": 37020000,
+        "total_revenue": 1530000,
+        "net_profit": -35490000,
+        "roi_pct": -95.87,
+        "sharpe_ratio": -11.8354,
+        "max_drawdown": 35480000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1747,
+          "1": 1526,
+          "2": 387,
+          "3": 41,
+          "4": 1
+        },
+        "elapsed_seconds": 100.32
+      },
+      "\u2605MinDistance": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6551,
+        "std_matches": 0.7304,
+        "win_rate_pct": 1.4046,
+        "total_cost": 37020000,
+        "total_revenue": 2100000,
+        "net_profit": -34920000,
+        "roi_pct": -94.33,
+        "sharpe_ratio": -8.747,
+        "max_drawdown": 34910000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1790,
+          "1": 1453,
+          "2": 407,
+          "3": 50,
+          "4": 2
+        },
+        "elapsed_seconds": 29.87
+      },
+      "\u2605Adaptive": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6405,
+        "std_matches": 0.7166,
+        "win_rate_pct": 1.2696,
+        "total_cost": 37020000,
+        "total_revenue": 1950000,
+        "net_profit": -35070000,
+        "roi_pct": -94.73,
+        "sharpe_ratio": -8.871,
+        "max_drawdown": 35060000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1804,
+          "1": 1474,
+          "2": 377,
+          "3": 45,
+          "4": 2
+        },
+        "elapsed_seconds": 34.86
+      },
+      "\u2605Bayes_Sharp": {
+        "total_predictions": 3702,
+        "n_runs": 3,
+        "avg_matches": 0.6378,
+        "std_matches": 0.7246,
+        "win_rate_pct": 1.2696,
+        "total_cost": 37020000,
+        "total_revenue": 2220000,
+        "net_profit": -34800000,
+        "roi_pct": -94.0,
+        "sharpe_ratio": -7.4274,
+        "max_drawdown": 34790000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1832,
+          "1": 1429,
+          "2": 394,
+          "3": 44,
+          "4": 3
+        },
+        "elapsed_seconds": 1.32
+      }
+    }
+  },
+  "power_645": {
+    "baseline": {
+      "E": 0.8,
+      "win_pct": 2.383408
+    },
+    "strategies": {
+      "Random": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.8066,
+        "std_matches": 0.7715,
+        "win_rate_pct": 1.9151,
+        "total_cost": 36030000,
+        "total_revenue": 2880000,
+        "net_profit": -33150000,
+        "roi_pct": -92.01,
+        "sharpe_ratio": -6.9623,
+        "max_drawdown": 33140000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1413,
+          "1": 1546,
+          "2": 575,
+          "3": 66,
+          "4": 3
+        },
+        "elapsed_seconds": 0.67
+      },
+      "Freq_Hot": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.806,
+        "std_matches": 0.792,
+        "win_rate_pct": 2.7755,
+        "total_cost": 36030000,
+        "total_revenue": 3810000,
+        "net_profit": -32220000,
+        "roi_pct": -89.43,
+        "sharpe_ratio": -6.5115,
+        "max_drawdown": 32210000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1441,
+          "1": 1523,
+          "2": 539,
+          "3": 97,
+          "4": 3
+        },
+        "elapsed_seconds": 1.39
+      },
+      "Freq_Cold": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.8041,
+        "std_matches": 0.7807,
+        "win_rate_pct": 2.2481,
+        "total_cost": 36030000,
+        "total_revenue": 3780000,
+        "net_profit": -32250000,
+        "roi_pct": -89.51,
+        "sharpe_ratio": -5.401,
+        "max_drawdown": 32240000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1429,
+          "1": 1537,
+          "2": 556,
+          "3": 76,
+          "4": 5
+        },
+        "elapsed_seconds": 1.29
+      },
+      "LongAbsence": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.7954,
+        "std_matches": 0.796,
+        "win_rate_pct": 2.7755,
+        "total_cost": 36030000,
+        "total_revenue": 4890000,
+        "net_profit": -31140000,
+        "roi_pct": -86.43,
+        "sharpe_ratio": -4.4483,
+        "max_drawdown": 31160000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1471,
+          "1": 1505,
+          "2": 527,
+          "3": 93,
+          "4": 7
+        },
+        "elapsed_seconds": 40.66
+      },
+      "NotRepeat": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.781,
+        "std_matches": 0.7697,
+        "win_rate_pct": 2.2481,
+        "total_cost": 36030000,
+        "total_revenue": 3240000,
+        "net_profit": -32790000,
+        "roi_pct": -91.01,
+        "sharpe_ratio": -6.7819,
+        "max_drawdown": 32780000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1461,
+          "1": 1554,
+          "2": 507,
+          "3": 78,
+          "4": 3
+        },
+        "elapsed_seconds": 1.06
+      },
+      "Pattern": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.8165,
+        "std_matches": 0.7815,
+        "win_rate_pct": 2.2481,
+        "total_cost": 36030000,
+        "total_revenue": 4050000,
+        "net_profit": -31980000,
+        "roi_pct": -88.76,
+        "sharpe_ratio": -4.9471,
+        "max_drawdown": 31970000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1398,
+          "1": 1555,
+          "2": 569,
+          "3": 75,
+          "4": 6
+        },
+        "elapsed_seconds": 8.21
+      },
+      "ExpDecay_Hot": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.8041,
+        "std_matches": 0.7832,
+        "win_rate_pct": 2.0816,
+        "total_cost": 36030000,
+        "total_revenue": 4140000,
+        "net_profit": -31890000,
+        "roi_pct": -88.51,
+        "sharpe_ratio": -4.6234,
+        "max_drawdown": 31880000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1438,
+          "1": 1515,
+          "2": 575,
+          "3": 68,
+          "4": 7
+        },
+        "elapsed_seconds": 33.8
+      },
+      "ExpDecay_Cold": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.7866,
+        "std_matches": 0.7709,
+        "win_rate_pct": 2.1926,
+        "total_cost": 36030000,
+        "total_revenue": 2910000,
+        "net_profit": -33120000,
+        "roi_pct": -91.92,
+        "sharpe_ratio": -8.0056,
+        "max_drawdown": 33110000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1454,
+          "1": 1545,
+          "2": 525,
+          "3": 77,
+          "4": 2
+        },
+        "elapsed_seconds": 33.2
+      },
+      "PairFreq": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.801,
+        "std_matches": 0.7654,
+        "win_rate_pct": 2.1649,
+        "total_cost": 36030000,
+        "total_revenue": 3960000,
+        "net_profit": -32070000,
+        "roi_pct": -89.01,
+        "sharpe_ratio": -4.9713,
+        "max_drawdown": 32060000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1395,
+          "1": 1614,
+          "2": 516,
+          "3": 72,
+          "4": 6
+        },
+        "elapsed_seconds": 3.93
+      },
+      "\u2605Bayesian": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.801,
+        "std_matches": 0.7886,
+        "win_rate_pct": 2.4979,
+        "total_cost": 36030000,
+        "total_revenue": 3780000,
+        "net_profit": -32250000,
+        "roi_pct": -89.51,
+        "sharpe_ratio": -5.8841,
+        "max_drawdown": 32240000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1452,
+          "1": 1510,
+          "2": 551,
+          "3": 86,
+          "4": 4
+        },
+        "elapsed_seconds": 1.34
+      },
+      "\u2605MaxEntropy": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.7893,
+        "std_matches": 0.7771,
+        "win_rate_pct": 2.1926,
+        "total_cost": 36030000,
+        "total_revenue": 13690000,
+        "net_profit": -22340000,
+        "roi_pct": -62.0,
+        "sharpe_ratio": -0.2677,
+        "max_drawdown": 22330000,
+        "best_match": 5,
+        "matches_distribution": {
+          "0": 1453,
+          "1": 1542,
+          "2": 529,
+          "3": 73,
+          "4": 5,
+          "5": 1
+        },
+        "elapsed_seconds": 1.46
+      },
+      "\u2605Ensemble": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.7949,
+        "std_matches": 0.7656,
+        "win_rate_pct": 1.9706,
+        "total_cost": 36030000,
+        "total_revenue": 2940000,
+        "net_profit": -33090000,
+        "roi_pct": -91.84,
+        "sharpe_ratio": -6.9317,
+        "max_drawdown": 33080000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1424,
+          "1": 1568,
+          "2": 540,
+          "3": 68,
+          "4": 3
+        },
+        "elapsed_seconds": 97.25
+      },
+      "\u2605MinDistance": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.7996,
+        "std_matches": 0.7906,
+        "win_rate_pct": 2.5534,
+        "total_cost": 36030000,
+        "total_revenue": 3570000,
+        "net_profit": -32460000,
+        "roi_pct": -90.09,
+        "sharpe_ratio": -6.6232,
+        "max_drawdown": 32450000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1461,
+          "1": 1498,
+          "2": 552,
+          "3": 89,
+          "4": 3
+        },
+        "elapsed_seconds": 28.86
+      },
+      "\u2605Adaptive": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.7918,
+        "std_matches": 0.7503,
+        "win_rate_pct": 1.9428,
+        "total_cost": 36030000,
+        "total_revenue": 2640000,
+        "net_profit": -33390000,
+        "roi_pct": -92.67,
+        "sharpe_ratio": -8.1995,
+        "max_drawdown": 33380000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1393,
+          "1": 1639,
+          "2": 501,
+          "3": 68,
+          "4": 2
+        },
+        "elapsed_seconds": 34.52
+      },
+      "\u2605Bayes_Sharp": {
+        "total_predictions": 3603,
+        "n_runs": 3,
+        "avg_matches": 0.8229,
+        "std_matches": 0.8096,
+        "win_rate_pct": 3.1363,
+        "total_cost": 36030000,
+        "total_revenue": 5010000,
+        "net_profit": -31020000,
+        "roi_pct": -86.09,
+        "sharpe_ratio": -4.6969,
+        "max_drawdown": 31010000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 1431,
+          "1": 1498,
+          "2": 561,
+          "3": 107,
+          "4": 6
+        },
+        "elapsed_seconds": 1.29
+      }
+    }
+  },
+  "power_535": {
+    "baseline": {
+      "E": 0.7143,
+      "win_pct": 1.386493
+    },
+    "strategies": {
+      "Random": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.7101,
+        "std_matches": 0.7705,
+        "win_rate_pct": 2.5641,
+        "total_cost": 5070000,
+        "total_revenue": 1100000,
+        "net_profit": -3970000,
+        "roi_pct": -78.3,
+        "sharpe_ratio": -2.4107,
+        "max_drawdown": 3980000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 230,
+          "1": 208,
+          "2": 56,
+          "3": 12,
+          "4": 1
+        },
+        "elapsed_seconds": 0.08
+      },
+      "Freq_Hot": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.7258,
+        "std_matches": 0.729,
+        "win_rate_pct": 1.5779,
+        "total_cost": 5070000,
+        "total_revenue": 1300000,
+        "net_profit": -3770000,
+        "roi_pct": -74.36,
+        "sharpe_ratio": -1.6862,
+        "max_drawdown": 4060000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 211,
+          "1": 234,
+          "2": 54,
+          "3": 6,
+          "4": 2
+        },
+        "elapsed_seconds": 0.22
+      },
+      "Freq_Cold": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.7278,
+        "std_matches": 0.7229,
+        "win_rate_pct": 1.1834,
+        "total_cost": 5070000,
+        "total_revenue": 300000,
+        "net_profit": -4770000,
+        "roi_pct": -94.08,
+        "sharpe_ratio": -12.5351,
+        "max_drawdown": 4760000,
+        "best_match": 3,
+        "matches_distribution": {
+          "0": 214,
+          "1": 223,
+          "2": 64,
+          "3": 6
+        },
+        "elapsed_seconds": 0.18
+      },
+      "LongAbsence": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.7061,
+        "std_matches": 0.7321,
+        "win_rate_pct": 0.789,
+        "total_cost": 5070000,
+        "total_revenue": 200000,
+        "net_profit": -4870000,
+        "roi_pct": -96.06,
+        "sharpe_ratio": -15.6429,
+        "max_drawdown": 4860000,
+        "best_match": 3,
+        "matches_distribution": {
+          "0": 228,
+          "1": 204,
+          "2": 71,
+          "3": 4
+        },
+        "elapsed_seconds": 2.95
+      },
+      "NotRepeat": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.7022,
+        "std_matches": 0.7359,
+        "win_rate_pct": 0.9862,
+        "total_cost": 5070000,
+        "total_revenue": 700000,
+        "net_profit": -4370000,
+        "roi_pct": -86.19,
+        "sharpe_ratio": -2.7471,
+        "max_drawdown": 4360000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 228,
+          "1": 208,
+          "2": 66,
+          "3": 4,
+          "4": 1
+        },
+        "elapsed_seconds": 0.14
+      },
+      "Pattern": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.7396,
+        "std_matches": 0.7381,
+        "win_rate_pct": 1.7751,
+        "total_cost": 5070000,
+        "total_revenue": 900000,
+        "net_profit": -4170000,
+        "roi_pct": -82.25,
+        "sharpe_ratio": -2.5752,
+        "max_drawdown": 4160000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 210,
+          "1": 229,
+          "2": 59,
+          "3": 8,
+          "4": 1
+        },
+        "elapsed_seconds": 3.83
+      },
+      "ExpDecay_Hot": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.6982,
+        "std_matches": 0.7234,
+        "win_rate_pct": 1.5779,
+        "total_cost": 5070000,
+        "total_revenue": 400000,
+        "net_profit": -4670000,
+        "roi_pct": -92.11,
+        "sharpe_ratio": -10.6494,
+        "max_drawdown": 4660000,
+        "best_match": 3,
+        "matches_distribution": {
+          "0": 224,
+          "1": 220,
+          "2": 55,
+          "3": 8
+        },
+        "elapsed_seconds": 2.64
+      },
+      "ExpDecay_Cold": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.7278,
+        "std_matches": 0.7445,
+        "win_rate_pct": 1.1834,
+        "total_cost": 5070000,
+        "total_revenue": 300000,
+        "net_profit": -4770000,
+        "roi_pct": -94.08,
+        "sharpe_ratio": -12.5351,
+        "max_drawdown": 4760000,
+        "best_match": 3,
+        "matches_distribution": {
+          "0": 222,
+          "1": 207,
+          "2": 72,
+          "3": 6
+        },
+        "elapsed_seconds": 2.54
+      },
+      "PairFreq": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.7219,
+        "std_matches": 0.7138,
+        "win_rate_pct": 0.5917,
+        "total_cost": 5070000,
+        "total_revenue": 150000,
+        "net_profit": -4920000,
+        "roi_pct": -97.04,
+        "sharpe_ratio": -18.2302,
+        "max_drawdown": 4910000,
+        "best_match": 3,
+        "matches_distribution": {
+          "0": 216,
+          "1": 219,
+          "2": 69,
+          "3": 3
+        },
+        "elapsed_seconds": 0.74
+      },
+      "\u2605Bayesian": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.6864,
+        "std_matches": 0.7184,
+        "win_rate_pct": 0.789,
+        "total_cost": 5070000,
+        "total_revenue": 650000,
+        "net_profit": -4420000,
+        "roi_pct": -87.18,
+        "sharpe_ratio": -2.7913,
+        "max_drawdown": 4680000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 229,
+          "1": 213,
+          "2": 61,
+          "3": 3,
+          "4": 1
+        },
+        "elapsed_seconds": 0.18
+      },
+      "\u2605MaxEntropy": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.6884,
+        "std_matches": 0.7342,
+        "win_rate_pct": 1.3807,
+        "total_cost": 5070000,
+        "total_revenue": 350000,
+        "net_profit": -4720000,
+        "roi_pct": -93.1,
+        "sharpe_ratio": -11.4951,
+        "max_drawdown": 4710000,
+        "best_match": 3,
+        "matches_distribution": {
+          "0": 233,
+          "1": 206,
+          "2": 61,
+          "3": 7
+        },
+        "elapsed_seconds": 0.2
+      },
+      "\u2605Ensemble": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.6667,
+        "std_matches": 0.7368,
+        "win_rate_pct": 0.789,
+        "total_cost": 5070000,
+        "total_revenue": 650000,
+        "net_profit": -4420000,
+        "roi_pct": -87.18,
+        "sharpe_ratio": -2.7913,
+        "max_drawdown": 4640000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 244,
+          "1": 193,
+          "2": 66,
+          "3": 3,
+          "4": 1
+        },
+        "elapsed_seconds": 41.83
+      },
+      "\u2605MinDistance": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.6746,
+        "std_matches": 0.7241,
+        "win_rate_pct": 1.1834,
+        "total_cost": 5070000,
+        "total_revenue": 300000,
+        "net_profit": -4770000,
+        "roi_pct": -94.08,
+        "sharpe_ratio": -12.5351,
+        "max_drawdown": 4760000,
+        "best_match": 3,
+        "matches_distribution": {
+          "0": 236,
+          "1": 206,
+          "2": 59,
+          "3": 6
+        },
+        "elapsed_seconds": 1.17
+      },
+      "\u2605Adaptive": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.7396,
+        "std_matches": 0.7327,
+        "win_rate_pct": 1.3807,
+        "total_cost": 5070000,
+        "total_revenue": 800000,
+        "net_profit": -4270000,
+        "roi_pct": -84.22,
+        "sharpe_ratio": -2.6602,
+        "max_drawdown": 4260000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 210,
+          "1": 227,
+          "2": 63,
+          "3": 6,
+          "4": 1
+        },
+        "elapsed_seconds": 4.94
+      },
+      "\u2605Bayes_Sharp": {
+        "total_predictions": 507,
+        "n_runs": 3,
+        "avg_matches": 0.6824,
+        "std_matches": 0.7166,
+        "win_rate_pct": 0.9862,
+        "total_cost": 5070000,
+        "total_revenue": 700000,
+        "net_profit": -4370000,
+        "roi_pct": -86.19,
+        "sharpe_ratio": -2.7471,
+        "max_drawdown": 4360000,
+        "best_match": 4,
+        "matches_distribution": {
+          "0": 229,
+          "1": 216,
+          "2": 57,
+          "3": 4,
+          "4": 1
+        },
+        "elapsed_seconds": 0.18
+      }
+    }
+  }
+}
