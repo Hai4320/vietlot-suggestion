@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { NumberBall } from "./NumberBall";
+import { BacktestCard } from "./BacktestCard";
 import type { SuggestionStrategy, SuggestionSet, ThreeDSuggestionSet } from "@/lib/types";
 import { calculatePrizeProbabilities, formatProbability, type PrizeTierProbability } from "@/lib/prize-probability";
 
@@ -653,6 +654,9 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
           )}
         </div>
       )}
+
+      {/* Backtest evaluation */}
+      <BacktestCard slug={props.slug} color={props.color} />
 
       {/* Disclaimer */}
       <div className="relative rounded-xl border border-dashed border-yellow-500/30 bg-yellow-500/5 p-4">
