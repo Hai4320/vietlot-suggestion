@@ -212,10 +212,40 @@ export function generateSuggestions(
     if (hasSpecial) {
       set.special = Math.floor(Math.random() * specialMax) + 1;
     }
+    // Win probability: P(≥3 match) using hypergeometric distribution
+    set.winProbability = calcWinProbability(pool.length, maxNumber - minNumber + 1, mainCount);
     sets.push(set);
   }
 
   return sets;
+}
+
+/**
+ * Calculate probability of matching ≥3 numbers using hypergeometric distribution.
+ * P(X≥3) where X ~ Hypergeometric(N=pool_size, K=drawn, n=picked)
+ */
+function calcWinProbability(picked: number, poolSize: number, drawn: number): number {
+  const minMatch = 3;
+  let pWin = 0;
+  for (let k = minMatch; k <= Math.min(picked, drawn); k++) {
+    pWin += hypergeometricPmf(k, poolSize, drawn, picked);
+  }
+  return pWin;
+}
+
+/** Hypergeometric PMF: P(X=k) = C(K,k)*C(N-K,n-k) / C(N,n) */
+function hypergeometricPmf(k: number, N: number, K: number, n: number): number {
+  return Math.exp(logComb(K, k) + logComb(N - K, n - k) - logComb(N, n));
+}
+
+function logComb(n: number, k: number): number {
+  if (k < 0 || k > n) return -Infinity;
+  if (k === 0 || k === n) return 0;
+  let s = 0;
+  for (let i = 0; i < k; i++) {
+    s += Math.log(n - i) - Math.log(i + 1);
+  }
+  return s;
 }
 
 // ============================================================

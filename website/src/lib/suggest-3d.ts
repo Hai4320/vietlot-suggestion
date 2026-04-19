@@ -296,7 +296,19 @@ export function generate3DSuggestions(
       }
     }
 
-    sets.push({ numbers, strategy });
+    // Win probability: P(≥1 exact match) when picking `numbers.length` from 1000
+    // with 20 drawn numbers per draw.
+    // P(≥1) = 1 - P(0) = 1 - C(980, k) / C(1000, k) where k = numbers.length
+    const k = numbers.length; // typically 2
+    const drawn = 20;
+    const pool = 1000;
+    let p0 = 1;
+    for (let i = 0; i < k; i++) {
+      p0 *= (pool - drawn - i) / (pool - i);
+    }
+    const winProbability = 1 - p0;
+
+    sets.push({ numbers, strategy, winProbability });
   }
 
   return sets;

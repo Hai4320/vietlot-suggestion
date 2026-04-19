@@ -129,11 +129,15 @@ export interface SuggestionSet {
   numbers: number[];
   special?: number;
   strategy: SuggestionStrategy;
+  /** Probability of matching at least the minimum prize tier (e.g. 3/6) */
+  winProbability?: number;
 }
 
 export interface ThreeDSuggestionSet {
   numbers: string[];
   strategy: SuggestionStrategy;
+  /** Probability of at least 1 exact match among 20 drawn numbers */
+  winProbability?: number;
 }
 
 // ============================================================
