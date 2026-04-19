@@ -46,7 +46,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 import numpy as np
 from scipy import stats as scipy_stats
 
-DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
+DATA_DIR = Path(__file__).resolve().parent.parent.parent.parent / "data"
 OUTPUT_DIR = Path(__file__).resolve().parent
 
 TIER_ORDER = ["Giải Đặc biệt", "Giải Nhất", "Giải Nhì", "Giải ba"]
@@ -1426,7 +1426,7 @@ def main():
         results[product_key] = product_results
     
     # Save results
-    outfile = OUTPUT_DIR / "3d_advanced_backtest_results.json"
+    outfile = OUTPUT_DIR / "advanced_backtest_results.json"
     with open(outfile, "w") as f:
         json.dump(results, f, indent=2, default=str, ensure_ascii=False)
     print(f"\n✓ Results saved to {outfile}")

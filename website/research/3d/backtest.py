@@ -37,7 +37,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 import numpy as np
 import pandas as pd
 
-DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
+DATA_DIR = Path(__file__).resolve().parent.parent.parent.parent / "data"
 
 PRODUCTS_3D = {
     "max_3d": {
@@ -828,7 +828,7 @@ def main():
         results[product_key] = product_results
 
     # Save
-    out = output_dir / "3d_backtest_results.json"
+    out = output_dir / "backtest_results.json"
     with open(out, "w") as f:
         json.dump(results, f, indent=2, default=str)
     print(f"\n✓ Saved to {out}")

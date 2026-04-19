@@ -35,7 +35,7 @@ from scipy import stats as scipy_stats
 
 warnings.filterwarnings("ignore")
 
-DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
+DATA_DIR = Path(__file__).resolve().parent.parent.parent.parent / "data"
 OUTPUT_DIR = Path(__file__).resolve().parent
 
 TIER_ORDER = ["Giải Đặc biệt", "Giải Nhất", "Giải Nhì", "Giải ba"]
@@ -788,7 +788,7 @@ def main():
         print_summary(analysis)
     
     # Save
-    outfile = OUTPUT_DIR / "3d_deep_analysis.json"
+    outfile = OUTPUT_DIR / "deep_analysis.json"
     with open(outfile, "w") as f:
         json.dump(all_analysis, f, indent=2, default=str, ensure_ascii=False)
     print(f"\n✓ Saved full analysis to {outfile}")
