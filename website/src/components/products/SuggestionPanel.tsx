@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { NumberBall } from "./NumberBall";
 import type { SuggestionStrategy, SuggestionSet, ThreeDSuggestionSet } from "@/lib/types";
+import { calculatePrizeProbabilities, formatProbability, type PrizeTierProbability } from "@/lib/prize-probability";
 
 interface MatrixSuggestionPanelProps {
   type: "matrix";
@@ -165,16 +166,90 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
   const pageStart = page * PAGE_SIZE;
   const pageEnd = Math.min(pageStart + PAGE_SIZE, results.length);
   const pageResults = results.slice(pageStart, pageEnd);
-  const avgWinProb = useMemo(() => {
-    if (results.length === 0) return 0;
-    return results.reduce((s, r) => s + (r.winProbability ?? 0), 0) / results.length;
-  }, [results]);
-  const combinedWinProb = useMemo(() => {
-    if (results.length === 0) return 0;
-    let pLose = 1;
-    for (const r of results) pLose *= 1 - (r.winProbability ?? 0);
-    return 1 - pLose;
-  }, [results]);
+  const prizeTiers = useMemo(() => {
+    if (results.length === 0) return [] as PrizeTierProbability[];
+    return calculatePrizeProbabilities(props.slug, results.length);
+  }, [results.length, props.slug]);
+
+  const handleDownload = useCallback((format: "txt" | "csv") => {
+    if (results.length === 0) return;
+    const productName = props.slug.replace(/-/g, "_");
+    const now = new Date();
+    const date = now.toISOString().slice(0, 10) + "_" + now.toTimeString().slice(0, 8).replace(/:/g, "");
+    const strategyLabel = selectedStrategy.label;
+
+    let content: string;
+    let filename: string;
+    let mime: string;
+
+    if (format === "csv") {
+      const header = props.type === "matrix"
+        ? (props.hasSpecial ? "STT,Bộ số,Số đặc biệt" : "STT,Bộ số")
+        : "STT,Bộ số";
+      const rows = results.map((set, i) => {
+        if (props.type === "matrix") {
+          const ms = set as SuggestionSet;
+          const nums = ms.numbers.map((n) => String(n).padStart(2, "0")).join(" - ");
+          return props.hasSpecial && ms.special !== undefined
+            ? `${i + 1},"${nums}",${String(ms.special).padStart(2, "0")}`
+            : `${i + 1},"${nums}"`;
+        }
+        const ts = set as ThreeDSuggestionSet;
+        return `${i + 1},"${ts.numbers.join(" - ")}"`;
+      });
+      content = [header, ...rows].join("\n");
+      filename = `${productName}_${strategy}_${date}.csv`;
+      mime = "text/csv;charset=utf-8";
+    } else {
+      const lines: string[] = [
+        `Gợi ý xổ số — ${props.slug.replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase())}`,
+        `Chiến lược: ${strategyLabel}`,
+        `Ngày tạo: ${date}`,
+        `Số lượng: ${results.length} bộ`,
+        "",
+        "─".repeat(40),
+      ];
+      results.forEach((set, i) => {
+        const idx = String(i + 1).padStart(3, " ");
+        if (props.type === "matrix") {
+          const ms = set as SuggestionSet;
+          const nums = ms.numbers.map((n) => String(n).padStart(2, "0")).join("  ");
+          const special = props.hasSpecial && ms.special !== undefined ? `  |  ★ ${String(ms.special).padStart(2, "0")}` : "";
+          lines.push(`${idx}.  ${nums}${special}`);
+        } else {
+          const ts = set as ThreeDSuggestionSet;
+          lines.push(`${idx}.  ${ts.numbers.join("  ")}`);
+        }
+      });
+      lines.push("", "─".repeat(40));
+      // Append prize probabilities
+      if (prizeTiers.length > 0) {
+        lines.push("", "📐 Tỷ lệ trúng từng giải:", "");
+        const col1 = Math.max(...prizeTiers.map((t) => t.name.length), 4);
+        lines.push(`${'Giải'.padEnd(col1)}  ${'Giải thưởng'.padEnd(16)}  ${'Mỗi vé'.padEnd(18)}  ${results.length} vé`);
+        lines.push("─".repeat(col1 + 60));
+        for (const tier of prizeTiers) {
+          lines.push(
+            `${tier.name.padEnd(col1)}  ${tier.prize.padEnd(16)}  ${formatProbability(tier.perTicket).padEnd(18)}  ${formatProbability(tier.combined)}`
+          );
+        }
+      }
+      lines.push("", "⚠️ Lưu ý: Xổ số là hoàn toàn ngẫu nhiên. Gợi ý chỉ mang tính tham khảo.");
+      content = lines.join("\n");
+      filename = `${productName}_${strategy}_${date}.txt`;
+      mime = "text/plain;charset=utf-8";
+    }
+
+    const blob = new Blob(["\uFEFF" + content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, [results, props.type, props.slug, props.hasSpecial, strategy, selectedStrategy.label, prizeTiers]);
 
   return (
     <div className="space-y-8">
@@ -363,30 +438,74 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                 {selectedStrategy.emoji} {selectedStrategy.label}
               </Badge>
             </h3>
-            <div className="flex items-center gap-3 text-xs flex-wrap">
-              <span className="text-muted-foreground">{results.length} bộ số</span>
-              {avgWinProb > 0 && (
-                <>
-                  <span className="h-3 w-px bg-border" />
-                  <span className="font-mono text-muted-foreground">
-                    TB mỗi bộ: <span className="text-foreground font-bold">{(avgWinProb * 100).toFixed(2)}%</span>
-                  </span>
-                  <span className="h-3 w-px bg-border" />
-                  <span className="font-mono text-muted-foreground">
-                    Tổng hợp {results.length} bộ: <span className="text-green-400 font-bold">{(combinedWinProb * 100).toFixed(2)}%</span>
-                  </span>
-                </>
-              )}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">{results.length} bộ số</span>
+              <span className="h-3 w-px bg-border" />
+              <button
+                onClick={() => handleDownload("txt")}
+                className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium border border-border hover:bg-muted transition-colors"
+                title="Tải file .txt"
+              >
+                📄 .txt
+              </button>
+              <button
+                onClick={() => handleDownload("csv")}
+                className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium border border-border hover:bg-muted transition-colors"
+                title="Tải file .csv (mở bằng Excel)"
+              >
+                📊 .csv
+              </button>
             </div>
           </div>
 
-          {/* Win probability explanation */}
-          {avgWinProb > 0 && (
-            <div className="rounded-lg bg-muted/30 border border-border/50 px-4 py-2.5 text-xs text-muted-foreground leading-relaxed">
-              <span className="font-semibold text-foreground">📐 Tỷ lệ thắng:</span>{" "}
-              {props.type === "matrix"
-                ? "P(≥3 số trùng) tính bằng phân phối siêu hình học (hypergeometric). \"Tổng hợp\" = xác suất thắng ≥1 lần nếu mua tất cả bộ số."
-                : "P(≥1 số trùng khớp chính xác trong 20 số quay). \"Tổng hợp\" = xác suất thắng ≥1 lần nếu mua tất cả bộ số."}
+          {/* Prize tier probability table */}
+          {prizeTiers.length > 0 && (
+            <div className="rounded-xl border overflow-hidden">
+              <div className="px-4 py-3 border-b" style={{ background: `${props.color}08` }}>
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sm font-bold flex items-center gap-2">
+                    📐 Tỷ lệ trúng từng giải
+                    <Badge variant="secondary" className="text-[10px]">{results.length} vé</Badge>
+                  </h4>
+                  <span className="text-[10px] text-muted-foreground">Công thức: 1 − (1 − 1/odds)ⁿ</span>
+                </div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b bg-muted/30">
+                      <th className="text-left px-4 py-2 font-semibold">Giải</th>
+                      <th className="text-left px-3 py-2 font-semibold hidden sm:table-cell">Điều kiện</th>
+                      <th className="text-right px-3 py-2 font-semibold">Giải thưởng</th>
+                      <th className="text-right px-3 py-2 font-semibold">Mỗi vé</th>
+                      <th className="text-right px-4 py-2 font-semibold" style={{ color: props.color }}>
+                        {results.length} vé
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {prizeTiers.map((tier) => (
+                      <tr key={tier.name} className={`border-b last:border-b-0 transition-colors hover:bg-muted/20 ${tier.highlight ? "bg-yellow-500/5" : ""}`}>
+                        <td className="px-4 py-2.5 font-medium whitespace-nowrap">
+                          {tier.highlight && <span className="mr-1">🏆</span>}
+                          {tier.name}
+                        </td>
+                        <td className="px-3 py-2.5 text-muted-foreground hidden sm:table-cell">{tier.condition}</td>
+                        <td className="px-3 py-2.5 text-right font-medium whitespace-nowrap">{tier.prize}</td>
+                        <td className="px-3 py-2.5 text-right font-mono text-muted-foreground whitespace-nowrap">
+                          {formatProbability(tier.perTicket)}
+                        </td>
+                        <td className="px-4 py-2.5 text-right font-mono font-bold whitespace-nowrap" style={{ color: props.color }}>
+                          {formatProbability(tier.combined)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="px-4 py-2 border-t bg-muted/20 text-[10px] text-muted-foreground">
+                Tỷ lệ trên là xác suất trúng ≥1 lần cho mỗi hạng giải khi mua {results.length} vé với bộ số khác nhau. Theo luật xổ số Vietlott.
+              </div>
             </div>
           )}
 
@@ -424,7 +543,6 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
             {pageResults.map((set, localIdx) => {
               const globalIdx = pageStart + localIdx;
               const isVisible = page === 0 ? localIdx < revealedCount : true;
-              const prob = set.winProbability ?? 0;
               return (
                 <Card
                   key={`${strategy}-${count}-${globalIdx}`}
@@ -474,16 +592,6 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                           />
                         )}
                     </div>
-
-                    {/* Win probability */}
-                    {prob > 0 && (
-                      <div className="shrink-0 text-right">
-                        <div className="text-xs font-mono font-bold" style={{ color: props.color }}>
-                          {(prob * 100).toFixed(2)}%
-                        </div>
-                        <div className="text-[10px] text-muted-foreground">tỷ lệ thắng</div>
-                      </div>
-                    )}
 
                     {/* Top pick badge */}
                     {globalIdx === 0 && (
