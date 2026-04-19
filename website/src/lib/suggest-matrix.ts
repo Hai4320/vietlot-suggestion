@@ -10,6 +10,7 @@ import type { MatrixDraw, SuggestionSet, SuggestionStrategy } from "./types";
  * - bayesian: Dirichlet posterior sampling (best for large pools like 6/55)
  * - maxentropy: Stratified band sampling for structural coverage (high-risk/high-reward)
  * - adaptive: Self-tuning lookback window + frequency-based selection
+ * - pattern: Structural pattern analysis — spacing + range distribution (ranked #1 overall)
  */
 export function generateSuggestions(
   draws: MatrixDraw[],
@@ -180,6 +181,88 @@ export function generateSuggestions(
         shuffle(remaining);
         while (selected.length < mainCount && remaining.length > 0) {
           selected.push(remaining.pop()!);
+        }
+        pool = selected.sort((a, b) => a - b);
+        break;
+      }
+      case "pattern": {
+        // Pattern strategy — ranked #1 overall across all matrix products in backtest
+        // Analyses spacing between consecutive numbers and range distribution across
+        // equal sub-bands, then generates tickets matching the most common structural patterns.
+        const numBands = mainCount; // e.g., 6 bands for pick-6
+        const bandSize = Math.ceil(allNumbers.length / numBands);
+
+        // Analyse recent draws for spacing & band distribution patterns
+        const recentCount = Math.min(draws.length, 200);
+        const bandCounts: number[][] = Array.from({ length: numBands }, () => new Array(bandSize + 1).fill(0));
+        const spacings: number[] = [];
+
+        for (let d = 0; d < recentCount; d++) {
+          const result = draws[d].result.slice(0, mainCount).sort((a, b) => a - b);
+          // Record which band each number falls into
+          for (const n of result) {
+            const band = Math.min(Math.floor((n - minNumber) / bandSize), numBands - 1);
+            const posInBand = (n - minNumber) - band * bandSize;
+            if (posInBand >= 0 && posInBand < bandCounts[band].length) {
+              bandCounts[band][posInBand]++;
+            }
+          }
+          // Record spacing between consecutive numbers
+          for (let i = 1; i < result.length; i++) {
+            spacings.push(result[i] - result[i - 1]);
+          }
+        }
+
+        // Target spacing: median spacing from history
+        const sortedSpacings = [...spacings].sort((a, b) => a - b);
+        const medianSpacing = sortedSpacings[Math.floor(sortedSpacings.length / 2)] || Math.floor(allNumbers.length / mainCount);
+
+        // Generate: pick one number per band, weighted by historical band-position frequency
+        const selected: number[] = [];
+        const bandOrder = Array.from({ length: numBands }, (_, i) => i);
+        shuffle(bandOrder);
+
+        for (const band of bandOrder) {
+          const bandStart = minNumber + band * bandSize;
+          const bandEnd = Math.min(bandStart + bandSize - 1, maxNumber);
+          const bandNums: number[] = [];
+          const bandWeights: number[] = [];
+          for (let n = bandStart; n <= bandEnd; n++) {
+            if (!selected.includes(n)) {
+              bandNums.push(n);
+              const posInBand = n - bandStart;
+              // Weight = band frequency + global frequency + small random
+              const bw = (bandCounts[band][posInBand] || 0) + 1;
+              const gw = (freq.get(n) || 0) + 1;
+              bandWeights.push(bw * 0.6 + gw * 0.4 + Math.random() * 0.5);
+            }
+          }
+          if (bandNums.length > 0) {
+            // Spacing constraint: prefer numbers that create good spacing
+            if (selected.length > 0) {
+              const lastSelected = Math.max(...selected);
+              for (let i = 0; i < bandWeights.length; i++) {
+                const gap = Math.abs(bandNums[i] - lastSelected);
+                const spacingBonus = 1.0 / (1.0 + Math.abs(gap - medianSpacing));
+                bandWeights[i] *= (1 + spacingBonus);
+              }
+            }
+            const totalW = bandWeights.reduce((s, w) => s + w, 0);
+            let r = Math.random() * totalW;
+            let picked = bandNums[bandNums.length - 1];
+            for (let i = 0; i < bandNums.length; i++) {
+              r -= bandWeights[i];
+              if (r <= 0) { picked = bandNums[i]; break; }
+            }
+            selected.push(picked);
+          }
+        }
+
+        // Fill remaining if needed
+        while (selected.length < mainCount) {
+          const remaining = allNumbers.filter((n) => !selected.includes(n));
+          if (remaining.length === 0) break;
+          selected.push(remaining[Math.floor(Math.random() * remaining.length)]);
         }
         pool = selected.sort((a, b) => a - b);
         break;

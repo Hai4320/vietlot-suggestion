@@ -10,6 +10,7 @@ import type { ThreeDDraw, ThreeDSuggestionSet, SuggestionStrategy } from "./type
  * - bayesian: Dirichlet posterior sampling on digit positions
  * - maxentropy: SumRange filter – digit-sum range filtering + digit frequency weights
  * - adaptive: Self-tuning lookback window for digit frequency
+ * - pattern: Structural patterns (odd/even + high/low) + digit-sum range
  */
 function padNum(n: number): string {
   return String(n).padStart(3, "0");
@@ -268,6 +269,96 @@ export function generate3DSuggestions(
             if (num.length === pos) num += "0";
           }
           numbers.push(num.padStart(3, "0"));
+        }
+        break;
+      }
+      case "pattern": {
+        // Pattern 3D strategy — analyses structural patterns in 3-digit numbers:
+        // 1. Odd/even pattern per position
+        // 2. High/low pattern per position  
+        // 3. Digit-sum range filtering (like SumRange but with positional patterns)
+        // Backtest: ~2.0% exact match (at baseline, but provides structural diversity)
+
+        // Analyse recent patterns
+        const patternFreq = new Map<string, number>(); // e.g., "OEO-HLL" = odd/even + high/low
+        const recentN = Math.min(200, draws.length);
+        const allSums: number[] = [];
+
+        for (let d = 0; d < recentN; d++) {
+          for (const values of Object.values(draws[d].result)) {
+            for (const num of values) {
+              const p = num.padStart(3, "0");
+              const ds = +p[0] + +p[1] + +p[2];
+              allSums.push(ds);
+              // Pattern: odd/even + high/low for each digit
+              const oe = Array.from(p).map(c => +c % 2 === 0 ? "E" : "O").join("");
+              const hl = Array.from(p).map(c => +c >= 5 ? "H" : "L").join("");
+              const pat = `${oe}-${hl}`;
+              patternFreq.set(pat, (patternFreq.get(pat) || 0) + 1);
+            }
+          }
+        }
+
+        // Find top patterns
+        const sortedPatterns = [...patternFreq.entries()].sort((a, b) => b[1] - a[1]);
+        const topPatterns = sortedPatterns.slice(0, 8).map(([p]) => p);
+
+        // Digit-sum range
+        const meanS = allSums.reduce((a, b) => a + b, 0) / (allSums.length || 1);
+        const stdS = Math.sqrt(allSums.reduce((a, b) => a + (b - meanS) ** 2, 0) / (allSums.length || 1)) || 1;
+        const lo = Math.max(0, meanS - stdS);
+        const hi = Math.min(27, meanS + stdS);
+
+        numbers = [];
+        for (let n = 0; n < 2; n++) {
+          // Pick a random top pattern
+          const targetPat = topPatterns[Math.floor(Math.random() * topPatterns.length)];
+          const [oePat, hlPat] = targetPat.split("-");
+
+          let found = false;
+          for (let att = 0; att < 50 && !found; att++) {
+            let num = "";
+            for (let pos = 0; pos < 3; pos++) {
+              // Filter digits by pattern constraints
+              const candidates: number[] = [];
+              const candWeights: number[] = [];
+              for (let d = 0; d < 10; d++) {
+                const isOdd = d % 2 === 1;
+                const isHigh = d >= 5;
+                const oeOk = (oePat[pos] === "O" && isOdd) || (oePat[pos] === "E" && !isOdd);
+                const hlOk = (hlPat[pos] === "H" && isHigh) || (hlPat[pos] === "L" && !isHigh);
+                if (oeOk && hlOk) {
+                  candidates.push(d);
+                  candWeights.push(digitFreq[pos][d] + 1);
+                }
+              }
+              if (candidates.length === 0) {
+                // Fallback: use digit frequency
+                num += weightedDigit(digitFreq[pos].map((f: number) => f / (digitFreq[pos].reduce((a: number, b: number) => a + b, 0) || 1)));
+              } else {
+                const total = candWeights.reduce((s, w) => s + w, 0);
+                let r = Math.random() * total;
+                let picked = candidates[0];
+                for (let i = 0; i < candidates.length; i++) {
+                  r -= candWeights[i];
+                  if (r <= 0) { picked = candidates[i]; break; }
+                }
+                num += picked;
+              }
+            }
+            const ds = +num[0] + +num[1] + +num[2];
+            if (ds >= lo && ds <= hi) {
+              numbers.push(num.padStart(3, "0"));
+              found = true;
+            }
+          }
+          if (!found) {
+            // Fallback
+            const d0 = weightedDigit(digitFreq[0].map((f: number) => f / (digitFreq[0].reduce((a: number, b: number) => a + b, 0) || 1)));
+            const d1 = weightedDigit(digitFreq[1].map((f: number) => f / (digitFreq[1].reduce((a: number, b: number) => a + b, 0) || 1)));
+            const d2 = weightedDigit(digitFreq[2].map((f: number) => f / (digitFreq[2].reduce((a: number, b: number) => a + b, 0) || 1)));
+            numbers.push(padNum(d0 * 100 + d1 * 10 + d2));
+          }
         }
         break;
       }

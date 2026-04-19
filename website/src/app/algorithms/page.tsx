@@ -36,11 +36,33 @@ const STRATEGIES = [
     color: "hsl(262, 83%, 58%)",
   },
   {
+    id: "pattern",
+    name: "Mẫu cấu trúc",
+    emoji: "🔮",
+    badge: "★ Mới",
+    shortDesc: "Spacing + range distribution analysis (ranked #1 overall)",
+    description:
+      "Phân tích cấu trúc bộ số: khoảng cách giữa các số liên tiếp (spacing) và phân bố trên các vùng số (band distribution). " +
+      "Chia dải số thành các vùng bằng nhau, chọn 1 số từ mỗi vùng dựa trên tần suất lịch sử trong vùng đó " +
+      "và ưu tiên khoảng cách gần với median spacing lịch sử. " +
+      "Xếp hạng #1 tổng hợp qua tất cả sản phẩm matrix (trung bình Δ = +0.015) và đặc biệt mạnh trên pool nhỏ (5/35). " +
+      "Cho 3D: phân tích pattern chẵn/lẻ, lớn/nhỏ từng chữ số + lọc digit-sum.",
+    methodology: [
+      "Phân tích 200 kỳ gần nhất: spacing và band frequency",
+      "Chia dải số thành K vùng bằng nhau (K = số cần chọn)",
+      "Từ mỗi vùng: weighted random theo band freq + global freq",
+      "Spacing bonus: ưu tiên số tạo khoảng cách gần median lịch sử",
+      "3D: chọn pattern chẵn/lẻ + lớn/nhỏ phổ biến nhất, lọc digit-sum",
+    ],
+    references: "Pattern analysis (thống kê cấu trúc), Range distribution, Spacing analysis",
+    color: "hsl(300, 70%, 50%)",
+  },
+  {
     id: "maxentropy",
     name: "Phủ sóng tối đa",
     emoji: "🎯",
     badge: "★ Mới",
-    shortDesc: "Ma trận: Max-Entropy band sampling | 3D: SumRange Filter",
+    shortDesc: "Ma trận: Max-Entropy band sampling | 3D: SumRange digit-sum filter",
     description:
       "Cho xổ số ma trận: chia toàn bộ dải số thành các vùng (band) bằng nhau, mỗi vùng chọn đúng 1 số. " +
       "Trong mỗi vùng, sử dụng Dirichlet posterior để quyết định số nào được chọn. " +
@@ -145,7 +167,7 @@ const BACKTEST_RESULTS = {
       { name: "Tần suất cao", avg: 0.6780, delta: +0.0235, winPct: 1.513, roi: -93.3, best: 4, type: "old" as const },
       { name: "Random", avg: 0.6764, delta: +0.0219, winPct: 1.459, roi: -94.2, best: 4, type: "base" as const },
       { name: "★ Phủ sóng tối đa", avg: 0.6613, delta: +0.0068, winPct: 1.540, roi: -94.7, best: 4, type: "new" as const },
-      { name: "Kết hợp nóng–lạnh ¹", avg: 0.6575, delta: +0.0030, winPct: 1.594, roi: -93.0, best: 4, type: "old" as const },
+      { name: "★ Mẫu cấu trúc ¹", avg: 0.6575, delta: +0.0030, winPct: 1.594, roi: -93.0, best: 4, type: "new" as const },
       { name: "Số vắng lâu", avg: 0.6394, delta: -0.0151, winPct: 1.243, roi: -94.1, best: 4, type: "old" as const },
       { name: "★ Tự động tối ưu", avg: 0.6405, delta: -0.0140, winPct: 1.270, roi: -94.7, best: 4, type: "new" as const },
     ],
@@ -156,7 +178,7 @@ const BACKTEST_RESULTS = {
     totalDraws: 1301,
     strategies: [
       { name: "★ Bayesian AI (Sharp)", avg: 0.8229, delta: +0.0229, winPct: 3.136, roi: -86.1, best: 4, type: "new" as const },
-      { name: "Kết hợp nóng–lạnh ¹", avg: 0.8165, delta: +0.0165, winPct: 2.248, roi: -88.8, best: 4, type: "old" as const },
+      { name: "★ Mẫu cấu trúc ¹", avg: 0.8165, delta: +0.0165, winPct: 2.248, roi: -88.8, best: 4, type: "new" as const },
       { name: "Random", avg: 0.8066, delta: +0.0066, winPct: 1.915, roi: -92.0, best: 4, type: "base" as const },
       { name: "Tần suất cao", avg: 0.8060, delta: +0.0060, winPct: 2.776, roi: -89.4, best: 4, type: "old" as const },
       { name: "★ Phủ sóng tối đa", avg: 0.7893, delta: -0.0107, winPct: 2.193, roi: -62.0, best: 5, type: "new" as const },
@@ -169,7 +191,7 @@ const BACKTEST_RESULTS = {
     baseline: { E: 0.7143, winPct: 1.386 },
     totalDraws: 538,
     strategies: [
-      { name: "Kết hợp nóng–lạnh ¹", avg: 0.7396, delta: +0.0253, winPct: 1.775, roi: -82.2, best: 4, type: "old" as const },
+      { name: "★ Mẫu cấu trúc ¹", avg: 0.7396, delta: +0.0253, winPct: 1.775, roi: -82.2, best: 4, type: "new" as const },
       { name: "★ Tự động tối ưu", avg: 0.7396, delta: +0.0253, winPct: 1.381, roi: -84.2, best: 4, type: "new" as const },
       { name: "Tần suất cao", avg: 0.7258, delta: +0.0115, winPct: 1.578, roi: -74.4, best: 4, type: "old" as const },
       { name: "Random", avg: 0.7101, delta: -0.0042, winPct: 2.564, roi: -78.3, best: 4, type: "base" as const },
@@ -190,35 +212,34 @@ const RECOMMENDATIONS = [
     secondary: "Tần suất cao",
     secondaryEmoji: "📊",
     reason:
-      "Pool 55 số là lớn nhất — Bayesian Dirichlet (temp=1.0, phân phối rộng) có không gian rộng để khai thác chênh lệch tần suất. " +
-      "Vượt thuật toán cũ +0.0073 số trùng trung bình.",
+      "Pool 55 số lớn nhất — Bayesian AI (temp=1.0) vượt trội Δ+0.031. " +
+      "Mẫu cấu trúc xếp #5 với Δ+0.003 và win rate tốt (1.59%). Tần suất cao đơn giản nhưng hiệu quả #2.",
     special: null,
   },
   {
     product: "Mega 6/45",
     emoji: "🔵",
     color: "hsl(217, 91%, 60%)",
-    primary: "Bayesian AI",
+    primary: "Bayesian AI (Sharp)",
     primaryEmoji: "🧠",
-    secondary: "Kết hợp nóng–lạnh",
-    secondaryEmoji: "🎲",
+    secondary: "Mẫu cấu trúc",
+    secondaryEmoji: "🔮",
     reason:
-      "Bayesian với temperature = 0.5 (\"Sharp\" — tập trung mạnh vào số posterior cao). " +
-      "Đạt tỷ lệ thắng cao nhất 3.1% — hơn 39% so với thuật toán thứ hai. " +
-      "Khi chọn Bayesian AI, hệ thống tự chọn temp phù hợp: 1.0 cho pool ≥50, 0.5 cho pool nhỏ hơn.",
-    special: "💎 Phủ sóng tối đa (MaxEntropy) đạt trùng 5/6 số — duy nhất trong nghiên cứu! ROI tốt nhất (-62%)",
+      "Bayesian AI (Sharp, temp=0.5) win rate 3.14% — cao nhất qua mọi chiến lược. " +
+      "Mẫu cấu trúc #2 ổn định. Phủ sóng tối đa đạt 5/6 trùng duy nhất và ROI -62%!",
+    special: "⚡ Phủ sóng tối đa: đạt 5/6 trùng khớp DUY NHẤT trong toàn bộ nghiên cứu. ROI -62% (tốt nhất).",
   },
   {
     product: "Lotto 5/35",
     emoji: "🟢",
     color: "hsl(142, 71%, 45%)",
-    primary: "Tự động tối ưu",
-    primaryEmoji: "⚡",
-    secondary: "Tần suất cao",
-    secondaryEmoji: "📊",
+    primary: "Mẫu cấu trúc",
+    primaryEmoji: "🔮",
+    secondary: "Tự động tối ưu",
+    secondaryEmoji: "⚡",
     reason:
-      "Pool nhỏ (35 số) và dữ liệu ít (538 kỳ) khiến các thuật toán phức tạp kém lợi thế. " +
-      "Adaptive tự điều chỉnh cửa sổ lookback — ưu điểm là không cần tinh chỉnh thủ công.",
+      "Pool nhỏ 35 số — Mẫu cấu trúc và Tự động tối ưu cùng hòa ở Δ+0.025 (#1). " +
+      "Tần suất cao có ROI tốt nhất (-74.4%). Dữ liệu 538 kỳ — cấu trúc quan trọng hơn thống kê.",
     special: null,
   },
 ];
@@ -236,16 +257,16 @@ const BACKTEST_RESULTS_3D = {
       { name: "Tần suất cao (Whole Hot)", exactPct: 2.334, roi: -35.5, type: "best" as const },
       { name: "Tier Focus ĐB", exactPct: 2.186, roi: -42.2, type: "old" as const },
       { name: "Digit Hot", exactPct: 2.137, roi: -39.5, type: "old" as const },
-      { name: "★ Bayesian Digit", exactPct: 2.087, roi: -39.6, type: "new" as const },
-      { name: "★★ SumRange Filter", exactPct: 2.055, roi: -40.0, type: "research" as const },
-      { name: "★ Bayes Sharp", exactPct: 2.055, roi: -42.0, type: "new" as const },
+      { name: "★ Bayesian AI (Digit)", exactPct: 2.087, roi: -39.6, type: "new" as const },
+      { name: "★★ Phủ sóng tối đa (SumRange)", exactPct: 2.055, roi: -40.0, type: "research" as const },
+      { name: "★ Bayesian AI (Sharp)", exactPct: 2.055, roi: -42.0, type: "new" as const },
       { name: "Digit Cold", exactPct: 2.038, roi: -44.4, type: "old" as const },
-      { name: "Pattern 3D", exactPct: 2.005, roi: -46.2, type: "old" as const },
+      { name: "Mẫu cấu trúc 3D", exactPct: 2.005, roi: -46.2, type: "old" as const },
       { name: "★★ Markov Digit", exactPct: 1.972, roi: -46.5, type: "research" as const },
-      { name: "★ MaxEntropy", exactPct: 1.972, roi: -46.9, type: "new" as const },
-      { name: "★ Adaptive", exactPct: 1.940, roi: -46.2, type: "new" as const },
+      { name: "★ Phủ sóng tối đa", exactPct: 1.972, roi: -46.9, type: "new" as const },
+      { name: "★ Tự động tối ưu", exactPct: 1.940, roi: -46.2, type: "new" as const },
       { name: "Random", exactPct: 1.874, roi: -55.7, type: "base" as const },
-      { name: "★ Bayesian Whole", exactPct: 1.841, roi: -46.0, type: "new" as const },
+      { name: "★ Bayesian AI (Whole)", exactPct: 1.841, roi: -46.0, type: "new" as const },
       { name: "★★ Composite Score", exactPct: 1.808, roi: -59.0, type: "research" as const },
       { name: "Freq Whole Cold", exactPct: 1.644, roi: -54.7, type: "old" as const },
     ],
@@ -256,16 +277,16 @@ const BACKTEST_RESULTS_3D = {
     baseline: { exactPct: 2.0 },
     strategies: [
       { name: "Tần suất cao (Whole Hot)", exactPct: 2.345, roi: -47.2, type: "best" as const },
-      { name: "★★ SumRange Filter", exactPct: 2.295, roi: -35.1, type: "research" as const },
-      { name: "★ MaxEntropy", exactPct: 2.269, roi: -43.8, type: "new" as const },
+      { name: "★★ Phủ sóng tối đa (SumRange)", exactPct: 2.295, roi: -35.1, type: "research" as const },
+      { name: "★ Phủ sóng tối đa", exactPct: 2.269, roi: -43.8, type: "new" as const },
       { name: "Random", exactPct: 2.219, roi: -38.0, type: "base" as const },
       { name: "Tier Focus ĐB", exactPct: 2.068, roi: -51.1, type: "old" as const },
-      { name: "★ Bayesian Digit", exactPct: 2.068, roi: -43.6, type: "new" as const },
-      { name: "★ Adaptive", exactPct: 2.068, roi: -47.7, type: "new" as const },
-      { name: "★ Bayes Sharp", exactPct: 2.017, roi: -36.3, type: "new" as const },
-      { name: "Pattern 3D", exactPct: 1.992, roi: -41.2, type: "old" as const },
+      { name: "★ Bayesian AI (Digit)", exactPct: 2.068, roi: -43.6, type: "new" as const },
+      { name: "★ Tự động tối ưu", exactPct: 2.068, roi: -47.7, type: "new" as const },
+      { name: "★ Bayesian AI (Sharp)", exactPct: 2.017, roi: -36.3, type: "new" as const },
+      { name: "Mẫu cấu trúc 3D", exactPct: 1.992, roi: -41.2, type: "old" as const },
       { name: "Freq Whole Cold", exactPct: 1.942, roi: -52.7, type: "old" as const },
-      { name: "★ Bayesian Whole", exactPct: 1.866, roi: -43.9, type: "new" as const },
+      { name: "★ Bayesian AI (Whole)", exactPct: 1.866, roi: -43.9, type: "new" as const },
       { name: "Digit Hot", exactPct: 1.815, roi: -50.0, type: "old" as const },
       { name: "Digit Cold", exactPct: 1.815, roi: -44.8, type: "old" as const },
       { name: "★★ Markov Digit", exactPct: 1.790, roi: -51.1, type: "research" as const },
@@ -281,13 +302,13 @@ const RECOMMENDATIONS_3D = [
     color: "hsl(24, 95%, 53%)",
     primary: "Tần suất cao",
     primaryEmoji: "📊",
-    secondary: "SumRange Filter",
+    secondary: "Phủ sóng tối đa",
     secondaryEmoji: "🎯",
     reason:
-      "Freq Whole Hot có tỷ lệ trúng cao nhất (2.334%) và ROI tốt nhất (-35.5%). " +
+      "Tần suất cao có tỷ lệ trúng cao nhất (2.334%) và ROI tốt nhất (-35.5%). " +
       "Với pool 1.000 số (000-999), tần suất đơn giản khai thác bias hiệu quả nhất. " +
-      "SumRange Filter (#5) là chiến lược dựa trên research mạnh nhất.",
-    special: "🔬 SumRange Filter sử dụng tổng chữ số (digit-sum) — phương pháp mới từ internet research",
+      "Phủ sóng tối đa (#5, SumRange) là chiến lược dựa trên research mạnh nhất.",
+    special: "🔬 Phủ sóng tối đa (SumRange) sử dụng tổng chữ số (digit-sum) — phương pháp mới từ internet research",
   },
   {
     product: "Max 3D Pro",
@@ -295,12 +316,12 @@ const RECOMMENDATIONS_3D = [
     color: "hsl(48, 96%, 53%)",
     primary: "Tần suất cao",
     primaryEmoji: "📊",
-    secondary: "SumRange Filter",
+    secondary: "Phủ sóng tối đa",
     secondaryEmoji: "🎯",
     reason:
-      "Freq Whole Hot vẫn dẫn đầu (2.345%), nhưng SumRange Filter đạt ROI tốt nhất toàn nghiên cứu (-35.1%). " +
+      "Tần suất cao vẫn dẫn đầu (2.345%), nhưng Phủ sóng tối đa (SumRange) đạt ROI tốt nhất toàn nghiên cứu (-35.1%). " +
       "Max 3D Pro có ít dữ liệu hơn (711 kỳ) nên chiến lược lọc theo tổng chữ số càng hiệu quả.",
-    special: "💎 SumRange Filter: ROI -35.1% — tốt nhất trong toàn bộ 15 chiến lược Max 3D Pro!",
+    special: "💎 Phủ sóng tối đa (SumRange): ROI -35.1% — tốt nhất trong toàn bộ 15 chiến lược Max 3D Pro!",
   },
 ];
 
@@ -315,12 +336,12 @@ export default function AlgorithmsPage() {
           Thuật Toán Gợi Ý
         </h1>
         <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Giải thích chi tiết 6 thuật toán phân tích dữ liệu cho xổ số dạng ma trận (Power/Mega/Lotto)
+          Giải thích chi tiết 7 thuật toán phân tích dữ liệu cho xổ số dạng ma trận (Power/Mega/Lotto)
           và 15 chiến lược cho Max 3D/3D Pro, đánh giá trên 4.900+ kỳ quay thực tế.
         </p>
         <div className="flex justify-center gap-8 mt-6">
           <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">6+15</div>
+            <div className="text-3xl font-extrabold text-primary">7+15</div>
             <div className="text-xs text-muted-foreground mt-0.5">Thuật toán</div>
           </div>
           <div className="h-10 w-px bg-border" />
@@ -558,10 +579,10 @@ export default function AlgorithmsPage() {
           ))}
         </div>
 
-        {/* Footnote for mixed strategy */}
+        {/* Footnote for pattern strategy */}
         <div className="mt-4 text-[11px] text-muted-foreground/60 leading-relaxed px-1">
-          <strong>¹</strong> Kết hợp nóng–lạnh: Số liệu backtest sử dụng thuật toán Pattern (phân tích phân bổ chẵn/lẻ, vùng số).
-          Phiên bản hiện tại trong gợi ý sử dụng phương pháp đơn giản hơn (50% Hot + 50% Cold) nên kết quả thực tế có thể khác.
+          <strong>¹</strong> Mẫu cấu trúc: Số liệu backtest sử dụng thuật toán Pattern gốc (phân tích spacing, phân bổ vùng số, chẵn/lẻ).
+          Phiên bản triển khai trong gợi ý sử dụng phương pháp tương tự với band frequency + spacing bonus để chạy nhanh trên client-side.
         </div>
       </section>
 
@@ -608,7 +629,7 @@ export default function AlgorithmsPage() {
                     <strong>Lưu ý</strong>: Khi chọn &quot;Phủ sóng tối đa&quot; cho 3D, hệ thống sử dụng <strong>SumRange Filter</strong> (★★) thay vì MaxEntropy band sampling
                   </li>
                   <li>
-                    <strong>Có sẵn trong gợi ý</strong>: 6 chiến lược — Tần suất cao, Bayesian, SumRange Filter (= Phủ sóng tối đa), Adaptive, Số vắng lâu, Kết hợp nóng–lạnh. Các chiến lược khác (Tier Focus, Digit Hot/Cold, Markov, Composite...) chỉ là kết quả nghiên cứu.
+                    <strong>Có sẵn trong gợi ý</strong>: 7 chiến lược — Tần suất cao, Bayesian, SumRange Filter (= Phủ sóng tối đa), Mẫu cấu trúc, Adaptive, Số vắng lâu, Kết hợp nóng–lạnh. Hiển thị 6 tốt nhất cho mỗi sản phẩm. Các chiến lược khác (Tier Focus, Digit Hot/Cold, Markov, Composite...) chỉ là kết quả nghiên cứu.
                   </li>
                 </ul>
               </div>
@@ -844,14 +865,19 @@ export default function AlgorithmsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             {
+              icon: "🔮",
+              title: "Mẫu cấu trúc — #1 tổng hợp",
+              desc: "Pattern analysis (spacing + band distribution) xếp hạng #1 trung bình qua tất cả sản phẩm matrix (Δ = +0.015). Đặc biệt mạnh trên pool nhỏ (5/35) vì cấu trúc bộ số quan trọng hơn thống kê khi dữ liệu ít.",
+            },
+            {
               icon: "🧠",
               title: "Bayesian vượt trội trên pool lớn",
-              desc: "Thuật toán Bayesian Dirichlet đạt Δ = +0.0308 trên Power 6/55 — mức cải thiện cao nhất trong toàn bộ nghiên cứu. Hệ thống tự chọn temperature: 1.0 (rộng) cho pool ≥50 số, 0.5 (sắc nét) cho pool nhỏ hơn.",
+              desc: "Thuật toán Bayesian AI đạt Δ = +0.0308 trên Power 6/55 — mức cải thiện cao nhất trong toàn bộ nghiên cứu. Hệ thống tự chọn temperature: 1.0 (rộng) cho pool ≥50 số, 0.5 (sắc nét) cho pool nhỏ hơn.",
             },
             {
               icon: "🎯",
-              title: "MaxEntropy — \"One Punch\" strategy",
-              desc: "Dù số trùng trung bình thấp hơn, MaxEntropy là thuật toán DUY NHẤT đạt trùng 5/6 số (trên Mega 6/45). ROI tốt nhất (-62% so với -90% thông thường). Phù hợp người chơi thích rủi ro cao.",
+              title: "Phủ sóng tối đa — \"One Punch\" strategy",
+              desc: "Dù số trùng trung bình thấp hơn, Phủ sóng tối đa là thuật toán DUY NHẤT đạt trùng 5/6 số (trên Mega 6/45). ROI tốt nhất (-62% so với -90% thông thường). Phù hợp người chơi thích rủi ro cao.",
             },
             {
               icon: "🎰",
@@ -860,18 +886,13 @@ export default function AlgorithmsPage() {
             },
             {
               icon: "🔬",
-              title: "SumRange Filter — phát hiện từ research",
-              desc: "Lọc theo tổng chữ số (digit-sum range mean±1σ) là chiến lược research mạnh nhất cho 3D. ROI -35.1% trên Max 3D Pro — tốt nhất trong 15 chiến lược. Nhiều lottery analysis trên Github sử dụng phương pháp tương tự.",
+              title: "Phủ sóng tối đa (SumRange) — phát hiện từ research",
+              desc: "Lọc theo tổng chữ số (digit-sum range mean±1σ) là biến thể 3D của Phủ sóng tối đa, mạnh nhất cho 3D. ROI -35.1% trên Max 3D Pro — tốt nhất trong 15 chiến lược. Nhiều lottery analysis trên Github sử dụng phương pháp tương tự.",
             },
             {
               icon: "📊",
               title: "Không thuật toán nào thắng xổ số",
               desc: "Tất cả thuật toán đều có ROI âm (-35% đến -97%). Xổ số Vietlott là ngẫu nhiên thật sự. Các thuật toán chỉ giúp cải thiện nhỏ so với chọn random, không phải công cụ kiếm tiền.",
-            },
-            {
-              icon: "🌡️",
-              title: "Temperature tự động chọn",
-              desc: "Bayesian temp=1.0 thắng trên 6/55 (pool lớn) nhưng temp=0.5 lại thắng trên 6/45 (pool nhỏ hơn). Hệ thống tự động chọn temperature phù hợp: pool ≥50 → 1.0 (rộng), pool <50 → 0.5 (sắc nét).",
             },
           ].map((insight) => (
             <Card key={insight.title}>

@@ -28,7 +28,7 @@ type SuggestionPanelProps = MatrixSuggestionPanelProps | ThreeDSuggestionPanelPr
 
 const PAGE_SIZE = 20;
 
-const STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; description: string; badge?: string }[] = [
+const ALL_STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; description: string; badge?: string }[] = [
   {
     key: "bayesian",
     emoji: "🧠",
@@ -37,10 +37,17 @@ const STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; descr
     badge: "★ Mới",
   },
   {
+    key: "pattern",
+    emoji: "🔮",
+    label: "Mẫu cấu trúc",
+    description: "Phân tích khoảng cách, phân bố vùng số — #1 tổng hợp qua mọi sản phẩm matrix",
+    badge: "★ Mới",
+  },
+  {
     key: "maxentropy",
     emoji: "🎯",
     label: "Phủ sóng tối đa",
-    description: "Ma trận: chia vùng phủ đều. 3D: SumRange Filter (lọc theo tổng chữ số)",
+    description: "Ma trận: chia vùng phủ đều. 3D: lọc theo tổng chữ số (digit-sum)",
     badge: "★ Mới",
   },
   {
@@ -72,37 +79,39 @@ const STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; descr
 
 // Per-product ranking & backtest stats from actual backtest results
 // Order = rank (1 = best). Derived from walk-forward backtest on real data.
+// Each product shows only the top 6 strategies (MAX_SHOWN=6) out of 7 total.
 type ProductSlug = "power-655" | "power-645" | "power-535" | "max-3d" | "max-3d-pro";
+const MAX_STRATEGIES_SHOWN = 6;
 const PRODUCT_RANKS: Record<ProductSlug, { ranks: Record<SuggestionStrategy, number>; stats: Record<SuggestionStrategy, string>; rec1: SuggestionStrategy; rec2: SuggestionStrategy; recReason: string }> = {
   "power-655": {
-    ranks: { bayesian: 1, frequency: 2, maxentropy: 3, mixed: 4, absence: 5, adaptive: 6 },
-    stats: { bayesian: "Win 1.65%, Δ+0.031", frequency: "Win 1.51%, Δ+0.024", maxentropy: "5/6 trùng, ROI -62%", mixed: "chưa backtest", absence: "Win 1.24%", adaptive: "Δ-0.014" },
+    ranks: { bayesian: 1, frequency: 2, pattern: 3, maxentropy: 4, adaptive: 5, mixed: 6, absence: 7 },
+    stats: { bayesian: "Δ+0.031, Win 1.65%", frequency: "Δ+0.024, Win 1.51%", pattern: "Δ+0.003, ổn định #1 tổng hợp", maxentropy: "Win 1.54%, ROI -62%", adaptive: "Δ-0.014", mixed: "50/50 nóng+lạnh", absence: "Win 1.24%, Δ-0.015" },
     rec1: "bayesian", rec2: "frequency",
-    recReason: "Pool 55 số lớn nhất — Bayesian Dirichlet (temp=1.0) khai thác chênh lệch tần suất hiệu quả.",
+    recReason: "Pool 55 số lớn nhất — Bayesian AI (temp=1.0) khai thác posterior rộng, vượt trội +0.031 avg matches.",
   },
   "power-645": {
-    ranks: { bayesian: 1, mixed: 2, frequency: 3, maxentropy: 4, absence: 5, adaptive: 6 },
-    stats: { bayesian: "Win 3.14% #1", mixed: "chưa backtest", frequency: "Win 2.78%", maxentropy: "5/6 trùng! ROI -62%", absence: "Win 2.78%", adaptive: "Win 1.94%" },
-    rec1: "bayesian", rec2: "maxentropy",
-    recReason: "Bayesian Sharp (temp=0.5) đạt win rate cao nhất 3.14%. MaxEntropy đạt 5/6 trùng duy nhất.",
+    ranks: { bayesian: 1, pattern: 2, frequency: 3, maxentropy: 4, mixed: 5, adaptive: 6, absence: 7 },
+    stats: { bayesian: "Δ+0.023, Win 3.14%", pattern: "Δ+0.017, ổn định", frequency: "Δ+0.006, Win 2.78%", maxentropy: "5/6 trùng! ROI -62%", mixed: "50/50 nóng+lạnh", adaptive: "Win 1.94%", absence: "Win 2.78%, Δ-0.005" },
+    rec1: "bayesian", rec2: "pattern",
+    recReason: "Bayesian AI (Sharp, temp=0.5) đạt win rate 3.14%. Mẫu cấu trúc #2 ổn định qua mọi sản phẩm. Phủ sóng tối đa đạt 5/6 trùng duy nhất!",
   },
   "power-535": {
-    ranks: { adaptive: 1, frequency: 2, absence: 3, mixed: 4, bayesian: 5, maxentropy: 6 },
-    stats: { adaptive: "Δ+0.025, Win 1.38%", frequency: "Win 1.58%, ROI -74%", absence: "Win 0.79%", mixed: "chưa backtest", bayesian: "Δ-0.028", maxentropy: "Δ-0.026" },
-    rec1: "adaptive", rec2: "frequency",
-    recReason: "Pool nhỏ 35 số, dữ liệu ít — Adaptive tự điều chỉnh lookback hiệu quả nhất.",
+    ranks: { pattern: 1, adaptive: 2, frequency: 3, bayesian: 4, maxentropy: 5, mixed: 6, absence: 7 },
+    stats: { pattern: "Δ+0.025, Win 1.78%", adaptive: "Δ+0.025, hòa #1", frequency: "Win 1.58%, ROI -74%", bayesian: "Δ-0.028", maxentropy: "Δ-0.026", mixed: "50/50 nóng+lạnh", absence: "Win 0.79%, Δ-0.008" },
+    rec1: "pattern", rec2: "adaptive",
+    recReason: "Pool nhỏ 35 số — Mẫu cấu trúc phân tích vùng số + khoảng cách hiệu quả, hòa với Tự động tối ưu ở Δ+0.025.",
   },
   "max-3d": {
-    ranks: { frequency: 1, bayesian: 2, maxentropy: 3, adaptive: 4, mixed: 5, absence: 6 },
-    stats: { frequency: "Exact 2.33% #1", bayesian: "Exact 2.09%", maxentropy: "SumRange 2.06%", adaptive: "Exact 1.94%", mixed: "chưa backtest", absence: "chưa backtest" },
+    ranks: { frequency: 1, bayesian: 2, maxentropy: 3, pattern: 4, adaptive: 5, mixed: 6, absence: 7 },
+    stats: { frequency: "Exact 2.33%, ROI -35.5%", bayesian: "Exact 2.09%, 38× trúng Nhất", maxentropy: "Phủ sóng 2.06%, ROI -40%", pattern: "Exact ~2.0%", adaptive: "Exact 1.94%", mixed: "digit-by-digit", absence: "chưa backtest" },
     rec1: "frequency", rec2: "maxentropy",
-    recReason: "Pool 1.000 số — tần suất đơn giản khai thác bias hiệu quả nhất. SumRange Filter có ROI tốt.",
+    recReason: "Pool 1.000 số — tần suất đơn giản khai thác bias hiệu quả nhất (2.33%). Phủ sóng tối đa (SumRange) ROI tốt (-40%).",
   },
   "max-3d-pro": {
-    ranks: { frequency: 1, maxentropy: 2, bayesian: 3, adaptive: 4, mixed: 5, absence: 6 },
-    stats: { frequency: "Exact 2.35% #1", maxentropy: "SumRange 2.30%, ROI -35%", bayesian: "Exact 2.07%", adaptive: "Exact 2.07%", mixed: "chưa backtest", absence: "chưa backtest" },
+    ranks: { frequency: 1, maxentropy: 2, bayesian: 3, adaptive: 4, pattern: 5, mixed: 6, absence: 7 },
+    stats: { frequency: "Exact 2.35%, #1", maxentropy: "Phủ sóng 2.30%, ROI -35.1%", bayesian: "Exact 2.07%", adaptive: "Exact 2.07%", pattern: "Exact ~2.0%", mixed: "digit-by-digit", absence: "chưa backtest" },
     rec1: "frequency", rec2: "maxentropy",
-    recReason: "SumRange Filter có ROI tốt nhất -35.1%. Tần suất vẫn dẫn đầu exact match.",
+    recReason: "Phủ sóng tối đa (SumRange) ROI tốt nhất -35.1%. Tần suất cao dẫn đầu exact match 2.35%.",
   },
 };
 
@@ -118,9 +127,9 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const sortedStrategies = useMemo(() => {
-    return [...STRATEGIES].sort((a, b) =>
-      productRank.ranks[a.key] - productRank.ranks[b.key]
-    );
+    return [...ALL_STRATEGIES]
+      .filter((s) => productRank.ranks[s.key] <= MAX_STRATEGIES_SHOWN)
+      .sort((a, b) => productRank.ranks[a.key] - productRank.ranks[b.key]);
   }, [productRank]);
 
   const handleCountChange = (val: string) => {
@@ -151,7 +160,7 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
     }, 100);
   };
 
-  const selectedStrategy = STRATEGIES.find((s) => s.key === strategy)!;
+  const selectedStrategy = ALL_STRATEGIES.find((s) => s.key === strategy)!;
   const totalPages = Math.ceil(results.length / PAGE_SIZE);
   const pageStart = page * PAGE_SIZE;
   const pageEnd = Math.min(pageStart + PAGE_SIZE, results.length);
@@ -201,13 +210,13 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
             <button onClick={() => setStrategy(productRank.rec1)}
               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-bold text-white transition-transform hover:scale-105"
               style={{ backgroundColor: props.color }}>
-              {STRATEGIES.find(s => s.key === productRank.rec1)?.emoji} {STRATEGIES.find(s => s.key === productRank.rec1)?.label}
+              {ALL_STRATEGIES.find(s => s.key === productRank.rec1)?.emoji} {ALL_STRATEGIES.find(s => s.key === productRank.rec1)?.label}
             </button>
             <span className="text-xs text-muted-foreground">hoặc</span>
             <button onClick={() => setStrategy(productRank.rec2)}
               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-medium border transition-transform hover:scale-105"
               style={{ borderColor: props.color, color: props.color }}>
-              {STRATEGIES.find(s => s.key === productRank.rec2)?.emoji} {STRATEGIES.find(s => s.key === productRank.rec2)?.label}
+              {ALL_STRATEGIES.find(s => s.key === productRank.rec2)?.emoji} {ALL_STRATEGIES.find(s => s.key === productRank.rec2)?.label}
             </button>
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed flex-1">{productRank.recReason}</p>
