@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- SEO Meta Tags - Vietnamese (Default) -->
+        <title
+            data-vi="🎰 Vietlott Data - Thu thập và Phân tích Dữ liệu Xổ số Việt Nam"
+            data-en="🎰 Vietlott Data - Vietnamese Lottery Analytics"
+        >
+            🎰 Vietlott Data - Thu thập và Phân tích Dữ liệu Xổ số Việt Nam
+        </title>
+        <meta
+            name="description"
+            data-vi="Dự án tự động thu thập và phân tích dữ liệu xổ số Việt Nam từ vietlott.vn, cung cấp thống kê và phân tích toàn diện cho tất cả các sản phẩm xổ số chính."
+            data-en="Automated Vietnamese lottery data collection & analysis from vietlott.vn, providing comprehensive statistics and insights for all major lottery products."
+            content="Dự án tự động thu thập và phân tích dữ liệu xổ số Việt Nam từ vietlott.vn, cung cấp thống kê và phân tích toàn diện cho tất cả các sản phẩm xổ số chính."
+        />
+        <meta
+            name="keywords"
+            content="vietlott, xổ số việt nam, power 655, power 645, keno, max 3d, lottery data, lottery analytics, dữ liệu xổ số, phân tích xổ số, mega 645, mega 655"
+        />
+        <meta name="author" content="vietvudanh" />
+        <meta name="robots" content="index, follow" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta
+            property="og:url"
+            content="https://vietvudanh.github.io/vietlott-data/"
+        />
+        <meta
+            property="og:title"
+            data-vi="🎰 Vietlott Data - Thu thập và Phân tích Dữ liệu Xổ số Việt Nam"
+            data-en="🎰 Vietlott Data - Vietnamese Lottery Analytics"
+            content="🎰 Vietlott Data - Thu thập và Phân tích Dữ liệu Xổ số Việt Nam"
+        />
+        <meta
+            property="og:description"
+            data-vi="Dự án tự động thu thập và phân tích dữ liệu xổ số Việt Nam từ vietlott.vn, cung cấp thống kê và phân tích toàn diện cho tất cả các sản phẩm xổ số chính."
+            data-en="Automated Vietnamese lottery data collection & analysis from vietlott.vn, providing comprehensive statistics and insights for all major lottery products."
+            content="Dự án tự động thu thập và phân tích dữ liệu xổ số Việt Nam từ vietlott.vn, cung cấp thống kê và phân tích toàn diện cho tất cả các sản phẩm xổ số chính."
+        />
+        <meta
+            property="og:image"
+            content="https://vietvudanh.github.io/vietlott-data/og-image.png"
+        />
+        <meta property="og:locale" content="vi_VN" />
+        <meta property="og:locale:alternate" content="en_US" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+            name="twitter:url"
+            content="https://vietvudanh.github.io/vietlott-data/"
+        />
+        <meta
+            name="twitter:title"
+            data-vi="🎰 Vietlott Data - Thu thập và Phân tích Dữ liệu Xổ số Việt Nam"
+            data-en="🎰 Vietlott Data - Vietnamese Lottery Analytics"
+            content="🎰 Vietlott Data - Thu thập và Phân tích Dữ liệu Xổ số Việt Nam"
+        />
+        <meta
+            name="twitter:description"
+            data-vi="Dự án tự động thu thập và phân tích dữ liệu xổ số Việt Nam từ vietlott.vn, cung cấp thống kê và phân tích toàn diện cho tất cả các sản phẩm xổ số chính."
+            data-en="Automated Vietnamese lottery data collection & analysis from vietlott.vn, providing comprehensive statistics and insights for all major lottery products."
+            content="Dự án tự động thu thập và phân tích dữ liệu xổ số Việt Nam từ vietlott.vn, cung cấp thống kê và phân tích toàn diện cho tất cả các sản phẩm xổ số chính."
+        />
+        <meta
+            name="twitter:image"
+            content="https://vietvudanh.github.io/vietlott-data/og-image.png"
+        />
+
+        <!-- Canonical URL -->
+        <link
+            rel="canonical"
+            href="https://vietvudanh.github.io/vietlott-data/"
+        />
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;900&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="styles.css" />
+
+        <!-- Favicon -->
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎰</text></svg>"
+        />
+    </head>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-BQHSD144BE"
+    ></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "G-BQHSD144BE");
+    </script>
+
+    <body>
+        <div class="container">
+            <!-- Language Toggle -->
+            <div class="language-toggle">
+                <button class="lang-btn" data-lang="vi">🇻🇳 Tiếng Việt</button>
+                <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+            </div>
+
+            <!-- Header -->
+            <header class="header">
+                <h1 class="title">🎰 Vietlott Data</h1>
+                <p
+                    class="subtitle"
+                    data-vi="Thu thập và Phân tích Dữ liệu Xổ số Việt Nam Tự động"
+                    data-en="Automated Vietnamese Lottery Data Collection & Analysis"
+                >
+                    Thu thập và Phân tích Dữ liệu Xổ số Việt Nam Tự động
+                </p>
+                <div class="badges">
+                    <a
+                        href="https://github.com/vietvudanh/vietlott-data/actions"
+                        class="badge"
+                    >
+                        <span>GitHub Actions</span>
+                    </a>
+                    <a href="https://www.python.org/downloads/" class="badge">
+                        <span>Python 3.8+</span>
+                    </a>
+                    <a
+                        href="https://github.com/vietvudanh/vietlott-data/blob/main/LICENSE"
+                        class="badge"
+                    >
+                        <span>MIT License</span>
+                    </a>
+                    <span class="badge badge-green">
+                        <span
+                            data-vi="Cập nhật hàng ngày"
+                            data-en="Daily Updated"
+                            >Cập nhật hàng ngày</span
+                        >
+                    </span>
+
+                    <a
+                        href="https://open.substack.com/pub/vietvudanh/p/minh-a-tao-repo-vietlott-data-the"
+                        class="badge"
+                        target="_blank"
+                    >
+                        <span data-vi="📝 Bài viết Blog" data-en="📝 Blog Post"
+                            >📝 Bài viết Blog</span
+                        >
+                    </a>
+                </div>
+            </header>
+
+            <!-- Description -->
+            <section class="section">
+                <div class="card">
+                    <h2
+                        data-vi="📊 Giới thiệu Dự án"
+                        data-en="📊 About This Project"
+                    >
+                        📊 Giới thiệu Dự án
+                    </h2>
+                    <p
+                        data-vi="Dự án này tự động thu thập và phân tích dữ liệu xổ số Việt Nam từ vietlott.vn, cung cấp thống kê và phân tích toàn diện cho tất cả các sản phẩm xổ số chính."
+                        data-en="This project automatically crawls and analyzes Vietnamese lottery data from vietlott.vn, providing comprehensive statistics and insights for all major lottery products."
+                    >
+                        Dự án này tự động thu thập và phân tích dữ liệu xổ số
+                        Việt Nam từ
+                        <a href="https://vietlott.vn/" target="_blank"
+                            >vietlott.vn</a
+                        >, cung cấp thống kê và phân tích toàn diện cho tất cả
+                        các sản phẩm xổ số chính.
+                    </p>
+                </div>
+            </section>
+
+            <!-- BEGIN_MACHINE_LEARNING_SECTION -->
+            <section class="section">
+                <h2
+                    class="section-title"
+                    data-vi="🔮 Phân tích Machine Learning"
+                    data-en="🔮 Machine Learning Predictions"
+                >
+                    🔮 Phân tích Machine Learning
+                </h2>
+                <div class="card">
+                    <p
+                        data-vi="Các dự đoán máy học chi tiết nằm trong README Machine Learning."
+                        data-en="Detailed machine learning predictions live in the Machine Learning README."
+                    >
+                        Các dự đoán máy học chi tiết nằm trong
+                        <a href="https://github.com/vietvudanh/vietlott-data/blob/main/src/machine_learning" target="_blank" rel="noreferrer"
+                            >README Machine Learning</a
+                        >.
+                    </p>
+                </div>
+            </section>
+            <!-- END_MACHINE_LEARNING_SECTION -->
+
+            <!-- Supported Products -->
+            <section class="section">
+                <h2
+                    class="section-title"
+                    data-vi="🎯 Các Sản phẩm Xổ số được Hỗ trợ"
+                    data-en="🎯 Supported Lottery Products"
+                >
+                    🎯 Các Sản phẩm Xổ số được Hỗ trợ
+                </h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-header">
+                            <h3>Power 6/55</h3>
+                            <span class="product-tag">🔴</span>
+                        </div>
+                        <p
+                            data-vi="Chọn 6 số từ 1-55"
+                            data-en="Choose 6 numbers from 1-55"
+                        >
+                            Chọn 6 số từ 1-55
+                        </p>
+                        <a
+                            href="https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/655"
+                            class="btn btn-primary"
+                            target="_blank"
+                        >
+                            <span
+                                data-vi="Xem Kết quả →"
+                                data-en="View Results →"
+                                >Xem Kết quả →</span
+                            >
+                        </a>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-header">
+                            <h3>Power 6/45</h3>
+                            <span class="product-tag">🔵</span>
+                        </div>
+                        <p
+                            data-vi="Chọn 6 số từ 1-45"
+                            data-en="Choose 6 numbers from 1-45"
+                        >
+                            Chọn 6 số từ 1-45
+                        </p>
+                        <a
+                            href="https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/645"
+                            class="btn btn-primary"
+                            target="_blank"
+                        >
+                            <span
+                                data-vi="Xem Kết quả →"
+                                data-en="View Results →"
+                                >Xem Kết quả →</span
+                            >
+                        </a>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-header">
+                            <h3>Power 5/35</h3>
+                            <span class="product-tag">🟢</span>
+                        </div>
+                        <p
+                            data-vi="Chọn 5 số từ 1-35"
+                            data-en="Choose 5 numbers from 1-35"
+                        >
+                            Chọn 5 số từ 1-35
+                        </p>
+                        <a
+                            href="https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/535"
+                            class="btn btn-primary"
+                            target="_blank"
+                        >
+                            <span
+                                data-vi="Xem Kết quả →"
+                                data-en="View Results →"
+                                >Xem Kết quả →</span
+                            >
+                        </a>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-header">
+                            <h3>Keno</h3>
+                            <span class="product-tag">🟡</span>
+                        </div>
+                        <p
+                            data-vi="Trò chơi số nhanh"
+                            data-en="Fast-pace number game"
+                        >
+                            Trò chơi số nhanh
+                        </p>
+                        <a
+                            href="https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno"
+                            class="btn btn-primary"
+                            target="_blank"
+                        >
+                            <span
+                                data-vi="Xem Kết quả →"
+                                data-en="View Results →"
+                                >Xem Kết quả →</span
+                            >
+                        </a>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-header">
+                            <h3>Max 3D</h3>
+                            <span class="product-tag">🟣</span>
+                        </div>
+                        <p
+                            data-vi="Trò chơi xổ số 3 chữ số"
+                            data-en="3-digit lottery game"
+                        >
+                            Trò chơi xổ số 3 chữ số
+                        </p>
+                        <a
+                            href="https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/max-3d"
+                            class="btn btn-primary"
+                            target="_blank"
+                        >
+                            <span
+                                data-vi="Xem Kết quả →"
+                                data-en="View Results →"
+                                >Xem Kết quả →</span
+                            >
+                        </a>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-header">
+                            <h3>Max 3D Pro</h3>
+                            <span class="product-tag">🟠</span>
+                        </div>
+                        <p
+                            data-vi="Xổ số 3D nâng cao"
+                            data-en="Enhanced 3D lottery"
+                        >
+                            Xổ số 3D nâng cao
+                        </p>
+                        <a
+                            href="https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/max-3dpro"
+                            class="btn btn-primary"
+                            target="_blank"
+                        >
+                            <span
+                                data-vi="Xem Kết quả →"
+                                data-en="View Results →"
+                                >Xem Kết quả →</span
+                            >
+                        </a>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-header">
+                            <h3>Bingo18</h3>
+                            <span class="product-tag">⚪</span>
+                        </div>
+                        <p
+                            data-vi="Trò chơi 3 số từ 0-9"
+                            data-en="3 numbers from 0-9 game"
+                        >
+                            Trò chơi 3 số từ 0-9
+                        </p>
+                        <a
+                            href="https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-bingo18"
+                            class="btn btn-primary"
+                            target="_blank"
+                        >
+                            <span
+                                data-vi="Xem Kết quả →"
+                                data-en="View Results →"
+                                >Xem Kết quả →</span
+                            >
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Statistics -->
+            <section class="section">
+                <h2
+                    class="section-title"
+                    data-vi="📊 Thống kê Dữ liệu"
+                    data-en="📊 Data Statistics"
+                >
+                    📊 Thống kê Dữ liệu
+                </h2>
+                <div class="card">
+                    <div class="stats-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th data-vi="Sản phẩm" data-en="Product">
+                                        Sản phẩm
+                                    </th>
+                                    <th
+                                        data-vi="Tổng số kỳ"
+                                        data-en="Total Draws"
+                                    >
+                                        Tổng số kỳ
+                                    </th>
+                                    <th
+                                        data-vi="Ngày bắt đầu"
+                                        data-en="Start Date"
+                                    >
+                                        Ngày bắt đầu
+                                    </th>
+                                    <th
+                                        data-vi="Ngày kết thúc"
+                                        data-en="End Date"
+                                    >
+                                        Ngày kết thúc
+                                    </th>
+                                    <th
+                                        data-vi="Tổng số bản ghi"
+                                        data-en="Total Records"
+                                    >
+                                        Tổng số bản ghi
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Power 655</strong></td>
+                                    <td>1,325</td>
+                                    <td>2017-08-01</td>
+                                    <td>2026-03-28</td>
+                                    <td>1,325</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Power 645</strong></td>
+                                    <td>1,293</td>
+                                    <td>2017-10-25</td>
+                                    <td>2026-03-29</td>
+                                    <td>1,293</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Power 535</strong></td>
+                                    <td>250</td>
+                                    <td>2025-06-29</td>
+                                    <td>2026-03-30</td>
+                                    <td>500</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Keno</strong></td>
+                                    <td>501</td>
+                                    <td>2022-12-04</td>
+                                    <td>2026-03-31</td>
+                                    <td>63,249</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3D</strong></td>
+                                    <td>1,056</td>
+                                    <td>2019-04-22</td>
+                                    <td>2026-03-30</td>
+                                    <td>1,056</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3D Pro</strong></td>
+                                    <td>702</td>
+                                    <td>2021-09-14</td>
+                                    <td>2026-03-28</td>
+                                    <td>702</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bingo18</strong></td>
+                                    <td>475</td>
+                                    <td>2024-12-03</td>
+                                    <td>2026-03-31</td>
+                                    <td>54,859</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Days Since Last Appearance (Power 6/55) -->
+            <!-- BEGIN_DAYS_SINCE_SECTION -->
+            <section class="section">
+                <h2
+                    class="section-title"
+                    data-vi="⏳ Phân tích Power 6/55 - Số ngày vắng mặt"
+                    data-en="⏳ Power 6/55 - Days Since Last Appearance"
+                >
+                    ⏳ Power 6/55 - Days Since Last Appearance
+                </h2>
+                <div class="card">
+                    <h3
+                        data-vi="🔟 Top 10 số lâu chưa xuất hiện"
+                        data-en="🔟 Top 10 Numbers by Days Since Last Appearance"
+                    >
+                        🔟 Top 10 số lâu chưa xuất hiện
+                    </h3>
+                    <div class="stats-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th data-vi="Số" data-en="Number">Số</th>
+                                    <th data-vi="Lần xuất hiện cuối" data-en="Last Appearance">Lần xuất hiện cuối</th>
+                                    <th data-vi="Số ngày vắng mặt" data-en="Days Since">Số ngày vắng mặt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>23</strong></td>
+                                    <td>2026-01-17</td>
+                                    <td>70</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>24</strong></td>
+                                    <td>2026-01-24</td>
+                                    <td>63</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>49</strong></td>
+                                    <td>2026-01-31</td>
+                                    <td>56</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>11</strong></td>
+                                    <td>2026-01-31</td>
+                                    <td>56</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>15</strong></td>
+                                    <td>2026-02-07</td>
+                                    <td>49</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2</strong></td>
+                                    <td>2026-02-14</td>
+                                    <td>42</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>48</strong></td>
+                                    <td>2026-02-19</td>
+                                    <td>37</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>18</strong></td>
+                                    <td>2026-02-24</td>
+                                    <td>32</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>5</strong></td>
+                                    <td>2026-02-24</td>
+                                    <td>32</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>8</strong></td>
+                                    <td>2026-02-24</td>
+                                    <td>32</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:1rem">
+                    <h3
+                        data-vi="📆 Số ngày từ lần xuất hiện cuối cùng (tất cả các số)"
+                        data-en="📆 Days Since Last Appearance (All Numbers)"
+                    >
+                        📆 Số ngày từ lần xuất hiện cuối cùng (tất cả các số)
+                    </h3>
+                    <div class="stats-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th data-vi="Số" data-en="Number">Số</th>
+                                    <th data-vi="Lần xuất hiện cuối" data-en="Last Appearance">Lần xuất hiện cuối</th>
+                                    <th data-vi="Số ngày vắng mặt" data-en="Days Since">Số ngày vắng mặt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1</strong></td>
+                                    <td>2026-03-21</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2</strong></td>
+                                    <td>2026-02-14</td>
+                                    <td>42</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3</strong></td>
+                                    <td>2026-03-26</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4</strong></td>
+                                    <td>2026-03-07</td>
+                                    <td>21</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>5</strong></td>
+                                    <td>2026-02-24</td>
+                                    <td>32</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>6</strong></td>
+                                    <td>2026-03-21</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>7</strong></td>
+                                    <td>2026-03-28</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>8</strong></td>
+                                    <td>2026-02-24</td>
+                                    <td>32</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>9</strong></td>
+                                    <td>2026-03-26</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>10</strong></td>
+                                    <td>2026-03-26</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>11</strong></td>
+                                    <td>2026-01-31</td>
+                                    <td>56</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>12</strong></td>
+                                    <td>2026-03-24</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>13</strong></td>
+                                    <td>2026-03-28</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>14</strong></td>
+                                    <td>2026-03-05</td>
+                                    <td>23</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>15</strong></td>
+                                    <td>2026-02-07</td>
+                                    <td>49</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>16</strong></td>
+                                    <td>2026-03-14</td>
+                                    <td>14</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>17</strong></td>
+                                    <td>2026-03-19</td>
+                                    <td>9</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>18</strong></td>
+                                    <td>2026-02-24</td>
+                                    <td>32</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>19</strong></td>
+                                    <td>2026-03-24</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>20</strong></td>
+                                    <td>2026-03-10</td>
+                                    <td>18</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>21</strong></td>
+                                    <td>2026-03-28</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>22</strong></td>
+                                    <td>2026-02-28</td>
+                                    <td>28</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>23</strong></td>
+                                    <td>2026-01-17</td>
+                                    <td>70</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>24</strong></td>
+                                    <td>2026-01-24</td>
+                                    <td>63</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>25</strong></td>
+                                    <td>2026-03-24</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>26</strong></td>
+                                    <td>2026-03-24</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>27</strong></td>
+                                    <td>2026-03-14</td>
+                                    <td>14</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>28</strong></td>
+                                    <td>2026-03-17</td>
+                                    <td>11</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>29</strong></td>
+                                    <td>2026-03-14</td>
+                                    <td>14</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>30</strong></td>
+                                    <td>2026-03-28</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>31</strong></td>
+                                    <td>2026-03-19</td>
+                                    <td>9</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>32</strong></td>
+                                    <td>2026-03-24</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>33</strong></td>
+                                    <td>2026-03-28</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>34</strong></td>
+                                    <td>2026-03-26</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>35</strong></td>
+                                    <td>2026-03-05</td>
+                                    <td>23</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>36</strong></td>
+                                    <td>2026-03-19</td>
+                                    <td>9</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>37</strong></td>
+                                    <td>2026-03-05</td>
+                                    <td>23</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>38</strong></td>
+                                    <td>2026-03-26</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>39</strong></td>
+                                    <td>2026-03-28</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>40</strong></td>
+                                    <td>2026-03-21</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>41</strong></td>
+                                    <td>2026-03-07</td>
+                                    <td>21</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>42</strong></td>
+                                    <td>2026-03-28</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>43</strong></td>
+                                    <td>2026-03-21</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>44</strong></td>
+                                    <td>2026-03-26</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>45</strong></td>
+                                    <td>2026-03-24</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>46</strong></td>
+                                    <td>2026-02-26</td>
+                                    <td>30</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>47</strong></td>
+                                    <td>2026-03-21</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>48</strong></td>
+                                    <td>2026-02-19</td>
+                                    <td>37</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>49</strong></td>
+                                    <td>2026-01-31</td>
+                                    <td>56</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>50</strong></td>
+                                    <td>2026-03-17</td>
+                                    <td>11</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>51</strong></td>
+                                    <td>2026-03-26</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>52</strong></td>
+                                    <td>2026-03-17</td>
+                                    <td>11</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>53</strong></td>
+                                    <td>2026-03-21</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>54</strong></td>
+                                    <td>2026-03-17</td>
+                                    <td>11</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>55</strong></td>
+                                    <td>2026-03-19</td>
+                                    <td>9</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <!-- END_DAYS_SINCE_SECTION -->
+
+            <!-- How It Works -->
+            <section class="section">
+                <h2
+                    class="section-title"
+                    data-vi="⚙️ Cách Hoạt động"
+                    data-en="⚙️ How It Works"
+                >
+                    ⚙️ Cách Hoạt động
+                </h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⏰</div>
+                        <h3
+                            data-vi="Lịch trình Tự động"
+                            data-en="Automated Schedule"
+                        >
+                            Lịch trình Tự động
+                        </h3>
+                        <p
+                            data-vi="Chạy hàng ngày qua GitHub Actions - không cần máy chủ!"
+                            data-en="Runs daily via GitHub Actions - no server required!"
+                        >
+                            Chạy hàng ngày qua GitHub Actions - không cần máy
+                            chủ!
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h3 data-vi="Xử lý Dữ liệu" data-en="Data Processing">
+                            Xử lý Dữ liệu
+                        </h3>
+                        <p
+                            data-vi="Lấy kết quả mới nhất, xử lý dữ liệu và commit vào repository"
+                            data-en="Fetches latest results, processes data, and commits to repository"
+                        >
+                            Lấy kết quả mới nhất, xử lý dữ liệu và commit vào
+                            repository
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 data-vi="Phân tích" data-en="Analysis">
+                            Phân tích
+                        </h3>
+                        <p
+                            data-vi="Tạo thống kê và tự động cập nhật README"
+                            data-en="Generates statistics and updates README automatically"
+                        >
+                            Tạo thống kê và tự động cập nhật README
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3 data-vi="Phân tích Mạng" data-en="Network Analysis">
+                            Phân tích Mạng
+                        </h3>
+                        <p
+                            data-vi="Kiểm tra giao tiếp trình duyệt-máy chủ để hiểu luồng dữ liệu"
+                            data-en="Inspects browser-server communication to understand data flow"
+                        >
+                            Kiểm tra giao tiếp trình duyệt-máy chủ để hiểu luồng
+                            dữ liệu
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🐍</div>
+                        <h3
+                            data-vi="Sao chép Python"
+                            data-en="Python Replication"
+                        >
+                            Sao chép Python
+                        </h3>
+                        <p
+                            data-vi="Tái tạo logic lấy dữ liệu bằng Python để tự động hóa"
+                            data-en="Recreates data fetch logic in Python for automation"
+                        >
+                            Tái tạo logic lấy dữ liệu bằng Python để tự động hóa
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📋</div>
+                        <h3
+                            data-vi="Lưu trữ có Cấu trúc"
+                            data-en="Structured Storage"
+                        >
+                            Lưu trữ có Cấu trúc
+                        </h3>
+                        <p
+                            data-vi="Lưu kết quả dưới định dạng JSONL để phân tích dễ dàng"
+                            data-en="Saves results in JSONL format for easy analysis"
+                        >
+                            Lưu kết quả dưới định dạng JSONL để phân tích dễ
+                            dàng
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Installation -->
+            <section class="section">
+                <h2
+                    class="section-title"
+                    data-vi="🚀 Cài đặt & Sử dụng"
+                    data-en="🚀 Installation & Usage"
+                >
+                    🚀 Cài đặt & Sử dụng
+                </h2>
+                <div class="card">
+                    <h3
+                        data-vi="📦 Cài đặt qua pip"
+                        data-en="📦 Install via pip"
+                    >
+                        📦 Cài đặt qua pip
+                    </h3>
+                    <div class="code-block">
+                        <code
+                            >pip install -i https://test.pypi.org/simple/
+                            vietlott-data</code
+                        >
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem">
+                        <em
+                            ><span data-vi="Kiểm tra" data-en="Check"
+                                >Kiểm tra</span
+                            >
+                            <a
+                                href="https://github.com/vietvudanh/vietlott-data/releases"
+                                target="_blank"
+                                >releases</a
+                            >
+                            <span
+                                data-vi="để biết phiên bản mới nhất"
+                                data-en="for the latest version"
+                                >để biết phiên bản mới nhất</span
+                            ></em
+                        >
+                    </p>
+
+                    <h3
+                        data-vi="💻 Giao diện Dòng lệnh"
+                        data-en="💻 Command Line Interface"
+                    >
+                        💻 Giao diện Dòng lệnh
+                    </h3>
+                    <div class="cli-examples">
+                        <div class="cli-example">
+                            <h4
+                                data-vi="🔍 Thu thập Dữ liệu"
+                                data-en="🔍 Crawl Data"
+                            >
+                                🔍 Thu thập Dữ liệu
+                            </h4>
+                            <div class="code-block">
+                                <code>vietlott-crawl [OPTIONS] PRODUCT</code>
+                            </div>
+                        </div>
+
+                        <div class="cli-example">
+                            <h4
+                                data-vi="🔧 Điền Dữ liệu Thiếu"
+                                data-en="🔧 Backfill Missing Data"
+                            >
+                                🔧 Điền Dữ liệu Thiếu
+                            </h4>
+                            <div class="code-block">
+                                <code>vietlott-missing [OPTIONS] PRODUCT</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Disclaimer -->
+            <section class="section">
+                <div class="card disclaimer">
+                    <h3
+                        data-vi="⚠️ Tuyên bố Miễn trừ Trách nhiệm"
+                        data-en="⚠️ Disclaimer"
+                    >
+                        ⚠️ Tuyên bố Miễn trừ Trách nhiệm
+                    </h3>
+                    <p
+                        data-vi="Dự án này chỉ dành cho mục đích giáo dục và nghiên cứu. Kết quả xổ số là ngẫu nhiên và không thể dự đoán chính xác. Không cung cấp bất kỳ lời khuyên đánh bạc nào."
+                        data-en="This is purely for educational and research purposes. Lottery outcomes are random and cannot be predicted reliably. No gambling advice is provided."
+                    >
+                        Dự án này chỉ dành cho mục đích giáo dục và nghiên cứu.
+                        Kết quả xổ số là ngẫu nhiên và không thể dự đoán chính
+                        xác. Không cung cấp bất kỳ lời khuyên đánh bạc nào.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>
+                    <a
+                        href="https://github.com/vietvudanh/vietlott-data"
+                        class="btn btn-secondary"
+                        target="_blank"
+                    >
+                        <span
+                            data-vi="⭐ Star trên GitHub"
+                            data-en="⭐ Star on GitHub"
+                            >⭐ Star trên GitHub</span
+                        >
+                    </a>
+                </p>
+                <p class="footer-text">
+                    <span
+                        data-vi="Được cấp phép theo Giấy phép MIT"
+                        data-en="Licensed under MIT License"
+                        >Được cấp phép theo Giấy phép MIT</span
+                    >
+                    |
+                    <a
+                        href="https://github.com/vietvudanh/vietlott-data/blob/main/LICENSE"
+                        target="_blank"
+                        data-vi="Xem Giấy phép"
+                        data-en="View License"
+                        >Xem Giấy phép</a
+                    >
+                </p>
+            </footer>
+        </div>
+
+        <!-- Language Toggle Script -->
+        <script>
+            // Default language: Vietnamese
+            let currentLang = "vi";
+
+            // Load saved language preference
+            const savedLang = localStorage.getItem("vietlott-lang");
+            if (savedLang) {
+                currentLang = savedLang;
+            }
+
+            // Function to switch language
+            function switchLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem("vietlott-lang", lang);
+
+                // Update HTML lang attribute
+                document.documentElement.lang = lang;
+
+                // Update all elements with data-vi and data-en attributes
+                document
+                    .querySelectorAll("[data-vi][data-en]")
+                    .forEach((element) => {
+                        const text = element.getAttribute("data-" + lang);
+                        // Fallback to default language (vi) if translation is missing
+                        const fallbackText =
+                            text || element.getAttribute("data-vi");
+
+                        if (!fallbackText) return; // Skip if no translation available
+
+                        if (element.tagName === "TITLE") {
+                            element.textContent = fallbackText;
+                        } else if (element.tagName === "META") {
+                            element.setAttribute("content", fallbackText);
+                        } else {
+                            element.textContent = fallbackText;
+                        }
+                    });
+
+                // Update active button state
+                document.querySelectorAll(".lang-btn").forEach((btn) => {
+                    if (btn.getAttribute("data-lang") === lang) {
+                        btn.classList.add("active");
+                    } else {
+                        btn.classList.remove("active");
+                    }
+                });
+
+                // Update og:locale
+                const ogLocale = document.querySelector(
+                    'meta[property="og:locale"]',
+                );
+                if (ogLocale) {
+                    ogLocale.setAttribute(
+                        "content",
+                        lang === "vi" ? "vi_VN" : "en_US",
+                    );
+                }
+            }
+
+            // Initialize language on page load
+            document.addEventListener("DOMContentLoaded", function () {
+                switchLanguage(currentLang);
+
+                // Add click handlers to language buttons
+                document.querySelectorAll(".lang-btn").forEach((btn) => {
+                    btn.addEventListener("click", function () {
+                        const lang = this.getAttribute("data-lang");
+                        switchLanguage(lang);
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
