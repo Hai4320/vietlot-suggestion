@@ -1,0 +1,852 @@
+{
+  "max_3d": {
+    "total_draws": 1064,
+    "strategies": {
+      "Random (baseline)": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9724,
+        "exact_matches_total": 200,
+        "tier_hits": {
+          "Giải ba": 86,
+          "Giải Nhất": 43,
+          "Giải Nhì": 59,
+          "Giải Đặc biệt": 12
+        },
+        "total_cost": 101400000,
+        "total_revenue": 48040000,
+        "net_profit": -53360000,
+        "roi_pct": -52.62,
+        "sharpe_ratio": -1.1902,
+        "elapsed_seconds": 0.01,
+        "avg_profit_per_draw": -10524.65
+      },
+      "FreqWholeHot (baseline)": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.3471,
+        "exact_matches_total": 238,
+        "tier_hits": {
+          "Giải Nhì": 75,
+          "Giải ba": 89,
+          "Giải Nhất": 47,
+          "Giải Đặc biệt": 27
+        },
+        "total_cost": 101400000,
+        "total_revenue": 68100000,
+        "net_profit": -33300000,
+        "roi_pct": -32.84,
+        "sharpe_ratio": -0.5461,
+        "elapsed_seconds": 1.76,
+        "avg_profit_per_draw": -6568.05
+      },
+      "A1: JointBias_T1.0": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.2682,
+        "exact_matches_total": 230,
+        "tier_hits": {
+          "Giải ba": 95,
+          "Giải Nhì": 66,
+          "Giải Nhất": 47,
+          "Giải Đặc biệt": 22
+        },
+        "total_cost": 101400000,
+        "total_revenue": 61810000,
+        "net_profit": -39590000,
+        "roi_pct": -39.04,
+        "sharpe_ratio": -0.7216,
+        "elapsed_seconds": 3.12,
+        "avg_profit_per_draw": -7808.68
+      },
+      "A1: JointBias_T0.7": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0217,
+        "exact_matches_total": 205,
+        "tier_hits": {
+          "Giải Nhất": 41,
+          "Giải Nhì": 63,
+          "Giải Đặc biệt": 24,
+          "Giải ba": 77
+        },
+        "total_cost": 101400000,
+        "total_revenue": 59280000,
+        "net_profit": -42120000,
+        "roi_pct": -41.54,
+        "sharpe_ratio": -0.7546,
+        "elapsed_seconds": 3.04,
+        "avg_profit_per_draw": -8307.69
+      },
+      "A2: CondChain_T0.8": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.8146,
+        "exact_matches_total": 184,
+        "tier_hits": {
+          "Giải Nhất": 29,
+          "Giải Nhì": 59,
+          "Giải ba": 72,
+          "Giải Đặc biệt": 24
+        },
+        "total_cost": 101400000,
+        "total_revenue": 53740000,
+        "net_profit": -47660000,
+        "roi_pct": -47.0,
+        "sharpe_ratio": -0.8708,
+        "elapsed_seconds": 10.06,
+        "avg_profit_per_draw": -9400.39
+      },
+      "A2: CondChain_T0.6": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9527,
+        "exact_matches_total": 198,
+        "tier_hits": {
+          "Giải Nhất": 33,
+          "Giải Nhì": 63,
+          "Giải Đặc biệt": 24,
+          "Giải ba": 78
+        },
+        "total_cost": 101400000,
+        "total_revenue": 56580000,
+        "net_profit": -44820000,
+        "roi_pct": -44.2,
+        "sharpe_ratio": -0.815,
+        "elapsed_seconds": 7.09,
+        "avg_profit_per_draw": -8840.24
+      },
+      "A3: AdaptBias_T0.9": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0809,
+        "exact_matches_total": 211,
+        "tier_hits": {
+          "Giải ba": 87,
+          "Giải Nhì": 62,
+          "Giải Nhất": 43,
+          "Giải Đặc biệt": 19
+        },
+        "total_cost": 101400000,
+        "total_revenue": 55770000,
+        "net_profit": -45630000,
+        "roi_pct": -45.0,
+        "sharpe_ratio": -0.8823,
+        "elapsed_seconds": 6.88,
+        "avg_profit_per_draw": -9000.0
+      },
+      "A3: AdaptBias_T0.7": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.7554,
+        "exact_matches_total": 178,
+        "tier_hits": {
+          "Giải ba": 76,
+          "Giải Nhì": 53,
+          "Giải Nhất": 32,
+          "Giải Đặc biệt": 17
+        },
+        "total_cost": 101400000,
+        "total_revenue": 46930000,
+        "net_profit": -54470000,
+        "roi_pct": -53.72,
+        "sharpe_ratio": -1.1223,
+        "elapsed_seconds": 6.86,
+        "avg_profit_per_draw": -10743.59
+      },
+      "B1: CoverageOpt": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.2189,
+        "exact_matches_total": 225,
+        "tier_hits": {
+          "Giải Nhất": 70,
+          "Giải Đặc biệt": 20,
+          "Giải ba": 70,
+          "Giải Nhì": 65
+        },
+        "total_cost": 101400000,
+        "total_revenue": 65150000,
+        "net_profit": -36250000,
+        "roi_pct": -35.75,
+        "sharpe_ratio": -0.6485,
+        "elapsed_seconds": 2.54,
+        "avg_profit_per_draw": -7149.9
+      },
+      "B2: TierWeighted": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0611,
+        "exact_matches_total": 209,
+        "tier_hits": {
+          "Giải Nhất": 44,
+          "Giải ba": 83,
+          "Giải Nhì": 63,
+          "Giải Đặc biệt": 19
+        },
+        "total_cost": 101400000,
+        "total_revenue": 55930000,
+        "net_profit": -45470000,
+        "roi_pct": -44.84,
+        "sharpe_ratio": -0.8796,
+        "elapsed_seconds": 3.01,
+        "avg_profit_per_draw": -8968.44
+      },
+      "B3: StratifiedDigit": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.1992,
+        "exact_matches_total": 223,
+        "tier_hits": {
+          "Giải Nhì": 71,
+          "Giải Đặc biệt": 21,
+          "Giải Nhất": 44,
+          "Giải ba": 87
+        },
+        "total_cost": 101400000,
+        "total_revenue": 60010000,
+        "net_profit": -41390000,
+        "roi_pct": -40.82,
+        "sharpe_ratio": -0.7604,
+        "elapsed_seconds": 9.06,
+        "avg_profit_per_draw": -8163.71
+      },
+      "C1: BayesJoint_HL100": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9921,
+        "exact_matches_total": 202,
+        "tier_hits": {
+          "Giải Nhì": 70,
+          "Giải ba": 72,
+          "Giải Nhất": 41,
+          "Giải Đặc biệt": 19
+        },
+        "total_cost": 101400000,
+        "total_revenue": 55250000,
+        "net_profit": -46150000,
+        "roi_pct": -45.51,
+        "sharpe_ratio": -0.8956,
+        "elapsed_seconds": 6.29,
+        "avg_profit_per_draw": -9102.56
+      },
+      "C1: BayesJoint_HL150_S": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9921,
+        "exact_matches_total": 202,
+        "tier_hits": {
+          "Giải ba": 76,
+          "Giải Nhất": 50,
+          "Giải Nhì": 54,
+          "Giải Đặc biệt": 22
+        },
+        "total_cost": 101400000,
+        "total_revenue": 58440000,
+        "net_profit": -42960000,
+        "roi_pct": -42.37,
+        "sharpe_ratio": -0.7827,
+        "elapsed_seconds": 6.33,
+        "avg_profit_per_draw": -8473.37
+      },
+      "C2: MultiSignal": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.002,
+        "exact_matches_total": 203,
+        "tier_hits": {
+          "Giải ba": 73,
+          "Giải Nhì": 59,
+          "Giải Đặc biệt": 32,
+          "Giải Nhất": 39
+        },
+        "total_cost": 101400000,
+        "total_revenue": 65340000,
+        "net_profit": -36060000,
+        "roi_pct": -35.56,
+        "sharpe_ratio": -0.5739,
+        "elapsed_seconds": 29.49,
+        "avg_profit_per_draw": -7112.43
+      },
+      "C3: Portfolio": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0217,
+        "exact_matches_total": 205,
+        "tier_hits": {
+          "Giải Nhì": 65,
+          "Giải Đặc biệt": 20,
+          "Giải Nhất": 40,
+          "Giải ba": 80
+        },
+        "total_cost": 101400000,
+        "total_revenue": 55650000,
+        "net_profit": -45750000,
+        "roi_pct": -45.12,
+        "sharpe_ratio": -0.826,
+        "elapsed_seconds": 3.53,
+        "avg_profit_per_draw": -9023.67
+      },
+      "D1: EVMaximizer": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.8738,
+        "exact_matches_total": 190,
+        "tier_hits": {
+          "Giải Đặc biệt": 10,
+          "Giải Nhất": 30,
+          "Giải ba": 75,
+          "Giải Nhì": 75
+        },
+        "total_cost": 101400000,
+        "total_revenue": 43750000,
+        "net_profit": -57650000,
+        "roi_pct": -56.85,
+        "sharpe_ratio": -1.4013,
+        "elapsed_seconds": 3.83,
+        "avg_profit_per_draw": -11370.81
+      },
+      "D2: KLMinimizer": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0611,
+        "exact_matches_total": 209,
+        "tier_hits": {
+          "Giải Nhì": 46,
+          "Giải ba": 105,
+          "Giải Nhất": 44,
+          "Giải Đặc biệt": 14
+        },
+        "total_cost": 101400000,
+        "total_revenue": 49560000,
+        "net_profit": -51840000,
+        "roi_pct": -51.12,
+        "sharpe_ratio": -1.118,
+        "elapsed_seconds": 13.96,
+        "avg_profit_per_draw": -10224.85
+      },
+      "D3: PairExploiter_T0.7": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.7653,
+        "exact_matches_total": 179,
+        "tier_hits": {
+          "Giải ba": 66,
+          "Giải Nhì": 55,
+          "Giải Nhất": 34,
+          "Giải Đặc biệt": 24
+        },
+        "total_cost": 101400000,
+        "total_revenue": 54050000,
+        "net_profit": -47350000,
+        "roi_pct": -46.7,
+        "sharpe_ratio": -0.8597,
+        "elapsed_seconds": 20.15,
+        "avg_profit_per_draw": -9339.25
+      },
+      "D3: PairExploiter_T0.5": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.2485,
+        "exact_matches_total": 228,
+        "tier_hits": {
+          "Giải ba": 95,
+          "Giải Nhì": 58,
+          "Giải Nhất": 50,
+          "Giải Đặc biệt": 25
+        },
+        "total_cost": 101400000,
+        "total_revenue": 64180000,
+        "net_profit": -37220000,
+        "roi_pct": -36.71,
+        "sharpe_ratio": -0.6479,
+        "elapsed_seconds": 15.24,
+        "avg_profit_per_draw": -7341.22
+      },
+      "ULTIMATE_v1": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.2189,
+        "exact_matches_total": 225,
+        "tier_hits": {
+          "Giải Nhất": 60,
+          "Giải ba": 70,
+          "Giải Nhì": 85,
+          "Giải Đặc biệt": 10
+        },
+        "total_cost": 101400000,
+        "total_revenue": 55850000,
+        "net_profit": -45550000,
+        "roi_pct": -44.92,
+        "sharpe_ratio": -1.0022,
+        "elapsed_seconds": 57.47,
+        "avg_profit_per_draw": -8984.22
+      },
+      "ULTIMATE_v2_sharp": {
+        "total_predictions": 5070,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.071,
+        "exact_matches_total": 210,
+        "tier_hits": {
+          "Giải Nhất": 60,
+          "Giải ba": 65,
+          "Giải Nhì": 70,
+          "Giải Đặc biệt": 15
+        },
+        "total_cost": 101400000,
+        "total_revenue": 57200000,
+        "net_profit": -44200000,
+        "roi_pct": -43.59,
+        "sharpe_ratio": -0.8874,
+        "elapsed_seconds": 48.57,
+        "avg_profit_per_draw": -8717.95
+      }
+    }
+  },
+  "max_3d_pro": {
+    "total_draws": 711,
+    "strategies": {
+      "Random (baseline)": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.997,
+        "exact_matches_total": 132,
+        "tier_hits": {
+          "Giải ba": 47,
+          "Giải Nhì": 44,
+          "Giải Đặc biệt": 12,
+          "Giải Nhất": 29
+        },
+        "total_cost": 66100000,
+        "total_revenue": 36090000,
+        "net_profit": -30010000,
+        "roi_pct": -45.4,
+        "sharpe_ratio": -0.8979,
+        "elapsed_seconds": 0.01,
+        "avg_profit_per_draw": -9080.18
+      },
+      "FreqWholeHot (baseline)": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9365,
+        "exact_matches_total": 128,
+        "tier_hits": {
+          "Giải Nhì": 32,
+          "Giải ba": 48,
+          "Giải Đặc biệt": 19,
+          "Giải Nhất": 29
+        },
+        "total_cost": 66100000,
+        "total_revenue": 40670000,
+        "net_profit": -25430000,
+        "roi_pct": -38.47,
+        "sharpe_ratio": -0.6518,
+        "elapsed_seconds": 1.12,
+        "avg_profit_per_draw": -7694.4
+      },
+      "A1: JointBias_T1.0": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.3752,
+        "exact_matches_total": 157,
+        "tier_hits": {
+          "Giải Đặc biệt": 20,
+          "Giải Nhì": 46,
+          "Giải ba": 65,
+          "Giải Nhất": 26
+        },
+        "total_cost": 66100000,
+        "total_revenue": 45260000,
+        "net_profit": -20840000,
+        "roi_pct": -31.53,
+        "sharpe_ratio": -0.5186,
+        "elapsed_seconds": 1.87,
+        "avg_profit_per_draw": -6305.6
+      },
+      "A1: JointBias_T0.7": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9213,
+        "exact_matches_total": 127,
+        "tier_hits": {
+          "Giải Nhì": 37,
+          "Giải ba": 46,
+          "Giải Nhất": 27,
+          "Giải Đặc biệt": 17
+        },
+        "total_cost": 66100000,
+        "total_revenue": 38820000,
+        "net_profit": -27280000,
+        "roi_pct": -41.27,
+        "sharpe_ratio": -0.7268,
+        "elapsed_seconds": 1.87,
+        "avg_profit_per_draw": -8254.16
+      },
+      "A2: CondChain_T0.8": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.1029,
+        "exact_matches_total": 139,
+        "tier_hits": {
+          "Giải ba": 59,
+          "Giải Đặc biệt": 19,
+          "Giải Nhất": 22,
+          "Giải Nhì": 39
+        },
+        "total_cost": 66100000,
+        "total_revenue": 40790000,
+        "net_profit": -25310000,
+        "roi_pct": -38.29,
+        "sharpe_ratio": -0.6457,
+        "elapsed_seconds": 6.2,
+        "avg_profit_per_draw": -7658.09
+      },
+      "A2: CondChain_T0.6": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0726,
+        "exact_matches_total": 137,
+        "tier_hits": {
+          "Giải ba": 57,
+          "Giải Đặc biệt": 14,
+          "Giải Nhì": 36,
+          "Giải Nhất": 30
+        },
+        "total_cost": 66100000,
+        "total_revenue": 37760000,
+        "net_profit": -28340000,
+        "roi_pct": -42.87,
+        "sharpe_ratio": -0.8039,
+        "elapsed_seconds": 4.58,
+        "avg_profit_per_draw": -8574.89
+      },
+      "A3: AdaptBias_T0.9": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9516,
+        "exact_matches_total": 129,
+        "tier_hits": {
+          "Giải Nhì": 36,
+          "Giải ba": 59,
+          "Giải Đặc biệt": 14,
+          "Giải Nhất": 20
+        },
+        "total_cost": 66100000,
+        "total_revenue": 34460000,
+        "net_profit": -31640000,
+        "roi_pct": -47.87,
+        "sharpe_ratio": -0.9284,
+        "elapsed_seconds": 4.03,
+        "avg_profit_per_draw": -9573.37
+      },
+      "A3: AdaptBias_T0.7": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.8457,
+        "exact_matches_total": 122,
+        "tier_hits": {
+          "Giải ba": 48,
+          "Giải Đặc biệt": 18,
+          "Giải Nhì": 31,
+          "Giải Nhất": 25
+        },
+        "total_cost": 66100000,
+        "total_revenue": 38060000,
+        "net_profit": -28040000,
+        "roi_pct": -42.42,
+        "sharpe_ratio": -0.7418,
+        "elapsed_seconds": 3.86,
+        "avg_profit_per_draw": -8484.11
+      },
+      "B1: CoverageOpt": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.4372,
+        "exact_matches_total": 95,
+        "tier_hits": {
+          "Giải ba": 30,
+          "Giải Đặc biệt": 10,
+          "Giải Nhất": 20,
+          "Giải Nhì": 35
+        },
+        "total_cost": 66100000,
+        "total_revenue": 27350000,
+        "net_profit": -38750000,
+        "roi_pct": -58.62,
+        "sharpe_ratio": -1.2957,
+        "elapsed_seconds": 1.57,
+        "avg_profit_per_draw": -11724.66
+      },
+      "B2: TierWeighted": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.1785,
+        "exact_matches_total": 144,
+        "tier_hits": {
+          "Giải Nhất": 30,
+          "Giải Nhì": 45,
+          "Giải ba": 57,
+          "Giải Đặc biệt": 12
+        },
+        "total_cost": 66100000,
+        "total_revenue": 37650000,
+        "net_profit": -28450000,
+        "roi_pct": -43.04,
+        "sharpe_ratio": -0.838,
+        "elapsed_seconds": 1.88,
+        "avg_profit_per_draw": -8608.17
+      },
+      "B3: StratifiedDigit": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9062,
+        "exact_matches_total": 126,
+        "tier_hits": {
+          "Giải ba": 56,
+          "Giải Nhất": 20,
+          "Giải Nhì": 40,
+          "Giải Đặc biệt": 10
+        },
+        "total_cost": 66100000,
+        "total_revenue": 31000000,
+        "net_profit": -35100000,
+        "roi_pct": -53.1,
+        "sharpe_ratio": -1.1567,
+        "elapsed_seconds": 5.72,
+        "avg_profit_per_draw": -10620.27
+      },
+      "C1: BayesJoint_HL100": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.1331,
+        "exact_matches_total": 141,
+        "tier_hits": {
+          "Giải Đặc biệt": 19,
+          "Giải Nhất": 32,
+          "Giải ba": 46,
+          "Giải Nhì": 44
+        },
+        "total_cost": 66100000,
+        "total_revenue": 44040000,
+        "net_profit": -22060000,
+        "roi_pct": -33.37,
+        "sharpe_ratio": -0.5514,
+        "elapsed_seconds": 2.96,
+        "avg_profit_per_draw": -6674.74
+      },
+      "C1: BayesJoint_HL150_S": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.1634,
+        "exact_matches_total": 143,
+        "tier_hits": {
+          "Giải Nhất": 31,
+          "Giải Nhì": 40,
+          "Giải ba": 61,
+          "Giải Đặc biệt": 11
+        },
+        "total_cost": 66100000,
+        "total_revenue": 36350000,
+        "net_profit": -29750000,
+        "roi_pct": -45.01,
+        "sharpe_ratio": -0.9105,
+        "elapsed_seconds": 2.91,
+        "avg_profit_per_draw": -9001.51
+      },
+      "C2: MultiSignal": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0877,
+        "exact_matches_total": 138,
+        "tier_hits": {
+          "Giải ba": 65,
+          "Giải Nhì": 35,
+          "Giải Đặc biệt": 17,
+          "Giải Nhất": 21
+        },
+        "total_cost": 66100000,
+        "total_revenue": 38200000,
+        "net_profit": -27900000,
+        "roi_pct": -42.21,
+        "sharpe_ratio": -0.7535,
+        "elapsed_seconds": 18.68,
+        "avg_profit_per_draw": -8441.75
+      },
+      "C3: Portfolio": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.118,
+        "exact_matches_total": 140,
+        "tier_hits": {
+          "Giải ba": 55,
+          "Giải Nhì": 75,
+          "Giải Nhất": 5,
+          "Giải Đặc biệt": 5
+        },
+        "total_cost": 66100000,
+        "total_revenue": 28000000,
+        "net_profit": -38100000,
+        "roi_pct": -57.64,
+        "sharpe_ratio": -1.5726,
+        "elapsed_seconds": 2.18,
+        "avg_profit_per_draw": -11527.99
+      },
+      "D1: EVMaximizer": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.4962,
+        "exact_matches_total": 165,
+        "tier_hits": {
+          "Giải ba": 55,
+          "Giải Nhì": 60,
+          "Giải Nhất": 30,
+          "Giải Đặc biệt": 20
+        },
+        "total_cost": 66100000,
+        "total_revenue": 48600000,
+        "net_profit": -17500000,
+        "roi_pct": -26.48,
+        "sharpe_ratio": -0.4283,
+        "elapsed_seconds": 2.34,
+        "avg_profit_per_draw": -5295.01
+      },
+      "D2: KLMinimizer": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9667,
+        "exact_matches_total": 130,
+        "tier_hits": {
+          "Giải ba": 57,
+          "Giải Nhì": 40,
+          "Giải Đặc biệt": 13,
+          "Giải Nhất": 20
+        },
+        "total_cost": 66100000,
+        "total_revenue": 34100000,
+        "net_profit": -32000000,
+        "roi_pct": -48.41,
+        "sharpe_ratio": -0.9612,
+        "elapsed_seconds": 9.02,
+        "avg_profit_per_draw": -9682.3
+      },
+      "D3: PairExploiter_T0.7": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.9365,
+        "exact_matches_total": 128,
+        "tier_hits": {
+          "Giải ba": 58,
+          "Giải Nhì": 32,
+          "Giải Đặc biệt": 16,
+          "Giải Nhất": 22
+        },
+        "total_cost": 66100000,
+        "total_revenue": 36220000,
+        "net_profit": -29880000,
+        "roi_pct": -45.2,
+        "sharpe_ratio": -0.832,
+        "elapsed_seconds": 13.15,
+        "avg_profit_per_draw": -9040.85
+      },
+      "D3: PairExploiter_T0.5": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.0121,
+        "exact_matches_total": 133,
+        "tier_hits": {
+          "Giải ba": 52,
+          "Giải Đặc biệt": 17,
+          "Giải Nhất": 21,
+          "Giải Nhì": 43
+        },
+        "total_cost": 66100000,
+        "total_revenue": 38580000,
+        "net_profit": -27520000,
+        "roi_pct": -41.63,
+        "sharpe_ratio": -0.743,
+        "elapsed_seconds": 9.75,
+        "avg_profit_per_draw": -8326.78
+      },
+      "ULTIMATE_v1": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 1.8911,
+        "exact_matches_total": 125,
+        "tier_hits": {
+          "Giải ba": 45,
+          "Giải Nhì": 55,
+          "Giải Đặc biệt": 10,
+          "Giải Nhất": 15
+        },
+        "total_cost": 66100000,
+        "total_revenue": 31300000,
+        "net_profit": -34800000,
+        "roi_pct": -52.65,
+        "sharpe_ratio": -1.1495,
+        "elapsed_seconds": 36.61,
+        "avg_profit_per_draw": -10529.5
+      },
+      "ULTIMATE_v2_sharp": {
+        "total_predictions": 3305,
+        "n_runs": 5,
+        "n_predictions_per_draw": 2,
+        "exact_match_rate": 2.4206,
+        "exact_matches_total": 160,
+        "tier_hits": {
+          "Giải ba": 45,
+          "Giải Nhì": 70,
+          "Giải Đặc biệt": 20,
+          "Giải Nhất": 25
+        },
+        "total_cost": 66100000,
+        "total_revenue": 47950000,
+        "net_profit": -18150000,
+        "roi_pct": -27.46,
+        "sharpe_ratio": -0.4472,
+        "elapsed_seconds": 31.38,
+        "avg_profit_per_draw": -5491.68
+      }
+    }
+  }
+}

@@ -1,0 +1,8008 @@
+{
+  "max_3d": {
+    "product": "max_3d",
+    "total_draws": 1064,
+    "date_range": [
+      "2019-04-22",
+      "2026-04-17"
+    ],
+    "chi_squared_whole": {
+      "test": "Chi-Squared Whole Number Uniformity",
+      "total_numbers": 21280,
+      "total_draws": 1064,
+      "expected_per_number": 21.28,
+      "chi2_statistic": 1028.3647,
+      "degrees_of_freedom": 999,
+      "p_value": 0.252868,
+      "is_uniform": "True",
+      "interpretation": "UNIFORM (p > 0.05) — RNG appears fair",
+      "top_overrepresented": [
+        [
+          "706",
+          37,
+          1.739
+        ],
+        [
+          "380",
+          36,
+          1.692
+        ],
+        [
+          "734",
+          36,
+          1.692
+        ],
+        [
+          "656",
+          35,
+          1.645
+        ],
+        [
+          "094",
+          34,
+          1.598
+        ],
+        [
+          "056",
+          33,
+          1.551
+        ],
+        [
+          "786",
+          33,
+          1.551
+        ],
+        [
+          "939",
+          33,
+          1.551
+        ],
+        [
+          "350",
+          32,
+          1.504
+        ],
+        [
+          "834",
+          32,
+          1.504
+        ],
+        [
+          "459",
+          32,
+          1.504
+        ],
+        [
+          "289",
+          32,
+          1.504
+        ],
+        [
+          "052",
+          32,
+          1.504
+        ],
+        [
+          "006",
+          32,
+          1.504
+        ],
+        [
+          "720",
+          32,
+          1.504
+        ],
+        [
+          "217",
+          32,
+          1.504
+        ],
+        [
+          "799",
+          32,
+          1.504
+        ],
+        [
+          "334",
+          31,
+          1.457
+        ],
+        [
+          "769",
+          31,
+          1.457
+        ],
+        [
+          "691",
+          31,
+          1.457
+        ]
+      ],
+      "top_underrepresented": [
+        [
+          "345",
+          6,
+          0.282
+        ],
+        [
+          "044",
+          8,
+          0.376
+        ],
+        [
+          "113",
+          8,
+          0.376
+        ],
+        [
+          "992",
+          9,
+          0.423
+        ],
+        [
+          "042",
+          10,
+          0.47
+        ],
+        [
+          "282",
+          10,
+          0.47
+        ],
+        [
+          "404",
+          10,
+          0.47
+        ],
+        [
+          "112",
+          11,
+          0.517
+        ],
+        [
+          "263",
+          11,
+          0.517
+        ],
+        [
+          "274",
+          11,
+          0.517
+        ],
+        [
+          "373",
+          11,
+          0.517
+        ],
+        [
+          "642",
+          11,
+          0.517
+        ],
+        [
+          "814",
+          11,
+          0.517
+        ],
+        [
+          "840",
+          11,
+          0.517
+        ],
+        [
+          "194",
+          12,
+          0.564
+        ],
+        [
+          "264",
+          12,
+          0.564
+        ],
+        [
+          "312",
+          12,
+          0.564
+        ],
+        [
+          "424",
+          12,
+          0.564
+        ],
+        [
+          "505",
+          12,
+          0.564
+        ],
+        [
+          "544",
+          12,
+          0.564
+        ]
+      ]
+    },
+    "chi_squared_digit": {
+      "test": "Chi-Squared Digit Position Uniformity",
+      "positions": {
+        "position_0": {
+          "total": 21280,
+          "expected": 2128.0,
+          "chi2": 11.0451,
+          "p_value": 0.272629,
+          "is_uniform": "True",
+          "digit_counts": {
+            "0": 2148,
+            "1": 2149,
+            "2": 2126,
+            "3": 2150,
+            "4": 2200,
+            "5": 2153,
+            "6": 2080,
+            "7": 2158,
+            "8": 2099,
+            "9": 2017
+          },
+          "digit_ratios": {
+            "0": 1.0094,
+            "1": 1.0099,
+            "2": 0.9991,
+            "3": 1.0103,
+            "4": 1.0338,
+            "5": 1.0117,
+            "6": 0.9774,
+            "7": 1.0141,
+            "8": 0.9864,
+            "9": 0.9478
+          }
+        },
+        "position_1": {
+          "total": 21280,
+          "expected": 2128.0,
+          "chi2": 18.2171,
+          "p_value": 0.032737,
+          "is_uniform": "False",
+          "digit_counts": {
+            "0": 2092,
+            "1": 2089,
+            "2": 2227,
+            "3": 2130,
+            "4": 2089,
+            "5": 2256,
+            "6": 2090,
+            "7": 2099,
+            "8": 2153,
+            "9": 2055
+          },
+          "digit_ratios": {
+            "0": 0.9831,
+            "1": 0.9817,
+            "2": 1.0465,
+            "3": 1.0009,
+            "4": 0.9817,
+            "5": 1.0602,
+            "6": 0.9821,
+            "7": 0.9864,
+            "8": 1.0117,
+            "9": 0.9657
+          }
+        },
+        "position_2": {
+          "total": 21280,
+          "expected": 2128.0,
+          "chi2": 46.4803,
+          "p_value": 0.0,
+          "is_uniform": "False",
+          "digit_counts": {
+            "0": 2178,
+            "1": 2112,
+            "2": 2026,
+            "3": 2101,
+            "4": 2053,
+            "5": 2129,
+            "6": 2340,
+            "7": 2159,
+            "8": 1967,
+            "9": 2215
+          },
+          "digit_ratios": {
+            "0": 1.0235,
+            "1": 0.9925,
+            "2": 0.9521,
+            "3": 0.9873,
+            "4": 0.9648,
+            "5": 1.0005,
+            "6": 1.0996,
+            "7": 1.0146,
+            "8": 0.9243,
+            "9": 1.0409
+          }
+        }
+      }
+    },
+    "digit_independence": {
+      "test": "Digit Independence",
+      "pairs": {
+        "pos_0_1": {
+          "chi2": 106.0714,
+          "p_value": 0.032299,
+          "is_independent": "False"
+        },
+        "pos_1_2": {
+          "chi2": 157.735,
+          "p_value": 1e-06,
+          "is_independent": "False"
+        },
+        "pos_0_2": {
+          "chi2": 145.4699,
+          "p_value": 1.5e-05,
+          "is_independent": "False"
+        }
+      }
+    },
+    "serial_correlation": {
+      "test": "Serial Correlation (Autocorrelation)",
+      "total_tests": 200,
+      "significant_tests": 8,
+      "pct_significant": 4.0,
+      "expected_false_positive_pct": 5.0,
+      "interpretation": "No exploitable autocorrelation",
+      "results": {
+        "706": {
+          "1": {
+            "autocorrelation": -0.006308,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.035151,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.035217,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.023411,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.005486,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.023389,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.005563,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": 0.053315,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.004659,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": -0.004697,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.004734,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.024306,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.00481,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.004848,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": -0.034048,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.024265,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.004962,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.005,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.034312,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": -0.005077,
+            "significant": "False"
+          }
+        },
+        "380": {
+          "1": {
+            "autocorrelation": -0.004507,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.034142,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": 0.025048,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": -0.004616,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": 0.054713,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": -0.004689,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.034464,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": 0.025005,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.004799,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.084635,
+            "significant": "True"
+          },
+          "11": {
+            "autocorrelation": 0.024979,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": -0.03479,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": 0.024962,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": 0.024954,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": -0.034986,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.025923,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.034131,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.004144,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": 0.086061,
+            "significant": "True"
+          },
+          "20": {
+            "autocorrelation": -0.034326,
+            "significant": "False"
+          }
+        },
+        "734": {
+          "1": {
+            "autocorrelation": -0.006308,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.006347,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.006386,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.080152,
+            "significant": "True"
+          },
+          "5": {
+            "autocorrelation": 0.022422,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": -0.005525,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.034504,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": -0.005602,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": 0.023356,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": -0.005679,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.005717,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": -0.005756,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": 0.023311,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.034968,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": -0.035034,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.052467,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.005951,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.00599,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": 0.023244,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": -0.006068,
+            "significant": "False"
+          }
+        },
+        "656": {
+          "1": {
+            "autocorrelation": -0.033072,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": 0.027746,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.033196,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.08873,
+            "significant": "True"
+          },
+          "5": {
+            "autocorrelation": -0.033321,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": -0.033384,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.033447,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": 0.058329,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.032594,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.059357,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.032718,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": -0.032781,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.032843,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.002118,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": 0.028665,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": -0.002185,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.002219,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": 0.028653,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": 0.059584,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": 0.059609,
+            "significant": "False"
+          }
+        },
+        "094": {
+          "1": {
+            "autocorrelation": 0.088573,
+            "significant": "True"
+          },
+          "2": {
+            "autocorrelation": -0.033134,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.033196,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": -0.033259,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": 0.058257,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": -0.002829,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.033447,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": -0.03351,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.033573,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": -0.033636,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.002999,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": -0.033763,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.033826,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": 0.120049,
+            "significant": "True"
+          },
+          "15": {
+            "autocorrelation": 0.02768,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": -0.034018,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.003206,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.034146,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.003275,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": -0.034274,
+            "significant": "False"
+          }
+        },
+        "056": {
+          "1": {
+            "autocorrelation": -0.032068,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.032128,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.032189,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": -0.000858,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": 0.030531,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.03053,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": 0.030528,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": -0.000983,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.032554,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": -0.032615,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.001077,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": -0.001108,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.00114,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": 0.030519,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": -0.001203,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": -0.001235,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.033047,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.033109,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.033172,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": 0.062382,
+            "significant": "True"
+          }
+        },
+        "786": {
+          "1": {
+            "autocorrelation": 0.030537,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.032128,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.000827,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": -0.000858,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.000889,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.03053,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.000952,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": 0.030527,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.001014,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.030524,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.001077,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": -0.001108,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.031818,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.031878,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": -0.000219,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": -0.00025,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.032061,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": 0.031499,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.000343,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": 0.031499,
+            "significant": "False"
+          }
+        },
+        "939": {
+          "1": {
+            "autocorrelation": -0.000766,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.032128,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.000827,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.030533,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.03231,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": -0.032371,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.000952,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": -0.000983,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.001014,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": -0.032615,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": 0.030523,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": -0.032738,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": 0.06218,
+            "significant": "True"
+          },
+          "14": {
+            "autocorrelation": -0.001171,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": -0.032923,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": -0.032985,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": 0.030514,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.001298,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": 0.030511,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": -0.001362,
+            "significant": "False"
+          }
+        },
+        "350": {
+          "1": {
+            "autocorrelation": -0.030066,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": 0.003166,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.030179,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": -0.030236,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": 0.037446,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.037453,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.029433,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": -0.029489,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": 0.037474,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": -0.029602,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": 0.003915,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.037495,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": 0.003865,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.029829,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": 0.037516,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": -0.029943,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.029017,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": 0.004725,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": 0.004701,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": 0.038539,
+            "significant": "False"
+          }
+        },
+        "834": {
+          "1": {
+            "autocorrelation": 0.036449,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": 0.036455,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": 0.003141,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": -0.030236,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.030293,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.037453,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": 0.004013,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": -0.028514,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.028569,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.038458,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.02868,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": -0.028736,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.028792,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": 0.004821,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": 0.004797,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.038506,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": 0.038515,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.029073,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.02913,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": 0.004676,
+            "significant": "False"
+          }
+        }
+      }
+    },
+    "runs_test": {
+      "test": "Wald-Wolfowitz Runs Test (Digit Sum Sequence)",
+      "n_draws": 1064,
+      "n_above_median": 516,
+      "n_below_median": 548,
+      "observed_runs": 566,
+      "expected_runs": 532.52,
+      "z_statistic": 2.0557,
+      "p_value": 0.039812,
+      "is_random": "False",
+      "interpretation": "Non-random pattern detected in digit sum sequence!"
+    },
+    "digit_sum": {
+      "test": "Digit Sum Distribution Analysis",
+      "mean": 13.4688,
+      "median": 14.0,
+      "std": 4.9453,
+      "theoretical_mean": 13.5,
+      "chi2_vs_theoretical": 35.8367,
+      "p_value": 0.118911,
+      "matches_theoretical": "True",
+      "distribution": {
+        "0": 17,
+        "1": 62,
+        "2": 126,
+        "3": 227,
+        "4": 305,
+        "5": 419,
+        "6": 659,
+        "7": 806,
+        "8": 916,
+        "9": 1168,
+        "10": 1340,
+        "11": 1439,
+        "12": 1550,
+        "13": 1570,
+        "14": 1675,
+        "15": 1559,
+        "16": 1487,
+        "17": 1356,
+        "18": 1160,
+        "19": 949,
+        "20": 728,
+        "21": 631,
+        "22": 443,
+        "23": 322,
+        "24": 166,
+        "25": 124,
+        "26": 58,
+        "27": 18
+      },
+      "peak_digit_sums": [
+        [
+          14,
+          1675
+        ],
+        [
+          13,
+          1570
+        ],
+        [
+          15,
+          1559
+        ],
+        [
+          12,
+          1550
+        ],
+        [
+          16,
+          1487
+        ]
+      ]
+    },
+    "tier_analysis": {
+      "test": "Tier-Specific Frequency Analysis",
+      "tier_totals": {
+        "Giải Đặc biệt": 2128,
+        "Giải Nhất": 4256,
+        "Giải Nhì": 6384,
+        "Giải ba": 8512
+      },
+      "pairwise_distribution_tests": {
+        "Giải Đặc biệt vs Giải Nhất": {
+          "ks_statistic": 0.456,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        },
+        "Giải Đặc biệt vs Giải Nhì": {
+          "ks_statistic": 0.714,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        },
+        "Giải Đặc biệt vs Giải ba": {
+          "ks_statistic": 0.845,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        },
+        "Giải Nhất vs Giải Nhì": {
+          "ks_statistic": 0.36,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        },
+        "Giải Nhất vs Giải ba": {
+          "ks_statistic": 0.594,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        },
+        "Giải Nhì vs Giải ba": {
+          "ks_statistic": 0.318,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        }
+      },
+      "top_per_tier": {
+        "Giải Đặc biệt": [
+          {
+            "number": "621",
+            "count": 9,
+            "ratio_vs_expected": 4.229
+          },
+          {
+            "number": "796",
+            "count": 8,
+            "ratio_vs_expected": 3.759
+          },
+          {
+            "number": "052",
+            "count": 7,
+            "ratio_vs_expected": 3.289
+          },
+          {
+            "number": "401",
+            "count": 7,
+            "ratio_vs_expected": 3.289
+          },
+          {
+            "number": "678",
+            "count": 7,
+            "ratio_vs_expected": 3.289
+          },
+          {
+            "number": "715",
+            "count": 7,
+            "ratio_vs_expected": 3.289
+          },
+          {
+            "number": "449",
+            "count": 7,
+            "ratio_vs_expected": 3.289
+          },
+          {
+            "number": "188",
+            "count": 6,
+            "ratio_vs_expected": 2.82
+          },
+          {
+            "number": "548",
+            "count": 6,
+            "ratio_vs_expected": 2.82
+          },
+          {
+            "number": "484",
+            "count": 6,
+            "ratio_vs_expected": 2.82
+          }
+        ],
+        "Giải Nhất": [
+          {
+            "number": "553",
+            "count": 12,
+            "ratio_vs_expected": 2.82
+          },
+          {
+            "number": "380",
+            "count": 12,
+            "ratio_vs_expected": 2.82
+          },
+          {
+            "number": "310",
+            "count": 12,
+            "ratio_vs_expected": 2.82
+          },
+          {
+            "number": "217",
+            "count": 11,
+            "ratio_vs_expected": 2.585
+          },
+          {
+            "number": "099",
+            "count": 11,
+            "ratio_vs_expected": 2.585
+          },
+          {
+            "number": "094",
+            "count": 11,
+            "ratio_vs_expected": 2.585
+          },
+          {
+            "number": "503",
+            "count": 10,
+            "ratio_vs_expected": 2.35
+          },
+          {
+            "number": "458",
+            "count": 10,
+            "ratio_vs_expected": 2.35
+          },
+          {
+            "number": "706",
+            "count": 10,
+            "ratio_vs_expected": 2.35
+          },
+          {
+            "number": "190",
+            "count": 10,
+            "ratio_vs_expected": 2.35
+          }
+        ],
+        "Giải Nhì": [
+          {
+            "number": "734",
+            "count": 16,
+            "ratio_vs_expected": 2.506
+          },
+          {
+            "number": "587",
+            "count": 15,
+            "ratio_vs_expected": 2.35
+          },
+          {
+            "number": "936",
+            "count": 14,
+            "ratio_vs_expected": 2.193
+          },
+          {
+            "number": "334",
+            "count": 13,
+            "ratio_vs_expected": 2.036
+          },
+          {
+            "number": "720",
+            "count": 13,
+            "ratio_vs_expected": 2.036
+          },
+          {
+            "number": "222",
+            "count": 13,
+            "ratio_vs_expected": 2.036
+          },
+          {
+            "number": "831",
+            "count": 13,
+            "ratio_vs_expected": 2.036
+          },
+          {
+            "number": "557",
+            "count": 13,
+            "ratio_vs_expected": 2.036
+          },
+          {
+            "number": "589",
+            "count": 13,
+            "ratio_vs_expected": 2.036
+          },
+          {
+            "number": "425",
+            "count": 13,
+            "ratio_vs_expected": 2.036
+          }
+        ],
+        "Giải ba": [
+          {
+            "number": "239",
+            "count": 20,
+            "ratio_vs_expected": 2.35
+          },
+          {
+            "number": "655",
+            "count": 19,
+            "ratio_vs_expected": 2.232
+          },
+          {
+            "number": "690",
+            "count": 18,
+            "ratio_vs_expected": 2.115
+          },
+          {
+            "number": "656",
+            "count": 18,
+            "ratio_vs_expected": 2.115
+          },
+          {
+            "number": "016",
+            "count": 17,
+            "ratio_vs_expected": 1.997
+          },
+          {
+            "number": "939",
+            "count": 17,
+            "ratio_vs_expected": 1.997
+          },
+          {
+            "number": "661",
+            "count": 16,
+            "ratio_vs_expected": 1.88
+          },
+          {
+            "number": "966",
+            "count": 16,
+            "ratio_vs_expected": 1.88
+          },
+          {
+            "number": "005",
+            "count": 16,
+            "ratio_vs_expected": 1.88
+          },
+          {
+            "number": "421",
+            "count": 16,
+            "ratio_vs_expected": 1.88
+          }
+        ]
+      }
+    },
+    "temporal_windows": {
+      "test": "Temporal Window Analysis",
+      "windows": {
+        "window_10": {
+          "correlation": -0.034837,
+          "correlation_p": 0.271076,
+          "frequency_stable": "False",
+          "top_rising": [
+            [
+              "865",
+              3,
+              3,
+              0
+            ],
+            [
+              "157",
+              2,
+              2,
+              0
+            ]
+          ],
+          "top_falling": [
+            [
+              "041",
+              -2,
+              0,
+              2
+            ],
+            [
+              "082",
+              -2,
+              0,
+              2
+            ],
+            [
+              "110",
+              -2,
+              0,
+              2
+            ]
+          ]
+        },
+        "window_30": {
+          "correlation": 0.003317,
+          "correlation_p": 0.916557,
+          "frequency_stable": "False",
+          "top_rising": [
+            [
+              "768",
+              4,
+              4,
+              0
+            ],
+            [
+              "834",
+              4,
+              4,
+              0
+            ]
+          ],
+          "top_falling": [
+            [
+              "534",
+              -4,
+              0,
+              4
+            ],
+            [
+              "027",
+              -3,
+              0,
+              3
+            ],
+            [
+              "036",
+              -3,
+              0,
+              3
+            ]
+          ]
+        },
+        "window_50": {
+          "correlation": -0.047482,
+          "correlation_p": 0.133489,
+          "frequency_stable": "False",
+          "top_rising": [
+            [
+              "765",
+              5,
+              5,
+              0
+            ]
+          ],
+          "top_falling": [
+            [
+              "010",
+              -4,
+              0,
+              4
+            ],
+            [
+              "021",
+              -4,
+              0,
+              4
+            ],
+            [
+              "022",
+              -4,
+              0,
+              4
+            ],
+            [
+              "085",
+              -4,
+              0,
+              4
+            ]
+          ]
+        },
+        "window_100": {
+          "correlation": 0.021651,
+          "correlation_p": 0.494037,
+          "frequency_stable": "False",
+          "top_rising": [
+            [
+              "403",
+              8,
+              8,
+              0
+            ],
+            [
+              "033",
+              6,
+              6,
+              0
+            ],
+            [
+              "221",
+              6,
+              7,
+              1
+            ],
+            [
+              "288",
+              6,
+              6,
+              0
+            ]
+          ],
+          "top_falling": [
+            [
+              "351",
+              -6,
+              0,
+              6
+            ]
+          ]
+        },
+        "window_200": {
+          "correlation": 0.064426,
+          "correlation_p": 0.041661,
+          "frequency_stable": "False",
+          "top_rising": [
+            [
+              "057",
+              9,
+              10,
+              1
+            ],
+            [
+              "136",
+              9,
+              10,
+              1
+            ],
+            [
+              "223",
+              9,
+              13,
+              4
+            ],
+            [
+              "377",
+              9,
+              10,
+              1
+            ]
+          ],
+          "top_falling": [
+            [
+              "750",
+              -11,
+              2,
+              13
+            ]
+          ]
+        }
+      }
+    },
+    "gap_analysis": {
+      "test": "Gap Analysis (Appearance Intervals)",
+      "total_gap_observations": 20280,
+      "mean_gap": 47.5194,
+      "median_gap": 33.0,
+      "std_gap": 47.6405,
+      "min_gap": 0,
+      "max_gap": 477,
+      "gap_distribution_top": [
+        [
+          1,
+          424
+        ],
+        [
+          3,
+          416
+        ],
+        [
+          4,
+          407
+        ],
+        [
+          6,
+          406
+        ],
+        [
+          5,
+          399
+        ],
+        [
+          2,
+          392
+        ],
+        [
+          7,
+          369
+        ],
+        [
+          8,
+          356
+        ],
+        [
+          9,
+          356
+        ],
+        [
+          14,
+          344
+        ],
+        [
+          12,
+          336
+        ],
+        [
+          11,
+          334
+        ],
+        [
+          10,
+          329
+        ],
+        [
+          17,
+          327
+        ],
+        [
+          13,
+          317
+        ]
+      ],
+      "numbers_with_shortest_avg_gap": [
+        [
+          "706",
+          27.47
+        ],
+        [
+          "734",
+          27.69
+        ],
+        [
+          "380",
+          28.37
+        ],
+        [
+          "656",
+          29.18
+        ],
+        [
+          "094",
+          29.33
+        ],
+        [
+          "223",
+          30.21
+        ],
+        [
+          "939",
+          30.75
+        ],
+        [
+          "799",
+          30.81
+        ],
+        [
+          "807",
+          31.38
+        ],
+        [
+          "056",
+          31.66
+        ]
+      ],
+      "numbers_with_longest_avg_gap": [
+        [
+          "044",
+          128.43
+        ],
+        [
+          "042",
+          100.78
+        ],
+        [
+          "642",
+          98.2
+        ],
+        [
+          "263",
+          97.2
+        ],
+        [
+          "112",
+          95.5
+        ],
+        [
+          "609",
+          94.64
+        ],
+        [
+          "282",
+          93.22
+        ],
+        [
+          "948",
+          93.0
+        ],
+        [
+          "840",
+          91.6
+        ],
+        [
+          "345",
+          89.6
+        ]
+      ]
+    },
+    "conditional_prob": {
+      "test": "Conditional Probability (Next-Draw)",
+      "top_n_analyzed": 20,
+      "pairs_with_notable_lift": 20,
+      "results": {
+        "706": {
+          "n_appearances": 36,
+          "notable_followers": [
+            [
+              "706",
+              0.0278,
+              0.0348,
+              0.7988
+            ],
+            [
+              "656",
+              0.0,
+              0.0329,
+              0.0
+            ],
+            [
+              "094",
+              0.0,
+              0.032,
+              0.0
+            ],
+            [
+              "939",
+              0.0556,
+              0.031,
+              1.7912
+            ],
+            [
+              "350",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "459",
+              0.0556,
+              0.0301,
+              1.8472
+            ],
+            [
+              "289",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "006",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "720",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "799",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "769",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "380": {
+          "n_appearances": 35,
+          "notable_followers": [
+            [
+              "706",
+              0.0,
+              0.0348,
+              0.0
+            ],
+            [
+              "734",
+              0.0571,
+              0.0338,
+              1.6889
+            ],
+            [
+              "656",
+              0.0571,
+              0.0329,
+              1.7371
+            ],
+            [
+              "786",
+              0.1143,
+              0.031,
+              3.6848
+            ],
+            [
+              "939",
+              0.0571,
+              0.031,
+              1.8424
+            ],
+            [
+              "350",
+              0.0571,
+              0.0301,
+              1.9
+            ],
+            [
+              "834",
+              0.0571,
+              0.0301,
+              1.9
+            ],
+            [
+              "459",
+              0.0571,
+              0.0301,
+              1.9
+            ],
+            [
+              "289",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "052",
+              0.0571,
+              0.0301,
+              1.9
+            ],
+            [
+              "006",
+              0.0571,
+              0.0301,
+              1.9
+            ],
+            [
+              "720",
+              0.1429,
+              0.0301,
+              4.75
+            ],
+            [
+              "769",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "734": {
+          "n_appearances": 36,
+          "notable_followers": [
+            [
+              "706",
+              0.0,
+              0.0348,
+              0.0
+            ],
+            [
+              "786",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "459",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "006",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "720",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "217",
+              0.0556,
+              0.0301,
+              1.8472
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "769",
+              0.0556,
+              0.0291,
+              1.9068
+            ],
+            [
+              "691",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "656": {
+          "n_appearances": 34,
+          "notable_followers": [
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "734",
+              0.1176,
+              0.0338,
+              3.4771
+            ],
+            [
+              "656",
+              0.0,
+              0.0329,
+              0.0
+            ],
+            [
+              "056",
+              0.0588,
+              0.031,
+              1.8966
+            ],
+            [
+              "350",
+              0.1176,
+              0.0301,
+              3.9118
+            ],
+            [
+              "289",
+              0.0588,
+              0.0301,
+              1.9559
+            ],
+            [
+              "052",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "720",
+              0.0588,
+              0.0301,
+              1.9559
+            ],
+            [
+              "217",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "799",
+              0.0588,
+              0.0301,
+              1.9559
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "769",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "691",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "094": {
+          "n_appearances": 34,
+          "notable_followers": [
+            [
+              "706",
+              0.1471,
+              0.0348,
+              4.2289
+            ],
+            [
+              "734",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "656",
+              0.0882,
+              0.0329,
+              2.6824
+            ],
+            [
+              "094",
+              0.1176,
+              0.032,
+              3.6817
+            ],
+            [
+              "056",
+              0.0588,
+              0.031,
+              1.8966
+            ],
+            [
+              "786",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "939",
+              0.0588,
+              0.031,
+              1.8966
+            ],
+            [
+              "834",
+              0.0588,
+              0.0301,
+              1.9559
+            ],
+            [
+              "459",
+              0.1176,
+              0.0301,
+              3.9118
+            ],
+            [
+              "289",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "052",
+              0.0588,
+              0.0301,
+              1.9559
+            ],
+            [
+              "720",
+              0.0588,
+              0.0301,
+              1.9559
+            ],
+            [
+              "217",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "691",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "056": {
+          "n_appearances": 33,
+          "notable_followers": [
+            [
+              "734",
+              0.0606,
+              0.0338,
+              1.7912
+            ],
+            [
+              "656",
+              0.0,
+              0.0329,
+              0.0
+            ],
+            [
+              "056",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "786",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "834",
+              0.0909,
+              0.0301,
+              3.0227
+            ],
+            [
+              "289",
+              0.0606,
+              0.0301,
+              2.0152
+            ],
+            [
+              "052",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "720",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "217",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "799",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "769",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "691",
+              0.0909,
+              0.0291,
+              3.1202
+            ]
+          ]
+        },
+        "786": {
+          "n_appearances": 33,
+          "notable_followers": [
+            [
+              "706",
+              0.0,
+              0.0348,
+              0.0
+            ],
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "094",
+              0.0,
+              0.032,
+              0.0
+            ],
+            [
+              "056",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "786",
+              0.0606,
+              0.031,
+              1.9541
+            ],
+            [
+              "834",
+              0.0606,
+              0.0301,
+              2.0152
+            ],
+            [
+              "459",
+              0.0606,
+              0.0301,
+              2.0152
+            ],
+            [
+              "289",
+              0.0909,
+              0.0301,
+              3.0227
+            ],
+            [
+              "052",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "217",
+              0.0606,
+              0.0301,
+              2.0152
+            ],
+            [
+              "799",
+              0.0606,
+              0.0301,
+              2.0152
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "769",
+              0.0606,
+              0.0291,
+              2.0802
+            ],
+            [
+              "691",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "939": {
+          "n_appearances": 33,
+          "notable_followers": [
+            [
+              "706",
+              0.0,
+              0.0348,
+              0.0
+            ],
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "656",
+              0.0606,
+              0.0329,
+              1.8424
+            ],
+            [
+              "094",
+              0.0,
+              0.032,
+              0.0
+            ],
+            [
+              "834",
+              0.0909,
+              0.0301,
+              3.0227
+            ],
+            [
+              "289",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "006",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "217",
+              0.0909,
+              0.0301,
+              3.0227
+            ],
+            [
+              "334",
+              0.1212,
+              0.0291,
+              4.1603
+            ],
+            [
+              "769",
+              0.0606,
+              0.0291,
+              2.0802
+            ],
+            [
+              "691",
+              0.0606,
+              0.0291,
+              2.0802
+            ]
+          ]
+        },
+        "350": {
+          "n_appearances": 31,
+          "notable_followers": [
+            [
+              "734",
+              0.0645,
+              0.0338,
+              1.9068
+            ],
+            [
+              "656",
+              0.0645,
+              0.0329,
+              1.9613
+            ],
+            [
+              "094",
+              0.0,
+              0.032,
+              0.0
+            ],
+            [
+              "056",
+              0.0645,
+              0.031,
+              2.0802
+            ],
+            [
+              "786",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "350",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "834",
+              0.0968,
+              0.0301,
+              3.2177
+            ],
+            [
+              "459",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "289",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "052",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "006",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "720",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "217",
+              0.0645,
+              0.0301,
+              2.1452
+            ],
+            [
+              "799",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "834": {
+          "n_appearances": 31,
+          "notable_followers": [
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "656",
+              0.0,
+              0.0329,
+              0.0
+            ],
+            [
+              "094",
+              0.0,
+              0.032,
+              0.0
+            ],
+            [
+              "056",
+              0.0645,
+              0.031,
+              2.0802
+            ],
+            [
+              "786",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "834",
+              0.0645,
+              0.0301,
+              2.1452
+            ],
+            [
+              "459",
+              0.0645,
+              0.0301,
+              2.1452
+            ],
+            [
+              "289",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "052",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "006",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "720",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "217",
+              0.0968,
+              0.0301,
+              3.2177
+            ],
+            [
+              "799",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "334",
+              0.129,
+              0.0291,
+              4.4287
+            ],
+            [
+              "769",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "459": {
+          "n_appearances": 32,
+          "notable_followers": [
+            [
+              "706",
+              0.0,
+              0.0348,
+              0.0
+            ],
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "734",
+              0.0625,
+              0.0338,
+              1.8472
+            ],
+            [
+              "656",
+              0.0,
+              0.0329,
+              0.0
+            ],
+            [
+              "094",
+              0.0625,
+              0.032,
+              1.9559
+            ],
+            [
+              "056",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "786",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "350",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "459",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "052",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "006",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "720",
+              0.0938,
+              0.0301,
+              3.1172
+            ],
+            [
+              "217",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "769",
+              0.0938,
+              0.0291,
+              3.2177
+            ]
+          ]
+        },
+        "289": {
+          "n_appearances": 32,
+          "notable_followers": [
+            [
+              "380",
+              0.0625,
+              0.0338,
+              1.8472
+            ],
+            [
+              "656",
+              0.0625,
+              0.0329,
+              1.9
+            ],
+            [
+              "094",
+              0.0625,
+              0.032,
+              1.9559
+            ],
+            [
+              "056",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "786",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "350",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "834",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "289",
+              0.0938,
+              0.0301,
+              3.1172
+            ],
+            [
+              "006",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "720",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "217",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "799",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "691",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "052": {
+          "n_appearances": 32,
+          "notable_followers": [
+            [
+              "706",
+              0.125,
+              0.0348,
+              3.5946
+            ],
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "734",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "656",
+              0.0,
+              0.0329,
+              0.0
+            ],
+            [
+              "094",
+              0.0,
+              0.032,
+              0.0
+            ],
+            [
+              "939",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "350",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "459",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "052",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "006",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "720",
+              0.0938,
+              0.0301,
+              3.1172
+            ],
+            [
+              "217",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "769",
+              0.0625,
+              0.0291,
+              2.1452
+            ],
+            [
+              "691",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "006": {
+          "n_appearances": 31,
+          "notable_followers": [
+            [
+              "706",
+              0.0645,
+              0.0348,
+              1.8553
+            ],
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "734",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "656",
+              0.0645,
+              0.0329,
+              1.9613
+            ],
+            [
+              "094",
+              0.0,
+              0.032,
+              0.0
+            ],
+            [
+              "056",
+              0.0968,
+              0.031,
+              3.1202
+            ],
+            [
+              "786",
+              0.0645,
+              0.031,
+              2.0802
+            ],
+            [
+              "939",
+              0.0645,
+              0.031,
+              2.0802
+            ],
+            [
+              "350",
+              0.0645,
+              0.0301,
+              2.1452
+            ],
+            [
+              "289",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "006",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "720",
+              0.129,
+              0.0301,
+              4.2903
+            ],
+            [
+              "217",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "799",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "769",
+              0.0645,
+              0.0291,
+              2.2144
+            ],
+            [
+              "691",
+              0.0645,
+              0.0291,
+              2.2144
+            ]
+          ]
+        },
+        "720": {
+          "n_appearances": 32,
+          "notable_followers": [
+            [
+              "706",
+              0.0,
+              0.0348,
+              0.0
+            ],
+            [
+              "734",
+              0.0625,
+              0.0338,
+              1.8472
+            ],
+            [
+              "350",
+              0.0938,
+              0.0301,
+              3.1172
+            ],
+            [
+              "834",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "459",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "289",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "052",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "006",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "217",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "799",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "691",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "217": {
+          "n_appearances": 32,
+          "notable_followers": [
+            [
+              "706",
+              0.0938,
+              0.0348,
+              2.6959
+            ],
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "734",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "094",
+              0.0625,
+              0.032,
+              1.9559
+            ],
+            [
+              "056",
+              0.0625,
+              0.031,
+              2.0152
+            ],
+            [
+              "786",
+              0.0625,
+              0.031,
+              2.0152
+            ],
+            [
+              "939",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "834",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "289",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "052",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "006",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "720",
+              0.0625,
+              0.0301,
+              2.0781
+            ],
+            [
+              "334",
+              0.0625,
+              0.0291,
+              2.1452
+            ],
+            [
+              "769",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "691",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "799": {
+          "n_appearances": 31,
+          "notable_followers": [
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "734",
+              0.0645,
+              0.0338,
+              1.9068
+            ],
+            [
+              "094",
+              0.0,
+              0.032,
+              0.0
+            ],
+            [
+              "056",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "786",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "350",
+              0.0645,
+              0.0301,
+              2.1452
+            ],
+            [
+              "289",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "799",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "691",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        },
+        "334": {
+          "n_appearances": 28,
+          "notable_followers": [
+            [
+              "734",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "656",
+              0.0,
+              0.0329,
+              0.0
+            ],
+            [
+              "056",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "939",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "350",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "834",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "459",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "052",
+              0.0714,
+              0.0301,
+              2.375
+            ],
+            [
+              "799",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "769",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "691",
+              0.0357,
+              0.0291,
+              1.2258
+            ]
+          ]
+        },
+        "769": {
+          "n_appearances": 30,
+          "notable_followers": [
+            [
+              "706",
+              0.0,
+              0.0348,
+              0.0
+            ],
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "734",
+              0.0667,
+              0.0338,
+              1.9704
+            ],
+            [
+              "656",
+              0.1,
+              0.0329,
+              3.04
+            ],
+            [
+              "094",
+              0.0667,
+              0.032,
+              2.0863
+            ],
+            [
+              "939",
+              0.0,
+              0.031,
+              0.0
+            ],
+            [
+              "350",
+              0.0667,
+              0.0301,
+              2.2167
+            ],
+            [
+              "459",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "289",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "006",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "217",
+              0.1,
+              0.0301,
+              3.325
+            ],
+            [
+              "769",
+              0.1,
+              0.0291,
+              3.4323
+            ],
+            [
+              "691",
+              0.1,
+              0.0291,
+              3.4323
+            ]
+          ]
+        },
+        "691": {
+          "n_appearances": 28,
+          "notable_followers": [
+            [
+              "706",
+              0.0714,
+              0.0348,
+              2.0541
+            ],
+            [
+              "380",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "734",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "094",
+              0.0714,
+              0.032,
+              2.2353
+            ],
+            [
+              "786",
+              0.0714,
+              0.031,
+              2.303
+            ],
+            [
+              "350",
+              0.0714,
+              0.0301,
+              2.375
+            ],
+            [
+              "834",
+              0.0714,
+              0.0301,
+              2.375
+            ],
+            [
+              "459",
+              0.0714,
+              0.0301,
+              2.375
+            ],
+            [
+              "052",
+              0.0714,
+              0.0301,
+              2.375
+            ],
+            [
+              "006",
+              0.0714,
+              0.0301,
+              2.375
+            ],
+            [
+              "720",
+              0.1071,
+              0.0301,
+              3.5625
+            ],
+            [
+              "217",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "799",
+              0.0,
+              0.0301,
+              0.0
+            ],
+            [
+              "334",
+              0.0,
+              0.0291,
+              0.0
+            ],
+            [
+              "769",
+              0.0357,
+              0.0291,
+              1.2258
+            ],
+            [
+              "691",
+              0.0,
+              0.0291,
+              0.0
+            ]
+          ]
+        }
+      }
+    },
+    "ending_digits": {
+      "test": "Ending Digit Analysis",
+      "last_digit": {
+        "counts": {
+          "0": 2178,
+          "1": 2112,
+          "2": 2026,
+          "3": 2101,
+          "4": 2053,
+          "5": 2129,
+          "6": 2340,
+          "7": 2159,
+          "8": 1967,
+          "9": 2215
+        },
+        "chi2": 46.4803,
+        "p_value": 0.0,
+        "is_uniform": "False"
+      },
+      "last_two_digits": {
+        "chi2": 157.735,
+        "p_value": 0.00016,
+        "is_uniform": "False",
+        "top_10": [
+          [
+            "06",
+            264
+          ],
+          [
+            "50",
+            254
+          ],
+          [
+            "56",
+            253
+          ],
+          [
+            "25",
+            249
+          ],
+          [
+            "34",
+            246
+          ],
+          [
+            "46",
+            244
+          ],
+          [
+            "59",
+            240
+          ],
+          [
+            "66",
+            237
+          ],
+          [
+            "89",
+            237
+          ],
+          [
+            "76",
+            236
+          ]
+        ]
+      }
+    },
+    "repeat_analysis": {
+      "test": "Consecutive Draw Repeat Analysis",
+      "total_consecutive_pairs": 1063,
+      "mean_repeats": 0.3989,
+      "std_repeats": 0.611,
+      "expected_repeats_random": 0.4,
+      "max_repeats": 3,
+      "min_repeats": 0,
+      "pct_draws_with_zero_repeats": 66.13,
+      "repeat_distribution": {
+        "0": 703,
+        "1": 303,
+        "2": 50,
+        "3": 7
+      }
+    },
+    "draw_sum": {
+      "test": "Draw Total Sum Analysis",
+      "mean_sum": 9911.71,
+      "expected_sum": 9990.0,
+      "std_sum": 1282.58,
+      "median_sum": 9929.0,
+      "min_sum": 6012,
+      "max_sum": 14029,
+      "is_normal": true
+    }
+  },
+  "max_3d_pro": {
+    "product": "max_3d_pro",
+    "total_draws": 711,
+    "date_range": [
+      "2021-09-14",
+      "2026-04-18"
+    ],
+    "chi_squared_whole": {
+      "test": "Chi-Squared Whole Number Uniformity",
+      "total_numbers": 14220,
+      "total_draws": 711,
+      "expected_per_number": 14.22,
+      "chi2_statistic": 993.5021,
+      "degrees_of_freedom": 999,
+      "p_value": 0.543122,
+      "is_uniform": "True",
+      "interpretation": "UNIFORM (p > 0.05) — RNG appears fair",
+      "top_overrepresented": [
+        [
+          "769",
+          26,
+          1.828
+        ],
+        [
+          "746",
+          26,
+          1.828
+        ],
+        [
+          "605",
+          25,
+          1.758
+        ],
+        [
+          "217",
+          24,
+          1.688
+        ],
+        [
+          "159",
+          24,
+          1.688
+        ],
+        [
+          "089",
+          24,
+          1.688
+        ],
+        [
+          "190",
+          23,
+          1.617
+        ],
+        [
+          "542",
+          23,
+          1.617
+        ],
+        [
+          "207",
+          23,
+          1.617
+        ],
+        [
+          "555",
+          23,
+          1.617
+        ],
+        [
+          "008",
+          23,
+          1.617
+        ],
+        [
+          "896",
+          23,
+          1.617
+        ],
+        [
+          "087",
+          22,
+          1.547
+        ],
+        [
+          "809",
+          22,
+          1.547
+        ],
+        [
+          "766",
+          22,
+          1.547
+        ],
+        [
+          "296",
+          22,
+          1.547
+        ],
+        [
+          "074",
+          22,
+          1.547
+        ],
+        [
+          "533",
+          22,
+          1.547
+        ],
+        [
+          "623",
+          22,
+          1.547
+        ],
+        [
+          "598",
+          22,
+          1.547
+        ]
+      ],
+      "top_underrepresented": [
+        [
+          "596",
+          3,
+          0.211
+        ],
+        [
+          "020",
+          4,
+          0.281
+        ],
+        [
+          "094",
+          4,
+          0.281
+        ],
+        [
+          "261",
+          5,
+          0.352
+        ],
+        [
+          "870",
+          5,
+          0.352
+        ],
+        [
+          "887",
+          5,
+          0.352
+        ],
+        [
+          "930",
+          5,
+          0.352
+        ],
+        [
+          "947",
+          5,
+          0.352
+        ],
+        [
+          "974",
+          5,
+          0.352
+        ],
+        [
+          "288",
+          6,
+          0.422
+        ],
+        [
+          "441",
+          6,
+          0.422
+        ],
+        [
+          "893",
+          6,
+          0.422
+        ],
+        [
+          "289",
+          7,
+          0.492
+        ],
+        [
+          "360",
+          7,
+          0.492
+        ],
+        [
+          "378",
+          7,
+          0.492
+        ],
+        [
+          "403",
+          7,
+          0.492
+        ],
+        [
+          "465",
+          7,
+          0.492
+        ],
+        [
+          "478",
+          7,
+          0.492
+        ],
+        [
+          "501",
+          7,
+          0.492
+        ],
+        [
+          "640",
+          7,
+          0.492
+        ]
+      ]
+    },
+    "chi_squared_digit": {
+      "test": "Chi-Squared Digit Position Uniformity",
+      "positions": {
+        "position_0": {
+          "total": 14220,
+          "expected": 1422.0,
+          "chi2": 18.616,
+          "p_value": 0.028663,
+          "is_uniform": "False",
+          "digit_counts": {
+            "0": 1429,
+            "1": 1498,
+            "2": 1431,
+            "3": 1467,
+            "4": 1383,
+            "5": 1424,
+            "6": 1400,
+            "7": 1468,
+            "8": 1418,
+            "9": 1302
+          },
+          "digit_ratios": {
+            "0": 1.0049,
+            "1": 1.0534,
+            "2": 1.0063,
+            "3": 1.0316,
+            "4": 0.9726,
+            "5": 1.0014,
+            "6": 0.9845,
+            "7": 1.0323,
+            "8": 0.9972,
+            "9": 0.9156
+          }
+        },
+        "position_1": {
+          "total": 14220,
+          "expected": 1422.0,
+          "chi2": 23.18,
+          "p_value": 0.005804,
+          "is_uniform": "False",
+          "digit_counts": {
+            "0": 1429,
+            "1": 1426,
+            "2": 1460,
+            "3": 1386,
+            "4": 1367,
+            "5": 1515,
+            "6": 1463,
+            "7": 1301,
+            "8": 1407,
+            "9": 1466
+          },
+          "digit_ratios": {
+            "0": 1.0049,
+            "1": 1.0028,
+            "2": 1.0267,
+            "3": 0.9747,
+            "4": 0.9613,
+            "5": 1.0654,
+            "6": 1.0288,
+            "7": 0.9149,
+            "8": 0.9895,
+            "9": 1.0309
+          }
+        },
+        "position_2": {
+          "total": 14220,
+          "expected": 1422.0,
+          "chi2": 25.3755,
+          "p_value": 0.002583,
+          "is_uniform": "False",
+          "digit_counts": {
+            "0": 1382,
+            "1": 1397,
+            "2": 1406,
+            "3": 1400,
+            "4": 1392,
+            "5": 1407,
+            "6": 1587,
+            "7": 1385,
+            "8": 1392,
+            "9": 1472
+          },
+          "digit_ratios": {
+            "0": 0.9719,
+            "1": 0.9824,
+            "2": 0.9887,
+            "3": 0.9845,
+            "4": 0.9789,
+            "5": 0.9895,
+            "6": 1.116,
+            "7": 0.974,
+            "8": 0.9789,
+            "9": 1.0352
+          }
+        }
+      }
+    },
+    "digit_independence": {
+      "test": "Digit Independence",
+      "pairs": {
+        "pos_0_1": {
+          "chi2": 127.7496,
+          "p_value": 0.000717,
+          "is_independent": "False"
+        },
+        "pos_1_2": {
+          "chi2": 123.91,
+          "p_value": 0.001529,
+          "is_independent": "False"
+        },
+        "pos_0_2": {
+          "chi2": 137.4965,
+          "p_value": 9.1e-05,
+          "is_independent": "False"
+        }
+      }
+    },
+    "serial_correlation": {
+      "test": "Serial Correlation (Autocorrelation)",
+      "total_tests": 200,
+      "significant_tests": 6,
+      "pct_significant": 3.0,
+      "expected_false_positive_pct": 5.0,
+      "interpretation": "No exploitable autocorrelation",
+      "results": {
+        "769": {
+          "1": {
+            "autocorrelation": 0.001914,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.036706,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.036812,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.043377,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.037024,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": -0.03713,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.035762,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": 0.004509,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.035972,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.044904,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.036184,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.004317,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.036396,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.036503,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": 0.085736,
+            "significant": "True"
+          },
+          "16": {
+            "autocorrelation": 0.044964,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.035329,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": 0.005524,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.035541,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": 0.00543,
+            "significant": "False"
+          }
+        },
+        "746": {
+          "1": {
+            "autocorrelation": 0.046486,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.036649,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": 0.046515,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": -0.036856,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.036959,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.088368,
+            "significant": "True"
+          },
+          "7": {
+            "autocorrelation": -0.037168,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": 0.004657,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": 0.046601,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.004566,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": 0.004521,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.004475,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.037801,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": 0.046674,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": 0.004337,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.005782,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": 0.005738,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.036841,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.036947,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": 0.048263,
+            "significant": "False"
+          }
+        },
+        "605": {
+          "1": {
+            "autocorrelation": 0.00497,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.036649,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": 0.004881,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.006303,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.035491,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.006217,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": 0.048044,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": -0.035798,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": 0.006088,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.048094,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": 0.006001,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.005958,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.036316,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.03642,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": -0.036525,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.005782,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.035242,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.035345,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.035449,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": 0.007105,
+            "significant": "False"
+          }
+        },
+        "217": {
+          "1": {
+            "autocorrelation": 0.00815,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.035132,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.035231,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": -0.03533,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": 0.007998,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": -0.035529,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": 0.051473,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": -0.034257,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": 0.009319,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.009283,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": 0.009246,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.096934,
+            "significant": "True"
+          },
+          "13": {
+            "autocorrelation": 0.053098,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": 0.009135,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": 0.009098,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.01055,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": 0.010515,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.032269,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.032366,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": -0.032464,
+            "significant": "False"
+          }
+        },
+        "159": {
+          "1": {
+            "autocorrelation": -0.033524,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.033619,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": 0.056531,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.011377,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": 0.011346,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.056629,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": 0.056662,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": 0.056695,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": 0.01122,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": -0.034384,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.034481,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.011125,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.034675,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.034773,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": -0.034871,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.056963,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.035068,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": 0.010932,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.035266,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": 0.010867,
+            "significant": "False"
+          }
+        },
+        "089": {
+          "1": {
+            "autocorrelation": 0.00815,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": 0.008112,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": 0.008074,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.008036,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.035429,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.00796,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": 0.007922,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": 0.007883,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": 0.007845,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": -0.035931,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.036032,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": -0.036134,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.036236,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.036338,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": 0.007611,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.007572,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": 0.007533,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": 0.095978,
+            "significant": "True"
+          },
+          "19": {
+            "autocorrelation": 0.007453,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": -0.036957,
+            "significant": "False"
+          }
+        },
+        "190": {
+          "1": {
+            "autocorrelation": -0.033524,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": 0.012897,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": 0.012868,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.012839,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.03244,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.012781,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.032627,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": 0.014192,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": 0.014165,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.014137,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.031528,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.014082,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.031714,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.031808,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": -0.031902,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.059937,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": 0.013943,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": 0.060013,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": 0.013886,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": 0.106322,
+            "significant": "True"
+          }
+        },
+        "542": {
+          "1": {
+            "autocorrelation": 0.011471,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": 0.056498,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": 0.056531,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.056563,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.033904,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.056629,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.034095,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": 0.011252,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.034287,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.011189,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": 0.011157,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.011125,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": 0.011093,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.033291,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": 0.012514,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": 0.05845,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.033579,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.033676,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": -0.033773,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": -0.03387,
+            "significant": "False"
+          }
+        },
+        "207": {
+          "1": {
+            "autocorrelation": -0.033524,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": -0.033619,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": 0.056531,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": -0.033809,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": -0.033904,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": 0.011315,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": -0.034095,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": -0.034191,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": 0.056728,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.011189,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.034481,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.102531,
+            "significant": "True"
+          },
+          "13": {
+            "autocorrelation": 0.011093,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": 0.011061,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": 0.011029,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": -0.034969,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.033579,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": 0.012423,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": 0.012393,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": -0.03387,
+            "significant": "False"
+          }
+        },
+        "555": {
+          "1": {
+            "autocorrelation": 0.061924,
+            "significant": "False"
+          },
+          "2": {
+            "autocorrelation": 0.014928,
+            "significant": "False"
+          },
+          "3": {
+            "autocorrelation": -0.032201,
+            "significant": "False"
+          },
+          "4": {
+            "autocorrelation": 0.01488,
+            "significant": "False"
+          },
+          "5": {
+            "autocorrelation": 0.014856,
+            "significant": "False"
+          },
+          "6": {
+            "autocorrelation": -0.032474,
+            "significant": "False"
+          },
+          "7": {
+            "autocorrelation": 0.014807,
+            "significant": "False"
+          },
+          "8": {
+            "autocorrelation": -0.032657,
+            "significant": "False"
+          },
+          "9": {
+            "autocorrelation": -0.032749,
+            "significant": "False"
+          },
+          "10": {
+            "autocorrelation": 0.014734,
+            "significant": "False"
+          },
+          "11": {
+            "autocorrelation": -0.032934,
+            "significant": "False"
+          },
+          "12": {
+            "autocorrelation": 0.014685,
+            "significant": "False"
+          },
+          "13": {
+            "autocorrelation": -0.03312,
+            "significant": "False"
+          },
+          "14": {
+            "autocorrelation": -0.033213,
+            "significant": "False"
+          },
+          "15": {
+            "autocorrelation": -0.033307,
+            "significant": "False"
+          },
+          "16": {
+            "autocorrelation": -0.033401,
+            "significant": "False"
+          },
+          "17": {
+            "autocorrelation": -0.033495,
+            "significant": "False"
+          },
+          "18": {
+            "autocorrelation": -0.033589,
+            "significant": "False"
+          },
+          "19": {
+            "autocorrelation": 0.01451,
+            "significant": "False"
+          },
+          "20": {
+            "autocorrelation": -0.033779,
+            "significant": "False"
+          }
+        }
+      }
+    },
+    "runs_test": {
+      "test": "Wald-Wolfowitz Runs Test (Digit Sum Sequence)",
+      "n_draws": 711,
+      "n_above_median": 346,
+      "n_below_median": 365,
+      "observed_runs": 333,
+      "expected_runs": 356.25,
+      "z_statistic": -1.7461,
+      "p_value": 0.080798,
+      "is_random": "True",
+      "interpretation": "Sequence appears random"
+    },
+    "digit_sum": {
+      "test": "Digit Sum Distribution Analysis",
+      "mean": 13.4772,
+      "median": 13.0,
+      "std": 4.9313,
+      "theoretical_mean": 13.5,
+      "chi2_vs_theoretical": 23.5519,
+      "p_value": 0.655037,
+      "matches_theoretical": "True",
+      "distribution": {
+        "0": 12,
+        "1": 45,
+        "2": 73,
+        "3": 139,
+        "4": 209,
+        "5": 310,
+        "6": 379,
+        "7": 498,
+        "8": 655,
+        "9": 745,
+        "10": 935,
+        "11": 1056,
+        "12": 1048,
+        "13": 1051,
+        "14": 1072,
+        "15": 1047,
+        "16": 965,
+        "17": 929,
+        "18": 765,
+        "19": 633,
+        "20": 481,
+        "21": 389,
+        "22": 307,
+        "23": 198,
+        "24": 150,
+        "25": 69,
+        "26": 43,
+        "27": 17
+      },
+      "peak_digit_sums": [
+        [
+          14,
+          1072
+        ],
+        [
+          11,
+          1056
+        ],
+        [
+          13,
+          1051
+        ],
+        [
+          12,
+          1048
+        ],
+        [
+          15,
+          1047
+        ]
+      ]
+    },
+    "tier_analysis": {
+      "test": "Tier-Specific Frequency Analysis",
+      "tier_totals": {
+        "Giải Đặc biệt": 1422,
+        "Giải Nhất": 2844,
+        "Giải Nhì": 4266,
+        "Giải ba": 5688
+      },
+      "pairwise_distribution_tests": {
+        "Giải Đặc biệt vs Giải Nhất": {
+          "ks_statistic": 0.376,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        },
+        "Giải Đặc biệt vs Giải Nhì": {
+          "ks_statistic": 0.652,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        },
+        "Giải Đặc biệt vs Giải ba": {
+          "ks_statistic": 0.782,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        },
+        "Giải Nhất vs Giải Nhì": {
+          "ks_statistic": 0.291,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        },
+        "Giải Nhất vs Giải ba": {
+          "ks_statistic": 0.535,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        },
+        "Giải Nhì vs Giải ba": {
+          "ks_statistic": 0.258,
+          "p_value": 0.0,
+          "same_distribution": "False"
+        }
+      },
+      "top_per_tier": {
+        "Giải Đặc biệt": [
+          {
+            "number": "116",
+            "count": 7,
+            "ratio_vs_expected": 4.923
+          },
+          {
+            "number": "734",
+            "count": 6,
+            "ratio_vs_expected": 4.219
+          },
+          {
+            "number": "199",
+            "count": 6,
+            "ratio_vs_expected": 4.219
+          },
+          {
+            "number": "466",
+            "count": 6,
+            "ratio_vs_expected": 4.219
+          },
+          {
+            "number": "535",
+            "count": 6,
+            "ratio_vs_expected": 4.219
+          },
+          {
+            "number": "110",
+            "count": 5,
+            "ratio_vs_expected": 3.516
+          },
+          {
+            "number": "245",
+            "count": 5,
+            "ratio_vs_expected": 3.516
+          },
+          {
+            "number": "912",
+            "count": 5,
+            "ratio_vs_expected": 3.516
+          },
+          {
+            "number": "107",
+            "count": 5,
+            "ratio_vs_expected": 3.516
+          },
+          {
+            "number": "544",
+            "count": 5,
+            "ratio_vs_expected": 3.516
+          }
+        ],
+        "Giải Nhất": [
+          {
+            "number": "562",
+            "count": 9,
+            "ratio_vs_expected": 3.165
+          },
+          {
+            "number": "140",
+            "count": 9,
+            "ratio_vs_expected": 3.165
+          },
+          {
+            "number": "376",
+            "count": 8,
+            "ratio_vs_expected": 2.813
+          },
+          {
+            "number": "342",
+            "count": 8,
+            "ratio_vs_expected": 2.813
+          },
+          {
+            "number": "746",
+            "count": 8,
+            "ratio_vs_expected": 2.813
+          },
+          {
+            "number": "798",
+            "count": 8,
+            "ratio_vs_expected": 2.813
+          },
+          {
+            "number": "089",
+            "count": 8,
+            "ratio_vs_expected": 2.813
+          },
+          {
+            "number": "536",
+            "count": 8,
+            "ratio_vs_expected": 2.813
+          },
+          {
+            "number": "250",
+            "count": 8,
+            "ratio_vs_expected": 2.813
+          },
+          {
+            "number": "355",
+            "count": 7,
+            "ratio_vs_expected": 2.461
+          }
+        ],
+        "Giải Nhì": [
+          {
+            "number": "068",
+            "count": 11,
+            "ratio_vs_expected": 2.579
+          },
+          {
+            "number": "605",
+            "count": 11,
+            "ratio_vs_expected": 2.579
+          },
+          {
+            "number": "158",
+            "count": 10,
+            "ratio_vs_expected": 2.344
+          },
+          {
+            "number": "234",
+            "count": 10,
+            "ratio_vs_expected": 2.344
+          },
+          {
+            "number": "814",
+            "count": 10,
+            "ratio_vs_expected": 2.344
+          },
+          {
+            "number": "389",
+            "count": 10,
+            "ratio_vs_expected": 2.344
+          },
+          {
+            "number": "098",
+            "count": 10,
+            "ratio_vs_expected": 2.344
+          },
+          {
+            "number": "332",
+            "count": 10,
+            "ratio_vs_expected": 2.344
+          },
+          {
+            "number": "056",
+            "count": 10,
+            "ratio_vs_expected": 2.344
+          },
+          {
+            "number": "326",
+            "count": 10,
+            "ratio_vs_expected": 2.344
+          }
+        ],
+        "Giải ba": [
+          {
+            "number": "769",
+            "count": 19,
+            "ratio_vs_expected": 3.34
+          },
+          {
+            "number": "619",
+            "count": 14,
+            "ratio_vs_expected": 2.461
+          },
+          {
+            "number": "216",
+            "count": 14,
+            "ratio_vs_expected": 2.461
+          },
+          {
+            "number": "363",
+            "count": 14,
+            "ratio_vs_expected": 2.461
+          },
+          {
+            "number": "385",
+            "count": 13,
+            "ratio_vs_expected": 2.286
+          },
+          {
+            "number": "766",
+            "count": 13,
+            "ratio_vs_expected": 2.286
+          },
+          {
+            "number": "674",
+            "count": 13,
+            "ratio_vs_expected": 2.286
+          },
+          {
+            "number": "143",
+            "count": 13,
+            "ratio_vs_expected": 2.286
+          },
+          {
+            "number": "146",
+            "count": 12,
+            "ratio_vs_expected": 2.11
+          },
+          {
+            "number": "768",
+            "count": 12,
+            "ratio_vs_expected": 2.11
+          }
+        ]
+      }
+    },
+    "temporal_windows": {
+      "test": "Temporal Window Analysis",
+      "windows": {
+        "window_10": {
+          "correlation": 0.020728,
+          "correlation_p": 0.512645,
+          "frequency_stable": "False",
+          "top_rising": [
+            [
+              "181",
+              3,
+              3,
+              0
+            ],
+            [
+              "407",
+              3,
+              3,
+              0
+            ],
+            [
+              "038",
+              2,
+              2,
+              0
+            ],
+            [
+              "067",
+              2,
+              2,
+              0
+            ],
+            [
+              "085",
+              2,
+              2,
+              0
+            ]
+          ],
+          "top_falling": []
+        },
+        "window_30": {
+          "correlation": 0.044294,
+          "correlation_p": 0.161627,
+          "frequency_stable": "False",
+          "top_rising": [
+            [
+              "215",
+              4,
+              4,
+              0
+            ],
+            [
+              "851",
+              4,
+              4,
+              0
+            ]
+          ],
+          "top_falling": [
+            [
+              "314",
+              -4,
+              0,
+              4
+            ],
+            [
+              "370",
+              -4,
+              0,
+              4
+            ],
+            [
+              "068",
+              -3,
+              0,
+              3
+            ]
+          ]
+        },
+        "window_50": {
+          "correlation": -0.017294,
+          "correlation_p": 0.584906,
+          "frequency_stable": "False",
+          "top_rising": [
+            [
+              "115",
+              4,
+              5,
+              1
+            ],
+            [
+              "215",
+              4,
+              4,
+              0
+            ],
+            [
+              "282",
+              4,
+              4,
+              0
+            ]
+          ],
+          "top_falling": [
+            [
+              "932",
+              -5,
+              0,
+              5
+            ],
+            [
+              "068",
+              -4,
+              0,
+              4
+            ]
+          ]
+        },
+        "window_100": {
+          "correlation": -0.056818,
+          "correlation_p": 0.072502,
+          "frequency_stable": "False",
+          "top_rising": [],
+          "top_falling": [
+            [
+              "029",
+              -7,
+              0,
+              7
+            ],
+            [
+              "622",
+              -7,
+              0,
+              7
+            ],
+            [
+              "820",
+              -7,
+              0,
+              7
+            ],
+            [
+              "035",
+              -6,
+              1,
+              7
+            ],
+            [
+              "107",
+              -6,
+              1,
+              7
+            ]
+          ]
+        },
+        "window_200": {
+          "correlation": 0.014334,
+          "correlation_p": 0.650731,
+          "frequency_stable": "False",
+          "top_rising": [
+            [
+              "045",
+              9,
+              12,
+              3
+            ],
+            [
+              "217",
+              8,
+              12,
+              4
+            ]
+          ],
+          "top_falling": [
+            [
+              "159",
+              -10,
+              2,
+              12
+            ],
+            [
+              "359",
+              -8,
+              1,
+              9
+            ],
+            [
+              "473",
+              -8,
+              1,
+              9
+            ]
+          ]
+        }
+      }
+    },
+    "gap_analysis": {
+      "test": "Gap Analysis (Appearance Intervals)",
+      "total_gap_observations": 13220,
+      "mean_gap": 46.214,
+      "median_gap": 32.0,
+      "std_gap": 45.7226,
+      "min_gap": 0,
+      "max_gap": 491,
+      "gap_distribution_top": [
+        [
+          1,
+          282
+        ],
+        [
+          2,
+          276
+        ],
+        [
+          4,
+          272
+        ],
+        [
+          6,
+          263
+        ],
+        [
+          11,
+          259
+        ],
+        [
+          3,
+          255
+        ],
+        [
+          5,
+          248
+        ],
+        [
+          9,
+          238
+        ],
+        [
+          10,
+          220
+        ],
+        [
+          8,
+          217
+        ],
+        [
+          15,
+          216
+        ],
+        [
+          7,
+          213
+        ],
+        [
+          16,
+          210
+        ],
+        [
+          13,
+          208
+        ],
+        [
+          12,
+          203
+        ]
+      ],
+      "numbers_with_shortest_avg_gap": [
+        [
+          "351",
+          23.45
+        ],
+        [
+          "159",
+          26.26
+        ],
+        [
+          "280",
+          26.4
+        ],
+        [
+          "074",
+          26.43
+        ],
+        [
+          "746",
+          26.68
+        ],
+        [
+          "089",
+          26.78
+        ],
+        [
+          "392",
+          27.25
+        ],
+        [
+          "896",
+          27.64
+        ],
+        [
+          "065",
+          27.95
+        ],
+        [
+          "769",
+          28.12
+        ]
+      ],
+      "numbers_with_longest_avg_gap": [
+        [
+          "094",
+          186.67
+        ],
+        [
+          "261",
+          144.25
+        ],
+        [
+          "870",
+          142.0
+        ],
+        [
+          "930",
+          135.0
+        ],
+        [
+          "441",
+          128.6
+        ],
+        [
+          "288",
+          127.4
+        ],
+        [
+          "947",
+          123.25
+        ],
+        [
+          "887",
+          116.25
+        ],
+        [
+          "900",
+          115.33
+        ],
+        [
+          "781",
+          109.83
+        ]
+      ]
+    },
+    "conditional_prob": {
+      "test": "Conditional Probability (Next-Draw)",
+      "top_n_analyzed": 20,
+      "pairs_with_notable_lift": 20,
+      "results": {
+        "769": {
+          "n_appearances": 26,
+          "notable_followers": [
+            [
+              "746",
+              0.0769,
+              0.0366,
+              2.1036
+            ],
+            [
+              "089",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "190",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0769,
+              0.0309,
+              2.486
+            ],
+            [
+              "766",
+              0.1154,
+              0.0309,
+              3.729
+            ],
+            [
+              "296",
+              0.0769,
+              0.0309,
+              2.486
+            ],
+            [
+              "074",
+              0.0385,
+              0.0309,
+              1.243
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "598",
+              0.0,
+              0.0309,
+              0.0
+            ]
+          ]
+        },
+        "746": {
+          "n_appearances": 25,
+          "notable_followers": [
+            [
+              "769",
+              0.08,
+              0.0366,
+              2.1877
+            ],
+            [
+              "746",
+              0.08,
+              0.0366,
+              2.1877
+            ],
+            [
+              "605",
+              0.08,
+              0.0352,
+              2.2752
+            ],
+            [
+              "217",
+              0.08,
+              0.0338,
+              2.37
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "190",
+              0.04,
+              0.0323,
+              1.2365
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "008",
+              0.04,
+              0.0323,
+              1.2365
+            ],
+            [
+              "896",
+              0.12,
+              0.0323,
+              3.7096
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "296",
+              0.04,
+              0.0309,
+              1.2927
+            ],
+            [
+              "074",
+              0.04,
+              0.0309,
+              1.2927
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "598",
+              0.04,
+              0.0309,
+              1.2927
+            ]
+          ]
+        },
+        "605": {
+          "n_appearances": 25,
+          "notable_followers": [
+            [
+              "769",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "746",
+              0.08,
+              0.0366,
+              2.1877
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.08,
+              0.0338,
+              2.37
+            ],
+            [
+              "190",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "008",
+              0.04,
+              0.0323,
+              1.2365
+            ],
+            [
+              "896",
+              0.04,
+              0.0323,
+              1.2365
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "296",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "074",
+              0.04,
+              0.0309,
+              1.2927
+            ],
+            [
+              "533",
+              0.12,
+              0.0309,
+              3.8782
+            ],
+            [
+              "623",
+              0.04,
+              0.0309,
+              1.2927
+            ],
+            [
+              "598",
+              0.04,
+              0.0309,
+              1.2927
+            ]
+          ]
+        },
+        "217": {
+          "n_appearances": 24,
+          "notable_followers": [
+            [
+              "769",
+              0.125,
+              0.0366,
+              3.4183
+            ],
+            [
+              "746",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "217",
+              0.0417,
+              0.0338,
+              1.2344
+            ],
+            [
+              "159",
+              0.0417,
+              0.0338,
+              1.2344
+            ],
+            [
+              "089",
+              0.0417,
+              0.0338,
+              1.2344
+            ],
+            [
+              "190",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0417,
+              0.0323,
+              1.288
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "008",
+              0.0417,
+              0.0323,
+              1.288
+            ],
+            [
+              "896",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "087",
+              0.0417,
+              0.0309,
+              1.3466
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "296",
+              0.0417,
+              0.0309,
+              1.3466
+            ],
+            [
+              "074",
+              0.0417,
+              0.0309,
+              1.3466
+            ],
+            [
+              "533",
+              0.0833,
+              0.0309,
+              2.6932
+            ],
+            [
+              "623",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "598",
+              0.0417,
+              0.0309,
+              1.3466
+            ]
+          ]
+        },
+        "159": {
+          "n_appearances": 23,
+          "notable_followers": [
+            [
+              "769",
+              0.087,
+              0.0366,
+              2.3779
+            ],
+            [
+              "746",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "605",
+              0.087,
+              0.0352,
+              2.473
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0435,
+              0.0338,
+              1.288
+            ],
+            [
+              "190",
+              0.087,
+              0.0323,
+              2.6881
+            ],
+            [
+              "542",
+              0.0435,
+              0.0323,
+              1.344
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "008",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "896",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "766",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "296",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "074",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "533",
+              0.087,
+              0.0309,
+              2.8103
+            ],
+            [
+              "623",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "598",
+              0.0,
+              0.0309,
+              0.0
+            ]
+          ]
+        },
+        "089": {
+          "n_appearances": 24,
+          "notable_followers": [
+            [
+              "605",
+              0.0,
+              0.0352,
+              0.0
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0417,
+              0.0338,
+              1.2344
+            ],
+            [
+              "190",
+              0.0417,
+              0.0323,
+              1.288
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0417,
+              0.0323,
+              1.288
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "008",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "896",
+              0.0833,
+              0.0323,
+              2.5761
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0417,
+              0.0309,
+              1.3466
+            ],
+            [
+              "296",
+              0.0417,
+              0.0309,
+              1.3466
+            ],
+            [
+              "074",
+              0.0833,
+              0.0309,
+              2.6932
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "598",
+              0.0,
+              0.0309,
+              0.0
+            ]
+          ]
+        },
+        "190": {
+          "n_appearances": 23,
+          "notable_followers": [
+            [
+              "746",
+              0.087,
+              0.0366,
+              2.3779
+            ],
+            [
+              "605",
+              0.0,
+              0.0352,
+              0.0
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "190",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "542",
+              0.0435,
+              0.0323,
+              1.344
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "008",
+              0.087,
+              0.0323,
+              2.6881
+            ],
+            [
+              "896",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "087",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "809",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "766",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "296",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "074",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.1304,
+              0.0309,
+              4.2154
+            ],
+            [
+              "598",
+              0.0,
+              0.0309,
+              0.0
+            ]
+          ]
+        },
+        "542": {
+          "n_appearances": 23,
+          "notable_followers": [
+            [
+              "605",
+              0.087,
+              0.0352,
+              2.473
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "190",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "542",
+              0.0435,
+              0.0323,
+              1.344
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "008",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "896",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "087",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "296",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "074",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "598",
+              0.0435,
+              0.0309,
+              1.4051
+            ]
+          ]
+        },
+        "207": {
+          "n_appearances": 23,
+          "notable_followers": [
+            [
+              "769",
+              0.087,
+              0.0366,
+              2.3779
+            ],
+            [
+              "605",
+              0.0435,
+              0.0352,
+              1.2365
+            ],
+            [
+              "217",
+              0.0435,
+              0.0338,
+              1.288
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0435,
+              0.0338,
+              1.288
+            ],
+            [
+              "190",
+              0.0435,
+              0.0323,
+              1.344
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.087,
+              0.0323,
+              2.6881
+            ],
+            [
+              "008",
+              0.0435,
+              0.0323,
+              1.344
+            ],
+            [
+              "896",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "087",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "809",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "766",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "296",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "074",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "598",
+              0.0435,
+              0.0309,
+              1.4051
+            ]
+          ]
+        },
+        "555": {
+          "n_appearances": 22,
+          "notable_followers": [
+            [
+              "769",
+              0.0455,
+              0.0366,
+              1.243
+            ],
+            [
+              "746",
+              0.0455,
+              0.0366,
+              1.243
+            ],
+            [
+              "605",
+              0.0,
+              0.0352,
+              0.0
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "190",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0909,
+              0.0323,
+              2.8103
+            ],
+            [
+              "555",
+              0.0909,
+              0.0323,
+              2.8103
+            ],
+            [
+              "008",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "896",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "087",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "809",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "766",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "296",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "074",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "598",
+              0.0,
+              0.0309,
+              0.0
+            ]
+          ]
+        },
+        "008": {
+          "n_appearances": 23,
+          "notable_followers": [
+            [
+              "769",
+              0.1304,
+              0.0366,
+              3.5669
+            ],
+            [
+              "605",
+              0.0435,
+              0.0352,
+              1.2365
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0435,
+              0.0338,
+              1.288
+            ],
+            [
+              "190",
+              0.0435,
+              0.0323,
+              1.344
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0435,
+              0.0323,
+              1.344
+            ],
+            [
+              "555",
+              0.087,
+              0.0323,
+              2.6881
+            ],
+            [
+              "008",
+              0.087,
+              0.0323,
+              2.6881
+            ],
+            [
+              "896",
+              0.0435,
+              0.0323,
+              1.344
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "296",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "074",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "533",
+              0.0435,
+              0.0309,
+              1.4051
+            ],
+            [
+              "623",
+              0.087,
+              0.0309,
+              2.8103
+            ],
+            [
+              "598",
+              0.1304,
+              0.0309,
+              4.2154
+            ]
+          ]
+        },
+        "896": {
+          "n_appearances": 22,
+          "notable_followers": [
+            [
+              "769",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "746",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "605",
+              0.0,
+              0.0352,
+              0.0
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0909,
+              0.0338,
+              2.6932
+            ],
+            [
+              "089",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "190",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "542",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "008",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "896",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "766",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "296",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "074",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "533",
+              0.0909,
+              0.0309,
+              2.938
+            ],
+            [
+              "623",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "598",
+              0.0455,
+              0.0309,
+              1.469
+            ]
+          ]
+        },
+        "087": {
+          "n_appearances": 21,
+          "notable_followers": [
+            [
+              "769",
+              0.1429,
+              0.0366,
+              3.9066
+            ],
+            [
+              "746",
+              0.0476,
+              0.0366,
+              1.3022
+            ],
+            [
+              "605",
+              0.0,
+              0.0352,
+              0.0
+            ],
+            [
+              "217",
+              0.0476,
+              0.0338,
+              1.4107
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0952,
+              0.0338,
+              2.8214
+            ],
+            [
+              "190",
+              0.1429,
+              0.0323,
+              4.4161
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0476,
+              0.0323,
+              1.472
+            ],
+            [
+              "008",
+              0.0952,
+              0.0323,
+              2.9441
+            ],
+            [
+              "896",
+              0.0952,
+              0.0323,
+              2.9441
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0476,
+              0.0309,
+              1.539
+            ],
+            [
+              "296",
+              0.1429,
+              0.0309,
+              4.6169
+            ],
+            [
+              "074",
+              0.0476,
+              0.0309,
+              1.539
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.0476,
+              0.0309,
+              1.539
+            ],
+            [
+              "598",
+              0.0,
+              0.0309,
+              0.0
+            ]
+          ]
+        },
+        "809": {
+          "n_appearances": 21,
+          "notable_followers": [
+            [
+              "769",
+              0.0476,
+              0.0366,
+              1.3022
+            ],
+            [
+              "746",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "605",
+              0.0,
+              0.0352,
+              0.0
+            ],
+            [
+              "217",
+              0.0476,
+              0.0338,
+              1.4107
+            ],
+            [
+              "159",
+              0.0952,
+              0.0338,
+              2.8214
+            ],
+            [
+              "089",
+              0.0952,
+              0.0338,
+              2.8214
+            ],
+            [
+              "190",
+              0.1429,
+              0.0323,
+              4.4161
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.1429,
+              0.0323,
+              4.4161
+            ],
+            [
+              "008",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "896",
+              0.0476,
+              0.0323,
+              1.472
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0952,
+              0.0309,
+              3.0779
+            ],
+            [
+              "296",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "074",
+              0.0476,
+              0.0309,
+              1.539
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.0476,
+              0.0309,
+              1.539
+            ],
+            [
+              "598",
+              0.0476,
+              0.0309,
+              1.539
+            ]
+          ]
+        },
+        "766": {
+          "n_appearances": 21,
+          "notable_followers": [
+            [
+              "769",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "746",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "605",
+              0.0476,
+              0.0352,
+              1.3543
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0952,
+              0.0338,
+              2.8214
+            ],
+            [
+              "190",
+              0.0476,
+              0.0323,
+              1.472
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "008",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "896",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0476,
+              0.0309,
+              1.539
+            ],
+            [
+              "766",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "296",
+              0.0952,
+              0.0309,
+              3.0779
+            ],
+            [
+              "074",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "533",
+              0.0476,
+              0.0309,
+              1.539
+            ],
+            [
+              "623",
+              0.0476,
+              0.0309,
+              1.539
+            ],
+            [
+              "598",
+              0.0952,
+              0.0309,
+              3.0779
+            ]
+          ]
+        },
+        "296": {
+          "n_appearances": 22,
+          "notable_followers": [
+            [
+              "769",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "746",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "605",
+              0.0455,
+              0.0352,
+              1.2927
+            ],
+            [
+              "217",
+              0.0455,
+              0.0338,
+              1.3466
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "190",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "008",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "896",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "766",
+              0.0909,
+              0.0309,
+              2.938
+            ],
+            [
+              "296",
+              0.1818,
+              0.0309,
+              5.876
+            ],
+            [
+              "074",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "533",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "623",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "598",
+              0.0455,
+              0.0309,
+              1.469
+            ]
+          ]
+        },
+        "074": {
+          "n_appearances": 22,
+          "notable_followers": [
+            [
+              "769",
+              0.0,
+              0.0366,
+              0.0
+            ],
+            [
+              "746",
+              0.1364,
+              0.0366,
+              3.729
+            ],
+            [
+              "605",
+              0.0455,
+              0.0352,
+              1.2927
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "190",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.1364,
+              0.0323,
+              4.2154
+            ],
+            [
+              "008",
+              0.0909,
+              0.0323,
+              2.8103
+            ],
+            [
+              "896",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "296",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "074",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "533",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "623",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "598",
+              0.0,
+              0.0309,
+              0.0
+            ]
+          ]
+        },
+        "533": {
+          "n_appearances": 22,
+          "notable_followers": [
+            [
+              "769",
+              0.0455,
+              0.0366,
+              1.243
+            ],
+            [
+              "746",
+              0.0455,
+              0.0366,
+              1.243
+            ],
+            [
+              "605",
+              0.0909,
+              0.0352,
+              2.5855
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0455,
+              0.0338,
+              1.3466
+            ],
+            [
+              "089",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "190",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "008",
+              0.0909,
+              0.0323,
+              2.8103
+            ],
+            [
+              "896",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "766",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "296",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "074",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "598",
+              0.0455,
+              0.0309,
+              1.469
+            ]
+          ]
+        },
+        "623": {
+          "n_appearances": 22,
+          "notable_followers": [
+            [
+              "769",
+              0.0455,
+              0.0366,
+              1.243
+            ],
+            [
+              "746",
+              0.0455,
+              0.0366,
+              1.243
+            ],
+            [
+              "605",
+              0.0,
+              0.0352,
+              0.0
+            ],
+            [
+              "217",
+              0.0455,
+              0.0338,
+              1.3466
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "190",
+              0.0909,
+              0.0323,
+              2.8103
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "008",
+              0.0909,
+              0.0323,
+              2.8103
+            ],
+            [
+              "896",
+              0.0455,
+              0.0323,
+              1.4051
+            ],
+            [
+              "087",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "296",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "074",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "533",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "623",
+              0.1364,
+              0.0309,
+              4.407
+            ],
+            [
+              "598",
+              0.0455,
+              0.0309,
+              1.469
+            ]
+          ]
+        },
+        "598": {
+          "n_appearances": 22,
+          "notable_followers": [
+            [
+              "769",
+              0.0455,
+              0.0366,
+              1.243
+            ],
+            [
+              "746",
+              0.0455,
+              0.0366,
+              1.243
+            ],
+            [
+              "605",
+              0.0455,
+              0.0352,
+              1.2927
+            ],
+            [
+              "217",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "159",
+              0.0,
+              0.0338,
+              0.0
+            ],
+            [
+              "089",
+              0.0909,
+              0.0338,
+              2.6932
+            ],
+            [
+              "190",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "542",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "207",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "555",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "008",
+              0.0909,
+              0.0323,
+              2.8103
+            ],
+            [
+              "896",
+              0.0,
+              0.0323,
+              0.0
+            ],
+            [
+              "087",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "809",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "766",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "296",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "074",
+              0.0,
+              0.0309,
+              0.0
+            ],
+            [
+              "533",
+              0.1364,
+              0.0309,
+              4.407
+            ],
+            [
+              "623",
+              0.0455,
+              0.0309,
+              1.469
+            ],
+            [
+              "598",
+              0.0,
+              0.0309,
+              0.0
+            ]
+          ]
+        }
+      }
+    },
+    "ending_digits": {
+      "test": "Ending Digit Analysis",
+      "last_digit": {
+        "counts": {
+          "0": 1382,
+          "1": 1397,
+          "2": 1406,
+          "3": 1400,
+          "4": 1392,
+          "5": 1407,
+          "6": 1587,
+          "7": 1385,
+          "8": 1392,
+          "9": 1472
+        },
+        "chi2": 25.3755,
+        "p_value": 0.002583,
+        "is_uniform": "False"
+      },
+      "last_two_digits": {
+        "chi2": 123.91,
+        "p_value": 0.045815,
+        "is_uniform": "False",
+        "top_10": [
+          [
+            "66",
+            176
+          ],
+          [
+            "56",
+            173
+          ],
+          [
+            "46",
+            172
+          ],
+          [
+            "16",
+            171
+          ],
+          [
+            "34",
+            164
+          ],
+          [
+            "69",
+            163
+          ],
+          [
+            "23",
+            160
+          ],
+          [
+            "26",
+            160
+          ],
+          [
+            "80",
+            159
+          ],
+          [
+            "92",
+            158
+          ]
+        ]
+      }
+    },
+    "repeat_analysis": {
+      "test": "Consecutive Draw Repeat Analysis",
+      "total_consecutive_pairs": 710,
+      "mean_repeats": 0.3972,
+      "std_repeats": 0.6257,
+      "expected_repeats_random": 0.4,
+      "max_repeats": 3,
+      "min_repeats": 0,
+      "pct_draws_with_zero_repeats": 67.32,
+      "repeat_distribution": {
+        "0": 478,
+        "1": 186,
+        "2": 42,
+        "3": 4
+      }
+    },
+    "draw_sum": {
+      "test": "Draw Total Sum Analysis",
+      "mean_sum": 9871.35,
+      "expected_sum": 9990.0,
+      "std_sum": 1303.6,
+      "median_sum": 9804.0,
+      "min_sum": 5386,
+      "max_sum": 14818,
+      "is_normal": true
+    }
+  }
+}
