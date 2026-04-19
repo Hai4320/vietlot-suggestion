@@ -40,20 +40,20 @@ const STRATEGIES = [
     name: "Phủ sóng tối đa",
     emoji: "🎯",
     badge: "★ Mới",
-    shortDesc: "Max-Entropy stratified band sampling",
+    shortDesc: "Ma trận: Max-Entropy band sampling | 3D: SumRange Filter",
     description:
-      "Chia toàn bộ dải số thành các vùng (band) bằng nhau, mỗi vùng chọn đúng 1 số. " +
+      "Cho xổ số ma trận: chia toàn bộ dải số thành các vùng (band) bằng nhau, mỗi vùng chọn đúng 1 số. " +
       "Trong mỗi vùng, sử dụng Dirichlet posterior để quyết định số nào được chọn. " +
-      "Phương pháp này đảm bảo phủ sóng đều toàn bộ dải số thay vì tập trung vào 1 vùng, " +
-      "tạo cơ hội cho những lần trúng lớn hiếm gặp (\"high risk, high reward\").",
+      "Đảm bảo phủ sóng đều toàn bộ dải số thay vì tập trung vào 1 vùng. " +
+      "Cho Max 3D: sử dụng SumRange Filter — lọc bộ số theo tổng chữ số (digit-sum) nằm trong mean ± 1σ, " +
+      "kết hợp trọng số tần suất digit. ROI tốt nhất trong toàn bộ nghiên cứu 3D (-35.1%).",
     methodology: [
-      "Chia dải [min, max] thành K vùng bằng nhau (K = số cần chọn)",
-      "Với mỗi vùng: tính Dirichlet posterior từ tần suất các số trong vùng đó",
-      "Sampling 1 số từ posterior của mỗi vùng",
-      "Đảm bảo không trùng lặp giữa các vùng",
-      "Kết quả: bộ số phân bố đều trên toàn bộ dải",
+      "Ma trận: chia dải [min, max] thành K vùng bằng nhau → Dirichlet sampling mỗi vùng",
+      "3D: tính digit-sum distribution từ lịch sử → lọc theo mean ± 1σ",
+      "3D: kết hợp digit frequency weights để chọn số trong vùng cho phép",
+      "Đảm bảo không trùng lặp",
     ],
-    references: "Maximum Entropy Principle (Jaynes, 1957), Covering Designs (Gordon-Kuperberg-Patashnik, 1995)",
+    references: "Maximum Entropy Principle (Jaynes, 1957), SumRange digit-sum filtering (internet research)",
     color: "hsl(142, 71%, 45%)",
   },
   {
@@ -115,20 +115,21 @@ const STRATEGIES = [
   },
   {
     id: "mixed",
-    name: "Kết hợp thông minh",
+    name: "Kết hợp nóng–lạnh",
     emoji: "🎲",
     badge: null,
     shortDesc: "Hot + Cold balanced blend",
     description:
       "Pha trộn 50% số nóng (tần suất cao) và 50% số lạnh (vắng lâu) trong cùng một bộ số. " +
       "Mục đích là cân bằng giữa hai trường phái: \"số hay ra\" và \"số sắp ra\", " +
-      "tạo sự đa dạng trong bộ số được gợi ý.",
+      "tạo sự đa dạng trong bộ số được gợi ý. " +
+      "Cho 3D: tạo số digit-by-digit dùng trọng số tần suất từng vị trí.",
     methodology: [
-      "50% bộ số: chọn từ top 15 số tần suất cao nhất (random)",
-      "50% còn lại: chọn từ top 15 số vắng lâu nhất (random)",
-      "Đảm bảo không trùng lặp giữa hai nhóm",
+      "Ma trận: 50% bộ số từ top 15 số tần suất cao + 50% từ top 15 số vắng lâu",
+      "3D: tạo từng chữ số (hàng trăm, chục, đơn vị) theo trọng số tần suất vị trí đó",
+      "Đảm bảo không trùng lặp trong cùng bộ số",
     ],
-    references: "Ensemble approach (kết hợp đơn giản)",
+    references: "Ensemble approach (kết hợp đơn giản), Digit-level frequency weighting",
     color: "hsl(0, 72%, 51%)",
   },
 ];
@@ -144,7 +145,7 @@ const BACKTEST_RESULTS = {
       { name: "Tần suất cao", avg: 0.6780, delta: +0.0235, winPct: 1.513, roi: -93.3, best: 4, type: "old" as const },
       { name: "Random", avg: 0.6764, delta: +0.0219, winPct: 1.459, roi: -94.2, best: 4, type: "base" as const },
       { name: "★ Phủ sóng tối đa", avg: 0.6613, delta: +0.0068, winPct: 1.540, roi: -94.7, best: 4, type: "new" as const },
-      { name: "Kết hợp thông minh", avg: 0.6575, delta: +0.0030, winPct: 1.594, roi: -93.0, best: 4, type: "old" as const },
+      { name: "Kết hợp nóng–lạnh ¹", avg: 0.6575, delta: +0.0030, winPct: 1.594, roi: -93.0, best: 4, type: "old" as const },
       { name: "Số vắng lâu", avg: 0.6394, delta: -0.0151, winPct: 1.243, roi: -94.1, best: 4, type: "old" as const },
       { name: "★ Tự động tối ưu", avg: 0.6405, delta: -0.0140, winPct: 1.270, roi: -94.7, best: 4, type: "new" as const },
     ],
@@ -154,8 +155,8 @@ const BACKTEST_RESULTS = {
     baseline: { E: 0.8, winPct: 2.383 },
     totalDraws: 1301,
     strategies: [
-      { name: "★ Bayesian Sharp", avg: 0.8229, delta: +0.0229, winPct: 3.136, roi: -86.1, best: 4, type: "new" as const },
-      { name: "Kết hợp thông minh", avg: 0.8165, delta: +0.0165, winPct: 2.248, roi: -88.8, best: 4, type: "old" as const },
+      { name: "★ Bayesian AI (Sharp)", avg: 0.8229, delta: +0.0229, winPct: 3.136, roi: -86.1, best: 4, type: "new" as const },
+      { name: "Kết hợp nóng–lạnh ¹", avg: 0.8165, delta: +0.0165, winPct: 2.248, roi: -88.8, best: 4, type: "old" as const },
       { name: "Random", avg: 0.8066, delta: +0.0066, winPct: 1.915, roi: -92.0, best: 4, type: "base" as const },
       { name: "Tần suất cao", avg: 0.8060, delta: +0.0060, winPct: 2.776, roi: -89.4, best: 4, type: "old" as const },
       { name: "★ Phủ sóng tối đa", avg: 0.7893, delta: -0.0107, winPct: 2.193, roi: -62.0, best: 5, type: "new" as const },
@@ -168,7 +169,7 @@ const BACKTEST_RESULTS = {
     baseline: { E: 0.7143, winPct: 1.386 },
     totalDraws: 538,
     strategies: [
-      { name: "Kết hợp thông minh", avg: 0.7396, delta: +0.0253, winPct: 1.775, roi: -82.2, best: 4, type: "old" as const },
+      { name: "Kết hợp nóng–lạnh ¹", avg: 0.7396, delta: +0.0253, winPct: 1.775, roi: -82.2, best: 4, type: "old" as const },
       { name: "★ Tự động tối ưu", avg: 0.7396, delta: +0.0253, winPct: 1.381, roi: -84.2, best: 4, type: "new" as const },
       { name: "Tần suất cao", avg: 0.7258, delta: +0.0115, winPct: 1.578, roi: -74.4, best: 4, type: "old" as const },
       { name: "Random", avg: 0.7101, delta: -0.0042, winPct: 2.564, roi: -78.3, best: 4, type: "base" as const },
@@ -189,8 +190,8 @@ const RECOMMENDATIONS = [
     secondary: "Tần suất cao",
     secondaryEmoji: "📊",
     reason:
-      "Pool 55 số là lớn nhất — Bayesian Dirichlet có không gian rộng để khai thác chênh lệch tần suất. " +
-      "Temperature = 1.0 (phân phối rộng) phù hợp nhất. Vượt thuật toán cũ +0.0073 số trùng trung bình.",
+      "Pool 55 số là lớn nhất — Bayesian Dirichlet (temp=1.0, phân phối rộng) có không gian rộng để khai thác chênh lệch tần suất. " +
+      "Vượt thuật toán cũ +0.0073 số trùng trung bình.",
     special: null,
   },
   {
@@ -199,11 +200,12 @@ const RECOMMENDATIONS = [
     color: "hsl(217, 91%, 60%)",
     primary: "Bayesian AI",
     primaryEmoji: "🧠",
-    secondary: "Kết hợp thông minh",
+    secondary: "Kết hợp nóng–lạnh",
     secondaryEmoji: "🎲",
     reason:
-      "Bayesian với temperature = 0.5 (\"sắc nét\") tập trung hơn vào các số có posterior cao. " +
-      "Đạt tỷ lệ thắng cao nhất 3.1% — hơn 39% so với thuật toán thứ hai.",
+      "Bayesian với temperature = 0.5 (\"Sharp\" — tập trung mạnh vào số posterior cao). " +
+      "Đạt tỷ lệ thắng cao nhất 3.1% — hơn 39% so với thuật toán thứ hai. " +
+      "Khi chọn Bayesian AI, hệ thống tự chọn temp phù hợp: 1.0 cho pool ≥50, 0.5 cho pool nhỏ hơn.",
     special: "💎 Phủ sóng tối đa (MaxEntropy) đạt trùng 5/6 số — duy nhất trong nghiên cứu! ROI tốt nhất (-62%)",
   },
   {
@@ -216,7 +218,7 @@ const RECOMMENDATIONS = [
     secondaryEmoji: "📊",
     reason:
       "Pool nhỏ (35 số) và dữ liệu ít (538 kỳ) khiến các thuật toán phức tạp kém lợi thế. " +
-      "Adaptive tự điều chỉnh về kết quả ngang Pattern — ưu điểm là không cần tinh chỉnh thủ công.",
+      "Adaptive tự điều chỉnh cửa sổ lookback — ưu điểm là không cần tinh chỉnh thủ công.",
     special: null,
   },
 ];
@@ -555,6 +557,12 @@ export default function AlgorithmsPage() {
             </Card>
           ))}
         </div>
+
+        {/* Footnote for mixed strategy */}
+        <div className="mt-4 text-[11px] text-muted-foreground/60 leading-relaxed px-1">
+          <strong>¹</strong> Kết hợp nóng–lạnh: Số liệu backtest sử dụng thuật toán Pattern (phân tích phân bổ chẵn/lẻ, vùng số).
+          Phiên bản hiện tại trong gợi ý sử dụng phương pháp đơn giản hơn (50% Hot + 50% Cold) nên kết quả thực tế có thể khác.
+        </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════
@@ -595,6 +603,9 @@ export default function AlgorithmsPage() {
                   </li>
                   <li>
                     <strong>★★</strong> = chiến lược mới từ internet research (Markov Chain, SumRange Filter, Composite Score)
+                  </li>
+                  <li>
+                    <strong>Lưu ý</strong>: Khi chọn &quot;Phủ sóng tối đa&quot; cho 3D, hệ thống sử dụng <strong>SumRange Filter</strong> (★★) thay vì MaxEntropy band sampling
                   </li>
                 </ul>
               </div>
@@ -832,7 +843,7 @@ export default function AlgorithmsPage() {
             {
               icon: "🧠",
               title: "Bayesian vượt trội trên pool lớn",
-              desc: "Thuật toán Bayesian Dirichlet đạt Δ = +0.0308 trên Power 6/55 — mức cải thiện cao nhất trong toàn bộ nghiên cứu. Phân phối posterior nắm bắt chênh lệch tần suất thực nghiệm hiệu quả nhất khi pool số lớn.",
+              desc: "Thuật toán Bayesian Dirichlet đạt Δ = +0.0308 trên Power 6/55 — mức cải thiện cao nhất trong toàn bộ nghiên cứu. Hệ thống tự chọn temperature: 1.0 (rộng) cho pool ≥50 số, 0.5 (sắc nét) cho pool nhỏ hơn.",
             },
             {
               icon: "🎯",
@@ -856,8 +867,8 @@ export default function AlgorithmsPage() {
             },
             {
               icon: "🌡️",
-              title: "Temperature quyết định hiệu quả",
-              desc: "Bayesian temp=1.0 thắng trên 6/55 (pool lớn) nhưng temp=0.5 lại thắng trên 6/45 (pool nhỏ hơn). Kích thước pool quyết định độ \"sắc nét\" tối ưu của posterior sampling.",
+              title: "Temperature tự động chọn",
+              desc: "Bayesian temp=1.0 thắng trên 6/55 (pool lớn) nhưng temp=0.5 lại thắng trên 6/45 (pool nhỏ hơn). Hệ thống tự động chọn temperature phù hợp: pool ≥50 → 1.0 (rộng), pool <50 → 0.5 (sắc nét).",
             },
           ].map((insight) => (
             <Card key={insight.title}>

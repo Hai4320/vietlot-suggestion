@@ -40,10 +40,10 @@ const STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; descr
     key: "maxentropy",
     emoji: "🎯",
     label: "Phủ sóng tối đa",
-    description: "Ma trận: chia vùng phủ đều. 3D: SumRange Filter — ROI tốt nhất 3D Pro",
+    description: "Ma trận: chia vùng phủ đều. 3D: SumRange Filter (lọc theo tổng chữ số)",
     badge: "★ Mới",
     matrixRank: 4, threeDRank: 2,
-    matrixBt: "Trùng 5/6 — ROI -62%", threeDBt: "Exact 2.06-2.30%, ROI -35%",
+    matrixBt: "Trùng 5/6 — ROI -62%", threeDBt: "SumRange: 2.06-2.30%, ROI -35%",
   },
   {
     key: "adaptive",
@@ -68,15 +68,15 @@ const STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; descr
     label: "Số vắng lâu",
     description: "Ưu tiên các số lâu không xuất hiện — \"đến lượt\" rồi!",
     matrixRank: 5, threeDRank: 6,
-    matrixBt: "Win 0.79-2.78%", threeDBt: "Exact ~2.0%",
+    matrixBt: "Win 0.79-2.78%", threeDBt: "chưa backtest riêng",
   },
   {
     key: "mixed",
     emoji: "🎲",
-    label: "Kết hợp thông minh",
+    label: "Kết hợp nóng–lạnh",
     description: "Ma trận: 50/50 nóng + lạnh. 3D: digit-by-digit random trọng số",
     matrixRank: 6, threeDRank: 3,
-    matrixBt: "Win 1.78-2.25%", threeDBt: "Exact ~2.0%",
+    matrixBt: "chưa backtest riêng", threeDBt: "chưa backtest riêng",
   },
 ];
 
