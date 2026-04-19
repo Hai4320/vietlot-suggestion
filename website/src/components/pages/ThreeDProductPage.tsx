@@ -228,7 +228,7 @@ export default function ThreeDProductPage({ slug }: Props) {
 
         {/* Suggestion Tab */}
         <TabsContent value="suggest">
-          <SuggestionPanel type="3d" onGenerate={handleGenerate} color={product.color} />
+          <SuggestionPanel type="3d" slug={slug as "max-3d" | "max-3d-pro"} onGenerate={handleGenerate} color={product.color} />
         </TabsContent>
         {/* Play Guide Tab */}
         <TabsContent value="guide">

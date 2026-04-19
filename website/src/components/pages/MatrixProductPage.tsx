@@ -207,6 +207,7 @@ export default function MatrixProductPage({ slug }: Props) {
         <TabsContent value="suggest">
           <SuggestionPanel
             type="matrix"
+            slug={slug as "power-655" | "power-645" | "power-535"}
             onGenerate={handleGenerate}
             hasSpecial={product.hasSpecial}
             color={product.color}

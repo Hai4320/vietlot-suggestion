@@ -10,6 +10,7 @@ import type { SuggestionStrategy, SuggestionSet, ThreeDSuggestionSet } from "@/l
 
 interface MatrixSuggestionPanelProps {
   type: "matrix";
+  slug: "power-655" | "power-645" | "power-535";
   onGenerate: (strategy: SuggestionStrategy, count: number) => SuggestionSet[];
   hasSpecial: boolean;
   color: string;
@@ -17,6 +18,7 @@ interface MatrixSuggestionPanelProps {
 
 interface ThreeDSuggestionPanelProps {
   type: "3d";
+  slug: "max-3d" | "max-3d-pro";
   onGenerate: (strategy: SuggestionStrategy, count: number) => ThreeDSuggestionSet[];
   hasSpecial?: false;
   color: string;
@@ -26,15 +28,13 @@ type SuggestionPanelProps = MatrixSuggestionPanelProps | ThreeDSuggestionPanelPr
 
 const PAGE_SIZE = 20;
 
-const STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; description: string; badge?: string; matrixRank: number; threeDRank: number; matrixBt?: string; threeDBt?: string }[] = [
+const STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; description: string; badge?: string }[] = [
   {
     key: "bayesian",
     emoji: "🧠",
     label: "Bayesian AI",
-    description: "Dirichlet posterior — hiệu quả nhất trên xổ số ma trận (6/55, 6/45)",
+    description: "Dirichlet posterior sampling — tự chọn temperature theo pool size",
     badge: "★ Mới",
-    matrixRank: 1, threeDRank: 4,
-    matrixBt: "Win 1.65-3.14%", threeDBt: "Exact 2.07-2.09%",
   },
   {
     key: "maxentropy",
@@ -42,8 +42,6 @@ const STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; descr
     label: "Phủ sóng tối đa",
     description: "Ma trận: chia vùng phủ đều. 3D: SumRange Filter (lọc theo tổng chữ số)",
     badge: "★ Mới",
-    matrixRank: 4, threeDRank: 2,
-    matrixBt: "Trùng 5/6 — ROI -62%", threeDBt: "SumRange: 2.06-2.30%, ROI -35%",
   },
   {
     key: "adaptive",
@@ -51,39 +49,66 @@ const STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; descr
     label: "Tự động tối ưu",
     description: "Tự tìm cửa sổ phân tích tối ưu từ dữ liệu gần nhất",
     badge: "★ Mới",
-    matrixRank: 3, threeDRank: 5,
-    matrixBt: "Tốt nhất cho 5/35", threeDBt: "Exact 1.94-2.07%",
   },
   {
     key: "frequency",
     emoji: "📊",
     label: "Tần suất cao",
-    description: "Ưu tiên số xuất hiện nhiều nhất — #1 cho Max 3D (2.33-2.35%)",
-    matrixRank: 2, threeDRank: 1,
-    matrixBt: "Win 1.51-2.78%", threeDBt: "Exact 2.33-2.35% #1",
+    description: "Ưu tiên số xuất hiện nhiều nhất trong lịch sử",
   },
   {
     key: "absence",
     emoji: "⏳",
     label: "Số vắng lâu",
     description: "Ưu tiên các số lâu không xuất hiện — \"đến lượt\" rồi!",
-    matrixRank: 5, threeDRank: 6,
-    matrixBt: "Win 0.79-2.78%", threeDBt: "chưa backtest riêng",
   },
   {
     key: "mixed",
     emoji: "🎲",
     label: "Kết hợp nóng–lạnh",
     description: "Ma trận: 50/50 nóng + lạnh. 3D: digit-by-digit random trọng số",
-    matrixRank: 6, threeDRank: 3,
-    matrixBt: "chưa backtest riêng", threeDBt: "chưa backtest riêng",
   },
 ];
 
+// Per-product ranking & backtest stats from actual backtest results
+// Order = rank (1 = best). Derived from walk-forward backtest on real data.
+type ProductSlug = "power-655" | "power-645" | "power-535" | "max-3d" | "max-3d-pro";
+const PRODUCT_RANKS: Record<ProductSlug, { ranks: Record<SuggestionStrategy, number>; stats: Record<SuggestionStrategy, string>; rec1: SuggestionStrategy; rec2: SuggestionStrategy; recReason: string }> = {
+  "power-655": {
+    ranks: { bayesian: 1, frequency: 2, maxentropy: 3, mixed: 4, absence: 5, adaptive: 6 },
+    stats: { bayesian: "Win 1.65%, Δ+0.031", frequency: "Win 1.51%, Δ+0.024", maxentropy: "5/6 trùng, ROI -62%", mixed: "chưa backtest", absence: "Win 1.24%", adaptive: "Δ-0.014" },
+    rec1: "bayesian", rec2: "frequency",
+    recReason: "Pool 55 số lớn nhất — Bayesian Dirichlet (temp=1.0) khai thác chênh lệch tần suất hiệu quả.",
+  },
+  "power-645": {
+    ranks: { bayesian: 1, mixed: 2, frequency: 3, maxentropy: 4, absence: 5, adaptive: 6 },
+    stats: { bayesian: "Win 3.14% #1", mixed: "chưa backtest", frequency: "Win 2.78%", maxentropy: "5/6 trùng! ROI -62%", absence: "Win 2.78%", adaptive: "Win 1.94%" },
+    rec1: "bayesian", rec2: "maxentropy",
+    recReason: "Bayesian Sharp (temp=0.5) đạt win rate cao nhất 3.14%. MaxEntropy đạt 5/6 trùng duy nhất.",
+  },
+  "power-535": {
+    ranks: { adaptive: 1, frequency: 2, absence: 3, mixed: 4, bayesian: 5, maxentropy: 6 },
+    stats: { adaptive: "Δ+0.025, Win 1.38%", frequency: "Win 1.58%, ROI -74%", absence: "Win 0.79%", mixed: "chưa backtest", bayesian: "Δ-0.028", maxentropy: "Δ-0.026" },
+    rec1: "adaptive", rec2: "frequency",
+    recReason: "Pool nhỏ 35 số, dữ liệu ít — Adaptive tự điều chỉnh lookback hiệu quả nhất.",
+  },
+  "max-3d": {
+    ranks: { frequency: 1, bayesian: 2, maxentropy: 3, adaptive: 4, mixed: 5, absence: 6 },
+    stats: { frequency: "Exact 2.33% #1", bayesian: "Exact 2.09%", maxentropy: "SumRange 2.06%", adaptive: "Exact 1.94%", mixed: "chưa backtest", absence: "chưa backtest" },
+    rec1: "frequency", rec2: "maxentropy",
+    recReason: "Pool 1.000 số — tần suất đơn giản khai thác bias hiệu quả nhất. SumRange Filter có ROI tốt.",
+  },
+  "max-3d-pro": {
+    ranks: { frequency: 1, maxentropy: 2, bayesian: 3, adaptive: 4, mixed: 5, absence: 6 },
+    stats: { frequency: "Exact 2.35% #1", maxentropy: "SumRange 2.30%, ROI -35%", bayesian: "Exact 2.07%", adaptive: "Exact 2.07%", mixed: "chưa backtest", absence: "chưa backtest" },
+    rec1: "frequency", rec2: "maxentropy",
+    recReason: "SumRange Filter có ROI tốt nhất -35.1%. Tần suất vẫn dẫn đầu exact match.",
+  },
+};
+
 export function SuggestionPanel(props: SuggestionPanelProps) {
-  const [strategy, setStrategy] = useState<SuggestionStrategy>(
-    props.type === "3d" ? "frequency" : "bayesian"
-  );
+  const productRank = PRODUCT_RANKS[props.slug];
+  const [strategy, setStrategy] = useState<SuggestionStrategy>(productRank.rec1);
   const [count, setCount] = useState(5);
   const [countInput, setCountInput] = useState("5");
   const [results, setResults] = useState<(SuggestionSet | ThreeDSuggestionSet)[]>([]);
@@ -94,10 +119,9 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
 
   const sortedStrategies = useMemo(() => {
     return [...STRATEGIES].sort((a, b) =>
-      (props.type === "3d" ? a.threeDRank : a.matrixRank) -
-      (props.type === "3d" ? b.threeDRank : b.matrixRank)
+      productRank.ranks[a.key] - productRank.ranks[b.key]
     );
-  }, [props.type]);
+  }, [productRank]);
 
   const handleCountChange = (val: string) => {
     setCountInput(val);
@@ -168,17 +192,40 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         </div>
       </div>
 
+      {/* Recommendation card */}
+      <div className="rounded-xl border-2 p-4" style={{ borderColor: `${props.color}40`, background: `${props.color}08` }}>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">🏆</span>
+            <span className="text-sm font-bold">Khuyến nghị:</span>
+            <button onClick={() => setStrategy(productRank.rec1)}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-bold text-white transition-transform hover:scale-105"
+              style={{ backgroundColor: props.color }}>
+              {STRATEGIES.find(s => s.key === productRank.rec1)?.emoji} {STRATEGIES.find(s => s.key === productRank.rec1)?.label}
+            </button>
+            <span className="text-xs text-muted-foreground">hoặc</span>
+            <button onClick={() => setStrategy(productRank.rec2)}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-medium border transition-transform hover:scale-105"
+              style={{ borderColor: props.color, color: props.color }}>
+              {STRATEGIES.find(s => s.key === productRank.rec2)?.emoji} {STRATEGIES.find(s => s.key === productRank.rec2)?.label}
+            </button>
+          </div>
+          <p className="text-xs text-muted-foreground leading-relaxed flex-1">{productRank.recReason}</p>
+        </div>
+      </div>
+
       {/* Strategy selector — sorted by backtest rank */}
       <div>
         <label className="text-sm font-semibold mb-3 block text-muted-foreground uppercase tracking-wider">
           Chọn chiến lược{" "}
           <span className="normal-case font-normal">
-            (xếp theo backtest{props.type === "3d" ? " — Max 3D" : " — ma trận"})
+            (xếp theo backtest — {props.slug.replace(/-/g, " ").replace(/^./, c => c.toUpperCase())})
           </span>
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {sortedStrategies.map((s, idx) => {
-            const bt = props.type === "3d" ? s.threeDBt : s.matrixBt;
+            const bt = productRank.stats[s.key];
+            const isRec = s.key === productRank.rec1;
             return (
             <button
               key={s.key}
@@ -186,8 +233,11 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
               className={`relative text-left rounded-xl border-2 p-4 transition-all duration-200 hover:shadow-md ${
                 strategy === s.key
                   ? "border-primary bg-primary/5 shadow-md shadow-primary/10"
-                  : "border-border hover:border-muted-foreground/30"
+                  : isRec
+                    ? "border-border bg-primary/[0.02] hover:border-muted-foreground/30"
+                    : "border-border hover:border-muted-foreground/30"
               }`}
+              style={isRec && strategy !== s.key ? { borderColor: `${props.color}30` } : undefined}
             >
               {strategy === s.key && (
                 <div className="absolute top-2 right-2">
@@ -213,6 +263,11 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                   style={{ backgroundColor: props.color }}
                 >
                   {s.badge}
+                </span>
+              )}
+              {isRec && (
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-600 text-white">
+                  🏆 Khuyến nghị
                 </span>
               )}
               </div>

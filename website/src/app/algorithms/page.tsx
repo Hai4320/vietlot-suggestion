@@ -607,6 +607,9 @@ export default function AlgorithmsPage() {
                   <li>
                     <strong>Lưu ý</strong>: Khi chọn &quot;Phủ sóng tối đa&quot; cho 3D, hệ thống sử dụng <strong>SumRange Filter</strong> (★★) thay vì MaxEntropy band sampling
                   </li>
+                  <li>
+                    <strong>Có sẵn trong gợi ý</strong>: 6 chiến lược — Tần suất cao, Bayesian, SumRange Filter (= Phủ sóng tối đa), Adaptive, Số vắng lâu, Kết hợp nóng–lạnh. Các chiến lược khác (Tier Focus, Digit Hot/Cold, Markov, Composite...) chỉ là kết quả nghiên cứu.
+                  </li>
                 </ul>
               </div>
             </div>
