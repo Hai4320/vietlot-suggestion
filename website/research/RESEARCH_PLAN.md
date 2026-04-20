@@ -1,5 +1,13 @@
 # Research Plan: Cải thiện Thuật toán Gợi ý Xổ số Vietlott
 
+> **⚠️ HISTORICAL DOCUMENT (07/2025)** — Kế hoạch gốc khởi động dự án. Timeline, pipeline, và phương pháp đánh giá ở đây **đã được superseded** bởi:
+> - [METHODOLOGY.md](METHODOLOGY.md) — pipeline 5-phase canonical (2026-04-20)
+> - [EVALUATION.md](EVALUATION.md) — metrics + significance
+> - [TESTING.md](TESTING.md) — bias detection battery
+> - [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) — kết quả thực tế 5 cycle
+>
+> File này giữ lại để tham khảo context gốc và danh mục thuật toán đề xuất ban đầu. **Không dùng làm kế hoạch cho cycle mới** — tham khảo METHODOLOGY + PLAYBOOK.
+
 ## Tổng quan
 
 ### Mục tiêu

@@ -7,6 +7,7 @@ Standalone backtest with all 16 strategies (10 existing + 6 new).
 import json
 import math
 import random
+import sys
 import time
 from collections import Counter, defaultdict
 from datetime import date, timedelta
@@ -17,6 +18,10 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 import numpy as np
 import pandas as pd
+
+# Import shared significance utilities (EVALUATION.md §3)
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from _significance import build_significance  # noqa: E402
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent.parent / "data"
 
@@ -432,8 +437,9 @@ class AdaptiveWindowStrategy(StrategyBase):
 # ═══════════════════════════════════════════════════════════════
 
 def walk_forward_backtest(df, strategy, product_cfg, min_history=100, n_runs=3):
-    dates = sorted(df["date"].unique())
-    n = len(dates); start_idx = min(min_history, n // 2)
+    # Iterate per-row so products with multiple draws per date (Power 5/35: 2/day)
+    # are fully evaluated. Previous version used dates.unique() and lost ~50% of data.
+    n = len(df); start_idx = min(min_history, n // 2)
     min_val, max_val, num_count = product_cfg["min_val"], product_cfg["max_val"], product_cfg["num_count"]
     prizes, ticket_price = product_cfg["prizes"], product_cfg["ticket_price"]
     all_matches, all_revenues = [], []
@@ -441,16 +447,15 @@ def walk_forward_backtest(df, strategy, product_cfg, min_history=100, n_runs=3):
     for run in range(n_runs):
         if hasattr(strategy, '_prev'): strategy._prev = []  # reset MinDistance
         for i in range(start_idx, n):
-            target_date = dates[i]
-            train_df = df[df["date"] < target_date]
+            target_row = df.iloc[i]
+            target_date = target_row["date"]
+            train_df = df.iloc[:i]
             if len(train_df) < 30: continue
             try:
                 predicted = strategy.predict(train_df, target_date, min_val, max_val, num_count)
                 if not predicted: continue
             except: continue
-            actual_rows = df[df["date"] == target_date]
-            if actual_rows.empty: continue
-            actual = list(actual_rows.iloc[0]["result"][:num_count])
+            actual = list(target_row["result"][:num_count])
             m = len(set(predicted) & set(actual))
             all_matches.append(m); all_revenues.append(prizes.get(m, 0) - ticket_price)
     elapsed = time.time() - t0
@@ -458,7 +463,9 @@ def walk_forward_backtest(df, strategy, product_cfg, min_history=100, n_runs=3):
     total_preds = len(all_matches); total_cost = total_preds * ticket_price
     total_revenue = sum(prizes.get(m, 0) for m in all_matches)
     dist = {str(m): all_matches.count(m) for m in range(max(all_matches) + 1)}
-    avg_m = float(np.mean(all_matches)); win_r = sum(1 for m in all_matches if m >= 3) / total_preds
+    avg_m = float(np.mean(all_matches))
+    wins_ge3 = sum(1 for m in all_matches if m >= 3)
+    win_r = wins_ge3 / total_preds
     profits = np.array(all_revenues, dtype=float)
     sharpe = 0.0
     if len(profits) > 1:
@@ -469,6 +476,7 @@ def walk_forward_backtest(df, strategy, product_cfg, min_history=100, n_runs=3):
         "total_predictions": total_preds, "n_runs": n_runs,
         "avg_matches": round(avg_m, 4), "std_matches": round(float(np.std(all_matches, ddof=1)), 4),
         "win_rate_pct": round(float(win_r * 100), 4),
+        "wins_ge3": int(wins_ge3),                 # for significance test
         "total_cost": int(total_cost), "total_revenue": int(total_revenue),
         "net_profit": int(total_revenue - total_cost),
         "roi_pct": round(float((total_revenue - total_cost) / total_cost * 100), 2),
@@ -477,6 +485,27 @@ def walk_forward_backtest(df, strategy, product_cfg, min_history=100, n_runs=3):
         "best_match": max(all_matches), "matches_distribution": dist,
         "elapsed_seconds": round(elapsed, 2),
     }
+
+
+def attach_significance(product_results: dict, baseline_name: str = "Random") -> None:
+    """Add significance block to each strategy by comparing win_rate_pct vs Random.
+    Mutates product_results in place. EVALUATION.md §3-4."""
+    strategies = product_results.get("strategies", {})
+    base = strategies.get(baseline_name, {})
+    if "wins_ge3" not in base:
+        return
+    base_hits = base["wins_ge3"]
+    base_n = base["total_predictions"]
+    non_baseline = [n for n in strategies if n != baseline_name and "wins_ge3" in strategies[n]]
+    k = len(non_baseline)
+    for name in non_baseline:
+        r = strategies[name]
+        r["significance"] = build_significance(
+            hits_strat=r["wins_ge3"], n_strat=r["total_predictions"],
+            hits_baseline=base_hits, n_baseline=base_n,
+            n_strategies_compared=k, baseline_name=baseline_name,
+            metric_name="win_rate_ge3",
+        )
 
 def theoretical_baseline(num_count, max_val, min_val=1):
     N = max_val - min_val + 1; K = num_count; n = num_count
@@ -543,6 +572,7 @@ def main():
             except Exception as e:
                 print(f"FAILED: {e}"); product_results["strategies"][name] = {"error": str(e)}
 
+        attach_significance(product_results, baseline_name="Random")
         results[product_key] = product_results
 
     # Save
@@ -560,20 +590,23 @@ def main():
         print(f"\n{'─'*120}")
         print(f"  {pk} | E[matches]={bl['E']} | P(win≥3)={bl['win_pct']}%")
         print(f"{'─'*120}")
-        print(f"  {'Strategy':20s} {'AvgMatch':>9} {'Δ':>8} {'Win%':>7} {'ROI%':>9} {'Sharpe':>8} {'Best':>5} {'N':>7} {'Type':>6}")
-        print(f"  {'─'*20} {'─'*9} {'─'*8} {'─'*7} {'─'*9} {'─'*8} {'─'*5} {'─'*7} {'─'*6}")
+        print(f"  {'Strategy':20s} {'AvgMatch':>9} {'Δ':>8} {'Win%':>7} {'ROI%':>9} {'Sharpe':>8} {'p(Δwin)':>9} {'Decision':>12}")
+        print(f"  {'─'*20} {'─'*9} {'─'*8} {'─'*7} {'─'*9} {'─'*8} {'─'*9} {'─'*12}")
 
         rows = []
         for name, r in pr["strategies"].items():
             if "avg_matches" not in r: continue
-            is_new = name.startswith("★")
             delta = r["avg_matches"] - bl["E"]
-            rows.append((name, r["avg_matches"], delta, r["win_rate_pct"], r["roi_pct"], r["sharpe_ratio"], r["best_match"], r["total_predictions"], "NEW" if is_new else "OLD"))
+            sig = r.get("significance", {})
+            rows.append((name, r["avg_matches"], delta, r["win_rate_pct"],
+                         r["roi_pct"], r["sharpe_ratio"],
+                         sig.get("p_value_raw"), sig.get("decision", "-")))
         rows.sort(key=lambda x: x[1], reverse=True)
 
-        for name, am, d, wr, roi, sh, bm, n, typ in rows:
+        for name, am, d, wr, roi, sh, pv, dec in rows:
             mk = "+" if d > 0 else ""
-            print(f"  {name:20s} {am:>9.4f} {mk}{d:>7.4f} {wr:>7.3f} {roi:>9.1f} {sh:>8.4f} {bm:>5} {n:>7} {typ:>6}")
+            pv_str = f"{pv:.4f}" if pv is not None else "    —"
+            print(f"  {name:20s} {am:>9.4f} {mk}{d:>7.4f} {wr:>7.3f} {roi:>9.1f} {sh:>8.4f} {pv_str:>9} {dec:>12}")
 
     # Key findings
     print("\n\n" + "=" * 120)

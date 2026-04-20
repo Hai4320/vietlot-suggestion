@@ -521,12 +521,33 @@ def main():
         "exploitable_bias_detected": len(sig_bonf) > 0,
     }
 
+    # R1 gate verdict per METHODOLOGY.md §1.1 / TESTING.md §7
+    if sig_bonf:
+        r1_verdict = "PROCEED"
+        r1_reason = f"{len(sig_bonf)} test(s) pass Bonferroni α={STRICT_SIGNIFICANCE:.5f}: {sig_bonf}"
+        r1_next = "Phase 2 allowed. Remember §1.4 METHODOLOGY (algebra sanity check) before implementing exploit."
+    else:
+        r1_verdict = "STOP"
+        r1_reason = f"No test passes Bonferroni α={STRICT_SIGNIFICANCE:.5f}. White noise conclusion."
+        r1_next = "Do NOT proceed to Phase 2. Do NOT extend battery post-hoc. Record in RESEARCH_HISTORY as valid negative result."
+
+    results["r1_gate"] = {
+        "verdict": r1_verdict,
+        "reason": r1_reason,
+        "next_step": r1_next,
+        "battery_size": len(tests),
+        "bonferroni_alpha": STRICT_SIGNIFICANCE,
+    }
     OUTPUT_PATH.write_text(json.dumps(results, indent=2, ensure_ascii=False))
     print(f"\n=== SUMMARY ===")
     print(f"Tests significant @ p<0.05:       {len(sig_05)}/{len(tests)} -> {sig_05}")
     print(f"Tests significant @ Bonferroni:   {len(sig_bonf)}/{len(tests)} -> {sig_bonf}")
-    print(f"Exploitable bias (strict): {'YES' if sig_bonf else 'NO — likely white noise'}")
-    print(f"Output: {OUTPUT_PATH}")
+    print(f"\n{'═' * 70}")
+    print(f"  R1 GATE VERDICT: {r1_verdict}")
+    print(f"{'═' * 70}")
+    print(f"  Reason: {r1_reason}")
+    print(f"  Next:   {r1_next}")
+    print(f"\nOutput: {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":

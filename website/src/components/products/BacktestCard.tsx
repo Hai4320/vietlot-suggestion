@@ -16,7 +16,28 @@ import {
   BACKTEST_3D,
   type MatrixBacktest,
   type ThreeDBacktest,
+  type Decision,
 } from "@/lib/backtest-data";
+
+function DecisionBadge({ d }: { d?: Decision }) {
+  if (!d || d === "baseline") return null;
+  const styles: Record<Decision, string> = {
+    Accept: "bg-green-600 text-white",
+    Suggestive: "bg-yellow-500 text-black",
+    Inconclusive: "bg-gray-400 text-white",
+    Reject: "bg-muted text-muted-foreground",
+    baseline: "",
+  };
+  return (
+    <Badge className={`text-[9px] px-1 py-0 ${styles[d]}`}>{d}</Badge>
+  );
+}
+
+function formatPValue(p?: number) {
+  if (p === undefined) return "—";
+  if (p < 0.001) return "<0.001";
+  return p.toFixed(3);
+}
 
 interface Props {
   slug: string;
@@ -84,6 +105,8 @@ function MatrixTable({ data, color }: { data: MatrixBacktest; color: string }) {
               <TableHead className="text-right text-[11px]">Δ</TableHead>
               <TableHead className="text-right text-[11px]">Win %</TableHead>
               <TableHead className="text-right text-[11px]">ROI</TableHead>
+              <TableHead className="text-right text-[11px]" title="p-value từ z-test vs Random">p</TableHead>
+              <TableHead className="text-center text-[11px]">Kết luận</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -91,7 +114,9 @@ function MatrixTable({ data, color }: { data: MatrixBacktest; color: string }) {
               <TableRow
                 key={s.name}
                 className={
-                  i === 0 ? "bg-primary/5 font-medium" : s.type === "base" ? "bg-muted/30" : ""
+                  s.decision === "Suggestive" ? "bg-yellow-500/5"
+                    : i === 0 ? "bg-primary/5 font-medium"
+                    : s.type === "base" ? "bg-muted/30" : ""
                 }
               >
                 <TableCell className="text-muted-foreground text-[11px]">
@@ -124,16 +149,23 @@ function MatrixTable({ data, color }: { data: MatrixBacktest; color: string }) {
                 <TableCell className="text-right font-mono text-[12px] text-red-400">
                   {s.roi.toFixed(1)}%
                 </TableCell>
+                <TableCell className="text-right font-mono text-[11px] text-muted-foreground">
+                  {formatPValue(s.pValue)}
+                </TableCell>
+                <TableCell className="text-center">
+                  <DecisionBadge d={s.decision} />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
       <div className="px-4 py-1.5 border-t bg-muted/20 text-[10px] text-muted-foreground space-y-0.5">
-        <div>Δ = chênh lệch so với kỳ vọng toán học | Win % = tỷ lệ trùng ≥3 số (per-ticket) | ROI = lợi nhuận trên chi phí vé</div>
-        {data.strategies.some((s) => s.name.includes("Hybrid Parity")) && (
+        <div>Δ = chênh lệch so với E[X] lý thuyết | Win % = tỷ lệ trùng ≥3 số | p = z-test vs Random | ROI = lợi nhuận / cost</div>
+        <div>Kết luận: <span className="text-green-400">Accept</span> (p&lt;0.05 + Bonferroni) | <span className="text-yellow-500">Suggestive</span> (p&lt;0.05, chưa Bonferroni) | Reject (không edge). Chu kỳ 6 — 2026-04-20.</div>
+        {data.strategies.some((s) => s.name.includes("Hybrid")) && (
           <div className="text-yellow-600 dark:text-yellow-400">
-            🔬 Hybrid Parity: Win % = P(≥1 vé trong N=20 trúng ≥3) — thang đo đa vé, không so sánh trực tiếp per-ticket với các dòng khác.
+            🔬 HybridParityDiv: Win % = P(≥1 vé trong N=20 trúng ≥3) — thang đo đa vé, không so sánh trực tiếp per-ticket.
           </div>
         )}
       </div>
@@ -157,6 +189,8 @@ function ThreeDTable({ data, color }: { data: ThreeDBacktest; color: string }) {
               <TableHead className="text-right text-[11px]">Exact %</TableHead>
               <TableHead className="text-right text-[11px]">vs Baseline</TableHead>
               <TableHead className="text-right text-[11px]">ROI</TableHead>
+              <TableHead className="text-right text-[11px]" title="p-value từ z-test vs Random">p</TableHead>
+              <TableHead className="text-center text-[11px]">Kết luận</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -164,7 +198,8 @@ function ThreeDTable({ data, color }: { data: ThreeDBacktest; color: string }) {
               <TableRow
                 key={s.name}
                 className={
-                  i === 0 ? "bg-primary/5 font-medium"
+                  s.decision === "Suggestive" ? "bg-yellow-500/5"
+                    : i === 0 ? "bg-primary/5 font-medium"
                     : s.type === "base" ? "bg-muted/30"
                     : s.type === "research" ? "bg-orange-500/5"
                     : ""
@@ -208,13 +243,20 @@ function ThreeDTable({ data, color }: { data: ThreeDBacktest; color: string }) {
                 <TableCell className="text-right font-mono text-[12px] text-red-400">
                   {s.roi.toFixed(1)}%
                 </TableCell>
+                <TableCell className="text-right font-mono text-[11px] text-muted-foreground">
+                  {formatPValue(s.pValue)}
+                </TableCell>
+                <TableCell className="text-center">
+                  <DecisionBadge d={s.decision} />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      <div className="px-4 py-1.5 border-t bg-muted/20 text-[10px] text-muted-foreground">
-        Exact % = tỷ lệ trùng khớp chính xác | vs Baseline = so với random (2.0%) | ROI = lợi nhuận trên chi phí vé
+      <div className="px-4 py-1.5 border-t bg-muted/20 text-[10px] text-muted-foreground space-y-0.5">
+        <div>Exact % = trùng khớp chính xác | p = z-test vs Random | ROI = lợi nhuận / cost</div>
+        <div>Kết luận: <span className="text-green-400">Accept</span> (p&lt;0.05 + Bonferroni) | <span className="text-yellow-500">Suggestive</span> (p&lt;0.05) | Reject.</div>
       </div>
     </div>
   );

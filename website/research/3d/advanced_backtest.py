@@ -38,6 +38,7 @@ Date: 2026-04-19
 import json
 import math
 import random
+import sys
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -45,6 +46,9 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 import numpy as np
 from scipy import stats as scipy_stats
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from _significance import build_significance  # noqa: E402
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent.parent / "data"
 OUTPUT_DIR = Path(__file__).resolve().parent
@@ -1250,6 +1254,26 @@ def evaluate_prediction(predicted: List[str], draw: Dict, prize_map: Dict) -> Di
     }
 
 
+def _attach_3d_significance(product_results: dict, baseline_name: str) -> None:
+    """Add significance vs Random baseline using total_trials (draws × n_pred). Mutates in place."""
+    strategies = product_results.get("strategies", {})
+    base = strategies.get(baseline_name, {})
+    if "exact_matches_total" not in base:
+        return
+    base_hits = base["exact_matches_total"]
+    base_n = base["total_trials"]
+    non_baseline = [n for n in strategies if n != baseline_name and "exact_matches_total" in strategies[n]]
+    k = len(non_baseline)
+    for name in non_baseline:
+        r = strategies[name]
+        r["significance"] = build_significance(
+            hits_strat=r["exact_matches_total"], n_strat=r["total_trials"],
+            hits_baseline=base_hits, n_baseline=base_n,
+            n_strategies_compared=k, baseline_name=baseline_name,
+            metric_name="exact_match_rate",
+        )
+
+
 def walk_forward_backtest(draws, strategy, product_cfg, min_history=50, n_runs=5, n_predictions=2):
     """Walk-forward backtest with multiple runs for statistical robustness."""
     n = len(draws)
@@ -1305,6 +1329,7 @@ def walk_forward_backtest(draws, strategy, product_cfg, min_history=50, n_runs=5
         "total_predictions": total_preds,
         "n_runs": n_runs,
         "n_predictions_per_draw": n_predictions,
+        "total_trials": total_preds * n_predictions,    # for significance test
         "exact_match_rate": round(float(exact_rate), 4),
         "exact_matches_total": exact_total,
         "tier_hits": dict(tier_hit_counts),
@@ -1423,8 +1448,10 @@ def main():
                 traceback.print_exc()
                 product_results["strategies"][name] = {"error": str(e)}
         
+        # Attach significance vs Random baseline (EVALUATION.md §3-4)
+        _attach_3d_significance(product_results, baseline_name="Random (baseline)")
         results[product_key] = product_results
-    
+
     # Save results
     outfile = OUTPUT_DIR / "advanced_backtest_results.json"
     with open(outfile, "w") as f:
@@ -1440,27 +1467,23 @@ def main():
         print(f"\n{'─'*100}")
         print(f"  {pk} ({pr['total_draws']} draws)")
         print(f"{'─'*100}")
-        print(f"  {'Rank':>4}  {'Strategy':30s}  {'Exact%':>8}  {'ROI%':>8}  {'Hits':>6}  {'Sharpe':>8}")
-        print(f"  {'─'*4}  {'─'*30}  {'─'*8}  {'─'*8}  {'─'*6}  {'─'*8}")
-        
+        print(f"  {'Rank':>4}  {'Strategy':30s}  {'Exact%':>8}  {'Δ':>7}  {'ROI%':>7}  {'p_raw':>7}  {'Decision':>12}")
+        print(f"  {'─'*4}  {'─'*30}  {'─'*8}  {'─'*7}  {'─'*7}  {'─'*7}  {'─'*12}")
+
         rows = []
         for name, r in pr["strategies"].items():
             if "exact_match_rate" not in r:
                 continue
-            rows.append((name, r["exact_match_rate"], r["roi_pct"], r["exact_matches_total"], r["sharpe_ratio"]))
-        
+            sig = r.get("significance", {})
+            rows.append((name, r["exact_match_rate"], r["roi_pct"],
+                         sig.get("delta_pp"), sig.get("p_value_raw"), sig.get("decision", "-")))
         rows.sort(key=lambda x: x[1], reverse=True)
-        
-        random_rate = None
-        for name, exact, roi, hits, sharpe in rows:
-            if "Random" in name:
-                random_rate = exact
-                break
-        
-        for rank, (name, exact, roi, hits, sharpe) in enumerate(rows, 1):
+
+        for rank, (name, exact, roi, delta_pp, pv, dec) in enumerate(rows, 1):
             marker = "★" if "(baseline)" not in name else " "
-            delta = f"({exact - random_rate:+.3f})" if random_rate else ""
-            print(f"  {rank:>4}  {marker}{name:29s}  {exact:>8.3f}  {roi:>8.1f}  {hits:>6}  {sharpe:>8.4f}  {delta}")
+            d_str = f"{delta_pp:+.3f}" if delta_pp is not None else "   —"
+            pv_str = f"{pv:.4f}" if pv is not None else "   —"
+            print(f"  {rank:>4}  {marker}{name:29s}  {exact:>8.3f}  {d_str:>7}  {roi:>7.1f}  {pv_str:>7}  {dec:>12}")
 
 
 if __name__ == "__main__":

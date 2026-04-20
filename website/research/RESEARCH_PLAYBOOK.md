@@ -1,24 +1,27 @@
 # Quy Trình Nghiên Cứu Thuật Toán Xổ Số — Playbook
 
-> **Mục đích**: Tài liệu tổng hợp các bước, lưu ý, sai lầm cần tránh, và template khi thực hiện nghiên cứu thuật toán dự đoán cho bất kỳ sản phẩm xổ số nào. Rút ra từ kinh nghiệm nghiên cứu Max 3D (04/2026).
+> **Vai trò sau chuẩn hóa 2026-04-20**: File này là **template copy-paste + catalog strategy cụ thể + lessons learned**. Methodology, test battery, và evaluation đã chuyển sang 3 canonical:
+>
+> - [METHODOLOGY.md](METHODOLOGY.md) — phương pháp research (5-phase pipeline, anti-patterns, decision tree)
+> - [TESTING.md](TESTING.md) — bias detection battery (14 matrix / 13 digit tests, Bonferroni)
+> - [EVALUATION.md](EVALUATION.md) — metrics + significance test + output schema
+>
+> **Khi nào đọc file này**: Sau khi đã nắm pipeline (METHODOLOGY), muốn tham khảo strategy formulae có sẵn (Phase 2), hyperparameter grids đã tune (Phase 4), và lessons learned cụ thể từ cycle trước.
 
 ---
 
 ## Tổng Quan Pipeline
 
+Xem chi tiết entry/exit criteria, anti-patterns, decision tree trong [METHODOLOGY.md](METHODOLOGY.md).
+
 ```
-PHASE 0: Hiểu dữ liệu
-    ↓
-PHASE 1: Phân tích thống kê sâu → Tìm bias
-    ↓
-PHASE 2: Thiết kế thuật toán khai thác bias
-    ↓
-PHASE 3: Walk-forward backtest
-    ↓
-PHASE 4: Iterate (lặp phase 2-3) → Tối ưu
-    ↓
-PHASE 5: Triển khai (website/code)
+Phase 0: Data ingest → Phase 1: Bias detect → Phase 2: Design → Phase 3: Validate → Phase 4: Ship
 ```
+
+**Nhắc nhở quan trọng từ METHODOLOGY**:
+- **R1 gate**: Phase 1 fail Bonferroni → STOP, không Phase 2. White noise là kết quả hợp lệ.
+- **Pre-registration**: Ghi hypothesis vào HISTORY *trước* khi backtest (§3.1 METHODOLOGY).
+- **Algebra check**: Chứng minh E[match | strategy] > E[match | random] trước khi spend compute (§1.4 METHODOLOGY).
 
 ---
 
@@ -56,39 +59,9 @@ wc -l data/<file>.jsonl     # Đếm records
 
 ## Phase 1 — Phân Tích Thống Kê Sâu
 
-### Bộ Test Bắt Buộc (13 tests đã dùng cho 3D)
+**Đầy đủ chi tiết: [TESTING.md](TESTING.md)**. Dưới đây chỉ là phát hiện đã có từ các cycle trước.
 
-| # | Test | Mục đích | Công cụ |
-|---|------|----------|---------|
-| 1 | **Chi² whole number** | Phân bố toàn số có đều? | `scipy.stats.chi2` |
-| 2 | **Chi² từng digit/vị trí** | Từng vị trí digit có đều? | `scipy.stats.chi2` |
-| 3 | **Digit independence** | Các vị trí có độc lập? | Chi² on joint dist |
-| 4 | **Serial correlation** | Số t có tương quan với số t-1? | Autocorrelation |
-| 5 | **Runs test** | Chuỗi xuất hiện có ngẫu nhiên? | Wald-Wolfowitz |
-| 6 | **Digit sum distribution** | Tổng chữ số có khớp lý thuyết? | Chi² vs theoretical |
-| 7 | **Tier analysis** | Phân bố khác nhau giữa các giải? | KS test |
-| 8 | **Temporal window** | Tần suất ổn định qua thời gian? | Correlation |
-| 9 | **Gap analysis** | Khoảng cách giữa các lần xuất hiện | Descriptive stats |
-| 10 | **Conditional probability** | P(X | Y appeared last draw) | Lift analysis |
-| 11 | **Ending digit** | Pattern ở chữ số cuối | Chi² |
-| 12 | **Repeat analysis** | Tần suất lặp giữa 2 kỳ liên tiếp | Hypergeometric |
-| 13 | **Draw sum** | Tổng tất cả số 1 kỳ | Normal test |
-
-### Output mong đợi
-
-Với mỗi test, ghi lại:
-```json
-{
-  "test_name": "...",
-  "p_value": 0.033,
-  "is_significant": true,
-  "interpretation": "Bias detected at position 1",
-  "exploitable": true,
-  "direction": "Digit 5 over-represented by 6%"
-}
-```
-
-### ⚡ Phát hiện từ nghiên cứu 3D (để tham khảo)
+### ⚡ Phát hiện từ nghiên cứu 3D (tham khảo)
 
 | Phát hiện | Max 3D | Max 3D Pro | Ý nghĩa |
 |-----------|--------|------------|----------|
@@ -99,39 +72,92 @@ Với mỗi test, ghi lại:
 | Temporal correlation | ≈0 | ≈0 | Không khai thác được time series |
 | Repeat rate | = expected | = expected | Không có pattern lặp |
 
-### Sai lầm cần tránh
+### ⚡ Phát hiện từ nghiên cứu Lotto 5/35 (tham khảo)
 
-1. **ĐỪNG bỏ qua digit-level analysis** — Whole-number distribution có thể PASS nhưng digit-level FAIL (đây là phát hiện lớn nhất)
-2. **ĐỪNG chỉ test 1 level** — Test cả: whole number → digit → pair → joint
-3. **ĐỪNG kết luận "random" chỉ vì 1 test pass** — Chạy ĐỦ 13 tests
-4. **ĐỪNG quên Bonferroni correction** khi chạy nhiều tests — p < 0.05 với 13 tests có thể là false positive (ngưỡng nên = 0.05/13 ≈ 0.004 cho strict)
-5. **Temporal window analysis rất quan trọng** — nếu correlation ≈ 0 giữa các window → bias ổn định (tốt); nếu correlation thay đổi → cần adaptive strategy
+- 13/14 tests PASS uniformity → data gần white noise ở các cạnh thông thường
+- **T11 Parity odd-count** p=0.0012 qua Bonferroni — Mode 0-odd +84%, Mode 3-odd +13%, Mode 5-odd +41%
+- **Nhưng**: single-ticket không thể exploit parity variance (chứng minh đại số — xem Chu kỳ 5 HISTORY). Chỉ multi-ticket wheeling mới có edge.
 
 ### Template code
 
-```python
-# File: deep_analysis.py
-# Xem website/research/3d_deep_analysis.py làm mẫu
-# Output: JSON file với kết quả tất cả tests
-# Key function signatures:
-def chi_squared_whole_number(draws) -> Dict   # Test 1
-def chi_squared_digit_position(draws) -> Dict  # Test 2
-def digit_independence_test(draws) -> Dict     # Test 3
-def serial_correlation_test(draws) -> Dict     # Test 4
-def runs_test(draws) -> Dict                   # Test 5
-def digit_sum_analysis(draws) -> Dict          # Test 6
-def tier_analysis(draws) -> Dict               # Test 7
-def temporal_window_analysis(draws) -> Dict    # Test 8
-def gap_analysis(draws) -> Dict                # Test 9
-def conditional_probability(draws) -> Dict     # Test 10
-def ending_digit_analysis(draws) -> Dict       # Test 11
-def repeat_analysis(draws) -> Dict             # Test 12
-def draw_sum_analysis(draws) -> Dict           # Test 13
-```
+Reference implementation:
+- Matrix (14 tests): [matrix/power535_deep_analysis.py](matrix/power535_deep_analysis.py)
+- Digit (13 tests): [3d/deep_analysis.py](3d/deep_analysis.py)
+
+Output JSON schema và interpretation flowchart: [TESTING.md §2, §7](TESTING.md).
 
 ---
 
 ## Phase 2 — Thiết Kế Thuật Toán
+
+### ⚡ Bắt buộc trước khi code (Phase 2 gates)
+
+#### Gate 1: Pre-registration hypothesis (METHODOLOGY §3.1)
+
+Copy-paste template này vào `RESEARCH_HISTORY.md` **trước** khi implement. Đây là hypothesis public; sau backtest, so sánh với outcome, không được viết lại.
+
+```markdown
+### Pre-registered Hypothesis — Cycle N (YYYY-MM-DD)
+
+**Strategy**: <tên đề xuất>
+**Products target**: <power_535 / max_3d / ...>
+**Trigger finding** (từ Phase 1): Test <T?> p=<...> qua Bonferroni. Bias: <direction>.
+
+**Mechanism** (why this should work):
+<1-2 câu: strategy khai thác bias như thế nào>
+
+**Predicted effect size**:
+- Primary metric: <win_rate_ge3 / exact_match_rate / p_any_hit_ge3>
+- Expected Δ vs Random: +<X.X> pp
+- Direction: strategy > Random
+
+**Success criterion**:
+- [ ] p_value_raw < 0.05
+- [ ] passes_bonferroni (K=<số strategies>)
+- [ ] ci95_lo_pp > 0
+- [ ] Decision ∈ {Accept, Suggestive}
+
+**Failure mode** (ghi nhận nếu):
+- Kết quả Reject → ghi lý do, đóng hypothesis
+- Effect size < predicted / 2 → flag effect overestimate trong methodology
+```
+
+#### Gate 2: Algebra sanity check (METHODOLOGY §1.4)
+
+Trước khi implement, viết công thức kỳ vọng trên giấy / trong commit message. Mục tiêu: phát hiện sớm strategy *không thể* beat random (không cần backtest).
+
+**Template**:
+```
+Given: bias <X> với effect size <ε>
+Strategy chọn theo: <rule>
+
+Under strategy S:
+  E[hits_i] = <công thức từ bias + rule>
+
+Under Random R:
+  E[hits_i] = <công thức baseline>
+
+Δ = E[hits_S] - E[hits_R] = <kết quả>
+
+Kết luận:
+  [ ] Δ > 0 (về lý thuyết có thể work) → implement
+  [ ] Δ = 0 (bias không exploit được bởi rule này) → đổi rule hoặc multi-ticket
+  [ ] Δ < 0 (rule đi ngược bias) → vứt bỏ
+```
+
+**Ví dụ đã dùng** (Chu kỳ 5 Phase 2a — đã chứng minh single-ticket parity không work):
+```
+Bias: parity odd-count distribution lệch so với hypergeometric
+Strategy: sample vé với k odd từ dist P_emp(k)
+  E[match | k odd drawn, j odd in ticket] = k·j/18 + (5-k)·(5-j)/17
+  E[match over tickets] = E_k[E_j[k·j/18 + (5-k)·(5-j)/17]]
+                        = E[k]·E[j]/18 + (5-E[k])·(5-E[j])/17   (vì k ⊥ j)
+Kết luận: E[match] CHỈ phụ thuộc E[k]. Không phụ thuộc Var[k].
+Observed E[k] = 2.544 ≈ uniform E[k] = 2.571 → Δ ≈ 0.
+→ Single-ticket KHÔNG work. Chuyển multi-ticket (đã validate Phase 2b).
+```
+
+---
 
 ### Framework phân loại (4 categories)
 
@@ -237,58 +263,28 @@ Sample from top-50 most frequent with frequency weighting
 
 ## Phase 3 — Walk-Forward Backtest
 
-### Thiết kế backtest chống sai lệch
+**Đầy đủ chi tiết: [EVALUATION.md](EVALUATION.md)** — metric taxonomy, significance test (z-test, Wilson CI, permutation), output JSON schema, decision rules.
 
-```python
-def walk_forward_backtest(draws, strategy, cfg, min_history=50, n_runs=5, n_predictions=2):
-    for run in range(n_runs):
-        for i in range(min_history, len(draws)):
-            train = draws[:i]          # CHỈ data trước thời điểm predict
-            predicted = strategy.predict(train, n_predictions)
-            evaluate(predicted, draws[i])   # So sánh với thực tế
-```
+### Quick checklist
 
-### Checklist backtest
+- [ ] Walk-forward: `train = draws[:i]`, không look-ahead
+- [ ] Fixed seed: `random.seed(42); np.random.seed(42)`, reset trước mỗi strategy
+- [ ] `n_runs ≥ 3` (5 preferred cho stochastic strategies)
+- [ ] `min_history` ≥ 100 matrix / 50 digit
+- [ ] Include `Random` + simple baseline mạnh nhất của product
+- [ ] **Significance test trên Δ vs Random** (z-test proportion hoặc permutation) — bắt buộc, xem [EVALUATION §3](EVALUATION.md)
+- [ ] Report: point estimate + p-value + Wilson 95% CI + `passes_bonferroni`
+- [ ] Cross-product validation khi applicable
 
-- [ ] **No look-ahead bias**: `train = draws[:i]` — KHÔNG BAO GIỜ dùng draws[i] trong training
-- [ ] **Fixed seed**: `random.seed(42); np.random.seed(42)` — reproducible
-- [ ] **Reset seed per strategy**: Đảm bảo so sánh fair
-- [ ] **Multiple runs** (≥ 3, tốt nhất 5): Giảm variance do randomness
-- [ ] **Min history ≥ 50**: Không predict khi chưa đủ data
-- [ ] **Cross-product validation**: Test cùng strategy trên nhiều sản phẩm
+### Common pitfalls
 
-### Metrics bắt buộc
-
-| Metric | Công thức | Ý nghĩa | Target |
-|--------|-----------|----------|--------|
-| **Exact Match Rate** | hits / (preds × draws × runs) × 100 | Xác suất trúng per number | > baseline |
-| **ROI** | (revenue - cost) / cost × 100 | Return on investment | Minimize negative |
-| **Total Hits** | Tổng lần trúng | Volume | Maximize |
-| **Sharpe Ratio** | mean(profit) / std(profit) × √52 | Risk-adjusted return | > -0.5 là tốt |
-| **Δ vs Random** | strategy_rate - random_rate | Cải thiện so với random | > 0 |
-
-### Output format
-
-```json
-{
-  "strategy_name": "...",
-  "total_predictions": 5070,
-  "exact_match_rate": 2.496,
-  "roi_pct": -26.5,
-  "total_hits": 165,
-  "sharpe_ratio": -0.428,
-  "tier_hits": {"Giải Đặc biệt": 20, "Giải Nhất": 45, ...},
-  "elapsed_seconds": 2.3
-}
-```
-
-### Sai lầm phổ biến
-
-1. **Chỉ chạy 1 run** → Kết quả bị dominated bởi luck → Cần ≥ 3 runs
-2. **Không reset seed giữa strategies** → So sánh không fair
-3. **Test quá ít predictions** (n=1) → Variance quá cao → Dùng n=2 minimum
-4. **Dùng ROI làm metric chính** → ROI phụ thuộc cả hit tier, không phản ánh match rate → Dùng Exact Match Rate + ROI song song
-5. **Không bao gồm baselines** → Luôn include Random + FreqWholeHot
+| Pitfall | Fix |
+|---------|-----|
+| Bare Δ không p-value | Luôn z-test vs Random, report cả p_raw và Bonferroni-adjusted |
+| `n_runs=1` → variance dominated by luck | `n_runs ≥ 3` |
+| ROI làm metric chính | Report accuracy + ROI song song — ROI âm là chuẩn, Δ accuracy mới tell signal |
+| Grid search 50 configs rồi report best | Bonferroni trên K configs hoặc hold-out validation |
+| Thiếu baseline mạnh | Include cả Random **và** simple baseline (FreqWholeHot / Pattern) |
 
 ---
 
@@ -435,33 +431,28 @@ python3 script.py
 - [ ] Tính P(trúng) lý thuyết
 - [ ] Kiểm tra data quality
 
-### Phase 1: Phân tích thống kê (13 tests)
-- [ ] Chi² whole number
-- [ ] Chi² digit/position
-- [ ] Digit independence
-- [ ] Serial correlation
-- [ ] Runs test
-- [ ] Digit sum
-- [ ] Tier analysis
-- [ ] Temporal window
-- [ ] Gap analysis
-- [ ] Conditional probability
-- [ ] Ending digit/pattern
-- [ ] Repeat analysis
-- [ ] Draw sum
-- [ ] → Tổng hợp: exploitable bias nào?
+### Phase 1: Phân tích thống kê
+- [ ] Chọn battery phù hợp: matrix (14 tests) hoặc digit (13 tests) — xem [TESTING.md §3-4](TESTING.md)
+- [ ] Chạy toàn bộ battery, cố định **trước** khi chạy
+- [ ] Bonferroni `α_strict = 0.05/n_tests`
+- [ ] R1 gate: nếu không test nào pass Bonferroni → STOP, ghi HISTORY
+- [ ] Nếu có pass: replication check + effect size > 5% / Cramér's V > 0.1
+- [ ] → Tổng hợp: exploitable bias nào? Single-ticket hay multi-ticket?
 
 ### Phase 2: Thiết kế thuật toán
+- [ ] **Pre-register hypothesis** vào HISTORY (METHODOLOGY §3.1)
+- [ ] **Algebra check** E[match | strategy] trước implement (METHODOLOGY §1.4)
 - [ ] Chọn category phù hợp (A/B/C/D)
 - [ ] Implement ≥ 10 strategies (2+ variants per strategy)
-- [ ] Include baselines: Random + FreqWholeHot
+- [ ] Include baselines: Random + simple baseline mạnh (FreqWholeHot / Pattern)
 
 ### Phase 3: Backtest
 - [ ] Walk-forward, no look-ahead
-- [ ] Fixed seed (42), ≥ 5 runs
-- [ ] Min history 50 draws
-- [ ] Record: Exact%, ROI%, Hits, Sharpe, Δ Random
+- [ ] Fixed seed (42), ≥ 3 runs (5 preferred)
+- [ ] Min history 50 draws (matrix: 100)
+- [ ] Record: Accuracy, ROI%, Sharpe, **Δ Random + p-value + Wilson CI + passes_bonferroni**
 - [ ] Cross-product validation
+- [ ] Decision rule (EVALUATION §6): Accept / Suggestive / Inconclusive / Reject
 
 ### Phase 4: Iterate
 - [ ] Grid search top-5 hyperparams
@@ -477,4 +468,4 @@ python3 script.py
 
 ---
 
-*Cập nhật lần cuối: 2026-04-19 — Dựa trên nghiên cứu Max 3D (Phase 1 hoàn thành)*
+*Cập nhật lần cuối: 2026-04-20 — Chuẩn hóa: methodology/testing/evaluation tách sang 3 canonical. File này giữ vai trò template + strategy catalog + lessons.*

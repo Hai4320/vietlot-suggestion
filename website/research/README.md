@@ -7,9 +7,12 @@ Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tíc
 ```
 research/
 ├── README.md                       ← Bạn đang đọc file này
-├── RESEARCH_PLAN.md                ← Kế hoạch tổng thể 5 phase
+├── METHODOLOGY.md                  ← 🆕 Phương pháp research canonical (unified 5-phase pipeline)
+├── EVALUATION.md                   ← 🆕 Metrics + significance test bắt buộc
+├── TESTING.md                      ← 🆕 Bias detection test battery (14 matrix / 13 digit)
+├── RESEARCH_PLAN.md                ← Kế hoạch tổng thể 5 phase (lịch sử — không dùng cho cycle mới)
 ├── RESEARCH_DOCUMENTATION.md       ← Tài liệu tổng hợp toàn bộ (canonical)
-├── RESEARCH_PLAYBOOK.md            ← Phương pháp luận & template cho nghiên cứu mới
+├── RESEARCH_PLAYBOOK.md            ← Template + checklist copy-paste cho cycle mới
 ├── RESEARCH_HISTORY.md             ← Nhật ký chu kỳ nghiên cứu (mục tiêu, phương pháp, kết quả, bài học)
 │
 ├── matrix/                         ← Sản phẩm ma trận (Power 6/55, Mega 6/45, Lotto 5/35)
@@ -32,7 +35,8 @@ research/
 │   ├── advanced_backtest.py        ← Backtest 11 thuật toán nâng cao (từ nghiên cứu)
 │   └── advanced_backtest_results.json ← Kết quả backtest nâng cao
 │
-├── Random_Analysis_Agent.md        ← System prompt cho Quant Cryptanalysis Agent (methodology cho phase-B)
+├── Random_Analysis_Agent.md        ← Source system prompt (đã incorporated vào METHODOLOGY — giữ làm reference)
+├── RNG_ANALYSIS_REPORT.md          ← ⚠️ Snapshot analysis 516 draws (2026-04-14) — superseded bởi matrix/power535_deep_analysis
 │
 └── archive/                        ← File cũ (đã bị thay thế, giữ để tham khảo)
     ├── phase1_backtest.py          ← Phase 1 backtest (cần import ML module) → dùng matrix/backtest.py
@@ -48,14 +52,24 @@ research/
 
 ## Tài liệu chính (nên đọc theo thứ tự)
 
+### Canonical references (đọc trước khi bắt đầu cycle mới)
+
 | # | File | Mô tả | Khi nào đọc |
 |---|------|--------|-------------|
-| 1 | [RESEARCH_PLAN.md](RESEARCH_PLAN.md) | Kế hoạch tổng thể 5 phase | Hiểu roadmap và bối cảnh |
-| 2 | [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) | Phương pháp luận, 13 kiểm định, template | Trước khi bắt đầu nghiên cứu mới |
-| 3 | [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | Nhật ký các chu kỳ nghiên cứu | Hiểu "tại sao" đằng sau mỗi quyết định |
-| 4 | [RESEARCH_DOCUMENTATION.md](RESEARCH_DOCUMENTATION.md) | Tổng hợp toàn bộ kết quả (1,200+ dòng) | Tham khảo chi tiết kỹ thuật |
-| 5 | [3d/REPORT.md](3d/REPORT.md) | Nghiên cứu chuyên sâu 3D | Khi làm việc với Max 3D/3D Pro |
-| 6 | [matrix/literature_review.md](matrix/literature_review.md) | Lý thuyết nền tảng (papers, algorithms) | Khi thiết kế thuật toán mới |
+| 1 | [METHODOLOGY.md](METHODOLOGY.md) | Phương pháp research canonical — pipeline 5 phase hợp nhất | Trước khi khởi động cycle mới |
+| 2 | [TESTING.md](TESTING.md) | Bias detection battery — 14 matrix / 13 digit tests, Bonferroni, interpretation flowchart | Phase 1 của mỗi cycle |
+| 3 | [EVALUATION.md](EVALUATION.md) | Metrics taxonomy 3 tầng + significance test + output schema | Phase 3 của mỗi cycle |
+| 4 | [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) | Template + checklist copy-paste | Khi đã hiểu pipeline, bắt đầu implement |
+
+### Context & lịch sử
+
+| # | File | Mô tả | Khi nào đọc |
+|---|------|--------|-------------|
+| 5 | [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | Nhật ký các chu kỳ nghiên cứu | Hiểu "tại sao" đằng sau quyết định |
+| 6 | [RESEARCH_DOCUMENTATION.md](RESEARCH_DOCUMENTATION.md) | Tổng hợp toàn bộ kết quả (1,300+ dòng) | Tham khảo chi tiết kỹ thuật |
+| 7 | [RESEARCH_PLAN.md](RESEARCH_PLAN.md) | Kế hoạch tổng thể 5 phase (07/2025) | Historical context (có thể outdated) |
+| 8 | [3d/REPORT.md](3d/REPORT.md) | Nghiên cứu chuyên sâu 3D | Khi làm việc với Max 3D/3D Pro |
+| 9 | [matrix/literature_review.md](matrix/literature_review.md) | Lý thuyết nền tảng (papers, algorithms) | Khi thiết kế thuật toán mới |
 
 ## Cách chạy backtest
 
@@ -168,7 +182,7 @@ Nghiên cứu xong → Chạy backtest → Cập nhật 3 file website:
 | 14 | Ensemble | Mới | Kết hợp nhiều model |
 | 15 | MinDistance | Mới | Tối đa khoảng cách Hamming |
 | 16 | Adaptive | Mới | Tự chọn model tốt nhất gần đây |
-| **17** | 🔬 **HybridParityDiv** | **Nghiên cứu (multi-ticket)** | **5/35 only, N≥10 — wheeling parity-stratified + max-min Hamming (p=0.011 ở N=20)** |
+| **17** | 🔬 HybridParityDiv | Nghiên cứu (multi-ticket) | 5/35 only, N≥10 — wheeling parity-stratified + max-min Hamming. **Sau Chu kỳ 6 correction: không pass z-test (p=0.301 ở N=20).** Kept as reference implementation; tham khảo [HISTORY §Chu kỳ 5+6](RESEARCH_HISTORY.md) |
 
 ### 3D — Cơ bản (12 thuật toán trong `3d/backtest.py`)
 
@@ -203,20 +217,23 @@ Nghiên cứu xong → Chạy backtest → Cập nhật 3 file website:
 
 ## Kết quả tóm tắt
 
-### Ma trận — Top thuật toán mỗi sản phẩm
+### Ma trận — Top thuật toán mỗi sản phẩm (updated 2026-04-20, Chu kỳ 6)
 
-| Sản phẩm | #1 | Δ vs E[X] | Win% | Chú thích |
-|----------|----|-----------|------|-----------|
-| Power 6/55 | Bayesian AI | +0.031 | 1.65% | — |
-| Mega 6/45 | Bayes Sharp | +0.023 | 3.14% | — |
-| Lotto 5/35 (single) | Pattern / Adaptive | +0.025 | 1.78% | trong khoảng noise |
-| **Lotto 5/35 (N=20 wheel)** | 🔬 **HybridParityDiv** | **+4.31pp P(any≥3)** | **27.65%** | **p=0.011 ✓** |
+| Sản phẩm | Top theo Δ | Δ (avg) | Win% | p_raw | Decision |
+|----------|:---:|:---:|:---:|:---:|:---:|
+| Power 6/55 | Bayesian AI | +0.031 | 1.65% | 0.511 | **Reject** (không có edge) |
+| Mega 6/45 | **ExpDecay_Cold** | +0.009 | 2.91% | **0.0044** | **Suggestive** ⚠️ strongest signal |
+| Mega 6/45 (alt) | Ensemble / Bayesian | +0.007 | 2.58% | 0.046 | Suggestive |
+| Lotto 5/35 (single) | Adaptive | +0.038 | 1.90% | 0.157 | Reject |
+| Lotto 5/35 (N=20 wheel) | MinDistanceWheel | +2.66pp | 26.80% | 0.118 | Reject |
 
-### 3D — Top thuật toán (Exact Match %)
+### 3D — Top thuật toán (Exact Match %, updated 2026-04-20 Chu kỳ 6)
 
-| Sản phẩm | #1 | Exact % | ROI |
-|----------|----|---------|-----|
-| Max 3D | Freq_Whole_Hot | 2.35% | -32.8% |
-| Max 3D Pro | EV Maximizer | 2.50% | -26.5% |
+| Sản phẩm | Top theo Δ | Exact % | ROI | p_raw | Decision |
+|----------|:---:|:---:|:---:|:---:|:---:|
+| Max 3D | FreqWholeHot | 2.35% | -32.8% | 0.066 | Reject (near-miss) |
+| Max 3D Pro | EVMaximizer | 2.50% | -26.5% | **0.053** | Reject (near-miss, closest to Accept) |
+
+**Tất cả 3D strategies Reject sau z-test.** EVMaximizer 3D Pro (p=0.053) là closest-to-Accept across all products — candidate replicate cho Chu kỳ 7.
 
 > **Lưu ý**: Xổ số là hoàn toàn ngẫu nhiên. Không thuật toán nào đảm bảo lợi nhuận. ROI luôn âm.

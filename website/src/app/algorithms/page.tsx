@@ -8,6 +8,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { Decision } from "@/lib/backtest-data";
+
+function formatPValue(p?: number) {
+  if (p === undefined) return "—";
+  if (p < 0.001) return "<0.001";
+  return p.toFixed(3);
+}
+
+function DecisionBadge({ d }: { d?: Decision }) {
+  if (!d || d === "baseline") return null;
+  const cls: Record<Decision, string> = {
+    Accept: "bg-green-600 text-white",
+    Suggestive: "bg-yellow-500 text-black",
+    Inconclusive: "bg-gray-400 text-white",
+    Reject: "bg-muted text-muted-foreground",
+    baseline: "",
+  };
+  return <Badge className={`text-[9px] px-1 py-0 ${cls[d]}`}>{d}</Badge>;
+}
 
 // ============================================================
 // Backtest data from Phase 4 evaluation (1300+ draws)
@@ -244,49 +263,50 @@ const STRATEGIES = [
   },
 ];
 
-// Phase 4 backtest results
+// Phase 4 backtest results — refreshed 2026-04-20 Chu kỳ 6 (added z-test + decision)
 const BACKTEST_RESULTS = {
   power_655: {
     label: "Power 6/55",
     baseline: { E: 0.6545, winPct: 1.333 },
     totalDraws: 1334,
     strategies: [
-      { name: "★ Bayesian AI", avg: 0.6853, delta: +0.0308, winPct: 1.648, roi: -91.4, best: 4, type: "new" as const },
-      { name: "Tần suất cao", avg: 0.6780, delta: +0.0235, winPct: 1.513, roi: -93.3, best: 4, type: "old" as const },
-      { name: "Random", avg: 0.6764, delta: +0.0219, winPct: 1.459, roi: -94.2, best: 4, type: "base" as const },
-      { name: "★ Phủ sóng tối đa", avg: 0.6613, delta: +0.0068, winPct: 1.540, roi: -94.7, best: 4, type: "new" as const },
-      { name: "★ Mẫu cấu trúc ¹", avg: 0.6575, delta: +0.0030, winPct: 1.594, roi: -93.0, best: 4, type: "new" as const },
-      { name: "Số vắng lâu", avg: 0.6394, delta: -0.0151, winPct: 1.243, roi: -94.1, best: 4, type: "old" as const },
-      { name: "★ Tự động tối ưu", avg: 0.6405, delta: -0.0140, winPct: 1.270, roi: -94.7, best: 4, type: "new" as const },
+      { name: "★ Bayesian AI", avg: 0.6853, delta: +0.0308, winPct: 1.648, roi: -91.4, best: 4, type: "new" as const, pValue: 0.511, decision: "Reject" as Decision },
+      { name: "Tần suất cao", avg: 0.6780, delta: +0.0235, winPct: 1.513, roi: -93.3, best: 4, type: "old" as const, pValue: 0.848, decision: "Reject" as Decision },
+      { name: "Random", avg: 0.6764, delta: +0.0219, winPct: 1.459, roi: -94.2, best: 4, type: "base" as const, decision: "baseline" as Decision },
+      { name: "★ Phủ sóng tối đa", avg: 0.6613, delta: +0.0068, winPct: 1.540, roi: -94.7, best: 4, type: "new" as const, pValue: 0.774, decision: "Reject" as Decision },
+      { name: "★ Mẫu cấu trúc ¹", avg: 0.6575, delta: +0.0030, winPct: 1.594, roi: -93.0, best: 4, type: "new" as const, pValue: 0.636, decision: "Reject" as Decision },
+      { name: "Số vắng lâu", avg: 0.6394, delta: -0.0151, winPct: 1.243, roi: -94.1, best: 4, type: "old" as const, pValue: 0.421, decision: "Reject" as Decision },
+      { name: "★ Tự động tối ưu", avg: 0.6405, delta: -0.0140, winPct: 1.270, roi: -94.7, best: 4, type: "new" as const, pValue: 0.483, decision: "Reject" as Decision },
     ],
   },
   power_645: {
     label: "Mega 6/45",
     baseline: { E: 0.8, winPct: 2.383 },
-    totalDraws: 1301,
+    totalDraws: 1302,
     strategies: [
-      { name: "★ Bayesian AI (Sharp)", avg: 0.8229, delta: +0.0229, winPct: 3.136, roi: -86.1, best: 4, type: "new" as const },
-      { name: "★ Mẫu cấu trúc ¹", avg: 0.8165, delta: +0.0165, winPct: 2.248, roi: -88.8, best: 4, type: "new" as const },
-      { name: "Random", avg: 0.8066, delta: +0.0066, winPct: 1.915, roi: -92.0, best: 4, type: "base" as const },
-      { name: "Tần suất cao", avg: 0.8060, delta: +0.0060, winPct: 2.776, roi: -89.4, best: 4, type: "old" as const },
-      { name: "★ Phủ sóng tối đa", avg: 0.7893, delta: -0.0107, winPct: 2.193, roi: -62.0, best: 5, type: "new" as const },
-      { name: "Số vắng lâu", avg: 0.7954, delta: -0.0046, winPct: 2.776, roi: -86.4, best: 4, type: "old" as const },
-      { name: "★ Tự động tối ưu", avg: 0.7918, delta: -0.0082, winPct: 1.943, roi: -92.7, best: 4, type: "new" as const },
+      { name: "Suy giảm hàm mũ (Cold)", avg: 0.8089, delta: +0.0089, winPct: 2.912, roi: -56.9, best: 5, type: "old" as const, pValue: 0.0044, decision: "Suggestive" as Decision },
+      { name: "★ Phủ sóng tối đa", avg: 0.8103, delta: +0.0103, winPct: 2.440, roi: -57.5, best: 5, type: "new" as const, pValue: 0.105, decision: "Reject" as Decision },
+      { name: "★ Kết hợp (Ensemble)", avg: 0.8073, delta: +0.0073, winPct: 2.579, roi: -63.9, best: 5, type: "new" as const, pValue: 0.046, decision: "Suggestive" as Decision },
+      { name: "★ Bayesian AI", avg: 0.8070, delta: +0.0070, winPct: 2.579, roi: -88.5, best: 4, type: "new" as const, pValue: 0.046, decision: "Suggestive" as Decision },
+      { name: "★ Mẫu cấu trúc ¹", avg: 0.7995, delta: -0.0005, winPct: 2.413, roi: -87.5, best: 4, type: "new" as const, pValue: 0.123, decision: "Reject" as Decision },
+      { name: "★ Bayesian AI (Sharp)", avg: 0.7992, delta: -0.0008, winPct: 2.357, roi: -89.2, best: 4, type: "new" as const, pValue: 0.165, decision: "Reject" as Decision },
+      { name: "Tần suất cao", avg: 0.7978, delta: -0.0022, winPct: 1.969, roi: -89.6, best: 4, type: "old" as const, pValue: 0.797, decision: "Reject" as Decision },
+      { name: "Random", avg: 0.7976, delta: -0.0024, winPct: 1.886, roi: -92.1, best: 4, type: "base" as const, decision: "baseline" as Decision },
     ],
   },
   power_535: {
     label: "Lotto 5/35",
     baseline: { E: 0.7143, winPct: 1.386 },
-    totalDraws: 538,
+    totalDraws: 539,
     strategies: [
-      { name: "🔬 Hybrid Parity (N=20 wheel)", avg: 0.7075, delta: -0.0068, winPct: 27.65, roi: -91.1, best: 4, type: "new" as const },
-      { name: "★ Mẫu cấu trúc ¹", avg: 0.7396, delta: +0.0253, winPct: 1.775, roi: -82.2, best: 4, type: "new" as const },
-      { name: "★ Tự động tối ưu", avg: 0.7396, delta: +0.0253, winPct: 1.381, roi: -84.2, best: 4, type: "new" as const },
-      { name: "Tần suất cao", avg: 0.7258, delta: +0.0115, winPct: 1.578, roi: -74.4, best: 4, type: "old" as const },
-      { name: "Random", avg: 0.7101, delta: -0.0042, winPct: 2.564, roi: -78.3, best: 4, type: "base" as const },
-      { name: "★ Bayesian AI", avg: 0.6864, delta: -0.0279, winPct: 0.789, roi: -87.2, best: 4, type: "new" as const },
-      { name: "★ Phủ sóng tối đa", avg: 0.6884, delta: -0.0259, winPct: 1.381, roi: -93.1, best: 3, type: "new" as const },
-      { name: "Số vắng lâu", avg: 0.7061, delta: -0.0082, winPct: 0.789, roi: -96.1, best: 3, type: "old" as const },
+      { name: "★ Tự động tối ưu", avg: 0.7525, delta: +0.0382, winPct: 1.898, roi: -87.1, best: 4, type: "new" as const, pValue: 0.157, decision: "Reject" as Decision },
+      { name: "Tần suất cặp", avg: 0.7472, delta: +0.0329, winPct: 1.367, roi: -93.2, best: 3, type: "old" as const, pValue: 0.730, decision: "Reject" as Decision },
+      { name: "★ Khoảng cách tối đa", avg: 0.7229, delta: +0.0086, winPct: 1.671, roi: -91.7, best: 3, type: "new" as const, pValue: 0.327, decision: "Reject" as Decision },
+      { name: "★ Phủ sóng tối đa", avg: 0.7183, delta: +0.0040, winPct: 1.746, roi: -84.4, best: 4, type: "new" as const, pValue: 0.259, decision: "Reject" as Decision },
+      { name: "Random", avg: 0.7175, delta: +0.0032, winPct: 1.215, roi: -90.5, best: 4, type: "base" as const, decision: "baseline" as Decision },
+      { name: "★ Bayesian AI", avg: 0.7046, delta: -0.0097, winPct: 1.746, roi: -84.4, best: 4, type: "new" as const, pValue: 0.259, decision: "Reject" as Decision },
+      { name: "★ Mẫu cấu trúc ¹", avg: 0.6970, delta: -0.0173, winPct: 1.367, roi: -93.2, best: 3, type: "new" as const, pValue: 0.730, decision: "Reject" as Decision },
+      { name: "🔬 HybridParityDiv (N=20)", avg: 0.7075, delta: -0.0068, winPct: 25.89, roi: -91.4, best: 4, type: "new" as const, pValue: 0.301, decision: "Reject" as Decision },
     ],
   },
 };
@@ -301,39 +321,37 @@ const RECOMMENDATIONS = [
     secondary: "Tần suất cao",
     secondaryEmoji: "📊",
     reason:
-      "Pool 55 số lớn nhất — Bayesian AI (temp=1.0) vượt trội Δ+0.031. " +
-      "Mẫu cấu trúc xếp #5 với Δ+0.003 và win rate tốt (1.59%). Tần suất cao đơn giản nhưng hiệu quả #2.",
-    special: null,
+      "Bayesian AI có Δ avg match cao nhất (+0.031) nhưng sau z-test Chu kỳ 6: p=0.511 → **Reject**. " +
+      "Không strategy nào beat Random với significance. Dùng Bayesian nếu thích mô hình thông minh, nhưng hiểu rằng edge không thực tế.",
+    special: "⚠️ Chu kỳ 6 (2026-04-20): toàn bộ strategies Reject khi z-test vs Random. Pool 55 số có thể quá lớn cho 1334 draws.",
   },
   {
     product: "Mega 6/45",
     emoji: "🔵",
     color: "hsl(217, 91%, 60%)",
-    primary: "Bayesian AI (Sharp)",
-    primaryEmoji: "🧠",
-    secondary: "Mẫu cấu trúc",
-    secondaryEmoji: "🔮",
+    primary: "Suy giảm hàm mũ (Cold)",
+    primaryEmoji: "⚡",
+    secondary: "Bayesian AI",
+    secondaryEmoji: "🧠",
     reason:
-      "Bayesian AI (Sharp, temp=0.5) win rate 3.14% — cao nhất qua mọi chiến lược. " +
-      "Mẫu cấu trúc #2 ổn định. Phủ sóng tối đa đạt 5/6 trùng duy nhất và ROI -62%!",
-    special: "⚡ Phủ sóng tối đa: đạt 5/6 trùng khớp DUY NHẤT trong toàn bộ nghiên cứu. ROI -62% (tốt nhất).",
+      "🔬 **ExpDecay_Cold** là strategy duy nhất có signal mạnh nhất (p=0.0044, Suggestive): " +
+      "win rate 2.91% vs Random 1.89% (+1.03pp). Chưa pass Bonferroni K=14 (α=0.00357) — cần replicate trên data mới. " +
+      "Bayesian AI và Kết hợp (Ensemble) cũng Suggestive (p=0.046).",
+    special: "⚠️ 3 strategies Suggestive trên 6/45 — strongest signal qua toàn research. Ứng viên cho Chu kỳ 7 replicate validation.",
   },
   {
     product: "Lotto 5/35",
     emoji: "🟢",
     color: "hsl(142, 71%, 45%)",
-    primary: "Hybrid Parity (N=20)",
-    primaryEmoji: "🎰",
+    primary: "Tự động tối ưu",
+    primaryEmoji: "🎛️",
     secondary: "Mẫu cấu trúc",
     secondaryEmoji: "🔮",
     reason:
-      "🔬 Hybrid Parity — thuật toán ĐẦU TIÊN có edge thống kê ý nghĩa ở 5/35: " +
-      "P(any vé ≥3 match) = 27.65% ở N=20 vé (+4.3pp so với Random, p=0.011). " +
-      "Khai thác bias parity (T11 Chi² p=0.0012) qua wheeling đa vé. Yêu cầu N≥10, tối ưu N=20. " +
-      "Single-ticket: Mẫu cấu trúc và Tự động tối ưu vẫn là lựa chọn tốt nhất (Δ+0.025).",
-    special:
-      "🔬 Hybrid Parity: thuật toán multi-ticket đầu tiên có p-value < 0.05 trên matrix products. " +
-      "ROI vẫn âm (-91%) do giá trị giải 3 thấp so với cost N=20 vé.",
+      "Sau Chu kỳ 6 correction: HybridParityDiv claim cũ (p=0.011) là artefact của bug sample-size — thực chất p=0.301 → Reject. " +
+      "Tất cả strategies single-ticket + wheeling đều Reject. Bias T11 Parity (p=0.0012) tồn tại nhưng không exploitable. " +
+      "Adaptive có Δ cao nhất (+0.038) nhưng p=0.157 — chưa đủ ý nghĩa.",
+    special: "⚠️ HybridParityDiv: edge cũ biến mất sau khi fix bug `dates.unique()`. Kept trong UI làm reference implementation, không còn recommended.",
   },
 ];
 
@@ -341,29 +359,24 @@ const RECOMMENDATIONS = [
 // 3D Products backtest data (15 strategies, 1064+ draws)
 // ============================================================
 
+// 3D backtest results — refreshed 2026-04-20 Chu kỳ 6. Baseline = Random.
 const BACKTEST_RESULTS_3D = {
   "3d": {
     label: "Max 3D",
     totalDraws: 1064,
     baseline: { exactPct: 2.0 },
     strategies: [
-      { name: "Tần suất cao (Whole Hot)", exactPct: 2.347, roi: -32.8, type: "best" as const },
-      { name: "🧬 Bias liên hợp (T=1.0)", exactPct: 2.268, roi: -39.0, type: "research" as const },
-      { name: "Tier Focus ĐB", exactPct: 2.186, roi: -42.2, type: "old" as const },
-      { name: "Digit Hot", exactPct: 2.137, roi: -39.5, type: "old" as const },
-      { name: "★ Bayesian AI (Digit)", exactPct: 2.087, roi: -39.6, type: "new" as const },
-      { name: "★★ Phủ sóng tối đa (SumRange)", exactPct: 2.055, roi: -40.0, type: "new" as const },
-      { name: "★ Bayesian AI (Sharp)", exactPct: 2.055, roi: -42.0, type: "new" as const },
-      { name: "Digit Cold", exactPct: 2.038, roi: -44.4, type: "old" as const },
-      { name: "Mẫu cấu trúc 3D", exactPct: 2.005, roi: -46.2, type: "old" as const },
-      { name: "★★ Markov Digit", exactPct: 1.972, roi: -46.5, type: "old" as const },
-      { name: "★ Phủ sóng tối đa", exactPct: 1.972, roi: -46.9, type: "new" as const },
-      { name: "★ Tự động tối ưu", exactPct: 1.940, roi: -46.2, type: "new" as const },
-      { name: "Random", exactPct: 1.874, roi: -55.7, type: "base" as const },
-      { name: "💰 EV tối đa", exactPct: 1.874, roi: -56.9, type: "research" as const },
-      { name: "★ Bayesian AI (Whole)", exactPct: 1.841, roi: -46.0, type: "new" as const },
-      { name: "★★ Composite Score", exactPct: 1.808, roi: -59.0, type: "old" as const },
-      { name: "Freq Whole Cold", exactPct: 1.644, roi: -54.7, type: "old" as const },
+      { name: "Tần suất cao (FreqWholeHot)", exactPct: 2.347, roi: -32.8, type: "best" as const, pValue: 0.066, decision: "Reject" as Decision },
+      { name: "🧬 Bias liên hợp (T=1.0)", exactPct: 2.268, roi: -39.0, type: "research" as const, pValue: 0.144, decision: "Reject" as Decision },
+      { name: "PairExploiter (T=0.5)", exactPct: 2.248, roi: -36.7, type: "research" as const, pValue: 0.171, decision: "Reject" as Decision },
+      { name: "★ Phủ sóng tối đa (CoverageOpt)", exactPct: 2.219, roi: -35.8, type: "new" as const, pValue: 0.220, decision: "Reject" as Decision },
+      { name: "ULTIMATE_v1", exactPct: 2.219, roi: -44.9, type: "research" as const, pValue: 0.220, decision: "Reject" as Decision },
+      { name: "StratifiedDigit", exactPct: 2.199, roi: -40.8, type: "research" as const, pValue: 0.258, decision: "Reject" as Decision },
+      { name: "AdaptBias (T=0.9)", exactPct: 2.081, roi: -45.0, type: "research" as const, pValue: 0.584, decision: "Reject" as Decision },
+      { name: "TierWeighted", exactPct: 2.061, roi: -44.8, type: "research" as const, pValue: 0.653, decision: "Reject" as Decision },
+      { name: "BayesJoint (HL=100)", exactPct: 1.992, roi: -45.5, type: "research" as const, pValue: 0.920, decision: "Reject" as Decision },
+      { name: "Random", exactPct: 1.972, roi: -52.6, type: "base" as const, decision: "baseline" as Decision },
+      { name: "💰 EV tối đa (EVMaximizer)", exactPct: 1.874, roi: -56.9, type: "research" as const, pValue: 0.609, decision: "Reject" as Decision },
     ],
   },
   "3d_pro": {
@@ -371,24 +384,18 @@ const BACKTEST_RESULTS_3D = {
     totalDraws: 711,
     baseline: { exactPct: 2.0 },
     strategies: [
-      { name: "💰 EV tối đa", exactPct: 2.496, roi: -26.5, type: "research" as const },
-      { name: "🧬 Bias liên hợp (T=1.0)", exactPct: 2.375, roi: -31.5, type: "research" as const },
-      { name: "Tần suất cao (Whole Hot)", exactPct: 2.345, roi: -47.2, type: "best" as const },
-      { name: "★★ Phủ sóng tối đa (SumRange)", exactPct: 2.295, roi: -35.1, type: "new" as const },
-      { name: "★ Phủ sóng tối đa", exactPct: 2.269, roi: -43.8, type: "new" as const },
-      { name: "Random", exactPct: 2.219, roi: -38.0, type: "base" as const },
-      { name: "Tier Focus ĐB", exactPct: 2.068, roi: -51.1, type: "old" as const },
-      { name: "★ Bayesian AI (Digit)", exactPct: 2.068, roi: -43.6, type: "new" as const },
-      { name: "★ Tự động tối ưu", exactPct: 2.068, roi: -47.7, type: "new" as const },
-      { name: "★ Bayesian AI (Sharp)", exactPct: 2.017, roi: -36.3, type: "new" as const },
-      { name: "Mẫu cấu trúc 3D", exactPct: 1.992, roi: -41.2, type: "old" as const },
-      { name: "Freq Whole Cold", exactPct: 1.942, roi: -52.7, type: "old" as const },
-      { name: "🧬 Bias liên hợp (T=0.7)", exactPct: 1.921, roi: -41.3, type: "research" as const },
-      { name: "★ Bayesian AI (Whole)", exactPct: 1.866, roi: -43.9, type: "new" as const },
-      { name: "Digit Hot", exactPct: 1.815, roi: -50.0, type: "old" as const },
-      { name: "Digit Cold", exactPct: 1.815, roi: -44.8, type: "old" as const },
-      { name: "★★ Markov Digit", exactPct: 1.790, roi: -51.1, type: "old" as const },
-      { name: "★★ Composite Score", exactPct: 1.790, roi: -39.3, type: "old" as const },
+      { name: "💰 EV tối đa (EVMaximizer)", exactPct: 2.496, roi: -26.5, type: "research" as const, pValue: 0.053, decision: "Reject" as Decision },
+      { name: "ULTIMATE_v2_sharp", exactPct: 2.421, roi: -27.5, type: "research" as const, pValue: 0.098, decision: "Reject" as Decision },
+      { name: "🧬 Bias liên hợp (T=1.0)", exactPct: 2.375, roi: -31.5, type: "research" as const, pValue: 0.137, decision: "Reject" as Decision },
+      { name: "TierWeighted", exactPct: 2.179, roi: -43.0, type: "research" as const, pValue: 0.465, decision: "Reject" as Decision },
+      { name: "BayesJoint (HL=150 Sharp)", exactPct: 2.163, roi: -45.0, type: "research" as const, pValue: 0.503, decision: "Reject" as Decision },
+      { name: "BayesJoint (HL=100)", exactPct: 2.133, roi: -33.4, type: "research" as const, pValue: 0.582, decision: "Reject" as Decision },
+      { name: "Portfolio", exactPct: 2.118, roi: -57.6, type: "research" as const, pValue: 0.624, decision: "Reject" as Decision },
+      { name: "CondChain (T=0.8)", exactPct: 2.103, roi: -38.3, type: "research" as const, pValue: 0.668, decision: "Reject" as Decision },
+      { name: "MultiSignal Ensemble", exactPct: 2.088, roi: -42.2, type: "research" as const, pValue: 0.712, decision: "Reject" as Decision },
+      { name: "Random", exactPct: 1.997, roi: -45.4, type: "base" as const, decision: "baseline" as Decision },
+      { name: "Tần suất cao (FreqWholeHot)", exactPct: 1.937, roi: -38.5, type: "best" as const, pValue: 0.802, decision: "Reject" as Decision },
+      { name: "CoverageOpt", exactPct: 1.437, roi: -58.6, type: "research" as const, pValue: 0.013, decision: "Reject" as Decision },
     ],
   },
 };
@@ -396,17 +403,16 @@ const BACKTEST_RESULTS_3D = {
 const RECOMMENDATIONS_3D = [
   {
     product: "Max 3D",
-    emoji: "�",
+    emoji: "🟣",
     color: "hsl(271, 91%, 65%)",
     primary: "Tần suất cao",
     primaryEmoji: "📊",
     secondary: "Bias liên hợp",
     secondaryEmoji: "🧬",
     reason:
-      "Tần suất cao có tỷ lệ trúng cao nhất (2.334%) và ROI tốt nhất (-35.5%). " +
-      "Bias liên hợp (#2, 2.27%) khai thác sự phụ thuộc giữa 3 vị trí chữ số — phát hiện mới từ nghiên cứu thống kê. " +
-      "Phủ sóng tối đa (SumRange) cũng mạnh.",
-    special: "🔬 Bias liên hợp: Chi² independence test phát hiện P(abc) ≠ P(a)×P(b)×P(c) — digit 6 over +10% ở hàng đơn vị",
+      "Tần suất cao có Exact% cao nhất (2.347%) nhưng sau z-test Chu kỳ 6: p=0.066 → **Reject** (suýt đủ p<0.05). " +
+      "Digit bias Phase 1 (digit 6 +10% hàng đơn vị) tồn tại nhưng không strategy nào exploit đủ mạnh để beat Random significantly.",
+    special: "⚠️ FreqWholeHot p=0.066 — gần điểm Suggestive nhưng chưa đủ. Với thêm ~200 draws có thể cross p<0.05.",
   },
   {
     product: "Max 3D Pro",
@@ -414,13 +420,12 @@ const RECOMMENDATIONS_3D = [
     color: "hsl(25, 95%, 53%)",
     primary: "EV tối đa",
     primaryEmoji: "💰",
-    secondary: "Bias liên hợp",
-    secondaryEmoji: "🧬",
+    secondary: "ULTIMATE v2 Sharp",
+    secondaryEmoji: "🏆",
     reason:
-      "EV tối đa #1 (2.50%, ROI -26.5%) — tối ưu kỳ vọng giải thưởng theo hạng giải + exponential decay. " +
-      "Bias liên hợp #2 (2.38%) khai thác phân bố đồng thời 3 chữ số. " +
-      "Cả hai đều là thuật toán tự nghiên cứu, vượt trội so với chiến lược truyền thống.",
-    special: "💎 EV tối đa: ROI -26.5% — tốt nhất trong toàn bộ nghiên cứu Max 3D Pro!",
+      "EV tối đa #1 Exact 2.496% + ROI -26.5% tốt nhất toàn nghiên cứu. Sau z-test: **p=0.053, Reject** (sát ngưỡng 0.05). " +
+      "ULTIMATE_v2_sharp (2.421%, p=0.098) và Bias liên hợp (2.375%, p=0.137) follow-up. CoverageOpt significantly worse than Random (p=0.013).",
+    special: "💎 EVMaximizer p=0.053 — closest to Accept across all 3D backtests. Candidate replicate trên data mới trong Chu kỳ 7.",
   },
 ];
 
@@ -649,9 +654,10 @@ export default function AlgorithmsPage() {
                         <TableHead>Thuật toán</TableHead>
                         <TableHead className="text-right">TB Trùng</TableHead>
                         <TableHead className="text-right">Δ</TableHead>
-                        <TableHead className="text-right">Tỷ lệ thắng</TableHead>
+                        <TableHead className="text-right">Win%</TableHead>
                         <TableHead className="text-right">ROI</TableHead>
-                        <TableHead className="text-right">Best</TableHead>
+                        <TableHead className="text-right" title="p-value từ z-test vs Random">p</TableHead>
+                        <TableHead className="text-center">Kết luận</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -659,11 +665,12 @@ export default function AlgorithmsPage() {
                         <TableRow
                           key={s.name}
                           className={
-                            i === 0
-                              ? "bg-primary/5 font-medium"
-                              : s.type === "base"
-                                ? "bg-muted/30"
-                                : ""
+                            s.decision === "Suggestive" ? "bg-yellow-500/5 font-medium"
+                              : i === 0
+                                ? "bg-primary/5 font-medium"
+                                : s.type === "base"
+                                  ? "bg-muted/30"
+                                  : ""
                           }
                         >
                           <TableCell className="text-muted-foreground text-xs">
@@ -706,21 +713,16 @@ export default function AlgorithmsPage() {
                             {s.delta.toFixed(4)}
                           </TableCell>
                           <TableCell className="text-right font-mono text-sm">
-                            {s.winPct.toFixed(3)}%
+                            {s.winPct.toFixed(2)}%
                           </TableCell>
                           <TableCell className="text-right font-mono text-sm text-red-400">
                             {s.roi.toFixed(1)}%
                           </TableCell>
-                          <TableCell className="text-right">
-                            {s.best === 5 ? (
-                              <Badge className="bg-yellow-500 text-black text-[10px]">
-                                {s.best} ⭐
-                              </Badge>
-                            ) : (
-                              <span className="text-sm text-muted-foreground">
-                                {s.best}
-                              </span>
-                            )}
+                          <TableCell className="text-right font-mono text-xs text-muted-foreground">
+                            {formatPValue(s.pValue)}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <DecisionBadge d={s.decision} />
                           </TableCell>
                         </TableRow>
                       ))}
@@ -816,20 +818,25 @@ export default function AlgorithmsPage() {
                         <TableHead className="text-right">Exact %</TableHead>
                         <TableHead className="text-right">vs Baseline</TableHead>
                         <TableHead className="text-right">ROI</TableHead>
+                        <TableHead className="text-right" title="p-value từ z-test vs Random">p</TableHead>
+                        <TableHead className="text-center">Kết luận</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {product.strategies.map((s, i) => (
+                      {product.strategies.map((s, i) => {
+                        const sAny = s as typeof s & { pValue?: number; decision?: Decision };
+                        return (
                         <TableRow
                           key={s.name}
                           className={
-                            i === 0
-                              ? "bg-primary/5 font-medium"
-                              : s.type === "base"
-                                ? "bg-muted/30"
-                                : s.type === "research"
-                                  ? "bg-orange-500/5"
-                                  : ""
+                            sAny.decision === "Suggestive" ? "bg-yellow-500/5 font-medium"
+                              : i === 0
+                                ? "bg-primary/5 font-medium"
+                                : s.type === "base"
+                                  ? "bg-muted/30"
+                                  : s.type === "research"
+                                    ? "bg-orange-500/5"
+                                    : ""
                           }
                         >
                           <TableCell className="text-muted-foreground text-xs">
@@ -870,8 +877,15 @@ export default function AlgorithmsPage() {
                           <TableCell className="text-right font-mono text-sm text-red-400">
                             {s.roi.toFixed(1)}%
                           </TableCell>
+                          <TableCell className="text-right font-mono text-xs text-muted-foreground">
+                            {formatPValue(sAny.pValue)}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <DecisionBadge d={sAny.decision} />
+                          </TableCell>
                         </TableRow>
-                      ))}
+                        );
+                      })}
                     </TableBody>
                   </Table>
                 </div>

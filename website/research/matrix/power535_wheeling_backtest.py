@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import math
 import random
+import sys
 import time
 from collections import Counter
 from datetime import timedelta
@@ -27,6 +28,9 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from _significance import build_significance  # noqa: E402
 
 DATA_PATH = Path(__file__).resolve().parents[3] / "data" / "power535.jsonl"
 OUTPUT_PATH = Path(__file__).resolve().parent / "power535_wheeling_backtest_results.json"
@@ -344,8 +348,10 @@ class HybridParityDiversity(MultiTicketStrategy):
 
 def walk_forward_multi(df, strategy: MultiTicketStrategy, n_tickets: int,
                         min_history: int = 100, n_runs: int = 5) -> dict[str, Any]:
-    dates = sorted(df["date"].unique())
-    start_idx = min(min_history, len(dates) // 2)
+    # Iterate over each draw (row) so multi-draw-per-day products (Power 5/35 has 2/day)
+    # are fully evaluated. Previous version iterated over dates.unique() and dropped ~50% of data.
+    n_total = len(df)
+    start_idx = min(min_history, n_total // 2)
     draws_n = 0
     any_hit3_plus = 0
     total_matches_per_draw: list[int] = []
@@ -355,15 +361,13 @@ def walk_forward_multi(df, strategy: MultiTicketStrategy, n_tickets: int,
     tier_hits = Counter()
     t0 = time.time()
     for run in range(n_runs):
-        for i in range(start_idx, len(dates)):
-            target_date = dates[i]
-            train_df = df[df["date"] < target_date]
+        for i in range(start_idx, n_total):
+            target_row = df.iloc[i]
+            target_date = target_row["date"]
+            train_df = df.iloc[:i]
             if len(train_df) < 30:
                 continue
-            actual_rows = df[df["date"] == target_date]
-            if actual_rows.empty:
-                continue
-            actual = set(actual_rows.iloc[0]["result"])
+            actual = set(target_row["result"])
             try:
                 tickets = strategy.predict_n(train_df, target_date, n_tickets)
             except Exception:
@@ -390,6 +394,7 @@ def walk_forward_multi(df, strategy: MultiTicketStrategy, n_tickets: int,
         "n_draws_evaluated": draws_n,
         "n_runs": n_runs,
         "p_any_hit_ge3_pct": round(any_hit3_plus / draws_n * 100, 4),
+        "any_hit_ge3_count": int(any_hit3_plus),          # for significance test
         "mean_best_match": round(float(np.mean(best_match_per_draw)), 4),
         "mean_total_match": round(float(np.mean(total_matches_per_draw)), 4),
         "mean_match_per_ticket": round(float(np.mean(total_matches_per_draw)) / n_tickets, 4),
@@ -399,6 +404,25 @@ def walk_forward_multi(df, strategy: MultiTicketStrategy, n_tickets: int,
         "tier_hits": {str(k): int(v) for k, v in sorted(tier_hits.items())},
         "elapsed_seconds": round(elapsed, 2),
     }
+
+
+def attach_significance_wheel(results_for_n: dict, baseline_name: str = "RandomN") -> None:
+    """Add significance block to each strategy (at one N) vs RandomN. Mutates in place."""
+    base = results_for_n.get(baseline_name, {})
+    if "any_hit_ge3_count" not in base:
+        return
+    base_hits = base["any_hit_ge3_count"]
+    base_n = base["n_draws_evaluated"]
+    non_baseline = [n for n in results_for_n if n != baseline_name and "any_hit_ge3_count" in results_for_n[n]]
+    k = len(non_baseline)
+    for name in non_baseline:
+        r = results_for_n[name]
+        r["significance"] = build_significance(
+            hits_strat=r["any_hit_ge3_count"], n_strat=r["n_draws_evaluated"],
+            hits_baseline=base_hits, n_baseline=base_n,
+            n_strategies_compared=k, baseline_name=baseline_name,
+            metric_name="p_any_hit_ge3",
+        )
 
 
 def main():
@@ -428,20 +452,23 @@ def main():
         "results": {},
     }
     for n in n_list:
-        print(f"\n{'=' * 100}\n  N={n} tickets/draw\n{'=' * 100}")
-        print(f"  {'Strategy':26s} {'P(any≥3)%':>10} {'MeanBest':>9} {'MatchPerTicket':>15} {'ROI%':>8} {'tier5/4/3':>12} {'T':>6}")
+        print(f"\n{'=' * 110}\n  N={n} tickets/draw\n{'=' * 110}")
+        print(f"  {'Strategy':26s} {'P(any≥3)%':>10} {'MeanBest':>9} {'ROI%':>8} {'p_raw':>8} {'Decision':>12}")
         results["results"][str(n)] = {}
         for name, strat in strategies:
             random.seed(42)
             np.random.seed(42)
             r = walk_forward_multi(df, strat, n, min_history=100, n_runs=3)
             results["results"][str(n)][name] = r
-            if "error" not in r:
-                tier = r["tier_hits"]
-                print(f"  {name:26s} {r['p_any_hit_ge3_pct']:>10.3f} {r['mean_best_match']:>9.3f} "
-                      f"{r['mean_match_per_ticket']:>15.4f} {r['pooled_roi_pct']:>8.2f} "
-                      f"{tier.get('5','0')}/{tier.get('4','0')}/{tier.get('3','0'):>7} "
-                      f"{r['elapsed_seconds']:>6.1f}s")
+        attach_significance_wheel(results["results"][str(n)], baseline_name="RandomN")
+        for name, _ in strategies:
+            r = results["results"][str(n)][name]
+            if "error" in r: continue
+            sig = r.get("significance", {})
+            pv = sig.get("p_value_raw")
+            pv_str = f"{pv:.4f}" if pv is not None else "    —"
+            print(f"  {name:26s} {r['p_any_hit_ge3_pct']:>10.3f} {r['mean_best_match']:>9.3f} "
+                  f"{r['pooled_roi_pct']:>8.2f} {pv_str:>8} {sig.get('decision', '-'):>12}")
     OUTPUT_PATH.write_text(json.dumps(results, indent=2, ensure_ascii=False))
     print(f"\n✓ {OUTPUT_PATH}")
 

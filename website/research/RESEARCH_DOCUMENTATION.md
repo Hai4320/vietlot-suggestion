@@ -5,9 +5,15 @@
 **Thời gian nghiên cứu**: 07/2025 – 04/2026  
 **Trạng thái**: Đang tiến hành (Phase 4 + Phase-B wheeling cho Power 5/35 hoàn thành)
 
-### Highlight — 04/2026
+### Highlight — 04/2026 (corrected 2026-04-20 via Chu kỳ 6)
 
-🔬 **HybridParityDiv** là thuật toán **đầu tiên có edge thống kê ý nghĩa (p=0.011)** trên matrix products, khai thác T11 parity bias (Chi² p=0.0012, qua Bonferroni) của Lotto 5/35 qua wheeling đa vé. Đạt P(any vé ≥3 match) = 27.65% ở N=20 (+4.31pp so với Random). Xem §6.3.1.
+**Kết quả sau significance test enforcement trên toàn bộ backtests**:
+
+- ⚠️ **Mega 6/45 ExpDecay_Cold** là strategy duy nhất có signal có ý nghĩa (p=0.0044, Suggestive). Win rate 2.91% vs Random 1.89% (+1.03pp). Chưa pass Bonferroni K=14 — cần replicate trên held-out data để upgrade Accept.
+- ❌ Nhiều claim cũ **bị rút**: Bayesian "#1 trên 6/55" p=0.511 → Reject; HybridParityDiv "p=0.011 cho 5/35 N=20" là artefact của bug sample-size → sau correction p=0.301 → Reject.
+- 🔬 Framework ổn định: mọi backtest giờ output `p_value_raw`, `passes_bonferroni`, `ci95`, `decision` qua shared [`_significance.py`](./_significance.py).
+
+Xem [RESEARCH_HISTORY Chu kỳ 5+6](RESEARCH_HISTORY.md) và §6.3.1.
 
 ---
 
@@ -48,14 +54,29 @@ Nghiên cứu và triển khai thuật toán gợi ý số xổ số nhằm:
 
 ### 1.3 Tóm tắt kết quả
 
-| Sản phẩm | Thuật toán tốt nhất | Δ vs Random | Tỷ lệ thắng | ROI tốt nhất |
-|---|---|---|---|---|
-| **Power 6/55** | Bayesian AI | +0.031 | 1.65% | -91.4% |
-| **Mega 6/45** | Bayesian AI (Sharp, temp=0.5) | +0.023 | 3.14% | -62.0% (Phủ sóng tối đa) |
-| **Lotto 5/35** (single) | Mẫu cấu trúc / Tự động tối ưu | +0.025 | 1.78% | -74.4% (Tần suất cao) |
-| **Lotto 5/35** (multi N=20) | 🔬 **HybridParityDiv** | **+4.31pp P(any≥3)** | **27.65%** (p=0.011) | -91.1% |
-| **Max 3D** | Freq Whole Hot | 2.33% exact | — | -35.5% |
-| **Max 3D Pro** | Freq Whole Hot | 2.35% exact | — | -35.1% (SumRange) |
+| Sản phẩm | Top strategy theo Δ | Metric | Strategy | Random | p_raw | Decision |
+|---|---|:---:|:---:|:---:|:---:|:---:|
+| **Power 6/55** | Bayesian AI | Win% | 1.65 | 1.46 | 0.511 | **Reject** |
+| **Mega 6/45** | ExpDecay_Cold | Win% | **2.91** | 1.89 | **0.0044** | **Suggestive** ⚠️ |
+| Mega 6/45 (alt) | Ensemble / Bayesian | Win% | 2.58 | 1.89 | 0.046 | Suggestive |
+| **Lotto 5/35** (single) | Adaptive | Win% | 1.90 | 1.22 | 0.157 | Reject |
+| **Lotto 5/35** (N=20 wheel) | MinDistanceWheel | P(any≥3) | 26.80 | 24.15 | 0.118 | Reject |
+| **Max 3D** | FreqWholeHot | Exact% | 2.35 | 1.97 | 0.066 | Reject (near-miss) |
+| **Max 3D Pro** | EVMaximizer | Exact% | 2.50 | 2.00 | **0.053** | Reject (near-miss) |
+
+**Kết luận critical (Chu kỳ 6)**: Sau khi wire z-test vào toàn bộ backtest:
+
+**Accept**: 0 strategies. **Suggestive**: 3 (tất cả trên 6/45). **Near-miss** (0.05 < p < 0.10): 2 (EVMaximizer 3D Pro, FreqWholeHot Max 3D).
+
+**Claim cũ bị rút**:
+- Power 6/55 "Bayesian #1 +0.031" → p=0.511, Reject
+- Lotto 5/35 "HybridParityDiv p=0.011" → bug sample-size → sau correction p=0.301, Reject
+- Max 3D Pro "EVMaximizer #1 ROI -26.5%" → ROI đúng nhưng p=0.053, Reject (sát ngưỡng)
+
+**Finding mới**:
+- ⭐ **6/45 ExpDecay_Cold** (p=0.0044) — strongest signal, Suggestive. Cần replicate trên held-out data để upgrade Accept.
+- 🔸 **3D Pro EVMaximizer** (p=0.053) — near-miss, ROI -26.5% vẫn là tốt nhất toàn nghiên cứu.
+- 🔸 **Max 3D FreqWholeHot** (p=0.066) — near-miss, simple baseline beat mọi thứ khác.
 
 ---
 
@@ -617,47 +638,24 @@ Kết quả: Kém (#14 3D (1.81%), #15 3D Pro (1.79%)) — thiếu diversity
 
 ## 5. Phương Pháp Backtest
 
-### 5.1 Walk-Forward Validation
+> **Canonical methodology**: Xem [EVALUATION.md](EVALUATION.md) — metric taxonomy (Accuracy/Profitability/Robustness), significance test (z-test, Wilson CI, permutation), output JSON schema, decision rules.
+>
+> Section này chỉ liệt kê **cấu hình cụ thể** (prize table, thông số đã dùng) cho các cycle trước đó.
 
-```
-Cho mỗi kỳ t từ [min_history, N]:
-  ┌─ Training set: tất cả data từ kỳ 1 đến t-1
-  ├─ Prediction:   thuật toán dự đoán bộ số cho kỳ t
-  ├─ Actual:       kết quả thực tế kỳ t
-  └─ Evaluation:   đếm số trùng, tính ROI, ghi nhận tier hits
-  
-Đặc điểm:
-  ✓ Không sử dụng dữ liệu tương lai (no look-ahead bias)
-  ✓ Min history = 100 kỳ (matrix), 50 kỳ (3D)
-  ✓ 3 lần chạy độc lập (n_runs=3), lấy trung bình
-  ✓ Random seed = 42 để tái tạo kết quả
-```
+### 5.1 Walk-Forward Config (đã dùng)
 
-### 5.2 Metrics Đánh giá
+| Tham số | Matrix | 3D |
+|---------|:------:|:--:|
+| `min_history` | 100 | 50 |
+| `n_runs` | 3 | 5 |
+| `n_predictions/draw` | 1 (single) / 5-20 (wheel) | 2 |
+| `seed` | 42 | 42 |
 
-#### Matrix Products
+Chi tiết kỹ thuật: [EVALUATION §1-2](EVALUATION.md).
 
-| Metric | Mô tả | Cách tính |
-|---|---|---|
-| **Avg Matches** | Trung bình số trùng/vé | Σ matches / N predictions |
-| **Δ vs Baseline** | Chênh lệch so với E[trùng] lý thuyết | avg_matches - E[matches] |
-| **Win Rate** | % kỳ có ≥3 trùng (trúng giải) | count(matches≥3) / N × 100% |
-| **ROI** | Return on Investment | (Σ prizes - Σ costs) / Σ costs × 100% |
-| **Sharpe Ratio** | Risk-adjusted return | (mean_return - rf) / std_return |
-| **Best Match** | Số trùng cao nhất đạt được | max(matches) |
+### 5.2 Cấu hình Giải thưởng (đã hardcode trong scripts)
 
-#### 3D Products
-
-| Metric | Mô tả | Cách tính |
-|---|---|---|
-| **Exact Match %** | % dự đoán khớp chính xác | hits / (N × n_predictions) × 100% |
-| **Digit Accuracy** | Độ chính xác từng vị trí chữ số | mean(pos_correct) × 100% |
-| **ROI** | Return on Investment | (Σ prizes - Σ costs) / Σ costs × 100% |
-| **Tier Hits** | Phân bổ trúng theo giải | count per tier |
-
-### 5.3 Cấu hình Giải thưởng
-
-#### Matrix Products
+**Matrix**:
 ```
 Power 6/55:  6 trùng = 30 tỷ | 5 = 10M | 4 = 300K | 3 = 30K
 Mega 6/45:   6 trùng = 12 tỷ | 5 = 10M | 4 = 300K | 3 = 30K
@@ -665,14 +663,20 @@ Lotto 5/35:  5 trùng = 6 tỷ  | 4 = 500K | 3 = 50K
 Giá vé:      10.000đ
 ```
 
-#### 3D Products
+**3D**:
 ```
-Đặc biệt:   1.000.000đ/vé
-Nhất:        350.000đ/vé
-Nhì:         210.000đ/vé
-Ba:          100.000đ/vé
+Đặc biệt:   1.000.000đ/vé    Nhất: 350.000đ/vé
+Nhì:          210.000đ/vé    Ba:   100.000đ/vé
 Giá vé:      10.000đ
 ```
+
+### 5.3 Metrics đã dùng cho kết quả trong §6
+
+- **Matrix**: Avg Matches, Δ vs E[X], Win Rate (≥3), ROI, Sharpe, Best Match
+- **3D**: Exact Match %, Digit Accuracy, ROI, Tier Hits
+- **Multi-ticket (Lotto 5/35 §6.3.1)**: P(any≥3), MeanBest, MatchPerTicket, pooled ROI, + z-test p-value vs RandomN
+
+**Gap sẽ fix** (post-2026-04-20): Cycles trước không tính significance test trên Δ. Chỉ HybridParityDiv (Chu kỳ 5) có z-test p=0.011. Các Δ khác trong §6 là point estimates **chưa kiểm định**. Xem [EVALUATION §7](EVALUATION.md) cho kế hoạch backfill.
 
 ---
 
@@ -803,50 +807,43 @@ Observed E[k] = 2.544; Uniform E[k] = 2.571 → gần nhau.
 → Parity bias chỉ lệch SHAPE, không đổi MEAN → không tạo edge.
 ```
 
-#### Phase 2b — Multi-ticket Wheeling (thành công)
+#### Phase 2b — Multi-ticket Wheeling (NEGATIVE RESULT sau correction)
+
+⚠️ **Correction 2026-04-20**: Kết quả "p=0.011" ban đầu tính sai do bug `dates.unique()` trong `walk_forward_multi` — chỉ lấy 1 draw/date trong khi Power 5/35 có 2 draws/day. Sample size thực: n=510 thay vì 1317. Sau fix (iterate per-row), **không strategy nào còn p<0.05** sau correction. Xem [RESEARCH_HISTORY Chu kỳ 5+6](RESEARCH_HISTORY.md).
 
 Chạy `matrix/power535_wheeling_backtest.py` — 6 strategies đa vé. Metric: **P(any ticket ≥3 match per draw)** qua N vé.
 
-**N=20 tickets/kỳ** (3 runs × 439 draws = 1,317 samples/cell):
+**N=20 tickets/kỳ** (3 runs × 439 draws = 1,317 samples/cell — SAU correction):
 
-| Strategy | P(any≥3)% | Δ vs Random | MeanBest | ROI% |
-|----------|----------:|------------:|---------:|-----:|
-| ★🔬 **HybridParityDiv** | **27.65** | **+4.31pp** | 2.26 | −91.1 |
-| ★ParityStratifiedWheel | 25.69 | +2.36pp | 2.23 | −90.7 |
-| RandomN | 23.33 | baseline | 2.18 | −90.7 |
-| PatternN | 22.55 | −0.78pp | 2.17 | −92.4 |
-| MinDistanceWheel | 22.16 | **−1.17pp** | 2.22 | −90.9 |
-| GreedyCover3if3 | 17.45 | **−5.88pp** | 1.60 | −94.2 |
+| Strategy | P(any≥3)% | Δ vs Random | p_raw | Decision |
+|----------|----------:|------------:|------:|:--------:|
+| ★MinDistanceWheel | 26.80 | +2.66pp | 0.118 | Reject |
+| ★🔬 HybridParityDiv | 25.89 | +1.75pp | 0.301 | **Reject** |
+| ★ParityStratifiedWheel | 25.06 | +0.91pp | 0.587 | Reject |
+| RandomN | 24.15 | baseline | — | — |
+| PatternN | 24.30 | +0.15pp | 0.928 | Reject |
+| GreedyCover3if3_v12 | 19.67 | **−4.48pp** | 0.005 | Reject (harmful, significant) |
+| GreedyCover3if3_parity | 17.31 | **−6.83pp** | <0.001 | Reject (harmful, significant) |
 
-**Kiểm định ý nghĩa thống kê (HybridParityDiv vs Random, N=20)**:
-```
-p1 = 0.2765, p2 = 0.2333, pooled_p = 0.2549
-SE = √(2·p·(1−p)/1317) = 0.01698
-z = 0.0432 / 0.01698 = 2.54
-p-value ≈ 0.011 → SIGNIFICANT at α=0.05 ✓
-```
+**Scaling theo N (sau correction)**:
 
-**Scaling theo N**:
+| N | HybridParityDiv | Random | Δ | p_raw |
+|:-:|:---:|:---:|:---:|:---:|
+| 5 | 7.14% | 6.99% | +0.15pp | 0.879 |
+| 10 | 14.35% | 13.06% | +1.29pp | 0.336 |
+| 20 | 25.89% | 24.15% | +1.75pp | 0.301 |
 
-| N | HybridParityDiv P(any≥3) | Random P(any≥3) | Δ | p-value |
-|:-:|:-:|:-:|:-:|:-:|
-| 5 | 7.26% | 7.84% | −0.6pp | ns |
-| 10 | 11.57% | 12.16% | −0.6pp | ns |
-| **20** | **27.65%** | **23.33%** | **+4.31pp** | **0.011** |
+→ **Không edge nào dominant ở bất kỳ N**. Kết luận: wheeling không khai thác được T11 parity bias với sample size hiện tại (539 draws).
 
-→ Edge xuất hiện khi N≥20 và dominance ở N=20. Dưới N=10, diversity constraint làm hại.
+#### Phát hiện then chốt (sau correction)
 
-#### Phát hiện then chốt
+1. ❌ **HybridParityDiv không beat Random significantly**. Claim "first matrix strategy with p<0.05" rút lại. Đây là negative result hợp lệ — bias T11 tồn tại (p=0.0012) nhưng không translate thành ticket-level edge.
 
-1. 🎯 **Parity-stratified wheeling khai thác được T11 bias** — xác nhận lý thuyết từ Phase 1. Đây là thuật toán **đầu tiên có p<0.05** trên matrix products.
+2. ❌ **GreedyCover3if3 significantly worse than Random** (p=0.005 tại N=20). Cố định pool top-12 hot numbers → khi draw rơi ngoài pool (~23 số), không vé nào win được. Covering design trên pool hẹp là harmful.
 
-2. ❌ **Diversity thuần (MinDistance) làm tệ hơn Random** ở N=20 (−1.17pp). Forcing max-Hamming distance đẩy vé vào parity bins hiếm → mất cover các mode phổ biến. Bài học: **diversity phải có structure**.
+3. ⚠️ **Bài học critical về methodology**: bug sample-size dẫn đến claim sai. Đã fix và codify yêu cầu significance test có `strategy_n/baseline_n` minh bạch trong [EVALUATION.md §4](EVALUATION.md).
 
-3. ❌ **GreedyCover3if3 thất bại (−5.88pp)**. Cố định pool top-12 hot numbers → khi draw rơi ngoài pool (~23 số), không vé nào win được. Covering design đẹp trong lý thuyết nhưng **không phù hợp khi freq bias nhỏ**.
-
-4. 🎯 **Hybrid = best**: Parity allocation + intra-bin max-min distance → best của cả hai.
-
-5. ⚠️ **ROI vẫn âm** (-91.1%). Edge +4.3pp không đủ để dương ROI vì giá trị giải 3 chỉ 50k VND so với cost 200k cho 20 vé.
+4. ⚠️ **ROI luôn âm** (~-91%). Kể cả có edge, giá trị giải 3 quá nhỏ so với cost 20 vé.
 
 #### HybridParityDiv Algorithm
 

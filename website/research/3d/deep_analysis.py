@@ -777,16 +777,65 @@ def print_summary(analysis: Dict) -> None:
             print(f"    → Numbers repeat {direction} than expected! ({diff:+.4f})")
 
 
+def _collect_p_values(analysis: Dict) -> List[Tuple[str, float]]:
+    """Walk analysis dict and collect (test_name, p_value) pairs for R1 gate."""
+    out: List[Tuple[str, float]] = []
+    for key, val in analysis.items():
+        if not isinstance(val, dict):
+            continue
+        if "p_value" in val and isinstance(val["p_value"], (int, float)):
+            out.append((key, val["p_value"]))
+        for sub_key, sub_val in val.items():
+            if isinstance(sub_val, dict) and "p_value" in sub_val and isinstance(sub_val["p_value"], (int, float)):
+                out.append((f"{key}.{sub_key}", sub_val["p_value"]))
+    return out
+
+
+def r1_gate_verdict(analysis: Dict, n_tests: int = 13) -> Dict[str, Any]:
+    """Apply Bonferroni correction and return R1 gate verdict per METHODOLOGY §1.1."""
+    all_p = _collect_p_values(analysis)
+    alpha_bonf = 0.05 / max(1, n_tests)
+    sig_raw = [(n, p) for n, p in all_p if p < 0.05]
+    sig_bonf = [(n, p) for n, p in all_p if p < alpha_bonf]
+    if sig_bonf:
+        verdict = "PROCEED"
+        reason = f"{len(sig_bonf)}/{len(all_p)} p-values pass Bonferroni α={alpha_bonf:.5f}"
+        next_step = "Phase 2 allowed. Algebra sanity check (METHODOLOGY §1.4) before spending compute."
+    else:
+        verdict = "STOP"
+        reason = f"No p-value passes Bonferroni α={alpha_bonf:.5f} among {len(all_p)} tests"
+        next_step = "Do NOT proceed to Phase 2. Do NOT extend battery post-hoc. Record as negative result."
+    return {
+        "verdict": verdict,
+        "reason": reason,
+        "next_step": next_step,
+        "bonferroni_alpha": alpha_bonf,
+        "battery_size": n_tests,
+        "p_values_checked": len(all_p),
+        "significant_raw_count": len(sig_raw),
+        "significant_bonferroni": [f"{n} (p={p:.5f})" for n, p in sig_bonf],
+    }
+
+
 def main():
     np.random.seed(42)
-    
+
     all_analysis = {}
-    
+
     for product_key, filename in [("max_3d", "3d.jsonl"), ("max_3d_pro", "3d_pro.jsonl")]:
         analysis = run_full_analysis(product_key, filename)
+        analysis["r1_gate"] = r1_gate_verdict(analysis, n_tests=13)
         all_analysis[product_key] = analysis
         print_summary(analysis)
-    
+        r1 = analysis["r1_gate"]
+        print(f"\n{'═' * 70}")
+        print(f"  R1 GATE VERDICT ({product_key}): {r1['verdict']}")
+        print(f"{'═' * 70}")
+        print(f"  {r1['reason']}")
+        if r1["significant_bonferroni"]:
+            print(f"  Pass Bonferroni: {r1['significant_bonferroni']}")
+        print(f"  Next: {r1['next_step']}")
+
     # Save
     outfile = OUTPUT_DIR / "deep_analysis.json"
     with open(outfile, "w") as f:
