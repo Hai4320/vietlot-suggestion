@@ -2,6 +2,43 @@
 
 Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tích cho hệ thống gợi ý số Vietlott.
 
+## Mục tiêu (Chu kỳ 10+ — Breakthrough Mode, refined 2026-04-20)
+
+Sau Chu kỳ 9, project đã exhaust discovery mode (25+ strategies, 3/3 Suggestive candidates fail replication). **Pivot Chu kỳ 10** chuyển sang **breakthrough mode** với priority hierarchy rõ ràng:
+
+### Priority hierarchy
+
+1. **🎯 PRIMARY — Tối đa hoá tỷ lệ trúng giải trong tương lai (future win rate)**
+   - Matrix: P(≥3 match) trên forward-validation (rolling-window last-100 draws)
+   - 3D: exact match rate trên forward-validation
+   - Tournament weight 0.40 (trọng số cao nhất)
+
+2. **📊 SECONDARY — Hiệu suất đầu tư (ROI) balanced meaningful**
+   - Δ_ROI vs Random — least-negative ROI (lottery luôn âm)
+   - Tournament weight 0.30 (win-rate : ROI = 4:3, ưu tiên win-rate nhưng ROI vẫn drive decision)
+
+3. **🛡️ GUARDS — Risk + significance**
+   - Sharpe ratio (weight 0.15) — risk-adjusted check
+   - −log₁₀(p-value) (weight 0.15) — chống lucky-noise winner
+
+### Approach
+
+- **Tournament ranking** ([METHODOLOGY §8](METHODOLOGY.md) + [EVALUATION §8](EVALUATION.md)) — 4 metrics, weights `0.40/0.30/0.15/0.15`, pre-registered immutable.
+- **Forward validation** ([EVALUATION §9](EVALUATION.md)) — rolling-window last-20/100/300 draws. **Primary deployment signal**, có veto power trong decision gate (§9.5).
+- **Novel paradigms** ([BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md)): Online Bayesian (Path #1 — recommended Chu kỳ 11), Cross-product joint (Path #3), Copula (Path #5), Kelly portfolio (Path #2 — demoted, ROI-focused).
+
+### Guardrails giữ nguyên (non-negotiable)
+
+- Principle #11 — Split-half replication mandatory cho Accept
+- Principle #12 — Variable-baseline power analysis bắt buộc
+- Pre-registration hypothesis trước implement
+- Walk-forward, no look-ahead
+- Random baseline mandatory
+
+Breakthrough KHÔNG relax scientific rigor — chỉ expand scope + add forward-validation gate.
+
+> **Lưu ý**: EV âm disclaimer vẫn applies. "Best algorithm" = highest future win rate với least-negative ROI, không phải profitable.
+
 ## Cấu trúc thư mục
 
 ```
@@ -10,10 +47,11 @@ research/
 ├── _significance.py                ← Shared module: z-test, Wilson CI, decision rules (EVALUATION §3)
 │
 │   ── Canonical docs (đọc trước khi bắt đầu cycle mới) ──
-├── METHODOLOGY.md                  ← Phương pháp research canonical (unified 5-phase pipeline)
-├── EVALUATION.md                   ← Metrics + significance test bắt buộc
+├── METHODOLOGY.md                  ← Phương pháp research canonical (5-phase + §7 Exploration Mode + §8 Multi-objective)
+├── EVALUATION.md                   ← Metrics + significance test + §8 Tournament Ranking
 ├── TESTING.md                      ← Bias detection test battery (14 matrix / 13 digit)
-├── RESEARCH_PLAYBOOK.md            ← Template + checklist copy-paste cho cycle mới
+├── RESEARCH_PLAYBOOK.md            ← Template + checklist copy-paste (discovery + breakthrough)
+├── BREAKTHROUGH_ROADMAP.md         ← Novel R&D paths (Chu kỳ 10+): online, Kelly portfolio, cross-product, neural…
 │
 │   ── Context & lịch sử ──
 ├── RESEARCH_HISTORY.md             ← Nhật ký chu kỳ (mục tiêu, phương pháp, kết quả, bài học)
@@ -61,10 +99,11 @@ research/
 
 | # | File | Mô tả | Khi nào đọc |
 |---|------|--------|-------------|
-| 1 | [METHODOLOGY.md](METHODOLOGY.md) | Phương pháp research canonical — pipeline 5 phase hợp nhất | Trước khi khởi động cycle mới |
-| 2 | [TESTING.md](TESTING.md) | Bias detection battery — 14 matrix / 13 digit tests, Bonferroni, interpretation flowchart | Phase 1 của mỗi cycle |
-| 3 | [EVALUATION.md](EVALUATION.md) | Metrics taxonomy 3 tầng + significance test + output schema | Phase 3 của mỗi cycle |
-| 4 | [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) | Template + checklist copy-paste | Khi đã hiểu pipeline, bắt đầu implement |
+| 1 | [METHODOLOGY.md](METHODOLOGY.md) | Pipeline 5-phase (discovery) + §7 Exploration Mode + §8 Multi-objective ranking | Trước khi khởi động cycle mới |
+| 2 | [TESTING.md](TESTING.md) | Bias detection battery — 14 matrix / 13 digit tests (discovery-mode only) | Phase 1 discovery cycle |
+| 3 | [EVALUATION.md](EVALUATION.md) | Metrics taxonomy 3 tầng + significance + §8 Tournament Ranking | Phase 3 của mỗi cycle |
+| 4 | [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) | Template + checklist (discovery + breakthrough variants) | Khi implement |
+| 5 | [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) | 7 novel R&D paths với hypothesis + effort + priority | Chu kỳ 10+ exploration mode |
 
 ### Context & lịch sử
 
@@ -243,7 +282,13 @@ Nghiên cứu xong → Chạy backtest → Cập nhật 3 file website:
 
 ### Project-level status (sau Chu kỳ 9)
 
-**Không còn candidate Accept/Suggestive nào trên bất kỳ sản phẩm nào.** Với 25+ strategies đã test × 5 products × walk-forward backtest + split-half replication, **không có evidence cho exploitable edge**. Vietlott RNG gần white noise ở mức granularity hiện tại. Chi tiết: [RESEARCH_HISTORY Chu Kỳ 9](RESEARCH_HISTORY.md#chu-kỳ-9--pre-registration-mega-645-expdecay_cold-split-half-replication-042026).
+**Discovery mode exhaust.** Không còn candidate Accept/Suggestive nào trên bất kỳ sản phẩm nào. Với 25+ strategies đã test × 5 products × walk-forward backtest + split-half replication, **không có evidence cho exploitable edge** qua existing paradigm (bias exploitation, coverage optimization, ensemble). Vietlott RNG gần white noise ở mức granularity hiện tại.
+
+### Breakthrough status (Chu kỳ 10+)
+
+**Chu kỳ 10 (2026-04-20)**: Pivot decision documented. Project chuyển sang breakthrough mode với tournament ranking + multi-objective (Δ_win, Δ_ROI, Sharpe, p-value).
+
+**Chu kỳ 11 (proposed — refined)**: **Path #1 — Online Bayesian với Kalman-style posterior updates** trên Mega 6/45 + Lotto 5/35. Win-rate relevance ▲▲▲ DIRECT (mechanism trực tiếp estimate P(number_i)). Forward validation last-100 làm primary gate. Xem [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) cho detail. Kelly portfolio (Path #2) moved to Chu kỳ 13+.
 
 **Chu kỳ 8 finding**: Digit bias stable qua 3 time windows (0/30 tuples fail Bonferroni homogeneity). EVMaximizer's half-1 p=0.0007 xuất phát từ **base-rate variance** (Random half-1 = 1.77% vs half-2 = 2.02%), **không** phải distribution shift. Với bias ổn định nhưng không exploitable + không drift để adapt → **3D research paused**. Full details: [RESEARCH_HISTORY Chu Kỳ 8](RESEARCH_HISTORY.md#chu-kỳ-8--pre-registration-distribution-shift-analysis--adaptive-exploitation-for-max-3d-pro-042026).
 

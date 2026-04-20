@@ -2,11 +2,14 @@
 
 > **Vai trò sau chuẩn hóa 2026-04-20**: File này là **template copy-paste + catalog strategy cụ thể + lessons learned**. Methodology, test battery, và evaluation đã chuyển sang 3 canonical:
 >
-> - [METHODOLOGY.md](METHODOLOGY.md) — phương pháp research (5-phase pipeline, anti-patterns, decision tree)
+> - [METHODOLOGY.md](METHODOLOGY.md) — phương pháp research (5-phase pipeline, anti-patterns, decision tree, §7 Exploration Mode, §8 Multi-objective ranking)
 > - [TESTING.md](TESTING.md) — bias detection battery (14 matrix / 13 digit tests, Bonferroni)
-> - [EVALUATION.md](EVALUATION.md) — metrics + significance test + output schema
+> - [EVALUATION.md](EVALUATION.md) — metrics + significance test + output schema + §8 Tournament ranking
+> - [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) — novel R&D paths (Chu kỳ 10+ breakthrough mode)
 >
 > **Khi nào đọc file này**: Sau khi đã nắm pipeline (METHODOLOGY), muốn tham khảo strategy formulae có sẵn (Phase 2), hyperparameter grids đã tune (Phase 4), và lessons learned cụ thể từ cycle trước.
+>
+> **⚡ Chu kỳ 10 pivot**: thêm §"Breakthrough template" cho exploration-mode cycles. Strategy categories E, F, G (online, neural, portfolio) thêm vào Phase 2 catalog.
 
 ---
 
@@ -159,14 +162,17 @@ Observed E[k] = 2.544 ≈ uniform E[k] = 2.571 → Δ ≈ 0.
 
 ---
 
-### Framework phân loại (4 categories)
+### Framework phân loại (7 categories — mở rộng Chu kỳ 10)
 
-| Category | Ý tưởng | Khi nào dùng |
-|----------|---------|-------------|
-| **A: Bias Exploitation** | Khai thác trực tiếp bias tìm được | Khi phase 1 phát hiện bias đáng kể (p < 0.01) |
-| **B: Coverage Optimization** | Phủ rộng không gian số | Khi mua nhiều vé (N > 5) |
-| **C: Hybrid / Ensemble** | Kết hợp nhiều tín hiệu | Khi không chắc signal nào mạnh nhất |
-| **D: Mathematical Optimization** | Tối ưu hóa trực tiếp EV hoặc metric | Khi có đủ dữ liệu để ước lượng |
+| Category | Ý tưởng | Khi nào dùng | Mode |
+|----------|---------|-------------|:-:|
+| **A: Bias Exploitation** | Khai thác trực tiếp bias tìm được | Khi phase 1 phát hiện bias đáng kể (p < 0.01) | Discovery |
+| **B: Coverage Optimization** | Phủ rộng không gian số | Khi mua nhiều vé (N > 5) | Discovery |
+| **C: Hybrid / Ensemble** | Kết hợp nhiều tín hiệu | Khi không chắc signal nào mạnh nhất | Discovery |
+| **D: Mathematical Optimization** | Tối ưu hóa trực tiếp EV hoặc metric | Khi có đủ dữ liệu để ước lượng | Discovery |
+| **E: Online / Adaptive** | Posterior update streaming (Kalman, exponential forgetting) | Suspect data drift; Chu kỳ 10+ breakthrough | Exploration |
+| **F: Neural / ML-heavy** | LSTM, Transformer, deep generative | Last resort; high overfit risk (xem [ROADMAP Path #4](BREAKTHROUGH_ROADMAP.md)) | Exploration |
+| **G: Portfolio / Kelly** | Multi-ticket sizing via Kelly criterion, risk-adjusted allocation | Multi-ticket budget > 5; **ROI-focused — Chu kỳ 10 refined demote ưu tiên** vs win-rate paths (E, cross-product) | Exploration |
 
 ### Thuật toán đã chứng minh hiệu quả (sẵn sàng tái sử dụng)
 
@@ -468,4 +474,108 @@ python3 script.py
 
 ---
 
-*Cập nhật lần cuối: 2026-04-20 — Chuẩn hóa: methodology/testing/evaluation tách sang 3 canonical. File này giữ vai trò template + strategy catalog + lessons.*
+---
+
+## Breakthrough Template (Chu kỳ 10+ exploration mode)
+
+Dùng template này thay cho discovery template khi cycle hướng đến breakthrough (novel paradigm, tournament ranking). Xem [METHODOLOGY §7.3](METHODOLOGY.md) cho adapted pipeline.
+
+### Pre-registration template (breakthrough-specific)
+
+Copy-paste vào `RESEARCH_HISTORY.md` **trước** khi implement:
+
+```markdown
+### Pre-registered Hypothesis — Chu Kỳ N (YYYY-MM-DD) — Breakthrough
+
+**Mode**: Exploration (METHODOLOGY §7)
+**Path**: [ROADMAP Path #X](BREAKTHROUGH_ROADMAP.md) — <tên path>
+**Products target**: <list>
+
+**Mechanism** (novel):
+<2-3 câu mô tả mechanism. Ghi rõ đây là paradigm mới so với existing A-D categories>
+
+**Tournament setup** (pre-registered, immutable):
+- Mandatory baselines: <Random, FreqHot, Pattern> (matrix) hoặc <Random, FreqWholeHot, Digit_Hot> (3D)
+- Experimental strategies: ≥7 variants of <mechanism>
+- Total N strategies: ≥10
+- Metric weights: **w1=0.40 (delta_win, PRIMARY), w2=0.30 (delta_roi), w3=0.15 (sharpe), w4=0.15 (neg_log_p)**
+  (Override only with explicit justification. Win-rate:ROI ratio = 4:3 reflects project priority.)
+
+**Forward validation plan** ([EVALUATION §9](EVALUATION.md), mandatory cho breakthrough cycles):
+- Rolling-window on last-20, last-100, last-300 draws (3 horizons)
+- `forward_last_100 Δ > 0` là gate condition cho Ship-with-caveats (§9.5)
+- `forward_last_100 Δ ≤ 0` → downgrade decision by one tier (veto power)
+
+**Split-half replication plan**:
+- Post-tournament: top-1 + top-ROI + top-win_rate (up to 3 candidates) run split-half
+- Decision per candidate: Accept/Suggestive/Ship-with-caveats/Reject per [EVALUATION §6](EVALUATION.md)
+- Accept-grade requires: split-half both halves Δ>0 + p<0.025 both + forward_last_100 Δ>0
+
+**Power analysis** (Principle #12, METHODOLOGY §3.6):
+- n_required per half = <calculated>
+- n_runs chosen = <X> giving <Y> trials/half
+- Power @ expected effect = <Z>%
+
+**Success criterion** (triaged):
+- [ ] Accept: top-1 + split-half both halves Δ>0 + p<0.025 both
+- [ ] Suggestive: top-1 + split-half both halves Δ>0 + p<0.05 both
+- [ ] Ship-with-caveats: top-1 + split-half inconsistent/not-run
+- [ ] Reject: not top-1 OR direction flip split-half
+
+**Failure modes** (acknowledged):
+- <list realistic failure modes cho cycle này>
+```
+
+### Tournament output checklist (§8 EVALUATION)
+
+- [ ] ≥10 strategies total (≥3 mandatory baselines + ≥7 experimental)
+- [ ] 4 metrics computed: delta_win, delta_roi, sharpe, neg_log_p
+- [ ] z-normalize cross strategies
+- [ ] Composite score với pre-registered weights (không tune post-hoc)
+- [ ] Top-1 determined → candidate for split-half
+- [ ] Top-K (K≤3) to split-half
+- [ ] Results JSON theo schema §8.6 EVALUATION
+
+### Breakthrough cycle checklist
+
+```markdown
+## Breakthrough Cycle: <Path #X> — YYYY-MM-DD
+
+### Phase 0: Data ingest
+- [ ] Load data cho products trong scope
+- [ ] Data quality check
+
+### Phase 1': Mechanism survey (thay cho bias detection)
+- [ ] Chọn 1-3 mechanisms từ ROADMAP
+- [ ] Pre-register primary hypothesis
+- [ ] Baseline n-check (Principle #12 power analysis)
+
+### Phase 2': Implementation
+- [ ] Implement chosen mechanism (≥3-7 variants nếu applicable)
+- [ ] Unit test seed=42 reproducibility
+- [ ] Algebra check (skip nếu non-analytical, ghi limitation)
+
+### Phase 3': Tournament + Replication
+- [ ] Walk-forward backtest all strategies (n_runs≥5)
+- [ ] Compute 4 metrics + significance vs Random
+- [ ] z-normalize + composite score
+- [ ] Rank + identify top-K
+- [ ] Split-half replication top-K
+- [ ] Decision per candidate
+
+### Phase 4: Ship
+- [ ] Accept/Suggestive candidates → primary website recommendation
+- [ ] Ship-with-caveats candidates → UI với risk badge
+- [ ] Research-only → archive only
+- [ ] Update backtest-data.ts + algorithms page
+- [ ] Build pass
+- [ ] HISTORY entry updated với final decisions
+```
+
+---
+
+*Cập nhật lần cuối: 2026-04-20 (late) — (Chu kỳ 10 refined) Breakthrough template weights đổi thành 0.40/0.30/0.15/0.15 (win-rate primary, ROI cân bằng). Thêm Forward validation plan section. Category G (Kelly) demote ưu tiên.*
+
+*2026-04-20 — (Chu kỳ 10 pivot) thêm Breakthrough template + Strategy categories E/F/G.*
+
+*2026-04-20 — Chuẩn hóa: methodology/testing/evaluation tách sang 3 canonical. File này giữ vai trò template + strategy catalog + lessons.*

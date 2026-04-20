@@ -5,6 +5,8 @@
 > **Khác với `RESEARCH_PLAYBOOK.md`**: Playbook là **template copy-paste** cho mỗi nghiên cứu mới (checklist, code stubs, lessons learned). File này là **why** đằng sau quy trình — các nguyên tắc bắt buộc, tiêu chí vào/ra từng phase, và anti-patterns.
 >
 > **Đối tượng đọc**: Người sẽ khởi động một research cycle mới (sản phẩm mới, chiến lược mới, hoặc re-evaluation).
+>
+> **⚡ Chu kỳ 10 pivot (2026-04-20, refined)**: Project chuyển từ **discovery mode** sang **breakthrough mode**. Primary goal = **tối đa hoá tỷ lệ trúng giải trong tương lai** (future win rate). ROI là meaningful secondary (weight 0.30 vs 0.40). Sharpe + p-value là guards. Pipeline 5-phase cho discovery, **thêm §7 Exploration Mode** cho breakthrough. §1.5 "simple beats complex" relaxed. §8 Multi-objective ranking với win-rate-heavy weights. **§9 EVALUATION Forward Validation** là primary future-generalization indicator. Guardrails (Principles #11, #12, pre-registration, walk-forward, Random baseline) **giữ nguyên** — xem [RESEARCH_HISTORY Chu Kỳ 10](RESEARCH_HISTORY.md#chu-kỳ-10--pivot-decision-research-direction--breakthrough-mode-042026).
 
 ---
 
@@ -45,9 +47,13 @@ Bài học lớn nhất từ [Chu kỳ 5](RESEARCH_HISTORY.md#chu-kỳ-5): Phase
 
 **Quy tắc**: Trước khi implement một chiến lược khai thác bias X, viết 3-5 dòng công thức kỳ vọng (E[match | strategy] vs E[match | random]). Nếu công thức cho thấy bằng nhau → skip implementation.
 
-### 1.5 "Simple beats complex" là prior
+### 1.5 "Simple beats complex" — soft prior (Chu kỳ 10 relaxed)
 
-Mặc định giả định complex không tốt hơn simple. Chỉ chấp nhận complex strategy khi beat simple **≥ 2σ** (có significance test, không chỉ Δ điểm).
+**Trước Chu kỳ 10**: Hard prior — complex strategy phải beat simple ≥2σ mới được ship.
+
+**Sau Chu kỳ 10 (breakthrough mode)**: Soft prior. Vẫn bench vs simple baseline (bắt buộc cho tournament ranking §8), nhưng complex không cần beat simple để được ship. Lý do: empirical data của project (Chu kỳ 5–9) cho thấy existing strategy toolbox không tìm ra edge — breakthrough mode explicitly cho phép thử complex/novel paradigms (online learning, neural, portfolio theory) mà không bị block bởi simple baseline không beat được.
+
+**Still required**: mọi strategy (complex hay simple) phải **include cả Random + ≥2 simple baselines** trong tournament. Cherry-pick baseline dễ thắng là anti-pattern (xem §8).
 
 ---
 
@@ -283,6 +289,130 @@ Phase 3 p-value < 0.05 sau Bonferroni?
 
 ---
 
-*Cập nhật: 2026-04-20 — (Chu kỳ 9) thêm §3.5 Split-half replication mandatory (Principle #11) và §3.6 Variable-baseline power analysis (Principle #12) sau 3/3 Suggestive candidates fail replication.*
+---
+
+## 7. Exploration / Breakthrough Mode (Chu kỳ 10+)
+
+### 7.1 When to use
+
+Dùng Exploration Mode khi:
+- Discovery mode (§2 standard pipeline) đã exhaust — R1 gate hit on all products, không bias exploitable nào còn unsearched.
+- Researcher commits to trying **novel mechanism** (portfolio theory, online learning, neural sequence, cross-product joint) thay vì optimize existing bias-exploitation strategies.
+- Active R&D để **rank và ship best-available strategy**, không cần wait for p<0.05 Accept-grade edge.
+
+Dùng Discovery Mode (§2) khi:
+- Sản phẩm mới chưa research.
+- Data mới đáng kể (+500 draws) trên product đã research — có thể phát sinh new bias.
+- Replication cycle cho existing Suggestive/Accept candidate.
+
+Cả 2 modes chia sẻ guardrails trong §1 và §3.5/§3.6 (Principles #11, #12).
+
+### 7.2 Differences from Discovery Mode
+
+| Axis | Discovery (§2) | Exploration (§7) |
+|------|----------------|-------------------|
+| **Phase 1 (bias detection)** | Bắt buộc. R1 gate = STOP | Optional. Có thể skip nếu strategy không dựa vào bias |
+| **Phase 2 design** | Dựa trên Phase 1 findings | Dựa trên novel mechanism (portfolio, online, neural…) |
+| **Simple-beats-complex prior** | Hard (must beat ≥2σ) | Soft (benchmark required, không phải gate) |
+| **Primary output** | Accept / Suggestive / Reject | Tournament ranking (§8) |
+| **Ship criterion** | Accept or Suggestive (post-replication) | Tournament winner OR Accept-grade edge |
+| **Split-half replication (§3.5)** | Required for Suggestive→Accept | Required for Accept-grade label |
+| **Variable-baseline power (§3.6)** | Required before replication | Required before replication |
+
+### 7.3 Exploration pipeline (5-phase adapted)
+
+```
+┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
+│ Phase 0  │ → │ Phase 1' │ → │ Phase 2' │ → │ Phase 3' │ → │ Phase 4  │
+│ Data     │   │ Mechanism│   │ Design   │   │ Tournament│  │ Ship     │
+│ ingest   │   │ survey   │   │ & impl   │   │  & repl.  │  │          │
+└──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘
+```
+
+**Phase 1' — Mechanism survey** (thay cho bias detection): liệt kê các novel mechanisms từ [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md). Chọn 1-3 mechanisms → pre-register hypothesis.
+
+**Phase 2' — Design & implement**: same rules (pre-reg, algebra check where applicable, unit tests, seed=42). Nếu mechanism non-analytical (e.g., neural net), skip algebra check nhưng ghi rõ limitation.
+
+**Phase 3' — Tournament + Replication + Forward validation**:
+1. Walk-forward backtest với `n_runs ≥ 5`, report full metric set (§8).
+2. Tournament ranking per product (§8, win-rate-heavy weights).
+3. **Forward validation** ([EVALUATION §9](EVALUATION.md)) trên top-3 candidates — rolling-window last-20/100/300.
+4. Top-1 per product + ≥2 composite-top cross-product → split-half replication (§3.5).
+5. **Gate combine**:
+   - Accept-grade: split-half both halves Δ>0 + p<0.025 both + forward_last_100 Δ>0
+   - Suggestive: split-half both halves Δ>0 + p<0.05 both + forward_last_100 Δ>0
+   - Ship-with-caveats: tournament top-1 + forward_last_100 Δ>0 (even if split-half fail/not-run)
+   - Forward_last_100 Δ≤0 → downgrade by one tier ([EVALUATION §9.5](EVALUATION.md))
+
+### 7.4 Anti-patterns specific to breakthrough mode
+
+| Anti-pattern | Symptom | Prevention |
+|--------------|---------|------------|
+| **Hyper-complex first** | Đi thẳng neural net, không baseline simple nào | §1.5 soft prior — vẫn bench vs simple; §8 tournament bắt buộc multi-baseline |
+| **Weight shopping** | Tune composite weights post-hoc để winner đổi | §8 weights pre-registered, không điều chỉnh sau backtest |
+| **Ship-all** | Ship mọi strategy, label "experimental" | Tournament top-1 only; ship-with-caveats có UI disclosure |
+| **Drift eval metric** | Add metric mới để winner trông tốt hơn | Metric set fixed per cycle (§8 canonical list) |
+| **Skip replication** | "Breakthrough = ship ngay" | §3.5 split-half vẫn required cho Accept label |
+
+---
+
+## 8. Multi-objective Tournament Ranking (Chu kỳ 10+)
+
+Phần này chi tiết hoá cách rank strategies khi có 4 metrics không đồng nhất (Δ_random, win_rate, ROI, Sharpe). Full metric schema + formula trong [EVALUATION.md §8](EVALUATION.md).
+
+### 8.1 Composite score (pre-registered weights — refined 2026-04-20)
+
+```
+score(strategy) = w1 · z(Δ_win_rate) + w2 · z(Δ_ROI) + w3 · z(Sharpe) + w4 · z(−log10 p_value)
+```
+
+- `z(·)` = z-normalize across strategies trong tournament (so that all 4 contributions on same scale).
+- Weights **phải pre-register trong cycle's HISTORY entry** trước khi chạy backtest. Không tune sau.
+- **Default weights** — ưu tiên win rate, ROI balanced meaningful secondary:
+
+| w | Metric | Weight | Rationale |
+|:-:|--------|:-:|-----------|
+| w1 | Δ_win_rate vs Random | **0.40** | PRIMARY — mục tiêu cao nhất của project |
+| w2 | Δ_ROI vs Random | **0.30** | Meaningful secondary — ratio win:ROI = 4:3, ROI vẫn drive decision |
+| w3 | Sharpe | **0.15** | Risk-adjusted return guard |
+| w4 | −log₁₀(p_value) | **0.15** | Significance guard chống lucky-noise winner |
+
+### 8.2 Tournament structure
+
+Per product:
+1. Run ≥10 strategies including `Random`, `FreqHot`, `Pattern` (3 mandatory baselines).
+2. Compute all 4 metrics + significance vs Random.
+3. Z-normalize each metric across strategies.
+4. Composite score per pre-registered weights.
+5. **Top-1** = product winner.
+
+Cross-product:
+1. Average rank per strategy across products.
+2. **Cross-product top-1** = robust winner.
+
+### 8.3 Ship decision
+
+| Outcome | Label | Website treatment |
+|---------|-------|-------------------|
+| Top-1 + split-half both halves Δ>0 + p<0.025 both | **Accept** (✓ edge confirmed) | Primary recommendation, no caveat |
+| Top-1 + split-half both halves Δ>0 + p<0.05 both | **Suggestive** | Recommended, minor caveat |
+| Top-1 + split-half inconsistent/not-run | **Ship-with-caveats** | Ship but label "unverified edge — tournament best" |
+| Not top-1, but Δ>0 consistent | **Research-only** | Not on primary site, archive only |
+| Direction flip or negative Δ | **Reject** | Not shipped |
+
+### 8.4 Anti-cherry-pick enforcement
+
+- **Baseline set fixed**: Random + FreqHot + Pattern (matrix); Random + FreqWholeHot + Digit_Hot (3D). Không remove baseline dễ thắng để make winner shine.
+- **Metric set fixed**: 4 metrics như §8.1. Không add/remove metrics post-hoc.
+- **Weights fixed**: pre-registered, immutable within cycle.
+- **N strategies ≥ 10**: tournament với <10 strategies underpowered statistically.
+
+---
+
+*Cập nhật: 2026-04-20 (late) — (Chu kỳ 10 refined) Reweight §8 composite thành 0.40/0.30/0.15/0.15 sau user clarification "ưu tiên win rate, ROI cân bằng". Phase 3' thêm forward validation gate reference §9 EVALUATION.*
+
+*Cập nhật: 2026-04-20 — (Chu kỳ 10 pivot) thêm §7 Exploration Mode, relax §1.5 simple-beats-complex, thêm §8 Multi-objective Tournament Ranking. Guardrails §1, §3.5, §3.6 giữ nguyên.*
+
+*2026-04-20 — (Chu kỳ 9) thêm §3.5 Split-half replication mandatory (Principle #11) và §3.6 Variable-baseline power analysis (Principle #12) sau 3/3 Suggestive candidates fail replication.*
 
 *2026-04-20 — Hợp nhất PLAN + PLAYBOOK + Quant Agent thành pipeline duy nhất; codify pre-registration, significance-on-delta, R1 gate.*

@@ -2,9 +2,11 @@
 
 > **Mục đích**: Tài liệu canonical về **cách đánh giá** một strategy — metrics nào, khi nào dùng, cách kiểm định ý nghĩa thống kê, cách báo cáo.
 >
-> **Dùng ở đâu**: Phase 3 của [METHODOLOGY.md](METHODOLOGY.md).
+> **Dùng ở đâu**: Phase 3 của [METHODOLOGY.md](METHODOLOGY.md) (discovery mode), Phase 3' (exploration mode).
 >
 > **Áp dụng cho**: Mọi sản phẩm (matrix + 3D), mọi strategy (single-ticket + multi-ticket).
+>
+> **⚡ Chu kỳ 10 pivot (refined 2026-04-20)**: Primary goal = **tối đa hoá tỷ lệ trúng giải trong tương lai** (future win rate). ROI is meaningful secondary (weight 0.30 vs 0.40). Sharpe + p-value là significance/risk guards. §8 Tournament ranking composite với rebalanced weights. §9 Forward Validation NEW — primary indicator của future generalization. Decision state "Ship-with-caveats" thêm vào §6.
 
 ---
 
@@ -23,16 +25,23 @@ Metric khác nhau trả lời câu hỏi khác nhau. Nhớ rõ **metric đo cái
 
 **Lưu ý**: Baseline phải là **closed-form** khi có thể, không chỉ Monte Carlo. Closed-form = zero variance, ước lượng chính xác.
 
-### 1.2 Profitability layer — "Nếu mua thật thì mất bao nhiêu?"
+### 1.2 Profitability layer — MEANINGFUL SECONDARY trong breakthrough mode (Chu kỳ 10+, refined)
+
+**Trước Chu kỳ 10**: ROI + Sharpe là secondary metrics (báo cáo nhưng không drive decision).
+
+**Sau Chu kỳ 10 (refined)**: Win rate là PRIMARY (weight 0.40 trong §8 composite). ROI là MEANINGFUL SECONDARY (weight 0.30) — vẫn drive decision nhưng không override win rate. Sharpe (0.15) + p-value (0.15) là risk/significance guards. Tournament §8 dùng cả 4 metrics với pre-registered weights ưu tiên win rate.
 
 | Metric | Công thức | Caveat |
 |--------|-----------|--------|
-| **ROI** | `(revenue - cost) / cost × 100%` | **Luôn âm** với lottery — dùng để **so sánh** 2 strategies, không phải tuyệt đối |
+| **ROI** | `(revenue - cost) / cost × 100%` | **Luôn âm** với lottery. Trong breakthrough mode: metric là **Δ_ROI vs Random** — "least negative vs Random's baseline ROI". |
 | **Net profit** | `revenue - cost` | VND tuyệt đối |
-| **Sharpe ratio** | `mean(profit_per_draw) / std(profit_per_draw) × √52` | Khi cần risk-adjusted |
+| **Sharpe ratio** | `mean(profit_per_draw) / std(profit_per_draw) × √52` | Risk-adjusted — CO-PRIMARY trong tournament §8 |
 | **Max drawdown** | `max(cum_loss)` | Chuỗi thua dài nhất |
+| **Kelly fraction** (§8.5) | `f* = (p·b - q) / b` | Recommended bet size fraction of bankroll (multi-ticket only) |
 
-**⚠️ ROI trap**: Strategy có match rate cao chưa chắc ROI cao (nếu match ở tier giải thấp). Và ngược lại — strategy match rate thấp nhưng vào tier cao đột phá ROI. Luôn report **cả accuracy + ROI**.
+**⚠️ ROI trap**: Strategy có match rate cao chưa chắc ROI cao (nếu match ở tier giải thấp). Và ngược lại — strategy match rate thấp nhưng vào tier cao đột phá ROI. Luôn report **cả accuracy + ROI + Sharpe**.
+
+**⚠️ Breakthrough mode ROI realism**: ROI lottery về lý thuyết luôn âm (EV-negative game). Mục tiêu "tối đa ROI" thực chất là "least negative delta vs Random baseline". Website phải disclaim rõ ràng rằng ngay cả strategy winner cũng có ROI âm.
 
 ### 1.3 Robustness layer — "Kết quả có đáng tin không?"
 
@@ -234,15 +243,26 @@ Khi viết section "Kết quả" vào [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md)
 
 ---
 
-## 6. Decision Rules — Khi Nào Accept, Reject, Inconclusive
+## 6. Decision Rules — Accept, Suggestive, Ship-with-caveats, Inconclusive, Reject
+
+**Primary metric** cho decision: `win_rate_ge3` (matrix) / `exact_match_rate` (3D). ROI/Sharpe là secondary contributors trong tournament §8 nhưng không phải gate condition.
 
 | Kết quả | Quyết định | Action |
 |---------|-----------|--------|
-| `p_raw < 0.05` & `passes_bonferroni` & `ci_lo > 0` | **Accept** — có edge | Phase 4 ship |
-| `p_raw < 0.05` nhưng không pass Bonferroni | **Suggestive** — có thể có edge | Replicate trên data mới hoặc product khác trước ship |
-| `p_raw ≥ 0.05` & `ci_lo > 0` | **Inconclusive** — under-powered | Tăng n_runs hoặc n_draws, chạy lại |
-| `p_raw ≥ 0.05` & `ci` qua 0 | **Reject** — không có edge | Dừng, không ship, ghi HISTORY |
-| Δ > 0 nhưng baseline beat strategy ở ≥2 products | **Reject** — không robust | Dừng |
+| `p_raw < 0.05` & `passes_bonferroni` & `ci_lo > 0` & **split-half** both Δ>0 & p<0.025 both & **forward_last_100 Δ>0** | **Accept** — edge confirmed + future-consistent | Ship, primary recommendation |
+| `p_raw < 0.05` & split-half both Δ>0 & p<0.05 both & forward_last_100 Δ>0 | **Suggestive** — consistent weak signal | Ship với minor caveat |
+| **Tournament top-1** ([METHODOLOGY §8](METHODOLOGY.md)) + forward_last_100 Δ>0 + split-half inconsistent/not-run | **Ship-with-caveats** | Ship với UI badge "unverified edge — tournament best" |
+| forward_last_100 Δ ≤ 0 (regardless of historical) | Downgrade by one tier (§9.5) | Forward has veto |
+| `p_raw ≥ 0.05` & `ci_lo > 0` | **Inconclusive** — under-powered | Tăng n_runs/n_draws hoặc chạy again trên data mới |
+| Direction flip between halves (split-half fail) | **Reject** — không robust | Không ship; ghi HISTORY |
+| `p_raw ≥ 0.05` & `ci` qua 0 | **Reject** — không có edge | Không ship; ghi HISTORY |
+| Δ > 0 nhưng baseline beat strategy ở ≥2 products | **Reject** — không robust | Không ship |
+
+**Guardrails (Chu kỳ 9-10 derived)**:
+- Mọi Accept/Suggestive claim **phải pass split-half replication** (Principle #11, [METHODOLOGY §3.5](METHODOLOGY.md)).
+- **Forward validation §9 có veto power** — `forward_last_100 Δ ≤ 0` downgrade decision by one tier ngay cả khi historical pass.
+- Ship-with-caveats **không thay thế** Accept — chỉ valid cho tournament top-1 + forward positive khi Accept chưa đạt.
+- Ship-with-caveats **phải có UI disclosure** hiển thị rõ "không có p<0.05 verified edge".
 
 ---
 
@@ -262,4 +282,225 @@ Khi viết section "Kết quả" vào [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md)
 
 ---
 
-*Cập nhật: 2026-04-20 — Codify significance test bắt buộc, taxonomy 3 tầng, output schema chuẩn.*
+---
+
+## 8. Tournament Ranking — Multi-objective Winner Selection (Chu kỳ 10+)
+
+Phase 3' trong [METHODOLOGY §7.3](METHODOLOGY.md) dùng tournament ranking để select winner-per-product và cross-product robust winner trong breakthrough mode.
+
+### 8.1 Canonical metric set (fixed per cycle)
+
+4 metrics, z-normalized across strategies trong tournament:
+
+| # | Metric | Ký hiệu | Direction |
+|:-:|--------|---------|-----------|
+| 1 | `Δ win_rate_ge3` (matrix) hoặc `Δ exact_match_rate` (3D) | `delta_win` | higher better |
+| 2 | `Δ ROI_pct` vs Random | `delta_roi` | higher better (less negative) |
+| 3 | `Sharpe ratio` | `sharpe` | higher better |
+| 4 | `-log10(p_value_raw)` | `neg_log_p` | higher better |
+
+Không thêm/bớt metric sau khi cycle bắt đầu. Không dùng custom metric không trong list này.
+
+### 8.2 Composite score (pre-registered weights — refined 2026-04-20)
+
+```
+score(strategy) = w1·z(delta_win) + w2·z(delta_roi) + w3·z(sharpe) + w4·z(neg_log_p)
+```
+
+**Default weights** — reflects priority "primary = future win rate, secondary = ROI balanced":
+
+| w | Metric | Weight | Rationale |
+|:-:|--------|:-:|-----------|
+| w1 | delta_win | **0.40** | PRIMARY — win-rate là mục tiêu cao nhất của project |
+| w2 | delta_roi | **0.30** | Meaningful secondary — ROI vẫn drive decision, ratio win:ROI = 1.33× |
+| w3 | sharpe | **0.15** | Risk-adjusted return guard |
+| w4 | neg_log_p | **0.15** | Significance guard chống lucky-noise winner |
+
+**Ratio win:ROI = 4:3** — clear priority but ROI remains substantial contribution. Không phải pure lexicographic.
+
+Weights **immutable within cycle**. Changing weights post-hoc là p-hacking.
+
+### 8.3 Canonical baseline set (fixed per product)
+
+Mandatory inclusion để đảm bảo tournament không cherry-picked:
+
+| Product family | Mandatory baselines |
+|----------------|---------------------|
+| Matrix (6/55, 6/45, 5/35) | `Random`, `FreqHot(365, 0.8)`, `Pattern(180)` |
+| 3D (Max 3D, Max 3D Pro) | `Random`, `FreqWholeHot(200)`, `Digit_Hot(300)` |
+
+Remove baseline = anti-pattern. Thêm extra baselines OK miễn là không remove mandatory ones.
+
+### 8.4 Tournament shape
+
+```
+Per product P:
+  1. Run ≥10 strategies (≥3 mandatory baselines + ≥7 experimental)
+  2. Compute all 4 metrics + significance vs Random
+  3. z-normalize each metric across strategies in tournament
+  4. score(s) = composite (§8.2)
+  5. Rank by score descending
+  6. Top-1 = product winner
+
+Cross-product:
+  1. For each strategy, compute average rank across products
+  2. Cross-product top-1 = robust winner (best average rank)
+```
+
+### 8.5 Kelly-optimal sizing (multi-ticket only)
+
+Khi tournament runner với multi-ticket strategy, ngoài win_rate báo cáo Kelly fraction:
+
+```
+f* = (p · b - q) / b
+  where:
+    p = win probability (P(any ≥ 3))
+    q = 1 - p
+    b = net odds (expected_payout_per_win / ticket_cost)
+```
+
+**Caveat**: Kelly assume log-utility + correct probability estimate. Lottery có heavy-tailed payout nên Kelly có thể over-estimate. Recommend **half-Kelly** (`f*/2`) cho conservative sizing. Full formula + Monte Carlo simulation trong [BREAKTHROUGH_ROADMAP.md Path #4](BREAKTHROUGH_ROADMAP.md).
+
+### 8.6 Required tournament output schema
+
+```json
+{
+  "cycle": "Chu Kỳ 11",
+  "product": "power_645",
+  "weights": {"w1": 0.40, "w2": 0.30, "w3": 0.15, "w4": 0.15},
+  "baselines_included": ["Random", "FreqHot", "Pattern"],
+  "n_strategies_total": 12,
+  "rankings": [
+    {
+      "rank": 1,
+      "strategy": "KellyPortfolio_v1",
+      "delta_win_pp": 0.42,
+      "delta_roi_pct": 1.2,
+      "sharpe": -0.38,
+      "p_value_raw": 0.023,
+      "z_scores": {"delta_win": 1.8, "delta_roi": 1.5, "sharpe": 1.2, "neg_log_p": 1.1},
+      "composite_score": 1.58,
+      "split_half_status": "pending|pass|fail",
+      "decision": "Ship-with-caveats"
+    },
+    ...
+  ]
+}
+```
+
+### 8.7 Anti-patterns
+
+| Anti-pattern | Prevention |
+|--------------|------------|
+| Weight shopping (tune w's cho winner) | Pre-register trong HISTORY, immutable |
+| Baseline cherry-pick (remove strong simple baseline) | §8.3 mandatory set |
+| Metric drift (add new metric post-hoc) | §8.1 fixed set |
+| N strategies < 10 | Tournament under-powered, require ≥10 |
+| Skip split-half trên winner | Required cho Accept-grade; Ship-with-caveats label required UI disclosure |
+
+---
+
+---
+
+## 9. Forward Validation — Primary Indicator of Future Generalization (Chu kỳ 10+)
+
+> **Bối cảnh**: Mục tiêu cao nhất của project là **tối đa hoá tỷ lệ trúng giải trong tương lai**, không phải fit backtest quá khứ. Split-half replication (§3.5 METHODOLOGY, Principle #11) tests robustness — nhưng treat cả 2 halves bình đẳng. Future win rate specifically = generalization sang unseen + recent data.
+>
+> **Forward validation complements (không replace) split-half**. Split-half vẫn required cho Accept-grade label (Principle #11). Forward validation là **primary deployment signal** — strategy tốt cho production cần pass cả hai.
+
+### 9.1 Rolling-window forward test (mandatory cho mọi breakthrough cycle)
+
+**Definition**: Evaluate strategy chỉ trên most recent N draws, với train set = full history trước mỗi prediction (growing train, walk-forward).
+
+```python
+def rolling_window_forward(draws, strategy, last_n=100, n_runs=5):
+    """Evaluate strategy on last N draws (most recent), proxy for future deployment."""
+    N = len(draws)
+    start = N - last_n
+    hits = 0
+    total = 0
+    for _ in range(n_runs):
+        for i in range(start, N):
+            train = draws[:i]                  # full history up to i
+            if len(train) < MIN_HISTORY:
+                continue
+            pred = strategy.predict(train, draws[i].date, ...)
+            m = len(set(pred) & set(draws[i].result))
+            if m >= 3: hits += 1
+            total += 1
+    return {"win_rate_pct": hits/total*100, "hits": hits, "n": total,
+            "window_size": last_n, "n_runs": n_runs}
+```
+
+**Why rolling-window matters**:
+- Matches actual deployment: website predicts next draw using all past data.
+- Captures recent regime (nếu có drift) vì only scores on recent predictions.
+- Independent gate vs split-half: splits train/test by time, rolling evaluates only recent test.
+
+### 9.2 Canonical forward metrics (3 horizons)
+
+Mọi breakthrough cycle phải report forward win rate tại 3 horizons:
+
+| Horizon | N draws | Use case |
+|---------|:-:|-----------|
+| **Last-20** | 20 | Freshest snapshot — highest variance nhưng most representative của very-near-future |
+| **Last-100** | 100 | Primary forward metric — balance giữa sample size và recency |
+| **Last-300** | 300 | Medium-term forward — catches slower drift patterns |
+
+Rolling-window forward evaluation chạy tại từng horizon. Compare forward win rate vs Random trên cùng horizon (`forward_delta_win_pp`).
+
+### 9.3 Recency-weighted win rate (optional secondary indicator)
+
+Alternative: weight evaluations toàn sample nhưng decay by recency (half-life=100 draws).
+
+```
+weighted_win_rate = Σ_i w_i · (m_i >= 3) / Σ_i w_i
+where w_i = exp(-ln(2) · (N - i) / 100)     # recent i gets weight ~1, old i ~0
+```
+
+Report alongside rolling-window. Useful để catch strategies tốt toàn bộ nhưng degrade recently.
+
+### 9.4 Required output schema (forward validation block)
+
+Append vào tournament output schema (§8.6):
+
+```json
+{
+  "forward_validation": {
+    "last_20":  {"win_rate_pct": 2.45, "hits": 4, "n": 100, "forward_delta_pp": +0.55},
+    "last_100": {"win_rate_pct": 2.18, "hits": 22, "n": 500, "forward_delta_pp": +0.25},
+    "last_300": {"win_rate_pct": 2.05, "hits": 61, "n": 1500, "forward_delta_pp": +0.12},
+    "recency_weighted": {"win_rate_pct": 2.10, "half_life_draws": 100}
+  }
+}
+```
+
+### 9.5 Forward validation gate (decision rules update)
+
+Bổ sung cho §6 decision rules:
+
+| Condition | Gate outcome |
+|-----------|-------------|
+| forward_last_100 Δ > 0 AND split-half both halves Δ > 0 AND p < 0.025 both | **Accept** (primary + forward consistent) |
+| forward_last_100 Δ > 0 AND split-half both halves Δ > 0 AND p < 0.05 both | **Suggestive** |
+| forward_last_100 Δ > 0 AND split-half not run or inconsistent | **Ship-with-caveats** (forward positive is enough cho caveat-labeled ship) |
+| forward_last_100 Δ ≤ 0 | Downgrade by one level (Accept → Suggestive, Suggestive → Ship-with-caveats, Ship-with-caveats → Research-only). **Forward validation có veto power** ngay cả khi historical split-half pass. |
+
+Rationale: strategy pass historical split-half nhưng fail forward last-100 có nghĩa "worked in past, not now" — không safe for deployment. Forward validation fail = không ship (hoặc ship với heavy caveat).
+
+### 9.6 Anti-patterns specific to forward validation
+
+| Anti-pattern | Symptom | Prevention |
+|--------------|---------|------------|
+| **Cherry-pick horizon** | Report last-20 tốt nhất, bỏ last-300 | §9.2 mandatory 3 horizons |
+| **Tune on forward** | Grid-search hyperparam để last-100 win-rate cao nhất | Hyperparam freeze sau pre-reg, không re-tune |
+| **Skip rolling-window** | Chỉ split-half, bỏ qua forward | §9.1 mandatory cho breakthrough cycles |
+| **Single-run rolling** | n_runs=1 → high variance ở last-20 | n_runs≥5 cho stochastic strategies |
+
+---
+
+*Cập nhật: 2026-04-20 (late) — (Chu kỳ 10 refined) Reweight §8 composite thành 0.40/0.30/0.15/0.15 (win-rate primary, ROI meaningful secondary). Thêm §9 Forward Validation như primary future-generalization indicator với veto power trong §9.5 decision gate.*
+
+*2026-04-20 — (Chu kỳ 10 pivot) ROI + Sharpe elevated to co-primary (§1.2); thêm §6 "Ship-with-caveats" decision state; thêm §8 Tournament Ranking.*
+
+*2026-04-20 — Codify significance test bắt buộc, taxonomy 3 tầng, output schema chuẩn.*
