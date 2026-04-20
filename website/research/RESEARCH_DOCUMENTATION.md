@@ -760,7 +760,7 @@ Giá vé:      10.000đ
 
 #### Phase 1 — 14-test Deep Statistical Analysis
 
-Chạy `matrix/power535_deep_analysis.py` trên 539 kỳ. Bonferroni threshold α = 0.05/14 ≈ 0.00357.
+Chạy `matrix/power535/deep_analysis.py` trên 539 kỳ. Bonferroni threshold α = 0.05/14 ≈ 0.00357.
 
 | # | Test | p-value | Significant @ Bonferroni? |
 |---|------|---------|:-------------------------:|
@@ -794,7 +794,7 @@ Chạy `matrix/power535_deep_analysis.py` trên 539 kỳ. Bonferroni threshold �
 
 #### Phase 2a — Single-ticket Empirical Parity (thất bại)
 
-Chạy `matrix/power535_parity_backtest.py` — 3 strategies mô phỏng parity distribution:
+Chạy `matrix/power535/parity_backtest.py` — 3 strategies mô phỏng parity distribution:
 - EmpParity_v1 (uniform within pool): Δ = −0.023
 - EmpParity_v2 freq-weighted T=0.7: Δ = −0.004
 - EmpParity_v3 cold-weighted: Δ = −0.001
@@ -811,7 +811,7 @@ Observed E[k] = 2.544; Uniform E[k] = 2.571 → gần nhau.
 
 ⚠️ **Correction 2026-04-20**: Kết quả "p=0.011" ban đầu tính sai do bug `dates.unique()` trong `walk_forward_multi` — chỉ lấy 1 draw/date trong khi Power 5/35 có 2 draws/day. Sample size thực: n=510 thay vì 1317. Sau fix (iterate per-row), **không strategy nào còn p<0.05** sau correction. Xem [RESEARCH_HISTORY Chu kỳ 5+6](RESEARCH_HISTORY.md).
 
-Chạy `matrix/power535_wheeling_backtest.py` — 6 strategies đa vé. Metric: **P(any ticket ≥3 match per draw)** qua N vé.
+Chạy `matrix/power535/wheeling_backtest.py` — 6 strategies đa vé. Metric: **P(any ticket ≥3 match per draw)** qua N vé.
 
 **N=20 tickets/kỳ** (3 runs × 439 draws = 1,317 samples/cell — SAU correction):
 
@@ -868,9 +868,9 @@ Input: draws (history), N (ticket count ≥ 10, tối ưu N=20)
 
 #### Artifacts & files
 
-- [matrix/power535_deep_analysis.py](matrix/power535_deep_analysis.py) + [.json](matrix/power535_deep_analysis.json) — 14 tests
-- [matrix/power535_parity_backtest.py](matrix/power535_parity_backtest.py) + [.json](matrix/power535_parity_backtest_results.json) — Phase 2a single-ticket
-- [matrix/power535_wheeling_backtest.py](matrix/power535_wheeling_backtest.py) + [.json](matrix/power535_wheeling_backtest_results.json) — Phase 2b multi-ticket
+- [matrix/power535/deep_analysis.py](matrix/power535/deep_analysis.py) + [.json](matrix/power535/deep_analysis.json) — 14 tests
+- [matrix/power535/parity_backtest.py](matrix/power535/parity_backtest.py) + [.json](matrix/power535/parity_backtest_results.json) — Phase 2a single-ticket
+- [matrix/power535/wheeling_backtest.py](matrix/power535/wheeling_backtest.py) + [.json](matrix/power535/wheeling_backtest_results.json) — Phase 2b multi-ticket
 - Port TypeScript: [src/lib/suggest-matrix.ts](../src/lib/suggest-matrix.ts) — function `generateHybridParityDiv`
 
 ### 6.4 Max 3D (1.064 kỳ, số 000–999, 20 số/kỳ)
@@ -1283,7 +1283,7 @@ Hai hệ thống phục vụ mục đích khác nhau:
 | `website/research/3d_backtest.py` | 3D products backtest script | 887 |
 | `website/research/3d_backtest_results.json` | 3D results data | 503 |
 | `website/research/3d_analysis_report.md` | 3D analysis | 288 |
-| `website/RESEARCH_PLAN.md` | Master research plan | 360 |
+| `website/research/archive/superseded_docs/RESEARCH_PLAN.md` | Master research plan | 360 |
 
 ### 12.2 Python Strategy Source Files
 

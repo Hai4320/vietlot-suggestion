@@ -173,7 +173,7 @@ Power 5/35 là outlier từ Chu kỳ 2 — nhiều AI strategies thua Random. Á
 
 1. **Bước 1 — Data ingestion**: Load 539 kỳ Lotto 5/35 (06/2025 – 04/2026)
 
-2. **Bước 2 — 14-test Statistical Analysis** ([power535_deep_analysis.py](matrix/power535_deep_analysis.py)):
+2. **Bước 2 — 14-test Statistical Analysis** ([power535_deep_analysis.py](matrix/power535/deep_analysis.py)):
    Thích nghi 13-test framework của 3D sang matrix structure (bỏ digit-level, thêm pair co-occurrence + bonus correlation). Bonferroni α = 0.05/14 = 0.00357.
 
 3. **Bước 3 — Pattern modeling** (chỉ nếu p<0.05 tìm thấy):
@@ -241,9 +241,9 @@ Observed E[k]=2.544 ≈ uniform E[k]=2.571 → không edge.
 
 ### Artifacts
 
-- [matrix/power535_deep_analysis.py](matrix/power535_deep_analysis.py) + [.json](matrix/power535_deep_analysis.json)
-- [matrix/power535_parity_backtest.py](matrix/power535_parity_backtest.py) + [.json](matrix/power535_parity_backtest_results.json)
-- [matrix/power535_wheeling_backtest.py](matrix/power535_wheeling_backtest.py) + [.json](matrix/power535_wheeling_backtest_results.json)
+- [matrix/power535/deep_analysis.py](matrix/power535/deep_analysis.py) + [.json](matrix/power535/deep_analysis.json)
+- [matrix/power535/parity_backtest.py](matrix/power535/parity_backtest.py) + [.json](matrix/power535/parity_backtest_results.json)
+- [matrix/power535/wheeling_backtest.py](matrix/power535/wheeling_backtest.py) + [.json](matrix/power535/wheeling_backtest_results.json)
 - Port TypeScript: [`generateHybridParityDiv`](../src/lib/suggest-matrix.ts) trong `src/lib/suggest-matrix.ts`
 - Website integration: auto-bump N=20 cho Power 5/35, warning khi N<10, BacktestCard footnote
 - Documentation: §6.3.1 trong [RESEARCH_DOCUMENTATION.md](RESEARCH_DOCUMENTATION.md)
@@ -302,7 +302,7 @@ Implement 5 improvements từ research sau khi chuẩn hóa documentation (xem [
 
 ### Phương pháp
 - Tạo shared module [`_significance.py`](./_significance.py): `wilson_ci`, `newcombe_diff_ci`, `two_proportion_z_test`, `decide_state`, `build_significance`
-- Wire vào 3 backtest scripts: [matrix/backtest.py](matrix/backtest.py), [matrix/power535_wheeling_backtest.py](matrix/power535_wheeling_backtest.py), [3d/advanced_backtest.py](3d/advanced_backtest.py)
+- Wire vào 3 backtest scripts: [matrix/backtest.py](matrix/backtest.py), [matrix/power535/wheeling_backtest.py](matrix/power535/wheeling_backtest.py), [3d/advanced_backtest.py](3d/advanced_backtest.py)
 - Thêm R1 gate verdict vào 2 deep_analysis scripts
 - Thêm Phase 2 gates (pre-registration + algebra check templates) vào [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md)
 
@@ -354,7 +354,7 @@ Sau fix iterate per-row, wheeling results:
 
 ### Artifacts
 - [`_significance.py`](./_significance.py) — shared module với smoke test
-- Updates: [matrix/backtest.py](matrix/backtest.py), [matrix/power535_wheeling_backtest.py](matrix/power535_wheeling_backtest.py), [3d/advanced_backtest.py](3d/advanced_backtest.py), [matrix/power535_deep_analysis.py](matrix/power535_deep_analysis.py), [3d/deep_analysis.py](3d/deep_analysis.py)
+- Updates: [matrix/backtest.py](matrix/backtest.py), [matrix/power535/wheeling_backtest.py](matrix/power535/wheeling_backtest.py), [3d/advanced_backtest.py](3d/advanced_backtest.py), [matrix/power535/deep_analysis.py](matrix/power535/deep_analysis.py), [3d/deep_analysis.py](3d/deep_analysis.py)
 - Bug fix: walk_forward iterate per-row thay vì per-date
 - Doc updates: HISTORY Chu kỳ 5 (correction), PLAYBOOK Phase 2 gates
 

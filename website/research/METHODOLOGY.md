@@ -1,6 +1,6 @@
 # Phương Pháp Research — Canonical Methodology
 
-> **Mục đích**: Tài liệu **canonical** về phương pháp luận nghiên cứu thuật toán xổ số. Hợp nhất 3 pipeline trước đây đang tồn tại song song ([RESEARCH_PLAN.md](RESEARCH_PLAN.md) 5-phase, [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) 5-phase, [Random_Analysis_Agent.md](Random_Analysis_Agent.md) 5-step) thành một quy trình duy nhất.
+> **Mục đích**: Tài liệu **canonical** về phương pháp luận nghiên cứu thuật toán xổ số. Hợp nhất 3 pipeline trước đây đang tồn tại song song ([RESEARCH_PLAN.md](archive/superseded_docs/RESEARCH_PLAN.md) 5-phase, [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) 5-phase, [Random_Analysis_Agent.md](archive/superseded_docs/Random_Analysis_Agent.md) 5-step) thành một quy trình duy nhất.
 >
 > **Khác với `RESEARCH_PLAYBOOK.md`**: Playbook là **template copy-paste** cho mỗi nghiên cứu mới (checklist, code stubs, lessons learned). File này là **why** đằng sau quy trình — các nguyên tắc bắt buộc, tiêu chí vào/ra từng phase, và anti-patterns.
 >
@@ -14,7 +14,7 @@
 
 ### 1.1 Ba ràng buộc của Quant Agent
 
-Rút từ [Random_Analysis_Agent.md](Random_Analysis_Agent.md) — áp dụng làm ràng buộc cứng:
+Rút từ [Random_Analysis_Agent.md](archive/superseded_docs/Random_Analysis_Agent.md) — áp dụng làm ràng buộc cứng:
 
 | # | Ràng buộc | Ý nghĩa thực hành |
 |---|-----------|-------------------|
@@ -185,7 +185,7 @@ Sau backtest, nếu kết quả khác — nói rõ khác thế nào, không vi�
 - `p_value_vs_random`: z-test proportion hoặc permutation test
 - `ci95_delta`: Wilson 95% CI
 
-Script `matrix/backtest.py` và `matrix/power535_wheeling_backtest.py` hiện thiếu — cần thêm (xem [EVALUATION.md §3](EVALUATION.md)).
+Script `matrix/backtest.py` và `matrix/power535/wheeling_backtest.py` hiện thiếu — cần thêm (xem [EVALUATION.md §3](EVALUATION.md)).
 
 ### 3.3 Algebra sanity check trước backtest (§1.4)
 

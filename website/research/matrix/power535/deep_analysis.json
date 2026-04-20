@@ -383,5 +383,12 @@
     ],
     "significant_at_bonferroni": [],
     "exploitable_bias_detected": false
+  },
+  "r1_gate": {
+    "verdict": "STOP",
+    "reason": "No test passes Bonferroni α=0.00357. White noise conclusion.",
+    "next_step": "Do NOT proceed to Phase 2. Do NOT extend battery post-hoc. Record in RESEARCH_HISTORY as valid negative result.",
+    "battery_size": 14,
+    "bonferroni_alpha": 0.0035714285714285718
   }
 }

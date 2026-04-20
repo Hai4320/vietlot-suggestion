@@ -81,7 +81,7 @@ wc -l data/<file>.jsonl     # Đếm records
 ### Template code
 
 Reference implementation:
-- Matrix (14 tests): [matrix/power535_deep_analysis.py](matrix/power535_deep_analysis.py)
+- Matrix (14 tests): [matrix/power535/deep_analysis.py](matrix/power535/deep_analysis.py)
 - Digit (13 tests): [3d/deep_analysis.py](3d/deep_analysis.py)
 
 Output JSON schema và interpretation flowchart: [TESTING.md §2, §7](TESTING.md).

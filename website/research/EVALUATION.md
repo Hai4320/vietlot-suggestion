@@ -95,7 +95,7 @@ Bài học Chu kỳ 5: bias parity không thể exploit bằng single ticket (ch
 
 ### 3.1 Vấn đề hiện tại
 
-Các script backtest hiện tại ([matrix/backtest.py](matrix/backtest.py), [matrix/power535_wheeling_backtest.py](matrix/power535_wheeling_backtest.py)) chỉ báo cáo `Δ = avg_strategy - avg_baseline` **không kèm p-value**. Chu kỳ 3 claim "Bayesian Δ+0.031 trên 6/55" — không biết đây có phải trong nhiễu hay không.
+Các script backtest hiện tại ([matrix/backtest.py](matrix/backtest.py), [matrix/power535/wheeling_backtest.py](matrix/power535/wheeling_backtest.py)) chỉ báo cáo `Δ = avg_strategy - avg_baseline` **không kèm p-value**. Chu kỳ 3 claim "Bayesian Δ+0.031 trên 6/55" — không biết đây có phải trong nhiễu hay không.
 
 **Fix**: Thêm significance test vào backtest output.
 
@@ -251,7 +251,7 @@ Khi viết section "Kết quả" vào [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md)
 | # | Item | Status | Notes |
 |:-:|------|:------:|-------|
 | 1 | `matrix/backtest.py` z-test | ✅ Done | `attach_significance` vs Random. Rerun 2026-04-20. |
-| 2 | `matrix/power535_wheeling_backtest.py` z-test | ✅ Done | `attach_significance_wheel` vs RandomN. **Đã khai lộ bug sample-size** (dates dedup). |
+| 2 | `matrix/power535/wheeling_backtest.py` z-test | ✅ Done | `attach_significance_wheel` vs RandomN. **Đã khai lộ bug sample-size** (dates dedup). |
 | 3 | `3d/advanced_backtest.py` z-test | ✅ Done | `_attach_3d_significance` vs Random. Rerun 2026-04-20. |
 | 4 | `backtest-data.ts` + website UI | ✅ Done | Thêm `pValue` + `decision` + Decision badges. BacktestCard + algorithms page refreshed. TypeScript pass. |
 | 5 | Backfill p-value HISTORY | ✅ Done | Chu kỳ 2-6 all updated với actual p-values. Các claim cũ bị rút/điều chỉnh theo kết quả z-test. |

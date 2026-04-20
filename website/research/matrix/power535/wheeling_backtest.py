@@ -10,7 +10,7 @@ Candidates:
   - GreedyCover3if3: covering design on top-12 hot numbers
   - HybridParityDiversity: parity-stratified + max-min distance
 
-Output: power535_wheeling_backtest_results.json
+Output: wheeling_backtest_results.json
 """
 
 from __future__ import annotations
@@ -29,11 +29,11 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from _significance import build_significance  # noqa: E402
 
-DATA_PATH = Path(__file__).resolve().parents[3] / "data" / "power535.jsonl"
-OUTPUT_PATH = Path(__file__).resolve().parent / "power535_wheeling_backtest_results.json"
+DATA_PATH = Path(__file__).resolve().parents[4] / "data" / "power535.jsonl"
+OUTPUT_PATH = Path(__file__).resolve().parent / "wheeling_backtest_results.json"
 
 MIN_VAL, MAX_VAL, NUM_COUNT = 1, 35, 5
 PRIZES = {5: 6_000_000_000, 4: 500_000, 3: 50_000}

@@ -3,7 +3,7 @@
 Follows Random_Analysis_Agent methodology + 13-test playbook, adapted to matrix
 product structure (5 mains 1-35 + 1 bonus 1-12).
 
-Output: power535_deep_analysis.json
+Output: deep_analysis.json
 """
 
 from __future__ import annotations
@@ -18,8 +18,8 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-DATA_PATH = Path(__file__).resolve().parents[3] / "data" / "power535.jsonl"
-OUTPUT_PATH = Path(__file__).resolve().parent / "power535_deep_analysis.json"
+DATA_PATH = Path(__file__).resolve().parents[4] / "data" / "power535.jsonl"
+OUTPUT_PATH = Path(__file__).resolve().parent / "deep_analysis.json"
 MAIN_MAX = 35
 MAIN_SIZE = 5
 BONUS_MAX = 12

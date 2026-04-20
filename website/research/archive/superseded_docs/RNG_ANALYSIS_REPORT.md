@@ -1,6 +1,6 @@
 # Reverse-Engineering the Vietlott Power 5/35 Random Number Generator
 
-> **⚠️ SUPERSEDED (2026-04-20)** — Báo cáo này dựa trên 516 draws và 13-test. Đã được superseded bởi [matrix/power535_deep_analysis.py](matrix/power535_deep_analysis.py) (539 draws, 14 tests, Bonferroni correction explicit) — xem [RESEARCH_HISTORY.md Chu kỳ 5](RESEARCH_HISTORY.md#chu-kỳ-5). Kết quả hiện tại: T11 Parity p=0.0012 pass Bonferroni, **khác** với "no exploitable patterns" dưới đây.
+> **⚠️ SUPERSEDED (2026-04-20)** — Báo cáo này dựa trên 516 draws và 13-test. Đã được superseded bởi [matrix/power535/deep_analysis.py](../../matrix/power535/deep_analysis.py) (539 draws, 14 tests, Bonferroni correction explicit) — xem [RESEARCH_HISTORY.md Chu kỳ 5](../../RESEARCH_HISTORY.md#chu-kỳ-5). Kết quả hiện tại: T11 Parity p=0.0012 pass Bonferroni, **khác** với "no exploitable patterns" dưới đây.
 >
 > Giữ file này làm snapshot của analysis 2026-04-14.
 

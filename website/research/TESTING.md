@@ -71,7 +71,7 @@ Mọi test rơi vào 1 trong 5 category. Khi thiết kế battery cho product m�
 
 ## 3. Matrix Battery (14 tests) — Áp Dụng Lotto 5/35
 
-Đây là battery đã được validate trong [matrix/power535_deep_analysis.py](matrix/power535_deep_analysis.py). Reuse cho 6/55 và 6/45 với adjustment về pool size.
+Đây là battery đã được validate trong [matrix/power535/deep_analysis.py](matrix/power535/deep_analysis.py). Reuse cho 6/55 và 6/45 với adjustment về pool size.
 
 | # | Test | Category | H0 | Test Statistic | Interpretation pass Bonferroni |
 |:-:|------|:--------:|-----|-----------------|-----------------|
@@ -229,7 +229,7 @@ Có test nào pass Bonferroni?
 
 | File | Vai trò |
 |------|---------|
-| [matrix/power535_deep_analysis.py](matrix/power535_deep_analysis.py) | Reference impl matrix battery (14 tests) |
+| [matrix/power535/deep_analysis.py](matrix/power535/deep_analysis.py) | Reference impl matrix battery (14 tests) |
 | [3d/deep_analysis.py](3d/deep_analysis.py) | Reference impl digit battery (13 tests) |
 | [METHODOLOGY.md](METHODOLOGY.md) | Tầng trên: Phase 1 của pipeline |
 | [EVALUATION.md](EVALUATION.md) | Tầng dưới: nếu Phase 1 detect bias → Phase 3 đánh giá exploit |

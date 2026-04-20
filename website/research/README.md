@@ -7,51 +7,49 @@ Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tíc
 ```
 research/
 ├── README.md                       ← Bạn đang đọc file này
-├── METHODOLOGY.md                  ← 🆕 Phương pháp research canonical (unified 5-phase pipeline)
-├── EVALUATION.md                   ← 🆕 Metrics + significance test bắt buộc
-├── TESTING.md                      ← 🆕 Bias detection test battery (14 matrix / 13 digit)
-├── RESEARCH_PLAN.md                ← Kế hoạch tổng thể 5 phase (lịch sử — không dùng cho cycle mới)
-├── RESEARCH_DOCUMENTATION.md       ← Tài liệu tổng hợp toàn bộ (canonical)
+├── _significance.py                ← Shared module: z-test, Wilson CI, decision rules (EVALUATION §3)
+│
+│   ── Canonical docs (đọc trước khi bắt đầu cycle mới) ──
+├── METHODOLOGY.md                  ← Phương pháp research canonical (unified 5-phase pipeline)
+├── EVALUATION.md                   ← Metrics + significance test bắt buộc
+├── TESTING.md                      ← Bias detection test battery (14 matrix / 13 digit)
 ├── RESEARCH_PLAYBOOK.md            ← Template + checklist copy-paste cho cycle mới
-├── RESEARCH_HISTORY.md             ← Nhật ký chu kỳ nghiên cứu (mục tiêu, phương pháp, kết quả, bài học)
+│
+│   ── Context & lịch sử ──
+├── RESEARCH_HISTORY.md             ← Nhật ký chu kỳ (mục tiêu, phương pháp, kết quả, bài học)
+├── RESEARCH_DOCUMENTATION.md       ← Tổng hợp chi tiết kỹ thuật
 │
 ├── matrix/                         ← Sản phẩm ma trận (Power 6/55, Mega 6/45, Lotto 5/35)
-│   ├── backtest.py                 ← Script backtest 16 thuật toán (walk-forward)
+│   ├── backtest.py                 ← Canonical backtest 16 thuật toán (walk-forward, cả 3 products)
 │   ├── backtest_results.json       ← Kết quả backtest đầy đủ
 │   ├── literature_review.md        ← Tổng quan lý thuyết (wheeling, Bayesian, max-entropy…)
-│   ├── power535_deep_analysis.py   ← 🔬 Phase-B: 14-test deep analysis cho Lotto 5/35
-│   ├── power535_deep_analysis.json ← Kết quả 14 tests (T11 Parity p=0.0012 ✓)
-│   ├── power535_parity_backtest.py ← Phase 2a: single-ticket empirical parity (thất bại)
-│   ├── power535_parity_backtest_results.json
-│   ├── power535_wheeling_backtest.py ← Phase 2b: multi-ticket wheeling (HybridParityDiv thành công)
-│   └── power535_wheeling_backtest_results.json ← HybridParityDiv +4.31pp, p=0.011
+│   └── power535/                   ← Lotto 5/35-specific (Chu kỳ 5 Phase-B)
+│       ├── deep_analysis.py        ← 🔬 14-test deep analysis (T11 Parity p=0.0012 ✓)
+│       ├── deep_analysis.json
+│       ├── parity_backtest.py      ← Phase 2a: single-ticket empirical parity (thất bại)
+│       ├── parity_backtest_results.json
+│       ├── wheeling_backtest.py    ← Phase 2b: multi-ticket wheeling (Reject sau correction)
+│       └── wheeling_backtest_results.json
 │
 ├── 3d/                             ← Sản phẩm 3D (Max 3D, Max 3D Pro)
 │   ├── REPORT.md                   ← Báo cáo nghiên cứu 3D (13 tests, 21 thuật toán)
-│   ├── deep_analysis.py            ← Script phân tích thống kê sâu (13 kiểm định)
-│   ├── deep_analysis.json          ← Dữ liệu phân tích thống kê (8,000+ dòng)
-│   ├── backtest.py                 ← Backtest 12 thuật toán cơ bản
-│   ├── backtest_results.json       ← Kết quả backtest cơ bản
-│   ├── advanced_backtest.py        ← Backtest 11 thuật toán nâng cao (từ nghiên cứu)
-│   ├── advanced_backtest_results.json ← Kết quả backtest nâng cao
-│   ├── cycle7_replication.py       ← 🔬 Chu kỳ 7: split-half replication cho FreqWholeHot + EVMaximizer
-│   ├── cycle7_replication_results.json ← Kết quả replication — cả 2 candidates Reject
-│   ├── cycle8_drift_analysis.py    ← 🔬 Chu kỳ 8: 3-window digit homogeneity test (drift verification)
-│   └── cycle8_drift_analysis_results.json ← Kết quả — no drift confirmed, 3D research paused
+│   ├── deep_analysis.py / .json    ← 13-test phân tích thống kê sâu (Chu kỳ 4)
+│   ├── backtest.py / _results.json ← 12 thuật toán cơ bản
+│   ├── advanced_backtest.py / _results.json ← 21 thuật toán nâng cao
+│   ├── cycle7_replication.py / _results.json ← Split-half replication (Reject 2/2)
+│   └── cycle8_drift_analysis.py / _results.json ← Drift verification (no drift → 3D paused)
 │
-├── Random_Analysis_Agent.md        ← Source system prompt (đã incorporated vào METHODOLOGY — giữ làm reference)
-├── RNG_ANALYSIS_REPORT.md          ← ⚠️ Snapshot analysis 516 draws (2026-04-14) — superseded bởi matrix/power535_deep_analysis
-│
-└── archive/                        ← File cũ (đã bị thay thế, giữ để tham khảo)
-    ├── phase1_backtest.py          ← Phase 1 backtest (cần import ML module) → dùng matrix/backtest.py
-    ├── phase1_backtest_standalone.py ← Phase 1 standalone → dùng matrix/backtest.py
-    ├── phase1_backtest_results.json ← Phase 1 results → dùng matrix/backtest_results.json
-    ├── phase1_analysis_report.md   ← Phase 1 report → dùng RESEARCH_DOCUMENTATION.md
-    ├── phase4_analysis_report.md   ← Phase 4 report → dùng RESEARCH_DOCUMENTATION.md
-    ├── 3d_analysis_report.md       ← 3D report cũ → dùng 3d/REPORT.md
-    ├── run_new_3d.py               ← Script chạy nhanh 3 thuật toán (one-off)
-    ├── phase4_output.log           ← Log chạy matrix backtest
-    └── 3d_backtest_output.log      ← Log chạy 3D backtest
+└── archive/                        ← File superseded (giữ để tham khảo)
+    ├── superseded_docs/            ← Root-level docs đã được thay thế
+    │   ├── RESEARCH_PLAN.md        ← 07/2025 5-phase plan → thay bằng METHODOLOGY + EVALUATION + TESTING
+    │   ├── RNG_ANALYSIS_REPORT.md  ← Snapshot 516 draws (04/2026-14) → thay bằng matrix/power535/deep_analysis
+    │   └── Random_Analysis_Agent.md ← Source system prompt → incorporated vào METHODOLOGY §1.1 R1-R3
+    ├── phase1_backtest*.py/.json   ← Phase 1 cũ → dùng matrix/backtest.py
+    ├── phase1_analysis_report.md   ← → dùng RESEARCH_DOCUMENTATION.md
+    ├── phase4_analysis_report.md   ← → dùng RESEARCH_DOCUMENTATION.md
+    ├── 3d_analysis_report.md       ← → dùng 3d/REPORT.md
+    ├── run_new_3d.py               ← Script one-off
+    └── *.log                       ← Run logs
 ```
 
 ## Tài liệu chính (nên đọc theo thứ tự)
@@ -71,9 +69,9 @@ research/
 |---|------|--------|-------------|
 | 5 | [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | Nhật ký các chu kỳ nghiên cứu | Hiểu "tại sao" đằng sau quyết định |
 | 6 | [RESEARCH_DOCUMENTATION.md](RESEARCH_DOCUMENTATION.md) | Tổng hợp toàn bộ kết quả (1,300+ dòng) | Tham khảo chi tiết kỹ thuật |
-| 7 | [RESEARCH_PLAN.md](RESEARCH_PLAN.md) | Kế hoạch tổng thể 5 phase (07/2025) | Historical context (có thể outdated) |
-| 8 | [3d/REPORT.md](3d/REPORT.md) | Nghiên cứu chuyên sâu 3D | Khi làm việc với Max 3D/3D Pro |
-| 9 | [matrix/literature_review.md](matrix/literature_review.md) | Lý thuyết nền tảng (papers, algorithms) | Khi thiết kế thuật toán mới |
+| 7 | [3d/REPORT.md](3d/REPORT.md) | Nghiên cứu chuyên sâu 3D | Khi làm việc với Max 3D/3D Pro |
+| 8 | [matrix/literature_review.md](matrix/literature_review.md) | Lý thuyết nền tảng (papers, algorithms) | Khi thiết kế thuật toán mới |
+| 9 | [archive/superseded_docs/](archive/superseded_docs/) | Historical docs đã thay thế (RESEARCH_PLAN, RNG_ANALYSIS_REPORT, Random_Analysis_Agent) | Historical context only |
 
 ## Cách chạy backtest
 
@@ -92,13 +90,13 @@ python3 matrix/backtest.py 2>&1 | tee matrix/output.log
 
 ```bash
 # 1. Phase 1 — 14-test statistical analysis (Quant Agent methodology)
-.venv/bin/python3 website/research/matrix/power535_deep_analysis.py
+.venv/bin/python3 website/research/matrix/power535/deep_analysis.py
 
 # 2. Phase 2a — Single-ticket parity strategies (baseline)
-.venv/bin/python3 website/research/matrix/power535_parity_backtest.py
+.venv/bin/python3 website/research/matrix/power535/parity_backtest.py
 
 # 3. Phase 2b — Multi-ticket wheeling (HybridParityDiv)
-.venv/bin/python3 website/research/matrix/power535_wheeling_backtest.py
+.venv/bin/python3 website/research/matrix/power535/wheeling_backtest.py
 ```
 
 **Phụ thuộc bổ sung**: `scipy` (cho chi², KS, hypergeometric tests):
