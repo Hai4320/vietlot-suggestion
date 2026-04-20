@@ -1,0 +1,1708 @@
+{
+  "meta": {
+    "cycle": "Chu Kỳ 8 Phase 1",
+    "methodology": "3-window chi² homogeneity test for digit bias stability",
+    "bonferroni_k": 30,
+    "alpha_strict": 0.0016666666666666668
+  },
+  "products": {
+    "max_3d_pro": {
+      "product": "max_3d_pro",
+      "n_draws": 711,
+      "n_windows": 3,
+      "window_boundaries": [
+        [
+          0,
+          237
+        ],
+        [
+          237,
+          474
+        ],
+        [
+          474,
+          711
+        ]
+      ],
+      "window_totals": [
+        4740,
+        4740,
+        4740
+      ],
+      "bonferroni_k": 30,
+      "alpha_strict": 0.0016666666666666668,
+      "shift_confirmed": false,
+      "n_tuples_fail_bonferroni": 0,
+      "tuples_fail_bonferroni": [],
+      "top_5_by_chi2": [
+        {
+          "position": 2,
+          "digit": 1,
+          "observed_per_window": [
+            437,
+            455,
+            505
+          ],
+          "pct_per_window": [
+            9.2194,
+            9.5992,
+            10.654
+          ],
+          "pct_pooled": 9.8242,
+          "max_deviation_pp": 1.4346,
+          "chi2": 5.3314,
+          "df": 2,
+          "p_raw": 0.06955,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 5,
+          "observed_per_window": [
+            513,
+            534,
+            468
+          ],
+          "pct_per_window": [
+            10.8228,
+            11.2658,
+            9.8734
+          ],
+          "pct_pooled": 10.654,
+          "max_deviation_pp": 1.3924,
+          "chi2": 4.503,
+          "df": 2,
+          "p_raw": 0.105243,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 1,
+          "observed_per_window": [
+            442,
+            496,
+            488
+          ],
+          "pct_per_window": [
+            9.3249,
+            10.4641,
+            10.2954
+          ],
+          "pct_pooled": 10.0281,
+          "max_deviation_pp": 1.1392,
+          "chi2": 3.5736,
+          "df": 2,
+          "p_raw": 0.167493,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 5,
+          "observed_per_window": [
+            438,
+            480,
+            489
+          ],
+          "pct_per_window": [
+            9.2405,
+            10.1266,
+            10.3165
+          ],
+          "pct_pooled": 9.8945,
+          "max_deviation_pp": 1.0759,
+          "chi2": 3.1599,
+          "df": 2,
+          "p_raw": 0.205984,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 8,
+          "observed_per_window": [
+            484,
+            435,
+            473
+          ],
+          "pct_per_window": [
+            10.211,
+            9.1772,
+            9.9789
+          ],
+          "pct_pooled": 9.789,
+          "max_deviation_pp": 1.0338,
+          "chi2": 2.8491,
+          "df": 2,
+          "p_raw": 0.240612,
+          "passes_bonferroni": false
+        }
+      ],
+      "all_tuples": [
+        {
+          "position": 2,
+          "digit": 1,
+          "observed_per_window": [
+            437,
+            455,
+            505
+          ],
+          "pct_per_window": [
+            9.2194,
+            9.5992,
+            10.654
+          ],
+          "pct_pooled": 9.8242,
+          "max_deviation_pp": 1.4346,
+          "chi2": 5.3314,
+          "df": 2,
+          "p_raw": 0.06955,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 5,
+          "observed_per_window": [
+            513,
+            534,
+            468
+          ],
+          "pct_per_window": [
+            10.8228,
+            11.2658,
+            9.8734
+          ],
+          "pct_pooled": 10.654,
+          "max_deviation_pp": 1.3924,
+          "chi2": 4.503,
+          "df": 2,
+          "p_raw": 0.105243,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 1,
+          "observed_per_window": [
+            442,
+            496,
+            488
+          ],
+          "pct_per_window": [
+            9.3249,
+            10.4641,
+            10.2954
+          ],
+          "pct_pooled": 10.0281,
+          "max_deviation_pp": 1.1392,
+          "chi2": 3.5736,
+          "df": 2,
+          "p_raw": 0.167493,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 5,
+          "observed_per_window": [
+            438,
+            480,
+            489
+          ],
+          "pct_per_window": [
+            9.2405,
+            10.1266,
+            10.3165
+          ],
+          "pct_pooled": 9.8945,
+          "max_deviation_pp": 1.0759,
+          "chi2": 3.1599,
+          "df": 2,
+          "p_raw": 0.205984,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 8,
+          "observed_per_window": [
+            484,
+            435,
+            473
+          ],
+          "pct_per_window": [
+            10.211,
+            9.1772,
+            9.9789
+          ],
+          "pct_pooled": 9.789,
+          "max_deviation_pp": 1.0338,
+          "chi2": 2.8491,
+          "df": 2,
+          "p_raw": 0.240612,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 9,
+          "observed_per_window": [
+            410,
+            435,
+            457
+          ],
+          "pct_per_window": [
+            8.6498,
+            9.1772,
+            9.6414
+          ],
+          "pct_pooled": 9.1561,
+          "max_deviation_pp": 0.9916,
+          "chi2": 2.5484,
+          "df": 2,
+          "p_raw": 0.279656,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 6,
+          "observed_per_window": [
+            507,
+            460,
+            496
+          ],
+          "pct_per_window": [
+            10.6962,
+            9.7046,
+            10.4641
+          ],
+          "pct_pooled": 10.2883,
+          "max_deviation_pp": 0.9916,
+          "chi2": 2.4785,
+          "df": 2,
+          "p_raw": 0.289606,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 0,
+          "observed_per_window": [
+            466,
+            459,
+            504
+          ],
+          "pct_per_window": [
+            9.8312,
+            9.6835,
+            10.6329
+          ],
+          "pct_pooled": 10.0492,
+          "max_deviation_pp": 0.9494,
+          "chi2": 2.4619,
+          "df": 2,
+          "p_raw": 0.292021,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 9,
+          "observed_per_window": [
+            514,
+            489,
+            469
+          ],
+          "pct_per_window": [
+            10.8439,
+            10.3165,
+            9.8945
+          ],
+          "pct_pooled": 10.3516,
+          "max_deviation_pp": 0.9494,
+          "chi2": 2.072,
+          "df": 2,
+          "p_raw": 0.354869,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 9,
+          "observed_per_window": [
+            494,
+            465,
+            507
+          ],
+          "pct_per_window": [
+            10.4219,
+            9.8101,
+            10.6962
+          ],
+          "pct_pooled": 10.3094,
+          "max_deviation_pp": 0.8861,
+          "chi2": 1.8922,
+          "df": 2,
+          "p_raw": 0.388248,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 4,
+          "observed_per_window": [
+            456,
+            487,
+            449
+          ],
+          "pct_per_window": [
+            9.6203,
+            10.2743,
+            9.4726
+          ],
+          "pct_pooled": 9.789,
+          "max_deviation_pp": 0.8017,
+          "chi2": 1.7629,
+          "df": 2,
+          "p_raw": 0.414175,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 7,
+          "observed_per_window": [
+            484,
+            453,
+            448
+          ],
+          "pct_per_window": [
+            10.211,
+            9.557,
+            9.4515
+          ],
+          "pct_pooled": 9.7398,
+          "max_deviation_pp": 0.7595,
+          "chi2": 1.6477,
+          "df": 2,
+          "p_raw": 0.438749,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 5,
+          "observed_per_window": [
+            459,
+            494,
+            471
+          ],
+          "pct_per_window": [
+            9.6835,
+            10.4219,
+            9.9367
+          ],
+          "pct_pooled": 10.0141,
+          "max_deviation_pp": 0.7384,
+          "chi2": 1.3329,
+          "df": 2,
+          "p_raw": 0.513537,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 4,
+          "observed_per_window": [
+            477,
+            463,
+            443
+          ],
+          "pct_per_window": [
+            10.0633,
+            9.7679,
+            9.346
+          ],
+          "pct_pooled": 9.7257,
+          "max_deviation_pp": 0.7173,
+          "chi2": 1.2668,
+          "df": 2,
+          "p_raw": 0.530781,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 6,
+          "observed_per_window": [
+            546,
+            531,
+            510
+          ],
+          "pct_per_window": [
+            11.519,
+            11.2025,
+            10.7595
+          ],
+          "pct_pooled": 11.1603,
+          "max_deviation_pp": 0.7595,
+          "chi2": 1.2363,
+          "df": 2,
+          "p_raw": 0.538942,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 7,
+          "observed_per_window": [
+            437,
+            448,
+            416
+          ],
+          "pct_per_window": [
+            9.2194,
+            9.4515,
+            8.7764
+          ],
+          "pct_pooled": 9.1491,
+          "max_deviation_pp": 0.6751,
+          "chi2": 1.2191,
+          "df": 2,
+          "p_raw": 0.543606,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 0,
+          "observed_per_window": [
+            444,
+            464,
+            474
+          ],
+          "pct_per_window": [
+            9.3671,
+            9.789,
+            10.0
+          ],
+          "pct_pooled": 9.7187,
+          "max_deviation_pp": 0.6329,
+          "chi2": 1.013,
+          "df": 2,
+          "p_raw": 0.602594,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 0,
+          "observed_per_window": [
+            493,
+            471,
+            465
+          ],
+          "pct_per_window": [
+            10.4008,
+            9.9367,
+            9.8101
+          ],
+          "pct_pooled": 10.0492,
+          "max_deviation_pp": 0.5907,
+          "chi2": 0.9125,
+          "df": 2,
+          "p_raw": 0.633647,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 6,
+          "observed_per_window": [
+            477,
+            473,
+            450
+          ],
+          "pct_per_window": [
+            10.0633,
+            9.9789,
+            9.4937
+          ],
+          "pct_pooled": 9.8453,
+          "max_deviation_pp": 0.5696,
+          "chi2": 0.91,
+          "df": 2,
+          "p_raw": 0.634448,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 3,
+          "observed_per_window": [
+            476,
+            486,
+            505
+          ],
+          "pct_per_window": [
+            10.0422,
+            10.2532,
+            10.654
+          ],
+          "pct_pooled": 10.3165,
+          "max_deviation_pp": 0.6118,
+          "chi2": 0.8875,
+          "df": 2,
+          "p_raw": 0.641618,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 7,
+          "observed_per_window": [
+            486,
+            480,
+            502
+          ],
+          "pct_per_window": [
+            10.2532,
+            10.1266,
+            10.5907
+          ],
+          "pct_pooled": 10.3235,
+          "max_deviation_pp": 0.4641,
+          "chi2": 0.5286,
+          "df": 2,
+          "p_raw": 0.767739,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 8,
+          "observed_per_window": [
+            476,
+            461,
+            481
+          ],
+          "pct_per_window": [
+            10.0422,
+            9.7257,
+            10.1477
+          ],
+          "pct_pooled": 9.9719,
+          "max_deviation_pp": 0.4219,
+          "chi2": 0.4584,
+          "df": 2,
+          "p_raw": 0.795173,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 3,
+          "observed_per_window": [
+            473,
+            471,
+            456
+          ],
+          "pct_per_window": [
+            9.9789,
+            9.9367,
+            9.6203
+          ],
+          "pct_pooled": 9.8453,
+          "max_deviation_pp": 0.3586,
+          "chi2": 0.37,
+          "df": 2,
+          "p_raw": 0.831104,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 2,
+          "observed_per_window": [
+            479,
+            484,
+            468
+          ],
+          "pct_per_window": [
+            10.1055,
+            10.211,
+            9.8734
+          ],
+          "pct_pooled": 10.0633,
+          "max_deviation_pp": 0.3376,
+          "chi2": 0.2809,
+          "df": 2,
+          "p_raw": 0.868957,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 3,
+          "observed_per_window": [
+            469,
+            463,
+            454
+          ],
+          "pct_per_window": [
+            9.8945,
+            9.7679,
+            9.5781
+          ],
+          "pct_pooled": 9.7468,
+          "max_deviation_pp": 0.3165,
+          "chi2": 0.2468,
+          "df": 2,
+          "p_raw": 0.883931,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 2,
+          "observed_per_window": [
+            488,
+            493,
+            479
+          ],
+          "pct_per_window": [
+            10.2954,
+            10.4008,
+            10.1055
+          ],
+          "pct_pooled": 10.2672,
+          "max_deviation_pp": 0.2954,
+          "chi2": 0.2068,
+          "df": 2,
+          "p_raw": 0.901744,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 1,
+          "observed_per_window": [
+            507,
+            493,
+            498
+          ],
+          "pct_per_window": [
+            10.6962,
+            10.4008,
+            10.5063
+          ],
+          "pct_pooled": 10.5345,
+          "max_deviation_pp": 0.2954,
+          "chi2": 0.2016,
+          "df": 2,
+          "p_raw": 0.904113,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 2,
+          "observed_per_window": [
+            464,
+            475,
+            467
+          ],
+          "pct_per_window": [
+            9.789,
+            10.0211,
+            9.8523
+          ],
+          "pct_pooled": 9.8875,
+          "max_deviation_pp": 0.2321,
+          "chi2": 0.138,
+          "df": 2,
+          "p_raw": 0.933336,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 8,
+          "observed_per_window": [
+            468,
+            466,
+            473
+          ],
+          "pct_per_window": [
+            9.8734,
+            9.8312,
+            9.9789
+          ],
+          "pct_pooled": 9.8945,
+          "max_deviation_pp": 0.1477,
+          "chi2": 0.0554,
+          "df": 2,
+          "p_raw": 0.972662,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 4,
+          "observed_per_window": [
+            456,
+            456,
+            455
+          ],
+          "pct_per_window": [
+            9.6203,
+            9.6203,
+            9.5992
+          ],
+          "pct_pooled": 9.6132,
+          "max_deviation_pp": 0.0211,
+          "chi2": 0.0015,
+          "df": 2,
+          "p_raw": 0.999269,
+          "passes_bonferroni": false
+        }
+      ],
+      "per_window_freq_pct": [
+        [
+          [
+            10.40084388185654,
+            10.69620253164557,
+            10.105485232067512,
+            10.042194092827005,
+            10.063291139240507,
+            9.683544303797468,
+            10.063291139240507,
+            10.253164556962027,
+            10.042194092827005,
+            8.649789029535865
+          ],
+          [
+            9.831223628691983,
+            9.324894514767932,
+            10.29535864978903,
+            9.89451476793249,
+            9.620253164556962,
+            10.822784810126581,
+            10.69620253164557,
+            9.219409282700422,
+            9.873417721518987,
+            10.421940928270041
+          ],
+          [
+            9.367088607594937,
+            9.219409282700422,
+            9.78902953586498,
+            9.978902953586498,
+            9.620253164556962,
+            9.240506329113925,
+            11.518987341772153,
+            10.21097046413502,
+            10.21097046413502,
+            10.843881856540085
+          ]
+        ],
+        [
+          [
+            9.936708860759493,
+            10.40084388185654,
+            10.21097046413502,
+            10.253164556962027,
+            9.767932489451477,
+            10.421940928270041,
+            9.978902953586498,
+            10.126582278481013,
+            9.725738396624472,
+            9.177215189873419
+          ],
+          [
+            9.683544303797468,
+            10.464135021097047,
+            10.40084388185654,
+            9.767932489451477,
+            9.620253164556962,
+            11.265822784810126,
+            9.70464135021097,
+            9.451476793248945,
+            9.831223628691983,
+            9.81012658227848
+          ],
+          [
+            9.78902953586498,
+            9.599156118143458,
+            10.021097046413502,
+            9.936708860759493,
+            10.274261603375527,
+            10.126582278481013,
+            11.20253164556962,
+            9.556962025316455,
+            9.177215189873419,
+            10.316455696202532
+          ]
+        ],
+        [
+          [
+            9.81012658227848,
+            10.506329113924052,
+            9.873417721518987,
+            10.654008438818567,
+            9.345991561181433,
+            9.936708860759493,
+            9.49367088607595,
+            10.59071729957806,
+            10.147679324894515,
+            9.641350210970465
+          ],
+          [
+            10.632911392405063,
+            10.29535864978903,
+            10.105485232067512,
+            9.578059071729959,
+            9.599156118143458,
+            9.873417721518987,
+            10.464135021097047,
+            8.776371308016879,
+            9.978902953586498,
+            10.69620253164557
+          ],
+          [
+            10.0,
+            10.654008438818567,
+            9.852320675105485,
+            9.620253164556962,
+            9.472573839662447,
+            10.316455696202532,
+            10.759493670886076,
+            9.451476793248945,
+            9.978902953586498,
+            9.89451476793249
+          ]
+        ]
+      ]
+    },
+    "max_3d": {
+      "product": "max_3d",
+      "n_draws": 1064,
+      "n_windows": 3,
+      "window_boundaries": [
+        [
+          0,
+          354
+        ],
+        [
+          354,
+          708
+        ],
+        [
+          708,
+          1064
+        ]
+      ],
+      "window_totals": [
+        7080,
+        7080,
+        7120
+      ],
+      "bonferroni_k": 30,
+      "alpha_strict": 0.0016666666666666668,
+      "shift_confirmed": false,
+      "n_tuples_fail_bonferroni": 0,
+      "tuples_fail_bonferroni": [],
+      "top_5_by_chi2": [
+        {
+          "position": 0,
+          "digit": 0,
+          "observed_per_window": [
+            778,
+            656,
+            714
+          ],
+          "pct_per_window": [
+            10.9887,
+            9.2655,
+            10.0281
+          ],
+          "pct_pooled": 10.094,
+          "max_deviation_pp": 1.7232,
+          "chi2": 10.4595,
+          "df": 2,
+          "p_raw": 0.005355,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 4,
+          "observed_per_window": [
+            696,
+            748,
+            645
+          ],
+          "pct_per_window": [
+            9.8305,
+            10.565,
+            9.059
+          ],
+          "pct_pooled": 9.8167,
+          "max_deviation_pp": 1.506,
+          "chi2": 8.2036,
+          "df": 2,
+          "p_raw": 0.016542,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 7,
+          "observed_per_window": [
+            701,
+            773,
+            684
+          ],
+          "pct_per_window": [
+            9.9011,
+            10.9181,
+            9.6067
+          ],
+          "pct_pooled": 10.141,
+          "max_deviation_pp": 1.3113,
+          "chi2": 6.6216,
+          "df": 2,
+          "p_raw": 0.036488,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 9,
+          "observed_per_window": [
+            759,
+            687,
+            769
+          ],
+          "pct_per_window": [
+            10.7203,
+            9.7034,
+            10.8006
+          ],
+          "pct_pooled": 10.4088,
+          "max_deviation_pp": 1.0972,
+          "chi2": 5.0947,
+          "df": 2,
+          "p_raw": 0.07829,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 7,
+          "observed_per_window": [
+            733,
+            749,
+            677
+          ],
+          "pct_per_window": [
+            10.3531,
+            10.5791,
+            9.5084
+          ],
+          "pct_pooled": 10.1457,
+          "max_deviation_pp": 1.0707,
+          "chi2": 4.461,
+          "df": 2,
+          "p_raw": 0.107476,
+          "passes_bonferroni": false
+        }
+      ],
+      "all_tuples": [
+        {
+          "position": 0,
+          "digit": 0,
+          "observed_per_window": [
+            778,
+            656,
+            714
+          ],
+          "pct_per_window": [
+            10.9887,
+            9.2655,
+            10.0281
+          ],
+          "pct_pooled": 10.094,
+          "max_deviation_pp": 1.7232,
+          "chi2": 10.4595,
+          "df": 2,
+          "p_raw": 0.005355,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 4,
+          "observed_per_window": [
+            696,
+            748,
+            645
+          ],
+          "pct_per_window": [
+            9.8305,
+            10.565,
+            9.059
+          ],
+          "pct_pooled": 9.8167,
+          "max_deviation_pp": 1.506,
+          "chi2": 8.2036,
+          "df": 2,
+          "p_raw": 0.016542,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 7,
+          "observed_per_window": [
+            701,
+            773,
+            684
+          ],
+          "pct_per_window": [
+            9.9011,
+            10.9181,
+            9.6067
+          ],
+          "pct_pooled": 10.141,
+          "max_deviation_pp": 1.3113,
+          "chi2": 6.6216,
+          "df": 2,
+          "p_raw": 0.036488,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 9,
+          "observed_per_window": [
+            759,
+            687,
+            769
+          ],
+          "pct_per_window": [
+            10.7203,
+            9.7034,
+            10.8006
+          ],
+          "pct_pooled": 10.4088,
+          "max_deviation_pp": 1.0972,
+          "chi2": 5.0947,
+          "df": 2,
+          "p_raw": 0.07829,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 7,
+          "observed_per_window": [
+            733,
+            749,
+            677
+          ],
+          "pct_per_window": [
+            10.3531,
+            10.5791,
+            9.5084
+          ],
+          "pct_pooled": 10.1457,
+          "max_deviation_pp": 1.0707,
+          "chi2": 4.461,
+          "df": 2,
+          "p_raw": 0.107476,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 9,
+          "observed_per_window": [
+            662,
+            710,
+            645
+          ],
+          "pct_per_window": [
+            9.3503,
+            10.0282,
+            9.059
+          ],
+          "pct_pooled": 9.4784,
+          "max_deviation_pp": 0.9693,
+          "chi2": 3.7023,
+          "df": 2,
+          "p_raw": 0.157056,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 4,
+          "observed_per_window": [
+            691,
+            743,
+            766
+          ],
+          "pct_per_window": [
+            9.7599,
+            10.4944,
+            10.7584
+          ],
+          "pct_pooled": 10.3383,
+          "max_deviation_pp": 0.9985,
+          "chi2": 3.6735,
+          "df": 2,
+          "p_raw": 0.159331,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 7,
+          "observed_per_window": [
+            711,
+            726,
+            662
+          ],
+          "pct_per_window": [
+            10.0424,
+            10.2542,
+            9.2978
+          ],
+          "pct_pooled": 9.8637,
+          "max_deviation_pp": 0.9565,
+          "chi2": 3.6359,
+          "df": 2,
+          "p_raw": 0.162357,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 5,
+          "observed_per_window": [
+            670,
+            724,
+            735
+          ],
+          "pct_per_window": [
+            9.4633,
+            10.226,
+            10.323
+          ],
+          "pct_pooled": 10.0047,
+          "max_deviation_pp": 0.8598,
+          "chi2": 3.1422,
+          "df": 2,
+          "p_raw": 0.207821,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 6,
+          "observed_per_window": [
+            761,
+            759,
+            820
+          ],
+          "pct_per_window": [
+            10.7486,
+            10.7203,
+            11.5169
+          ],
+          "pct_pooled": 10.9962,
+          "max_deviation_pp": 0.7965,
+          "chi2": 2.64,
+          "df": 2,
+          "p_raw": 0.267141,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 0,
+          "observed_per_window": [
+            665,
+            702,
+            725
+          ],
+          "pct_per_window": [
+            9.3927,
+            9.9153,
+            10.1826
+          ],
+          "pct_pooled": 9.8308,
+          "max_deviation_pp": 0.7899,
+          "chi2": 2.3302,
+          "df": 2,
+          "p_raw": 0.311894,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 2,
+          "observed_per_window": [
+            743,
+            714,
+            770
+          ],
+          "pct_per_window": [
+            10.4944,
+            10.0847,
+            10.8146
+          ],
+          "pct_pooled": 10.4652,
+          "max_deviation_pp": 0.7299,
+          "chi2": 1.8156,
+          "df": 2,
+          "p_raw": 0.403412,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 1,
+          "observed_per_window": [
+            711,
+            720,
+            681
+          ],
+          "pct_per_window": [
+            10.0424,
+            10.1695,
+            9.5646
+          ],
+          "pct_pooled": 9.9248,
+          "max_deviation_pp": 0.6049,
+          "chi2": 1.4565,
+          "df": 2,
+          "p_raw": 0.48276,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 0,
+          "observed_per_window": [
+            727,
+            746,
+            705
+          ],
+          "pct_per_window": [
+            10.2684,
+            10.5367,
+            9.9017
+          ],
+          "pct_pooled": 10.235,
+          "max_deviation_pp": 0.635,
+          "chi2": 1.4103,
+          "df": 2,
+          "p_raw": 0.494033,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 2,
+          "observed_per_window": [
+            688,
+            650,
+            688
+          ],
+          "pct_per_window": [
+            9.7175,
+            9.1808,
+            9.6629
+          ],
+          "pct_pooled": 9.5207,
+          "max_deviation_pp": 0.5367,
+          "chi2": 1.2985,
+          "df": 2,
+          "p_raw": 0.522433,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 6,
+          "observed_per_window": [
+            695,
+            670,
+            715
+          ],
+          "pct_per_window": [
+            9.8164,
+            9.4633,
+            10.0421
+          ],
+          "pct_pooled": 9.7744,
+          "max_deviation_pp": 0.5789,
+          "chi2": 1.2361,
+          "df": 2,
+          "p_raw": 0.539004,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 8,
+          "observed_per_window": [
+            640,
+            677,
+            650
+          ],
+          "pct_per_window": [
+            9.0395,
+            9.5621,
+            9.1292
+          ],
+          "pct_pooled": 9.2434,
+          "max_deviation_pp": 0.5226,
+          "chi2": 1.1969,
+          "df": 2,
+          "p_raw": 0.549655,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 9,
+          "observed_per_window": [
+            676,
+            669,
+            710
+          ],
+          "pct_per_window": [
+            9.548,
+            9.4492,
+            9.9719
+          ],
+          "pct_pooled": 9.657,
+          "max_deviation_pp": 0.5228,
+          "chi2": 1.135,
+          "df": 2,
+          "p_raw": 0.566954,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 2,
+          "observed_per_window": [
+            690,
+            704,
+            732
+          ],
+          "pct_per_window": [
+            9.7458,
+            9.9435,
+            10.2809
+          ],
+          "pct_pooled": 9.9906,
+          "max_deviation_pp": 0.5351,
+          "chi2": 1.0411,
+          "df": 2,
+          "p_raw": 0.594187,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 3,
+          "observed_per_window": [
+            715,
+            681,
+            705
+          ],
+          "pct_per_window": [
+            10.0989,
+            9.6186,
+            9.9017
+          ],
+          "pct_pooled": 9.8731,
+          "max_deviation_pp": 0.4802,
+          "chi2": 0.8357,
+          "df": 2,
+          "p_raw": 0.658455,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 5,
+          "observed_per_window": [
+            769,
+            734,
+            753
+          ],
+          "pct_per_window": [
+            10.8616,
+            10.3672,
+            10.5758
+          ],
+          "pct_pooled": 10.6015,
+          "max_deviation_pp": 0.4944,
+          "chi2": 0.8227,
+          "df": 2,
+          "p_raw": 0.662763,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 1,
+          "observed_per_window": [
+            702,
+            680,
+            707
+          ],
+          "pct_per_window": [
+            9.9153,
+            9.6045,
+            9.9298
+          ],
+          "pct_pooled": 9.8167,
+          "max_deviation_pp": 0.3253,
+          "chi2": 0.4875,
+          "df": 2,
+          "p_raw": 0.78369,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 8,
+          "observed_per_window": [
+            715,
+            705,
+            733
+          ],
+          "pct_per_window": [
+            10.0989,
+            9.9576,
+            10.2949
+          ],
+          "pct_pooled": 10.1175,
+          "max_deviation_pp": 0.3373,
+          "chi2": 0.4029,
+          "df": 2,
+          "p_raw": 0.817558,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 5,
+          "observed_per_window": [
+            729,
+            710,
+            714
+          ],
+          "pct_per_window": [
+            10.2966,
+            10.0282,
+            10.0281
+          ],
+          "pct_pooled": 10.1175,
+          "max_deviation_pp": 0.2685,
+          "chi2": 0.3365,
+          "df": 2,
+          "p_raw": 0.845146,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 8,
+          "observed_per_window": [
+            693,
+            692,
+            714
+          ],
+          "pct_per_window": [
+            9.7881,
+            9.774,
+            10.0281
+          ],
+          "pct_pooled": 9.8637,
+          "max_deviation_pp": 0.2541,
+          "chi2": 0.2938,
+          "df": 2,
+          "p_raw": 0.863383,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 3,
+          "observed_per_window": [
+            727,
+            710,
+            713
+          ],
+          "pct_per_window": [
+            10.2684,
+            10.0282,
+            10.014
+          ],
+          "pct_pooled": 10.1034,
+          "max_deviation_pp": 0.2543,
+          "chi2": 0.2865,
+          "df": 2,
+          "p_raw": 0.866522,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 6,
+          "observed_per_window": [
+            694,
+            688,
+            708
+          ],
+          "pct_per_window": [
+            9.8023,
+            9.7175,
+            9.9438
+          ],
+          "pct_pooled": 9.8214,
+          "max_deviation_pp": 0.2263,
+          "chi2": 0.1891,
+          "df": 2,
+          "p_raw": 0.909789,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 2,
+          "digit": 4,
+          "observed_per_window": [
+            676,
+            687,
+            690
+          ],
+          "pct_per_window": [
+            9.548,
+            9.7034,
+            9.691
+          ],
+          "pct_pooled": 9.6476,
+          "max_deviation_pp": 0.1554,
+          "chi2": 0.1095,
+          "df": 2,
+          "p_raw": 0.946714,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 1,
+          "digit": 3,
+          "observed_per_window": [
+            709,
+            714,
+            707
+          ],
+          "pct_per_window": [
+            10.0141,
+            10.0847,
+            9.9298
+          ],
+          "pct_pooled": 10.0094,
+          "max_deviation_pp": 0.155,
+          "chi2": 0.0854,
+          "df": 2,
+          "p_raw": 0.958193,
+          "passes_bonferroni": false
+        },
+        {
+          "position": 0,
+          "digit": 1,
+          "observed_per_window": [
+            714,
+            712,
+            723
+          ],
+          "pct_per_window": [
+            10.0847,
+            10.0565,
+            10.1545
+          ],
+          "pct_pooled": 10.0987,
+          "max_deviation_pp": 0.098,
+          "chi2": 0.0358,
+          "df": 2,
+          "p_raw": 0.982259,
+          "passes_bonferroni": false
+        }
+      ],
+      "per_window_freq_pct": [
+        [
+          [
+            10.98870056497175,
+            10.084745762711865,
+            9.745762711864407,
+            10.268361581920903,
+            9.759887005649718,
+            10.296610169491526,
+            9.81638418079096,
+            9.901129943502825,
+            9.788135593220339,
+            9.350282485875706
+          ],
+          [
+            9.392655367231638,
+            9.915254237288137,
+            10.494350282485875,
+            10.014124293785311,
+            9.830508474576272,
+            10.861581920903955,
+            9.80225988700565,
+            10.042372881355933,
+            10.098870056497175,
+            9.548022598870057
+          ],
+          [
+            10.268361581920903,
+            10.042372881355933,
+            9.717514124293785,
+            10.098870056497175,
+            9.548022598870057,
+            9.463276836158192,
+            10.748587570621469,
+            10.353107344632768,
+            9.03954802259887,
+            10.720338983050848
+          ]
+        ],
+        [
+          [
+            9.265536723163843,
+            10.056497175141244,
+            9.943502824858758,
+            10.028248587570623,
+            10.494350282485875,
+            10.028248587570623,
+            9.463276836158192,
+            10.918079096045199,
+            9.77401129943503,
+            10.028248587570623
+          ],
+          [
+            9.915254237288137,
+            9.6045197740113,
+            10.084745762711865,
+            10.084745762711865,
+            10.564971751412429,
+            10.367231638418078,
+            9.717514124293785,
+            10.254237288135592,
+            9.957627118644067,
+            9.44915254237288
+          ],
+          [
+            10.536723163841808,
+            10.16949152542373,
+            9.180790960451978,
+            9.618644067796609,
+            9.703389830508474,
+            10.225988700564972,
+            10.720338983050848,
+            10.57909604519774,
+            9.562146892655367,
+            9.703389830508474
+          ]
+        ],
+        [
+          [
+            10.02808988764045,
+            10.154494382022472,
+            10.280898876404494,
+            10.014044943820224,
+            10.758426966292136,
+            10.02808988764045,
+            10.042134831460674,
+            9.606741573033707,
+            10.02808988764045,
+            9.058988764044944
+          ],
+          [
+            10.182584269662922,
+            9.929775280898877,
+            10.814606741573034,
+            9.929775280898877,
+            9.058988764044944,
+            10.575842696629213,
+            9.9438202247191,
+            9.297752808988765,
+            10.29494382022472,
+            9.97191011235955
+          ],
+          [
+            9.901685393258427,
+            9.564606741573034,
+            9.662921348314606,
+            9.901685393258427,
+            9.691011235955056,
+            10.323033707865168,
+            11.51685393258427,
+            9.508426966292134,
+            9.129213483146067,
+            10.800561797752808
+          ]
+        ]
+      ]
+    }
+  }
+}

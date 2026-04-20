@@ -33,7 +33,11 @@ research/
 │   ├── backtest.py                 ← Backtest 12 thuật toán cơ bản
 │   ├── backtest_results.json       ← Kết quả backtest cơ bản
 │   ├── advanced_backtest.py        ← Backtest 11 thuật toán nâng cao (từ nghiên cứu)
-│   └── advanced_backtest_results.json ← Kết quả backtest nâng cao
+│   ├── advanced_backtest_results.json ← Kết quả backtest nâng cao
+│   ├── cycle7_replication.py       ← 🔬 Chu kỳ 7: split-half replication cho FreqWholeHot + EVMaximizer
+│   ├── cycle7_replication_results.json ← Kết quả replication — cả 2 candidates Reject
+│   ├── cycle8_drift_analysis.py    ← 🔬 Chu kỳ 8: 3-window digit homogeneity test (drift verification)
+│   └── cycle8_drift_analysis_results.json ← Kết quả — no drift confirmed, 3D research paused
 │
 ├── Random_Analysis_Agent.md        ← Source system prompt (đã incorporated vào METHODOLOGY — giữ làm reference)
 ├── RNG_ANALYSIS_REPORT.md          ← ⚠️ Snapshot analysis 516 draws (2026-04-14) — superseded bởi matrix/power535_deep_analysis
@@ -227,13 +231,15 @@ Nghiên cứu xong → Chạy backtest → Cập nhật 3 file website:
 | Lotto 5/35 (single) | Adaptive | +0.038 | 1.90% | 0.157 | Reject |
 | Lotto 5/35 (N=20 wheel) | MinDistanceWheel | +2.66pp | 26.80% | 0.118 | Reject |
 
-### 3D — Top thuật toán (Exact Match %, updated 2026-04-20 Chu kỳ 6)
+### 3D — Top thuật toán (Exact Match %, updated 2026-04-20 Chu kỳ 8)
 
-| Sản phẩm | Top theo Δ | Exact % | ROI | p_raw | Decision |
-|----------|:---:|:---:|:---:|:---:|:---:|
-| Max 3D | FreqWholeHot | 2.35% | -32.8% | 0.066 | Reject (near-miss) |
-| Max 3D Pro | EVMaximizer | 2.50% | -26.5% | **0.053** | Reject (near-miss, closest to Accept) |
+| Sản phẩm | Strategy | Full-sample p | Split-half p1 / p2 | Decision |
+|----------|:---:|:---:|:---:|:---:|
+| Max 3D | FreqWholeHot | 0.066 (near-miss) | 0.558 / 0.488 | **Reject** (both halves non-sig) |
+| Max 3D Pro | EVMaximizer | 0.053 (near-miss) | **0.0007** / 0.865 | **Reject** (base-rate noise, not drift) |
 
-**Tất cả 3D strategies Reject sau z-test.** EVMaximizer 3D Pro (p=0.053) là closest-to-Accept across all products — candidate replicate cho Chu kỳ 7.
+**Tất cả 3D strategies Reject sau replication + drift verification.**
+
+**Chu kỳ 8 finding**: Digit bias stable qua 3 time windows (0/30 tuples fail Bonferroni homogeneity). EVMaximizer's half-1 p=0.0007 xuất phát từ **base-rate variance** (Random half-1 = 1.77% vs half-2 = 2.02%), **không** phải distribution shift. Với bias ổn định nhưng không exploitable + không drift để adapt → **3D research paused**. Full details: [RESEARCH_HISTORY Chu Kỳ 8](RESEARCH_HISTORY.md#chu-kỳ-8--pre-registration-distribution-shift-analysis--adaptive-exploitation-for-max-3d-pro-042026).
 
 > **Lưu ý**: Xổ số là hoàn toàn ngẫu nhiên. Không thuật toán nào đảm bảo lợi nhuận. ROI luôn âm.

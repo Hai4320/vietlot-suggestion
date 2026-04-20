@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "cycle": "Chu Kỳ 7",
+    "methodology": "split-half time-ordered replication",
+    "bonferroni_k": 2,
+    "alpha_strict": 0.025,
+    "n_runs": 5,
+    "n_predictions_per_draw": 2,
+    "seed": 42,
+    "elapsed_seconds_total": 3.92
+  },
+  "hypotheses": {
+    "H1_max3d_FreqWholeHot": {
+      "product": "max_3d",
+      "n_draws": 1064,
+      "midpoint": 532,
+      "segments": {
+        "half1": {
+          "baseline": {
+            "start_idx": 50,
+            "end_idx": 532,
+            "total_predictions": 2410,
+            "total_trials": 4820,
+            "exact_matches_total": 91,
+            "exact_match_rate_pct": 1.888,
+            "tier_hits": {
+              "Giải ba": 44,
+              "Giải Nhất": 19,
+              "Giải Nhì": 19,
+              "Giải Đặc biệt": 9
+            },
+            "elapsed_seconds": 0.0
+          },
+          "strategy": {
+            "start_idx": 50,
+            "end_idx": 532,
+            "total_predictions": 2410,
+            "total_trials": 4820,
+            "exact_matches_total": 99,
+            "exact_match_rate_pct": 2.0539,
+            "tier_hits": {
+              "Giải Nhì": 29,
+              "Giải ba": 40,
+              "Giải Nhất": 23,
+              "Giải Đặc biệt": 7
+            },
+            "elapsed_seconds": 0.76
+          },
+          "significance": {
+            "metric": "exact_match_rate",
+            "baseline_name": "Random",
+            "strategy_rate_pct": 2.0539,
+            "baseline_rate_pct": 1.888,
+            "strategy_hits": 99,
+            "strategy_n": 4820,
+            "baseline_hits": 91,
+            "baseline_n": 4820,
+            "delta_pp": 0.166,
+            "z": 0.5862,
+            "p_value_raw": 0.55775,
+            "p_value_method": "two_proportion_z_pooled",
+            "bonferroni_k": 2,
+            "bonferroni_threshold": 0.025,
+            "passes_bonferroni": false,
+            "ci95_lo_pp": -0.393,
+            "ci95_hi_pp": 0.727,
+            "decision": "Reject"
+          }
+        },
+        "half2": {
+          "baseline": {
+            "start_idx": 532,
+            "end_idx": 1064,
+            "total_predictions": 2660,
+            "total_trials": 5320,
+            "exact_matches_total": 101,
+            "exact_match_rate_pct": 1.8985,
+            "tier_hits": {
+              "Giải Nhì": 33,
+              "Giải Đặc biệt": 9,
+              "Giải ba": 39,
+              "Giải Nhất": 20
+            },
+            "elapsed_seconds": 0.01
+          },
+          "strategy": {
+            "start_idx": 532,
+            "end_idx": 1064,
+            "total_predictions": 2660,
+            "total_trials": 5320,
+            "exact_matches_total": 111,
+            "exact_match_rate_pct": 2.0865,
+            "tier_hits": {
+              "Giải Nhất": 29,
+              "Giải Nhì": 28,
+              "Giải ba": 46,
+              "Giải Đặc biệt": 8
+            },
+            "elapsed_seconds": 0.93
+          },
+          "significance": {
+            "metric": "exact_match_rate",
+            "baseline_name": "Random",
+            "strategy_rate_pct": 2.0865,
+            "baseline_rate_pct": 1.8985,
+            "strategy_hits": 111,
+            "strategy_n": 5320,
+            "baseline_hits": 101,
+            "baseline_n": 5320,
+            "delta_pp": 0.188,
+            "z": 0.6937,
+            "p_value_raw": 0.48784,
+            "p_value_method": "two_proportion_z_pooled",
+            "bonferroni_k": 2,
+            "bonferroni_threshold": 0.025,
+            "passes_bonferroni": false,
+            "ci95_lo_pp": -0.3464,
+            "ci95_hi_pp": 0.7243,
+            "decision": "Reject"
+          }
+        }
+      },
+      "replication": {
+        "decision": "Reject",
+        "reason": "neither half p<0.05 (p1=0.5577, p2=0.4878)",
+        "half1": {
+          "p": 0.55775,
+          "delta_pp": 0.166
+        },
+        "half2": {
+          "p": 0.48784,
+          "delta_pp": 0.188
+        },
+        "alpha_strict": 0.025
+      }
+    },
+    "H2_max3dpro_EVMaximizer": {
+      "product": "max_3d_pro",
+      "n_draws": 711,
+      "midpoint": 355,
+      "segments": {
+        "half1": {
+          "baseline": {
+            "start_idx": 50,
+            "end_idx": 355,
+            "total_predictions": 1525,
+            "total_trials": 3050,
+            "exact_matches_total": 54,
+            "exact_match_rate_pct": 1.7705,
+            "tier_hits": {
+              "Giải ba": 16,
+              "Giải Nhì": 19,
+              "Giải Đặc biệt": 3,
+              "Giải Nhất": 16
+            },
+            "elapsed_seconds": 0.0
+          },
+          "strategy": {
+            "start_idx": 50,
+            "end_idx": 355,
+            "total_predictions": 1525,
+            "total_trials": 3050,
+            "exact_matches_total": 95,
+            "exact_match_rate_pct": 3.1148,
+            "tier_hits": {
+              "Giải ba": 30,
+              "Giải Nhì": 35,
+              "Giải Nhất": 20,
+              "Giải Đặc biệt": 10
+            },
+            "elapsed_seconds": 0.81
+          },
+          "significance": {
+            "metric": "exact_match_rate",
+            "baseline_name": "Random",
+            "strategy_rate_pct": 3.1148,
+            "baseline_rate_pct": 1.7705,
+            "strategy_hits": 95,
+            "strategy_n": 3050,
+            "baseline_hits": 54,
+            "baseline_n": 3050,
+            "delta_pp": 1.3443,
+            "z": 3.4006,
+            "p_value_raw": 0.000672,
+            "p_value_method": "two_proportion_z_pooled",
+            "bonferroni_k": 2,
+            "bonferroni_threshold": 0.025,
+            "passes_bonferroni": true,
+            "ci95_lo_pp": 0.5716,
+            "ci95_hi_pp": 2.137,
+            "decision": "Accept"
+          }
+        },
+        "half2": {
+          "baseline": {
+            "start_idx": 355,
+            "end_idx": 711,
+            "total_predictions": 1780,
+            "total_trials": 3560,
+            "exact_matches_total": 72,
+            "exact_match_rate_pct": 2.0225,
+            "tier_hits": {
+              "Giải Nhì": 20,
+              "Giải ba": 28,
+              "Giải Đặc biệt": 8,
+              "Giải Nhất": 16
+            },
+            "elapsed_seconds": 0.0
+          },
+          "strategy": {
+            "start_idx": 355,
+            "end_idx": 711,
+            "total_predictions": 1780,
+            "total_trials": 3560,
+            "exact_matches_total": 70,
+            "exact_match_rate_pct": 1.9663,
+            "tier_hits": {
+              "Giải ba": 25,
+              "Giải Đặc biệt": 10,
+              "Giải Nhì": 25,
+              "Giải Nhất": 10
+            },
+            "elapsed_seconds": 1.4
+          },
+          "significance": {
+            "metric": "exact_match_rate",
+            "baseline_name": "Random",
+            "strategy_rate_pct": 1.9663,
+            "baseline_rate_pct": 2.0225,
+            "strategy_hits": 70,
+            "strategy_n": 3560,
+            "baseline_hits": 72,
+            "baseline_n": 3560,
+            "delta_pp": -0.0562,
+            "z": -0.1695,
+            "p_value_raw": 0.865376,
+            "p_value_method": "two_proportion_z_pooled",
+            "bonferroni_k": 2,
+            "bonferroni_threshold": 0.025,
+            "passes_bonferroni": false,
+            "ci95_lo_pp": -0.714,
+            "ci95_hi_pp": 0.6007,
+            "decision": "Reject"
+          }
+        }
+      },
+      "replication": {
+        "decision": "Reject",
+        "reason": "direction inconsistent: delta_half1=+1.344pp, delta_half2=-0.056pp",
+        "half1": {
+          "p": 0.000672,
+          "delta_pp": 1.3443
+        },
+        "half2": {
+          "p": 0.865376,
+          "delta_pp": -0.0562
+        }
+      }
+    }
+  }
+}
