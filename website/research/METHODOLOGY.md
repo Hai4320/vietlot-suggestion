@@ -197,6 +197,41 @@ Bài học từ Chu kỳ 5 Phase 2a: single-ticket không thể exploit parity b
 
 **Sau**: Nếu Phase 1 không pass Bonferroni, **phải** dừng và ghi lại. Không được mở rộng test battery post-hoc.
 
+### 3.5 Split-half replication mandatory cho Suggestive → Accept (Principle #11 — từ Chu kỳ 7+9)
+
+**Bối cảnh**: Sau Chu kỳ 7 (3D replication, 2/2 Reject) + Chu kỳ 9 (Mega 6/45 ExpDecay_Cold, direction-flip Reject) = **3/3 Suggestive candidates fail replication**.
+
+**Rule (binding)**: Mọi strategy đạt full-sample `p_raw < 0.05` trên Phase 3 backtest phải chạy **split-half replication** trước khi được classify là Suggestive hoặc cao hơn.
+
+**Implementation**:
+- Time-ordered split tại `N // 2` (không random shuffle — preserve walk-forward semantics).
+- Half 1 predictions on `draws[min_history, N/2)`, Half 2 on `draws[N/2, N)`. Train = `draws[:i]` (growing).
+- Baseline **reset per half** — Random của half 1 độc lập với Random của half 2 (xem Principle #12).
+- Decision rule (pre-registered, binding — same thresholds across all cycles):
+
+  | Half 1 p_raw | Half 2 p_raw | Direction | Replication decision |
+  |:-:|:-:|:-:|:-:|
+  | < 0.025 | < 0.025 | Δ > 0 cả hai | **Accept** |
+  | < 0.05 | < 0.05 | Δ > 0 cả hai | **Suggestive** (keep) |
+  | < 0.05 một half, ≥ 0.05 half kia | — | Δ > 0 cả hai | **Inconclusive** |
+  | Còn lại (direction flip included) | — | — | **Reject** |
+
+**Anti-pattern**: "Full-sample p=0.0044 là đủ để ship" → sai. Chu kỳ 9 cho thấy full-sample p có thể được drive hoàn toàn bởi pooling artifact — pool 2 halves có flip direction tạo spurious low p-value khi baseline drift across halves. Chỉ split-half mới phát hiện.
+
+### 3.6 Variable-baseline power analysis pre-cycle (Principle #12 — từ Chu kỳ 8+9)
+
+**Bối cảnh**: Chu kỳ 8 phát hiện Random baseline tự nó flutter ±0.25-0.30pp giữa halves. Khi true edge <0.5pp, effect size không detect được ngay cả khi strategy thật sự có edge.
+
+**Rule**: Trước khi chạy replication cycle, tính `n_required` theo công thức two-proportion với variable baseline:
+
+```
+n_per_half ≈ (z_α + z_β)² × [p_s(1−p_s) + p_b(1−p_b)] / δ²
+```
+
+Với α=0.05, power=80% (z_α=1.96, z_β=0.84). Nếu `n_runs × n_draws_per_half < n_per_half` → tăng n_runs hoặc report limitation rõ ràng trong HISTORY. Không claim Accept nếu power <80%.
+
+**Anti-pattern**: Dựa trên single-rate power formula (coi baseline cố định) → underestimate n cần thiết. Power analysis phải account for baseline variance.
+
 ---
 
 ## 4. Anti-patterns (Đã Gặp)
@@ -248,4 +283,6 @@ Phase 3 p-value < 0.05 sau Bonferroni?
 
 ---
 
-*Cập nhật: 2026-04-20 — Hợp nhất PLAN + PLAYBOOK + Quant Agent thành pipeline duy nhất; codify pre-registration, significance-on-delta, R1 gate.*
+*Cập nhật: 2026-04-20 — (Chu kỳ 9) thêm §3.5 Split-half replication mandatory (Principle #11) và §3.6 Variable-baseline power analysis (Principle #12) sau 3/3 Suggestive candidates fail replication.*
+
+*2026-04-20 — Hợp nhất PLAN + PLAYBOOK + Quant Agent thành pipeline duy nhất; codify pre-registration, significance-on-delta, R1 gate.*

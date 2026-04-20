@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "cycle": "Chu K\u1ef3 9",
+    "methodology": "split-half time-ordered replication",
+    "product": "power_645",
+    "bonferroni_k": 1,
+    "alpha_strict_crosshalf": 0.025,
+    "alpha_nominal": 0.05,
+    "min_history": 100,
+    "n_runs": 7,
+    "seed": 42,
+    "n_draws_total": 1302,
+    "elapsed_seconds_total": 49.85
+  },
+  "hypotheses": {
+    "H1_mega645_ExpDecayCold90": {
+      "product": "power_645",
+      "strategy": "ExpDecay_Cold",
+      "strategy_params": {
+        "half_life": 90
+      },
+      "baseline": "Random",
+      "n_draws": 1302,
+      "midpoint": 651,
+      "min_history": 100,
+      "n_runs": 7,
+      "seed": 42,
+      "segments": {
+        "half1": {
+          "baseline": {
+            "start_idx": 100,
+            "end_idx": 651,
+            "n_draws_segment": 551,
+            "total_predictions": 3857,
+            "avg_matches": 0.8053,
+            "wins_ge3": 100,
+            "win_rate_pct": 2.5927,
+            "elapsed_seconds": 0.08
+          },
+          "strategy": {
+            "start_idx": 100,
+            "end_idx": 651,
+            "n_draws_segment": 551,
+            "total_predictions": 3857,
+            "avg_matches": 0.7903,
+            "wins_ge3": 90,
+            "win_rate_pct": 2.3334,
+            "elapsed_seconds": 11.99
+          },
+          "significance": {
+            "metric": "win_rate_ge3",
+            "baseline_name": "Random",
+            "strategy_rate_pct": 2.3334,
+            "baseline_rate_pct": 2.5927,
+            "strategy_hits": 90,
+            "strategy_n": 3857,
+            "baseline_hits": 100,
+            "baseline_n": 3857,
+            "delta_pp": -0.2593,
+            "z": -0.7346,
+            "p_value_raw": 0.462596,
+            "p_value_method": "two_proportion_z_pooled",
+            "bonferroni_k": 1,
+            "bonferroni_threshold": 0.05,
+            "passes_bonferroni": false,
+            "ci95_lo_pp": -0.9586,
+            "ci95_hi_pp": 0.4371,
+            "decision": "Reject"
+          }
+        },
+        "half2": {
+          "baseline": {
+            "start_idx": 651,
+            "end_idx": 1302,
+            "n_draws_segment": 651,
+            "total_predictions": 4557,
+            "avg_matches": 0.8069,
+            "wins_ge3": 91,
+            "win_rate_pct": 1.9969,
+            "elapsed_seconds": 0.1
+          },
+          "strategy": {
+            "start_idx": 651,
+            "end_idx": 1302,
+            "n_draws_segment": 651,
+            "total_predictions": 4557,
+            "avg_matches": 0.7821,
+            "wins_ge3": 108,
+            "win_rate_pct": 2.37,
+            "elapsed_seconds": 37.67
+          },
+          "significance": {
+            "metric": "win_rate_ge3",
+            "baseline_name": "Random",
+            "strategy_rate_pct": 2.37,
+            "baseline_rate_pct": 1.9969,
+            "strategy_hits": 108,
+            "strategy_n": 4557,
+            "baseline_hits": 91,
+            "baseline_n": 4557,
+            "delta_pp": 0.3731,
+            "z": 1.2185,
+            "p_value_raw": 0.223044,
+            "p_value_method": "two_proportion_z_pooled",
+            "bonferroni_k": 1,
+            "bonferroni_threshold": 0.05,
+            "passes_bonferroni": false,
+            "ci95_lo_pp": -0.23,
+            "ci95_hi_pp": 0.9803,
+            "decision": "Reject"
+          }
+        }
+      },
+      "replication": {
+        "decision": "Reject",
+        "reason": "direction inconsistent: delta_half1=-0.259pp, delta_half2=+0.373pp",
+        "half1": {
+          "p": 0.462596,
+          "delta_pp": -0.2593
+        },
+        "half2": {
+          "p": 0.223044,
+          "delta_pp": 0.3731
+        },
+        "alpha_strict_crosshalf": 0.025
+      }
+    }
+  }
+}
