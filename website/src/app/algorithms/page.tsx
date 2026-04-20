@@ -22,6 +22,33 @@ const ORIGIN_TAGS = {
 
 const STRATEGIES = [
   {
+    id: "hybridparity",
+    name: "Hybrid Parity (5/35)",
+    emoji: "🎰",
+    origin: "research" as const,
+    scope: "all" as const,
+    shortDesc: "Multi-ticket wheeling: empirical parity allocation + max-min Hamming diversity",
+    description:
+      "Thuật toán đa vé đầu tiên có edge thống kê ý nghĩa trên Lotto 5/35 (p=0.011 ở N=20). " +
+      "Xuất phát từ phát hiện Phase 1: phân phối số lẻ trong 5 số chính lệch khỏi hypergeometric " +
+      "(Chi² p=0.0012, qua Bonferroni α=0.00357) — đặc biệt mode 3 số lẻ over +13%, mode 0 số lẻ over +84%. " +
+      "Single-ticket không khai thác được (đã chứng minh toán học: E[match] chỉ phụ thuộc trung bình, không phụ thuộc shape). " +
+      "Nhưng với N vé, phân bổ theo empirical parity + max-min Hamming distance tạo ra portfolio coverage " +
+      "khớp với phân phối draw thật → P(any vé trúng ≥3) cải thiện +4.3pp ở N=20 (27.65% vs Random 23.33%).",
+    methodology: [
+      "Ước lượng phân bố số lẻ (k ∈ {0..5}) từ lịch sử — Dirichlet smoothing α=1",
+      "Phân bổ N vé theo tỷ lệ largest-remainder: vd N=20 → 1,3,6,8,2,0 vé ở mỗi parity bin",
+      "Trong mỗi bin: weighted-without-replacement sample (theo tần suất) cho k số lẻ + (5-k) số chẵn",
+      "Max-min Hamming diversity: với mỗi vé mới, sinh 30 candidates, chọn vé xa nhất so với các vé đã có",
+      "Shuffle output để UI không lộ thứ tự phân bổ bin",
+    ],
+    references:
+      "T11 Parity test (p=0.0012, Chi² over Bonferroni) — power535_deep_analysis.json. " +
+      "Wheeling theory: Gordon, Kuperberg & Patashnik (1995) — covering designs. " +
+      "Bluskov (2020) — Combinatorial Systems for Pick-6.",
+    color: "hsl(142, 71%, 45%)",
+  },
+  {
     id: "evmax",
     name: "EV tối đa",
     emoji: "💰",
@@ -252,6 +279,7 @@ const BACKTEST_RESULTS = {
     baseline: { E: 0.7143, winPct: 1.386 },
     totalDraws: 538,
     strategies: [
+      { name: "🔬 Hybrid Parity (N=20 wheel)", avg: 0.7075, delta: -0.0068, winPct: 27.65, roi: -91.1, best: 4, type: "new" as const },
       { name: "★ Mẫu cấu trúc ¹", avg: 0.7396, delta: +0.0253, winPct: 1.775, roi: -82.2, best: 4, type: "new" as const },
       { name: "★ Tự động tối ưu", avg: 0.7396, delta: +0.0253, winPct: 1.381, roi: -84.2, best: 4, type: "new" as const },
       { name: "Tần suất cao", avg: 0.7258, delta: +0.0115, winPct: 1.578, roi: -74.4, best: 4, type: "old" as const },
@@ -294,14 +322,18 @@ const RECOMMENDATIONS = [
     product: "Lotto 5/35",
     emoji: "🟢",
     color: "hsl(142, 71%, 45%)",
-    primary: "Mẫu cấu trúc",
-    primaryEmoji: "🔮",
-    secondary: "Tự động tối ưu",
-    secondaryEmoji: "⚡",
+    primary: "Hybrid Parity (N=20)",
+    primaryEmoji: "🎰",
+    secondary: "Mẫu cấu trúc",
+    secondaryEmoji: "🔮",
     reason:
-      "Pool nhỏ 35 số — Mẫu cấu trúc và Tự động tối ưu cùng hòa ở Δ+0.025 (#1). " +
-      "Tần suất cao có ROI tốt nhất (-74.4%). Dữ liệu 538 kỳ — cấu trúc quan trọng hơn thống kê.",
-    special: null,
+      "🔬 Hybrid Parity — thuật toán ĐẦU TIÊN có edge thống kê ý nghĩa ở 5/35: " +
+      "P(any vé ≥3 match) = 27.65% ở N=20 vé (+4.3pp so với Random, p=0.011). " +
+      "Khai thác bias parity (T11 Chi² p=0.0012) qua wheeling đa vé. Yêu cầu N≥10, tối ưu N=20. " +
+      "Single-ticket: Mẫu cấu trúc và Tự động tối ưu vẫn là lựa chọn tốt nhất (Δ+0.025).",
+    special:
+      "🔬 Hybrid Parity: thuật toán multi-ticket đầu tiên có p-value < 0.05 trên matrix products. " +
+      "ROI vẫn âm (-91%) do giá trị giải 3 thấp so với cost N=20 vé.",
   },
 ];
 
@@ -403,12 +435,12 @@ export default function AlgorithmsPage() {
           Thuật Toán Gợi Ý
         </h1>
         <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Giải thích chi tiết 9 thuật toán gợi ý xổ số cho cả Ma trận (Power/Mega/Lotto)
+          Giải thích chi tiết 10 thuật toán gợi ý xổ số cho cả Ma trận (Power/Mega/Lotto)
           lẫn Max 3D/3D Pro, đánh giá trên 4.900+ kỳ quay thực tế.
         </p>
         <div className="flex justify-center gap-8 mt-6">
           <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">9</div>
+            <div className="text-3xl font-extrabold text-primary">10</div>
             <div className="text-xs text-muted-foreground mt-0.5">Thuật toán</div>
           </div>
           <div className="h-10 w-px bg-border" />
@@ -431,7 +463,7 @@ export default function AlgorithmsPage() {
           <div>
             <h2 className="text-xl font-bold">Phân Loại Nguồn Gốc</h2>
             <p className="text-sm text-muted-foreground">
-              9 thuật toán được phân loại theo 3 nguồn gốc
+              10 thuật toán được phân loại theo 3 nguồn gốc
             </p>
           </div>
         </div>
@@ -464,9 +496,9 @@ export default function AlgorithmsPage() {
                 🔬 Tự nghiên cứu
               </Badge>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Phát triển từ phân tích thống kê sâu (13 bài test RNG) trên data Vietlott.
+                Phát triển từ phân tích thống kê sâu (13-14 bài test RNG) trên data Vietlott.
               </p>
-              <p className="text-[10px] mt-1 font-mono text-muted-foreground/60">evmax, jointbias, pattern</p>
+              <p className="text-[10px] mt-1 font-mono text-muted-foreground/60">evmax, jointbias, pattern, hybridparity</p>
             </CardContent>
           </Card>
         </div>

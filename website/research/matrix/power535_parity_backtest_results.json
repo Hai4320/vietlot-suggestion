@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "product": "power_535",
+    "total_draws": 539,
+    "E": 0.7143,
+    "min_history": 100,
+    "n_runs": 5,
+    "seed": 42
+  },
+  "strategies": {
+    "Random": {
+      "total_predictions": 850,
+      "n_runs": 5,
+      "avg_matches": 0.6953,
+      "std_matches": 0.7232,
+      "win_rate_pct": 1.1765,
+      "total_cost": 8500000,
+      "total_revenue": 500000,
+      "net_profit": -8000000,
+      "roi_pct": -94.12,
+      "sharpe_ratio": -12.5813,
+      "best_match": 3,
+      "matches_distribution": {
+        "0": 381,
+        "1": 357,
+        "2": 102,
+        "3": 10
+      },
+      "elapsed_seconds": 0.13
+    },
+    "Pattern(current #1)": {
+      "total_predictions": 850,
+      "n_runs": 5,
+      "avg_matches": 0.6941,
+      "std_matches": 0.7396,
+      "win_rate_pct": 1.8824,
+      "total_cost": 8500000,
+      "total_revenue": 800000,
+      "net_profit": -7700000,
+      "roi_pct": -90.59,
+      "sharpe_ratio": -9.6078,
+      "best_match": 3,
+      "matches_distribution": {
+        "0": 386,
+        "1": 354,
+        "2": 94,
+        "3": 16
+      },
+      "elapsed_seconds": 3.91
+    },
+    "★EmpParity_v1_uniform": {
+      "total_predictions": 850,
+      "n_runs": 5,
+      "avg_matches": 0.6918,
+      "std_matches": 0.7339,
+      "win_rate_pct": 1.2941,
+      "total_cost": 8500000,
+      "total_revenue": 550000,
+      "net_profit": -7950000,
+      "roi_pct": -93.53,
+      "sharpe_ratio": -11.928,
+      "best_match": 3,
+      "matches_distribution": {
+        "0": 389,
+        "1": 345,
+        "2": 105,
+        "3": 11
+      },
+      "elapsed_seconds": 0.34
+    },
+    "★EmpParity_v2_freq_T1": {
+      "total_predictions": 850,
+      "n_runs": 5,
+      "avg_matches": 0.7012,
+      "std_matches": 0.7629,
+      "win_rate_pct": 1.6471,
+      "total_cost": 8500000,
+      "total_revenue": 700000,
+      "net_profit": -7800000,
+      "roi_pct": -91.76,
+      "sharpe_ratio": -10.3921,
+      "best_match": 3,
+      "matches_distribution": {
+        "0": 398,
+        "1": 322,
+        "2": 116,
+        "3": 14
+      },
+      "elapsed_seconds": 0.45
+    },
+    "★EmpParity_v2_freq_T0.7": {
+      "total_predictions": 850,
+      "n_runs": 5,
+      "avg_matches": 0.7106,
+      "std_matches": 0.7447,
+      "win_rate_pct": 1.2941,
+      "total_cost": 8500000,
+      "total_revenue": 550000,
+      "net_profit": -7950000,
+      "roi_pct": -93.53,
+      "sharpe_ratio": -11.928,
+      "best_match": 3,
+      "matches_distribution": {
+        "0": 383,
+        "1": 341,
+        "2": 115,
+        "3": 11
+      },
+      "elapsed_seconds": 0.41
+    },
+    "★EmpParity_v3_cold": {
+      "total_predictions": 850,
+      "n_runs": 5,
+      "avg_matches": 0.7129,
+      "std_matches": 0.7519,
+      "win_rate_pct": 1.5294,
+      "total_cost": 8500000,
+      "total_revenue": 650000,
+      "net_profit": -7850000,
+      "roi_pct": -92.35,
+      "sharpe_ratio": -10.847,
+      "best_match": 3,
+      "matches_distribution": {
+        "0": 384,
+        "1": 339,
+        "2": 114,
+        "3": 13
+      },
+      "elapsed_seconds": 0.38
+    }
+  }
+}

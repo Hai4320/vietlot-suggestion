@@ -1,0 +1,438 @@
+{
+  "meta": {
+    "product": "power_535",
+    "total_draws": 539,
+    "n_list": [
+      5,
+      10,
+      20
+    ],
+    "min_history": 100,
+    "n_runs": 3,
+    "seed": 42
+  },
+  "results": {
+    "5": {
+      "RandomN": {
+        "n_tickets_per_draw": 5,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 7.8431,
+        "mean_best_match": 1.5784,
+        "mean_total_match": 3.6039,
+        "mean_match_per_ticket": 0.7208,
+        "pooled_cost": 25500000,
+        "pooled_revenue": 2650000,
+        "pooled_roi_pct": -89.61,
+        "tier_hits": {
+          "0": 1117,
+          "1": 1073,
+          "2": 316,
+          "3": 43,
+          "4": 1
+        },
+        "elapsed_seconds": 0.08
+      },
+      "PatternN": {
+        "n_tickets_per_draw": 5,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 7.451,
+        "mean_best_match": 1.5902,
+        "mean_total_match": 3.6314,
+        "mean_match_per_ticket": 0.7263,
+        "pooled_cost": 25500000,
+        "pooled_revenue": 3350000,
+        "pooled_roi_pct": -86.86,
+        "tier_hits": {
+          "0": 1106,
+          "1": 1079,
+          "2": 325,
+          "3": 37,
+          "4": 3
+        },
+        "elapsed_seconds": 10.64
+      },
+      "★ParityStratWheel": {
+        "n_tickets_per_draw": 5,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 7.2549,
+        "mean_best_match": 1.5882,
+        "mean_total_match": 3.6255,
+        "mean_match_per_ticket": 0.7251,
+        "pooled_cost": 25500000,
+        "pooled_revenue": 1850000,
+        "pooled_roi_pct": -92.75,
+        "tier_hits": {
+          "0": 1099,
+          "1": 1090,
+          "2": 324,
+          "3": 37
+        },
+        "elapsed_seconds": 0.28
+      },
+      "★MinDistanceWheel": {
+        "n_tickets_per_draw": 5,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 7.0588,
+        "mean_best_match": 1.6275,
+        "mean_total_match": 3.5294,
+        "mean_match_per_ticket": 0.7059,
+        "pooled_cost": 25500000,
+        "pooled_revenue": 2300000,
+        "pooled_roi_pct": -90.98,
+        "tier_hits": {
+          "0": 1122,
+          "1": 1094,
+          "2": 297,
+          "3": 36,
+          "4": 1
+        },
+        "elapsed_seconds": 1.21
+      },
+      "★GreedyCover3if3_v12": {
+        "n_tickets_per_draw": 5,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 8.0392,
+        "mean_best_match": 1.3902,
+        "mean_total_match": 3.3824,
+        "mean_match_per_ticket": 0.6765,
+        "pooled_cost": 25500000,
+        "pooled_revenue": 2050000,
+        "pooled_roi_pct": -91.96,
+        "tier_hits": {
+          "0": 1184,
+          "1": 1048,
+          "2": 277,
+          "3": 41
+        },
+        "elapsed_seconds": 1.48
+      },
+      "★GreedyCover3if3_parity": {
+        "n_tickets_per_draw": 5,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 6.6667,
+        "mean_best_match": 1.4118,
+        "mean_total_match": 3.5255,
+        "mean_match_per_ticket": 0.7051,
+        "pooled_cost": 25500000,
+        "pooled_revenue": 2200000,
+        "pooled_roi_pct": -91.37,
+        "tier_hits": {
+          "0": 1147,
+          "1": 1044,
+          "2": 324,
+          "3": 34,
+          "4": 1
+        },
+        "elapsed_seconds": 1.51
+      },
+      "★HybridParityDiv": {
+        "n_tickets_per_draw": 5,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 7.2549,
+        "mean_best_match": 1.6647,
+        "mean_total_match": 3.5765,
+        "mean_match_per_ticket": 0.7153,
+        "pooled_cost": 25500000,
+        "pooled_revenue": 2300000,
+        "pooled_roi_pct": -90.98,
+        "tier_hits": {
+          "0": 1110,
+          "1": 1094,
+          "2": 309,
+          "3": 36,
+          "4": 1
+        },
+        "elapsed_seconds": 1.04
+      }
+    },
+    "10": {
+      "RandomN": {
+        "n_tickets_per_draw": 10,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 12.1569,
+        "mean_best_match": 1.9,
+        "mean_total_match": 7.1373,
+        "mean_match_per_ticket": 0.7137,
+        "pooled_cost": 51000000,
+        "pooled_revenue": 3850000,
+        "pooled_roi_pct": -92.45,
+        "tier_hits": {
+          "0": 2238,
+          "1": 2153,
+          "2": 641,
+          "3": 67,
+          "4": 1
+        },
+        "elapsed_seconds": 0.09
+      },
+      "PatternN": {
+        "n_tickets_per_draw": 10,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 11.3725,
+        "mean_best_match": 1.8706,
+        "mean_total_match": 7.051,
+        "mean_match_per_ticket": 0.7051,
+        "pooled_cost": 51000000,
+        "pooled_revenue": 3950000,
+        "pooled_roi_pct": -92.25,
+        "tier_hits": {
+          "0": 2252,
+          "1": 2163,
+          "2": 624,
+          "3": 59,
+          "4": 2
+        },
+        "elapsed_seconds": 21.41
+      },
+      "★ParityStratWheel": {
+        "n_tickets_per_draw": 10,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 13.9216,
+        "mean_best_match": 1.9098,
+        "mean_total_match": 7.1353,
+        "mean_match_per_ticket": 0.7135,
+        "pooled_cost": 51000000,
+        "pooled_revenue": 4750000,
+        "pooled_roi_pct": -90.69,
+        "tier_hits": {
+          "0": 2238,
+          "1": 2164,
+          "2": 621,
+          "3": 75,
+          "4": 2
+        },
+        "elapsed_seconds": 0.35
+      },
+      "★MinDistanceWheel": {
+        "n_tickets_per_draw": 10,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 13.1373,
+        "mean_best_match": 1.9784,
+        "mean_total_match": 7.0961,
+        "mean_match_per_ticket": 0.7096,
+        "pooled_cost": 51000000,
+        "pooled_revenue": 4300000,
+        "pooled_roi_pct": -91.57,
+        "tier_hits": {
+          "0": 2252,
+          "1": 2147,
+          "2": 633,
+          "3": 66,
+          "4": 2
+        },
+        "elapsed_seconds": 5.05
+      },
+      "★GreedyCover3if3_v12": {
+        "n_tickets_per_draw": 10,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 12.1569,
+        "mean_best_match": 1.5392,
+        "mean_total_match": 6.8706,
+        "mean_match_per_ticket": 0.6871,
+        "pooled_cost": 51000000,
+        "pooled_revenue": 3450000,
+        "pooled_roi_pct": -93.24,
+        "tier_hits": {
+          "0": 2301,
+          "1": 2163,
+          "2": 567,
+          "3": 69
+        },
+        "elapsed_seconds": 2.97
+      },
+      "★GreedyCover3if3_parity": {
+        "n_tickets_per_draw": 10,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 10.3922,
+        "mean_best_match": 1.5627,
+        "mean_total_match": 7.0843,
+        "mean_match_per_ticket": 0.7084,
+        "pooled_cost": 51000000,
+        "pooled_revenue": 4750000,
+        "pooled_roi_pct": -90.69,
+        "tier_hits": {
+          "0": 2245,
+          "1": 2160,
+          "2": 636,
+          "3": 55,
+          "4": 4
+        },
+        "elapsed_seconds": 2.99
+      },
+      "★HybridParityDiv": {
+        "n_tickets_per_draw": 10,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 11.5686,
+        "mean_best_match": 1.9843,
+        "mean_total_match": 7.1843,
+        "mean_match_per_ticket": 0.7184,
+        "pooled_cost": 51000000,
+        "pooled_revenue": 4000000,
+        "pooled_roi_pct": -92.16,
+        "tier_hits": {
+          "0": 2255,
+          "1": 2090,
+          "2": 693,
+          "3": 60,
+          "4": 2
+        },
+        "elapsed_seconds": 3.74
+      }
+    },
+    "20": {
+      "RandomN": {
+        "n_tickets_per_draw": 20,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 23.3333,
+        "mean_best_match": 2.1784,
+        "mean_total_match": 14.2569,
+        "mean_match_per_ticket": 0.7128,
+        "pooled_cost": 102000000,
+        "pooled_revenue": 9450000,
+        "pooled_roi_pct": -90.74,
+        "tier_hits": {
+          "0": 4462,
+          "1": 4346,
+          "2": 1257,
+          "3": 129,
+          "4": 6
+        },
+        "elapsed_seconds": 0.1
+      },
+      "PatternN": {
+        "n_tickets_per_draw": 20,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 22.549,
+        "mean_best_match": 2.1667,
+        "mean_total_match": 14.0176,
+        "mean_match_per_ticket": 0.7009,
+        "pooled_cost": 102000000,
+        "pooled_revenue": 7750000,
+        "pooled_roi_pct": -92.4,
+        "tier_hits": {
+          "0": 4520,
+          "1": 4342,
+          "2": 1210,
+          "3": 125,
+          "4": 3
+        },
+        "elapsed_seconds": 42.14
+      },
+      "★ParityStratWheel": {
+        "n_tickets_per_draw": 20,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 25.6863,
+        "mean_best_match": 2.2333,
+        "mean_total_match": 14.3235,
+        "mean_match_per_ticket": 0.7162,
+        "pooled_cost": 102000000,
+        "pooled_revenue": 9450000,
+        "pooled_roi_pct": -90.74,
+        "tier_hits": {
+          "0": 4490,
+          "1": 4264,
+          "2": 1302,
+          "3": 139,
+          "4": 5
+        },
+        "elapsed_seconds": 0.52
+      },
+      "★MinDistanceWheel": {
+        "n_tickets_per_draw": 20,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 22.1569,
+        "mean_best_match": 2.2196,
+        "mean_total_match": 14.202,
+        "mean_match_per_ticket": 0.7101,
+        "pooled_cost": 102000000,
+        "pooled_revenue": 9300000,
+        "pooled_roi_pct": -90.88,
+        "tier_hits": {
+          "0": 4483,
+          "1": 4321,
+          "2": 1273,
+          "3": 116,
+          "4": 7
+        },
+        "elapsed_seconds": 13.25
+      },
+      "★GreedyCover3if3_v12": {
+        "n_tickets_per_draw": 20,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 17.451,
+        "mean_best_match": 1.6039,
+        "mean_total_match": 13.8706,
+        "mean_match_per_ticket": 0.6935,
+        "pooled_cost": 102000000,
+        "pooled_revenue": 5950000,
+        "pooled_roi_pct": -94.17,
+        "tier_hits": {
+          "0": 4573,
+          "1": 4299,
+          "2": 1209,
+          "3": 119
+        },
+        "elapsed_seconds": 5.73
+      },
+      "★GreedyCover3if3_parity": {
+        "n_tickets_per_draw": 20,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 18.6275,
+        "mean_best_match": 1.651,
+        "mean_total_match": 14.1608,
+        "mean_match_per_ticket": 0.708,
+        "pooled_cost": 102000000,
+        "pooled_revenue": 8200000,
+        "pooled_roi_pct": -91.96,
+        "tier_hits": {
+          "0": 4513,
+          "1": 4292,
+          "2": 1258,
+          "3": 134,
+          "4": 3
+        },
+        "elapsed_seconds": 5.79
+      },
+      "★HybridParityDiv": {
+        "n_tickets_per_draw": 20,
+        "n_draws_evaluated": 510,
+        "n_runs": 3,
+        "p_any_hit_ge3_pct": 27.6471,
+        "mean_best_match": 2.2588,
+        "mean_total_match": 14.151,
+        "mean_match_per_ticket": 0.7075,
+        "pooled_cost": 102000000,
+        "pooled_revenue": 9050000,
+        "pooled_roi_pct": -91.13,
+        "tier_hits": {
+          "0": 4485,
+          "1": 4362,
+          "2": 1208,
+          "3": 141,
+          "4": 4
+        },
+        "elapsed_seconds": 8.79
+      }
+    }
+  }
+}

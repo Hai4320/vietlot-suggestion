@@ -1,0 +1,387 @@
+{
+  "meta": {
+    "product": "power_535",
+    "total_draws": 539,
+    "date_start": "2025-06-29",
+    "date_end": "2026-04-19",
+    "main_max": 35,
+    "main_size": 5,
+    "bonus_max": 12,
+    "significance_level": 0.05,
+    "bonferroni_threshold": 0.0035714285714285718,
+    "n_tests": 14
+  },
+  "tests": {
+    "T01_chi2_main_uniform": {
+      "test": "chi2_main_uniform",
+      "chi2": 31.636363636363637,
+      "dof": 34,
+      "p_value": 0.583995728658764,
+      "significant_05": false,
+      "significant_bonferroni": false,
+      "expected_per_number": 77.0,
+      "top5_numbers": [
+        14,
+        30,
+        34,
+        11,
+        25
+      ],
+      "top5_counts": [
+        94,
+        93,
+        90,
+        87,
+        85
+      ],
+      "bot5_numbers": [
+        5,
+        4,
+        16,
+        17,
+        21
+      ],
+      "bot5_counts": [
+        64,
+        65,
+        65,
+        67,
+        67
+      ],
+      "max_deviation_pct": 22.07792207792208
+    },
+    "T02_chi2_bonus_uniform": {
+      "test": "chi2_bonus_uniform",
+      "chi2": 5.808905380333952,
+      "dof": 11,
+      "p_value": 0.8858053777249472,
+      "significant_05": false,
+      "significant_bonferroni": false,
+      "expected_per_bonus": 44.916666666666664,
+      "counts": [
+        46,
+        49,
+        51,
+        36,
+        41,
+        38,
+        46,
+        41,
+        47,
+        46,
+        51,
+        47
+      ],
+      "max_deviation_pct": 13.543599257884978
+    },
+    "T03_pair_cooccurrence": {
+      "test": "pair_cooccurrence_chi2",
+      "chi2": 645.6623376623377,
+      "dof": 594,
+      "p_value": 0.06987685634545444,
+      "significant_05": false,
+      "significant_bonferroni": false,
+      "expected_per_pair": 9.058823529411764,
+      "total_pairs_tested": 595,
+      "observed_pairs_nonzero": 595,
+      "top5_over_pairs": [
+        [
+          7,
+          10,
+          23,
+          "+153.9%"
+        ],
+        [
+          11,
+          27,
+          20,
+          "+120.8%"
+        ],
+        [
+          13,
+          19,
+          19,
+          "+109.7%"
+        ],
+        [
+          33,
+          34,
+          19,
+          "+109.7%"
+        ],
+        [
+          14,
+          19,
+          18,
+          "+98.7%"
+        ]
+      ],
+      "top5_under_pairs": [
+        [
+          5,
+          17,
+          2,
+          "-77.9%"
+        ],
+        [
+          12,
+          17,
+          2,
+          "-77.9%"
+        ],
+        [
+          12,
+          21,
+          2,
+          "-77.9%"
+        ],
+        [
+          19,
+          28,
+          2,
+          "-77.9%"
+        ],
+        [
+          4,
+          7,
+          1,
+          "-89.0%"
+        ]
+      ]
+    },
+    "T04_serial_correlation": {
+      "test": "serial_correlation_lag1",
+      "threshold_95": 0.0844231764817738,
+      "significant_count": 1,
+      "total_tested": 35,
+      "max_abs_acf": 0.09000950298517361,
+      "sig_numbers": [
+        [
+          26,
+          -0.09
+        ]
+      ],
+      "note": "Expected ~5% false positives = 1.75 numbers by chance; >4 sig = suspicious"
+    },
+    "T05_runs_test": {
+      "test": "runs_test_per_number",
+      "total_tested": 35,
+      "low_p_count": 1,
+      "expected_false_positives_05": 1.75,
+      "lowest_5_p_values": [
+        [
+          26,
+          0.0368
+        ],
+        [
+          2,
+          0.0727
+        ],
+        [
+          33,
+          0.0775
+        ],
+        [
+          35,
+          0.0998
+        ],
+        [
+          24,
+          0.1768
+        ]
+      ]
+    },
+    "T06_sum_distribution": {
+      "test": "sum_distribution",
+      "observed_mean": 91.5343228200371,
+      "theoretical_mean": 90.0,
+      "observed_std": 21.90475736519087,
+      "theoretical_std": 21.213203435596427,
+      "t_statistic_mean": 1.6246859891733785,
+      "t_p_value": 0.10481514683837909,
+      "ks_normal_p": 0.023256914270495033,
+      "significant_05": false,
+      "min_sum": 26,
+      "max_sum": 162
+    },
+    "T07_temporal_window": {
+      "test": "temporal_window_stability",
+      "windows_size": 179,
+      "ks_window_1_vs_2_p": 0.9793840108821031,
+      "ks_window_2_vs_3_p": 0.9997026876722495,
+      "correlation_1_2": 0.27690612380545826,
+      "correlation_1_3": -0.09624671240860141,
+      "correlation_2_3": -0.2830438864719014,
+      "stable": true,
+      "interpretation": "stable (bias constant)"
+    },
+    "T08_gap_analysis": {
+      "test": "gap_analysis",
+      "expected_mean_gap": 7.0,
+      "observed_mean_gap": 6.906015037593985,
+      "observed_std_gap": 6.440604970866581,
+      "ks_vs_geometric_p": 7.856225819537084e-48,
+      "significant_05": true,
+      "per_number_mean_gap_min": 5.709677419354839,
+      "per_number_mean_gap_max": 8.40625,
+      "per_number_mean_gap_spread": 2.696572580645161
+    },
+    "T09_conditional_probability": {
+      "test": "conditional_probability_repeat",
+      "baseline_p": 0.14285714285714285,
+      "overall_repeat_p": 0.14312267657992564,
+      "overall_lift_vs_baseline": 1.0018587360594795,
+      "binomial_p_value": 0.9560672737269775,
+      "significant_05": false,
+      "top5_deviant_numbers": [
+        [
+          2,
+          0.0588,
+          0.412,
+          68
+        ],
+        [
+          14,
+          0.2128,
+          1.489,
+          94
+        ],
+        [
+          26,
+          0.0741,
+          0.519,
+          81
+        ],
+        [
+          11,
+          0.2069,
+          1.448,
+          87
+        ],
+        [
+          33,
+          0.2027,
+          1.419,
+          74
+        ]
+      ]
+    },
+    "T10_repeat_rate": {
+      "test": "repeat_rate",
+      "observed_mean_overlap": 0.7156133828996283,
+      "expected_mean_overlap": 0.7142857142857143,
+      "z_score": 0.04189836446765023,
+      "p_value": 0.966579720220486,
+      "significant_05": false,
+      "observed_distribution": {
+        "0": 239,
+        "1": 218,
+        "2": 76,
+        "3": 5
+      },
+      "expected_distribution": {
+        "0": 236.17,
+        "1": 227.09,
+        "2": 67.28,
+        "3": 7.21,
+        "4": 0.25,
+        "5": 0.0
+      }
+    },
+    "T11_parity_highlow": {
+      "test": "parity_highlow",
+      "odd_chi2": 20.0618011307087,
+      "odd_p_value": 0.0012167928542640852,
+      "odd_observed_dist": {
+        "0": 19,
+        "1": 75,
+        "2": 148,
+        "3": 208,
+        "4": 69,
+        "5": 20
+      },
+      "odd_expected_dist": {
+        "0": 10.3,
+        "1": 71.1,
+        "2": 172.7,
+        "3": 184.3,
+        "4": 86.4,
+        "5": 14.2
+      },
+      "high_chi2": 6.676485337724838,
+      "high_p_value": 0.24583345199860915,
+      "high_observed_dist": {
+        "0": 6,
+        "1": 67,
+        "2": 172,
+        "3": 175,
+        "4": 99,
+        "5": 20
+      },
+      "high_expected_dist": {
+        "0": 10.3,
+        "1": 71.1,
+        "2": 172.7,
+        "3": 184.3,
+        "4": 86.4,
+        "5": 14.2
+      },
+      "significant_05": true
+    },
+    "T12_bonus_main_correlation": {
+      "test": "bonus_main_correlation",
+      "corr_bonus_vs_sum": -0.061064519414986355,
+      "corr_bonus_vs_min": -0.07259096894598371,
+      "corr_bonus_vs_max": -0.05214953979620734,
+      "bonus_appears_in_mains_count": 60,
+      "expected_appears": 77.0,
+      "p_value_appears": 0.03638886620070858,
+      "significant_05": true
+    },
+    "T13_lattice_scatter": {
+      "test": "lattice_scatter_sums",
+      "pearson_lag1": -0.008208644765420228,
+      "spearman_lag1": -0.0016299951480531864,
+      "spearman_p_value": 0.9699112933230691,
+      "sum_modular_tests": {
+        "mod_5": {
+          "chi2": 6.64935064935065,
+          "p_value": 0.15561998198617494
+        },
+        "mod_7": {
+          "chi2": 3.220779220779221,
+          "p_value": 0.7806700760377657
+        },
+        "mod_11": {
+          "chi2": 12.36734693877551,
+          "p_value": 0.2612232492259911
+        }
+      },
+      "significant_05": false
+    },
+    "T14_draw_sum_acf": {
+      "test": "draw_sum_autocorrelation",
+      "threshold_95": 0.0844231764817738,
+      "n_lags_tested": 100,
+      "max_abs_acf": 0.08795672640564556,
+      "significant_lags_count": 1,
+      "expected_false_positives_05": 5.0,
+      "first_5_sig_lags": [
+        [
+          69,
+          0.088
+        ]
+      ]
+    }
+  },
+  "summary": {
+    "total_tests": 14,
+    "significant_at_05": [
+      "T08_gap_analysis",
+      "T11_parity_highlow",
+      "T12_bonus_main_correlation"
+    ],
+    "significant_at_bonferroni": [],
+    "exploitable_bias_detected": false
+  }
+}

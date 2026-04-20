@@ -69,6 +69,7 @@ export const BACKTEST_MATRIX: Record<string, MatrixBacktest> = {
     baseline: { E: 0.7143, winPct: 1.386 },
     totalDraws: 538,
     strategies: [
+      { name: "🔬 Hybrid Parity (N=20 wheel)", avg: 0.7075, delta: -0.0068, winPct: 27.65, roi: -91.1, best: 4, type: "new" },
       { name: "★ Mẫu cấu trúc", avg: 0.7396, delta: +0.0253, winPct: 1.775, roi: -82.2, best: 4, type: "new" },
       { name: "★ Tự động tối ưu", avg: 0.7396, delta: +0.0253, winPct: 1.381, roi: -84.2, best: 4, type: "new" },
       { name: "Tần suất cao", avg: 0.7258, delta: +0.0115, winPct: 1.578, roi: -74.4, best: 4, type: "old" },

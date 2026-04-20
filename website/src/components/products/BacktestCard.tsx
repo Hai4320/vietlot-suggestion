@@ -129,8 +129,13 @@ function MatrixTable({ data, color }: { data: MatrixBacktest; color: string }) {
           </TableBody>
         </Table>
       </div>
-      <div className="px-4 py-1.5 border-t bg-muted/20 text-[10px] text-muted-foreground">
-        Δ = chênh lệch so với kỳ vọng toán học | Win % = tỷ lệ trùng ≥3 số | ROI = lợi nhuận trên chi phí vé
+      <div className="px-4 py-1.5 border-t bg-muted/20 text-[10px] text-muted-foreground space-y-0.5">
+        <div>Δ = chênh lệch so với kỳ vọng toán học | Win % = tỷ lệ trùng ≥3 số (per-ticket) | ROI = lợi nhuận trên chi phí vé</div>
+        {data.strategies.some((s) => s.name.includes("Hybrid Parity")) && (
+          <div className="text-yellow-600 dark:text-yellow-400">
+            🔬 Hybrid Parity: Win % = P(≥1 vé trong N=20 trúng ≥3) — thang đo đa vé, không so sánh trực tiếp per-ticket với các dòng khác.
+          </div>
+        )}
       </div>
     </div>
   );

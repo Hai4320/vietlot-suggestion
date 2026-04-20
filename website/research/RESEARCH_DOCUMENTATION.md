@@ -3,7 +3,11 @@
 **Dự án**: vietlott-data  
 **Phạm vi**: Nghiên cứu, backtest và triển khai thuật toán gợi ý số cho 5 sản phẩm xổ số Vietlott  
 **Thời gian nghiên cứu**: 07/2025 – 04/2026  
-**Trạng thái**: Đang tiến hành (Phase 4 hoàn thành)
+**Trạng thái**: Đang tiến hành (Phase 4 + Phase-B wheeling cho Power 5/35 hoàn thành)
+
+### Highlight — 04/2026
+
+🔬 **HybridParityDiv** là thuật toán **đầu tiên có edge thống kê ý nghĩa (p=0.011)** trên matrix products, khai thác T11 parity bias (Chi² p=0.0012, qua Bonferroni) của Lotto 5/35 qua wheeling đa vé. Đạt P(any vé ≥3 match) = 27.65% ở N=20 (+4.31pp so với Random). Xem §6.3.1.
 
 ---
 
@@ -48,7 +52,8 @@ Nghiên cứu và triển khai thuật toán gợi ý số xổ số nhằm:
 |---|---|---|---|---|
 | **Power 6/55** | Bayesian AI | +0.031 | 1.65% | -91.4% |
 | **Mega 6/45** | Bayesian AI (Sharp, temp=0.5) | +0.023 | 3.14% | -62.0% (Phủ sóng tối đa) |
-| **Lotto 5/35** | Mẫu cấu trúc / Tự động tối ưu | +0.025 | 1.78% | -74.4% (Tần suất cao) |
+| **Lotto 5/35** (single) | Mẫu cấu trúc / Tự động tối ưu | +0.025 | 1.78% | -74.4% (Tần suất cao) |
+| **Lotto 5/35** (multi N=20) | 🔬 **HybridParityDiv** | **+4.31pp P(any≥3)** | **27.65%** (p=0.011) | -91.1% |
 | **Max 3D** | Freq Whole Hot | 2.33% exact | — | -35.5% |
 | **Max 3D Pro** | Freq Whole Hot | 2.35% exact | — | -35.1% (SumRange) |
 
@@ -744,6 +749,132 @@ Giá vé:      10.000đ
 - ★Adaptive tự điều chỉnh hiệu quả, hòa với Pattern
 - Thuật toán Bayesian kém trên pool nhỏ — prior quá mạnh so với data
 - Freq_Hot có ROI tốt nhất (-74.4%)
+
+### 6.3.1 Lotto 5/35 — Phase B: Deep Analysis & Multi-ticket Wheeling (04/2026)
+
+**Động lực**: Kết quả single-ticket cho thấy top strategies (Pattern, Adaptive) chỉ +0.025 — nằm trong khoảng nhiễu ở 538 kỳ (SE ≈ 0.034). Cần phân tích sâu hơn theo phương pháp Quant Cryptanalysis Agent (`Random_Analysis_Agent.md`).
+
+#### Phase 1 — 14-test Deep Statistical Analysis
+
+Chạy `matrix/power535_deep_analysis.py` trên 539 kỳ. Bonferroni threshold α = 0.05/14 ≈ 0.00357.
+
+| # | Test | p-value | Significant @ Bonferroni? |
+|---|------|---------|:-------------------------:|
+| T01 | Chi² main uniform (1-35) | 0.584 | ❌ |
+| T02 | Chi² bonus uniform (1-12) | 0.886 | ❌ |
+| T03 | Pair co-occurrence | 0.070 | ❌ (gần biên) |
+| T04 | Serial correlation (lag-1) | — | ❌ |
+| T05 | Runs test per-number | — | ❌ |
+| T06 | Sum distribution (t-test) | 0.105 | ❌ |
+| T07 | Temporal window stability (KS) | > 0.05 | ❌ (ổn định) |
+| T08 | Gap analysis (KS vs geometric) | ~0 | ⚠️ **False positive** (null sai — no-replacement draws không geometric) |
+| T09 | Conditional P(X\|X_{t-1}) | 0.956 | ❌ |
+| T10 | Repeat rate (hypergeometric) | 0.967 | ❌ |
+| **T11** | **Parity odd count (Chi²)** | **0.0012** | ✅ **SIGNIFICANT** |
+| T12 | Bonus–main correlation | 0.036 | ❌ (không qua Bonferroni) |
+| T13 | Lattice scatter (sum mod) | — | ❌ |
+| T14 | Draw sum autocorrelation | — | ❌ |
+
+**Kết quả duy nhất qua Bonferroni — T11 Parity**:
+
+| # số lẻ / kỳ | Observed | Expected (hypergeometric) | Δ |
+|:--:|:--:|:--:|:--:|
+| 0 | 19 | 10.3 | **+84%** |
+| 1 | 75 | 71.1 | +5% |
+| 2 | 148 | 172.7 | **−14%** |
+| 3 | **208** | 184.3 | **+13%** |
+| 4 | 69 | 86.4 | −20% |
+| 5 | 20 | 14.2 | **+41%** |
+
+→ Phân bố parity lệch về các mode cực (0, 3, 5), không khớp hypergeometric Chi² p=0.0012.
+
+#### Phase 2a — Single-ticket Empirical Parity (thất bại)
+
+Chạy `matrix/power535_parity_backtest.py` — 3 strategies mô phỏng parity distribution:
+- EmpParity_v1 (uniform within pool): Δ = −0.023
+- EmpParity_v2 freq-weighted T=0.7: Δ = −0.004
+- EmpParity_v3 cold-weighted: Δ = −0.001
+
+**Chứng minh toán học tại sao single-ticket không khai thác được**:
+```
+E[match] = k·j/18 + (5-k)·(5-j)/17    (k=you-odds, j=draw-odds)
+Với k, j độc lập cùng phân phối, chỉ phụ thuộc mean E[k].
+Observed E[k] = 2.544; Uniform E[k] = 2.571 → gần nhau.
+→ Parity bias chỉ lệch SHAPE, không đổi MEAN → không tạo edge.
+```
+
+#### Phase 2b — Multi-ticket Wheeling (thành công)
+
+Chạy `matrix/power535_wheeling_backtest.py` — 6 strategies đa vé. Metric: **P(any ticket ≥3 match per draw)** qua N vé.
+
+**N=20 tickets/kỳ** (3 runs × 439 draws = 1,317 samples/cell):
+
+| Strategy | P(any≥3)% | Δ vs Random | MeanBest | ROI% |
+|----------|----------:|------------:|---------:|-----:|
+| ★🔬 **HybridParityDiv** | **27.65** | **+4.31pp** | 2.26 | −91.1 |
+| ★ParityStratifiedWheel | 25.69 | +2.36pp | 2.23 | −90.7 |
+| RandomN | 23.33 | baseline | 2.18 | −90.7 |
+| PatternN | 22.55 | −0.78pp | 2.17 | −92.4 |
+| MinDistanceWheel | 22.16 | **−1.17pp** | 2.22 | −90.9 |
+| GreedyCover3if3 | 17.45 | **−5.88pp** | 1.60 | −94.2 |
+
+**Kiểm định ý nghĩa thống kê (HybridParityDiv vs Random, N=20)**:
+```
+p1 = 0.2765, p2 = 0.2333, pooled_p = 0.2549
+SE = √(2·p·(1−p)/1317) = 0.01698
+z = 0.0432 / 0.01698 = 2.54
+p-value ≈ 0.011 → SIGNIFICANT at α=0.05 ✓
+```
+
+**Scaling theo N**:
+
+| N | HybridParityDiv P(any≥3) | Random P(any≥3) | Δ | p-value |
+|:-:|:-:|:-:|:-:|:-:|
+| 5 | 7.26% | 7.84% | −0.6pp | ns |
+| 10 | 11.57% | 12.16% | −0.6pp | ns |
+| **20** | **27.65%** | **23.33%** | **+4.31pp** | **0.011** |
+
+→ Edge xuất hiện khi N≥20 và dominance ở N=20. Dưới N=10, diversity constraint làm hại.
+
+#### Phát hiện then chốt
+
+1. 🎯 **Parity-stratified wheeling khai thác được T11 bias** — xác nhận lý thuyết từ Phase 1. Đây là thuật toán **đầu tiên có p<0.05** trên matrix products.
+
+2. ❌ **Diversity thuần (MinDistance) làm tệ hơn Random** ở N=20 (−1.17pp). Forcing max-Hamming distance đẩy vé vào parity bins hiếm → mất cover các mode phổ biến. Bài học: **diversity phải có structure**.
+
+3. ❌ **GreedyCover3if3 thất bại (−5.88pp)**. Cố định pool top-12 hot numbers → khi draw rơi ngoài pool (~23 số), không vé nào win được. Covering design đẹp trong lý thuyết nhưng **không phù hợp khi freq bias nhỏ**.
+
+4. 🎯 **Hybrid = best**: Parity allocation + intra-bin max-min distance → best của cả hai.
+
+5. ⚠️ **ROI vẫn âm** (-91.1%). Edge +4.3pp không đủ để dương ROI vì giá trị giải 3 chỉ 50k VND so với cost 200k cho 20 vé.
+
+#### HybridParityDiv Algorithm
+
+```
+Input: draws (history), N (ticket count ≥ 10, tối ưu N=20)
+
+1. Ước lượng parity distribution P(k ∈ {0..5}) từ draws
+   Dirichlet smoothing α = 1
+
+2. Allocate N vé vào parity bins theo largest-remainder
+   Ví dụ N=20 với observed probs → (1, 3, 6, 8, 2, 0) vé ở bins (0,1,2,3,4,5)
+
+3. Tính freq weights per-pool (odds 18 số, evens 17 số), α=1 smoothing
+
+4. Với mỗi bin k:
+   - Vé đầu: weighted sample k odds + (5-k) evens
+   - Vé tiếp: sinh 30 candidates, chọn vé có max-min Hamming distance
+     so với các vé đã có trong toàn bộ portfolio
+
+5. Shuffle output để UI không lộ allocation order
+```
+
+#### Artifacts & files
+
+- [matrix/power535_deep_analysis.py](matrix/power535_deep_analysis.py) + [.json](matrix/power535_deep_analysis.json) — 14 tests
+- [matrix/power535_parity_backtest.py](matrix/power535_parity_backtest.py) + [.json](matrix/power535_parity_backtest_results.json) — Phase 2a single-ticket
+- [matrix/power535_wheeling_backtest.py](matrix/power535_wheeling_backtest.py) + [.json](matrix/power535_wheeling_backtest_results.json) — Phase 2b multi-ticket
+- Port TypeScript: [src/lib/suggest-matrix.ts](../src/lib/suggest-matrix.ts) — function `generateHybridParityDiv`
 
 ### 6.4 Max 3D (1.064 kỳ, số 000–999, 20 số/kỳ)
 

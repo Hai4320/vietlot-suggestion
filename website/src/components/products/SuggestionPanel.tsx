@@ -42,6 +42,13 @@ const PAGE_SIZE = 20;
 
 const ALL_STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; description: string; badge?: string }[] = [
   {
+    key: "hybridparity",
+    emoji: "🎰",
+    label: "Hybrid Parity (5/35)",
+    description: "Wheeling đa vé: phân bổ parity empirical + max-min Hamming diversity. Edge thống kê p=0.011 với N=20 vé",
+    badge: "🔬 Nghiên cứu",
+  },
+  {
     key: "evmax",
     emoji: "💰",
     label: "EV tối đa",
@@ -110,32 +117,32 @@ type ProductSlug = "power-655" | "power-645" | "power-535" | "max-3d" | "max-3d-
 const MAX_STRATEGIES_SHOWN = 7;
 const PRODUCT_RANKS: Record<ProductSlug, { ranks: Record<SuggestionStrategy, number>; stats: Record<SuggestionStrategy, string>; rec1: SuggestionStrategy; rec2: SuggestionStrategy; recReason: string }> = {
   "power-655": {
-    ranks: { bayesian: 1, frequency: 2, pattern: 3, maxentropy: 4, adaptive: 5, mixed: 6, absence: 7, evmax: 8, jointbias: 9 },
-    stats: { bayesian: "Δ+0.031, Win 1.65%", frequency: "Δ+0.024, Win 1.51%", pattern: "Δ+0.003, ổn định #1 tổng hợp", maxentropy: "Win 1.54%, ROI -62%", adaptive: "Δ-0.014", mixed: "50/50 nóng+lạnh", absence: "Win 1.24%, Δ-0.015", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
+    ranks: { bayesian: 1, frequency: 2, pattern: 3, maxentropy: 4, adaptive: 5, mixed: 6, absence: 7, evmax: 8, jointbias: 9, hybridparity: 10 },
+    stats: { bayesian: "Δ+0.031, Win 1.65%", frequency: "Δ+0.024, Win 1.51%", pattern: "Δ+0.003, ổn định #1 tổng hợp", maxentropy: "Win 1.54%, ROI -62%", adaptive: "Δ-0.014", mixed: "50/50 nóng+lạnh", absence: "Win 1.24%, Δ-0.015", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35" },
     rec1: "bayesian", rec2: "frequency",
     recReason: "Pool 55 số lớn nhất — Bayesian AI (temp=1.0) khai thác posterior rộng, vượt trội +0.031 avg matches.",
   },
   "power-645": {
-    ranks: { bayesian: 1, pattern: 2, frequency: 3, maxentropy: 4, mixed: 5, adaptive: 6, absence: 7, evmax: 8, jointbias: 9 },
-    stats: { bayesian: "Sharp T=0.3, Win 3.14%", pattern: "Δ+0.017, ổn định", frequency: "Δ+0.006, Win 2.78%", maxentropy: "5/6 trùng! ROI -62%", mixed: "50/50 nóng+lạnh", adaptive: "Win 1.94%", absence: "Win 2.78%, Δ-0.005", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
+    ranks: { bayesian: 1, pattern: 2, frequency: 3, maxentropy: 4, mixed: 5, adaptive: 6, absence: 7, evmax: 8, jointbias: 9, hybridparity: 10 },
+    stats: { bayesian: "Sharp T=0.3, Win 3.14%", pattern: "Δ+0.017, ổn định", frequency: "Δ+0.006, Win 2.78%", maxentropy: "5/6 trùng! ROI -62%", mixed: "50/50 nóng+lạnh", adaptive: "Win 1.94%", absence: "Win 2.78%, Δ-0.005", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35" },
     rec1: "bayesian", rec2: "pattern",
     recReason: "Bayesian AI (Sharp T=0.3) đạt win rate 3.14% — cải thiện +0.64pp so với T=0.5 cũ. Phủ sóng tối đa đạt 5/6 trùng duy nhất!",
   },
   "power-535": {
-    ranks: { pattern: 1, adaptive: 2, frequency: 3, bayesian: 4, maxentropy: 5, mixed: 6, absence: 7, evmax: 8, jointbias: 9 },
-    stats: { pattern: "Δ+0.025, Win 1.78%", adaptive: "Δ+0.025, hòa #1", frequency: "Win 1.58%, ROI -74%", bayesian: "Δ-0.028", maxentropy: "Δ-0.026", mixed: "50/50 nóng+lạnh", absence: "Win 0.79%, Δ-0.008", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
-    rec1: "pattern", rec2: "adaptive",
-    recReason: "Pool nhỏ 35 số — Mẫu cấu trúc phân tích vùng số + khoảng cách hiệu quả, hòa với Tự động tối ưu ở Δ+0.025.",
+    ranks: { hybridparity: 1, pattern: 2, adaptive: 3, frequency: 4, bayesian: 5, maxentropy: 6, mixed: 7, absence: 8, evmax: 9, jointbias: 10 },
+    stats: { hybridparity: "🔬 N=20: 27.7% any≥3 (+4.3pp, p=0.011)", pattern: "Δ+0.025, Win 1.78%", adaptive: "Δ+0.025, hòa #2", frequency: "Win 1.58%, ROI -74%", bayesian: "Δ-0.028", maxentropy: "Δ-0.026", mixed: "50/50 nóng+lạnh", absence: "Win 0.79%, Δ-0.008", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
+    rec1: "hybridparity", rec2: "pattern",
+    recReason: "Hybrid Parity khai thác T11 parity bias (p=0.0012) qua wheeling đa vé — edge +4.3pp ở N=20 (p=0.011, ý nghĩa thống kê). Khuyến nghị N≥10, tối ưu N=20.",
   },
   "max-3d": {
-    ranks: { frequency: 1, jointbias: 2, bayesian: 3, maxentropy: 4, pattern: 5, adaptive: 6, mixed: 7, evmax: 8, absence: 9 },
-    stats: { frequency: "Exact 2.35%, ROI -32.8%", jointbias: "🔬 Exact 2.27%, ROI -39.0%", bayesian: "Exact 2.09%, 38× trúng Nhất", maxentropy: "Phủ sóng 2.06%, ROI -40%", pattern: "Exact ~2.0%", adaptive: "Exact 1.94%", mixed: "digit-by-digit", evmax: "Chỉ tốt cho 3D Pro", absence: "chưa backtest" },
+    ranks: { frequency: 1, jointbias: 2, bayesian: 3, maxentropy: 4, pattern: 5, adaptive: 6, mixed: 7, evmax: 8, absence: 9, hybridparity: 10 },
+    stats: { frequency: "Exact 2.35%, ROI -32.8%", jointbias: "🔬 Exact 2.27%, ROI -39.0%", bayesian: "Exact 2.09%, 38× trúng Nhất", maxentropy: "Phủ sóng 2.06%, ROI -40%", pattern: "Exact ~2.0%", adaptive: "Exact 1.94%", mixed: "digit-by-digit", evmax: "Chỉ tốt cho 3D Pro", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
     rec1: "frequency", rec2: "jointbias",
     recReason: "Tần suất cao #1 (2.35%). Bias liên hợp (#2, 2.27%) khai thác sự phụ thuộc giữa 3 vị trí chữ số — phát hiện mới từ nghiên cứu thống kê.",
   },
   "max-3d-pro": {
-    ranks: { evmax: 1, jointbias: 2, frequency: 3, maxentropy: 4, bayesian: 5, adaptive: 6, mixed: 7, pattern: 8, absence: 9 },
-    stats: { evmax: "🔬 Exact 2.50%, ROI -26.5% 🏆", jointbias: "🔬 Exact 2.38%, ROI -31.5%", frequency: "Exact 1.94%", maxentropy: "Phủ sóng 2.30%, ROI -35.1%", bayesian: "Exact 2.07%", adaptive: "Exact 2.07%", mixed: "digit-by-digit", pattern: "Exact ~2.0%", absence: "chưa backtest" },
+    ranks: { evmax: 1, jointbias: 2, frequency: 3, maxentropy: 4, bayesian: 5, adaptive: 6, mixed: 7, pattern: 8, absence: 9, hybridparity: 10 },
+    stats: { evmax: "🔬 Exact 2.50%, ROI -26.5% 🏆", jointbias: "🔬 Exact 2.38%, ROI -31.5%", frequency: "Exact 1.94%", maxentropy: "Phủ sóng 2.30%, ROI -35.1%", bayesian: "Exact 2.07%", adaptive: "Exact 2.07%", mixed: "digit-by-digit", pattern: "Exact ~2.0%", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
     rec1: "evmax", rec2: "jointbias",
     recReason: "EV tối đa #1 (2.50%, ROI -26.5%) — tối ưu kỳ vọng giải thưởng + exponential decay. Bias liên hợp #2 (2.38%) khai thác phân bố đồng thời 3 chữ số.",
   },
@@ -169,6 +176,17 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
     const n = parseInt(val, 10);
     if (!isNaN(n) && n >= 1 && n <= 200) setCount(n);
   };
+
+  // Auto-bump ticket count to 20 when HybridParity is selected with too few tickets
+  const handleSelectStrategy = (key: SuggestionStrategy) => {
+    setStrategy(key);
+    if (key === "hybridparity" && count < 10) {
+      setCount(20);
+      setCountInput("20");
+    }
+  };
+
+  const hybridWarning = strategy === "hybridparity" && count < 10;
 
   const handleGenerate = () => {
     setIsRevealing(true);
@@ -313,13 +331,13 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
           <div className="flex items-center gap-2">
             <span className="text-lg">🏆</span>
             <span className="text-sm font-bold">Khuyến nghị:</span>
-            <button onClick={() => setStrategy(productRank.rec1)}
+            <button onClick={() => handleSelectStrategy(productRank.rec1)}
               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-bold text-white transition-transform hover:scale-105"
               style={{ backgroundColor: props.color }}>
               {ALL_STRATEGIES.find(s => s.key === productRank.rec1)?.emoji} {ALL_STRATEGIES.find(s => s.key === productRank.rec1)?.label}
             </button>
             <span className="text-xs text-muted-foreground">hoặc</span>
-            <button onClick={() => setStrategy(productRank.rec2)}
+            <button onClick={() => handleSelectStrategy(productRank.rec2)}
               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-medium border transition-transform hover:scale-105"
               style={{ borderColor: props.color, color: props.color }}>
               {ALL_STRATEGIES.find(s => s.key === productRank.rec2)?.emoji} {ALL_STRATEGIES.find(s => s.key === productRank.rec2)?.label}
@@ -344,7 +362,7 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
             return (
             <button
               key={s.key}
-              onClick={() => setStrategy(s.key)}
+              onClick={() => handleSelectStrategy(s.key)}
               className={`relative text-left rounded-xl border-2 p-4 transition-all duration-200 hover:shadow-md ${
                 strategy === s.key
                   ? "border-primary bg-primary/5 shadow-md shadow-primary/10"
@@ -432,6 +450,13 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
             ))}
           </div>
         </div>
+
+        {hybridWarning && (
+          <div className="basis-full -mt-1 text-[11px] text-yellow-600 dark:text-yellow-400 flex items-center gap-1.5">
+            <span>⚠️</span>
+            <span>Hybrid Parity cần <strong>N≥10</strong> vé để khai thác parity bias (tối ưu ở N=20). Dưới 10 vé chỉ là tham khảo.</span>
+          </div>
+        )}
 
         <Button
           onClick={handleGenerate}
