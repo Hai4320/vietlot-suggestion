@@ -85,6 +85,8 @@ Guardrails bất biến (từ Chu kỳ 1+):
 ### 3D research line
 **DEFINITIVELY CLOSED** sau Chu kỳ 13. Bias real + stable (Chu kỳ 8) nhưng không exploitable bằng bất kỳ paradigm nào đã test (probabilistic, copula, discriminative, pooled). Retry criteria: >500 additional draws (~2027) OR novel bias dimension discovery OR Vietlott RNG methodology audit.
 
+📄 **Full synthesis**: [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md) — 28 strategies × 8 cycles tổng hợp, mechanism analysis, methodology corpus, revisit criteria.
+
 ### Matrix research line
 **ACTIVE** — Path #1 Online Bayesian chưa test trên matrix (pending Chu kỳ 14). [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) still has Path #1, #3 (cross-product Mega/Power/Lotto), Path #2 (Kelly portfolio) untested.
 

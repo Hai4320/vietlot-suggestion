@@ -1,9 +1,17 @@
 # Nghiên Cứu Thuật Toán Dự Đoán Max 3D — Tài Liệu Chi Tiết
 
-**Dự án**: vietlott-data  
-**Phạm vi**: Nghiên cứu chuyên sâu thuật toán dự đoán cho Max 3D & Max 3D Pro  
-**Ngày**: 2026-04-19  
-**Trạng thái**: Hoàn thành Phase 1 (Phân tích + Backtest 21 chiến lược)
+> ⚠️ **SUPERSEDED** (2026-04-21): Doc này là snapshot Chu kỳ 4 (pre-replication). Nhiều claims về "top strategies" (EVMax, JointBias, FreqWholeHot) **đã được rút lại** sau Chu kỳ 6 significance gating + Chu kỳ 7 split-half replication (2/2 Reject).
+>
+> **Giữ làm historical record** của deep analysis methodology (13-test RNG framework — vẫn valid).
+>
+> **Xem [3D_FINAL_REPORT.md](3D_FINAL_REPORT.md)** cho synthesis cuối cùng của toàn bộ 3D research (28 strategies, 8 cycles, final verdict).
+
+---
+
+**Dự án**: vietlott-data
+**Phạm vi**: Nghiên cứu chuyên sâu thuật toán dự đoán cho Max 3D & Max 3D Pro
+**Ngày**: 2026-04-19
+**Trạng thái**: ⚠️ Chu kỳ 4 snapshot — Phase 1 only. Superseded Chu kỳ 6-13.
 
 ---
 
