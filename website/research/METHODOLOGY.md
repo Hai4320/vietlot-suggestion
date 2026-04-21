@@ -238,6 +238,44 @@ Với α=0.05, power=80% (z_α=1.96, z_β=0.84). Nếu `n_runs × n_draws_per_ha
 
 **Anti-pattern**: Dựa trên single-rate power formula (coi baseline cố định) → underestimate n cần thiết. Power analysis phải account for baseline variance.
 
+### 3.7 Forward gate mandatory (Principle #13 — từ Chu kỳ 7/9/11/12)
+
+**Bối cảnh**: 4/4 Suggestive candidates qua Chu kỳ 7+9+11+12 show **forward-flip signature** — full-sample + split-half đều pass nhưng forward window (last 100 draws) cho Δ ≤ 0 hoặc reversed. Split-half mình chưa đủ catch overfitting trên pattern training-specific.
+
+**Rule (binding)**: Mọi strategy đạt Suggestive (§3.5) phải có **forward_last_100** gate Δ > 0 để upgrade sang Accept.
+
+**Implementation**:
+- Forward window = last 100 draws của product (held-out từ backtest).
+- Strategy fit on `draws[:N-100]`, predict `draws[N-100:N]`.
+- Compare vs Random within same forward window (variable-baseline per Principle #12).
+- Decision per window: `Pass-strong` (Δ>0 + p<0.05), `Pass-directional` (Δ>0 + p≥0.05), `Reject` (Δ≤0).
+
+**Stacked 3-gate rule**: `Accept` = full-sample pass Bonferroni AND split-half Accept AND forward Pass-{strong|directional}. Any `Reject` at any gate → overall `Reject`. Rationale: forward data was NEVER seen by model design/pre-registration — smallest overfit surface.
+
+### 3.8 Magnitude sanity check (Principle #14 — từ Chu kỳ 12+12.5)
+
+**Bối cảnh**: Chu kỳ 12 GBM claim full-sample Δ=+3pp trên 3D — **7× known bias ceiling** (+0.4pp number-level per Chu kỳ 4). Pre-reg rule đã accept the result technically. Chu kỳ 12.5 audit confirmed pure overfitting (no leak).
+
+**Rule (binding)**: Define "bias ceiling" per product class:
+- **3D (Max 3D, Max 3D Pro)**: +0.4pp exact_match_rate over Random (compound from max digit bias ~1.2pp × 3 positions, per Chu kỳ 4)
+- **Matrix (6/55, 6/45, 5/35)**: +0.3pp win_rate_ge3 (per Chu kỳ 5-6 observations)
+
+Nếu claimed full-sample `|Δ| > 3 × bias_ceiling`, auto-flag as **Ship-with-caveats pending audit** regardless of p-values hay split-half pass. Require audit cycle (template: Chu kỳ 12.5) trước khi upgrade to Accept.
+
+**Rationale**: Genuine edges > ceiling chỉ nếu mechanism captures **novel unexamined bias** — must verify whenever scale suspect. Most implausible claims = overfit on training-specific patterns, không real edge.
+
+### 3.9 Prediction concentration check (Principle #15 — từ Chu kỳ 12.5)
+
+**Bối cảnh**: Chu kỳ 12.5 audit found GBM Max 3D picks `'380'` 216/600 times (36%) — model collapse to favorite predictions. Max 3D Pro GBM 67 unique / 600 predictions.
+
+**Rule (binding for ML/discriminative strategies)**:
+- `n_unique_predictions / total_predictions ≥ 0.30` trong forward window
+- Top-5 concentration `< 30%`
+
+Strategies violating → auto-flag as **Reject** (overfit signature). Applies to GBM, neural nets, classifier-based strategies. Does not apply to hand-crafted probabilistic strategies (Bayesian, Copula) — those inherently sample from distribution.
+
+**Rationale**: Lottery với 1000 candidates (3D) hoặc ≥35 candidates (matrix), uniform-like prediction diversity expected. High concentration = model hyper-converged to training-period favorites that don't generalize.
+
 ---
 
 ## 4. Anti-patterns (Đã Gặp)
@@ -414,5 +452,7 @@ Cross-product:
 *Cập nhật: 2026-04-20 — (Chu kỳ 10 pivot) thêm §7 Exploration Mode, relax §1.5 simple-beats-complex, thêm §8 Multi-objective Tournament Ranking. Guardrails §1, §3.5, §3.6 giữ nguyên.*
 
 *2026-04-20 — (Chu kỳ 9) thêm §3.5 Split-half replication mandatory (Principle #11) và §3.6 Variable-baseline power analysis (Principle #12) sau 3/3 Suggestive candidates fail replication.*
+
+*2026-04-21 — (Chu kỳ 12/12.5) thêm §3.7 Forward gate (Principle #13) sau 4/4 forward-flip cases, §3.8 Magnitude sanity check (Principle #14) và §3.9 Prediction concentration check (Principle #15) sau GBM false-Accept audit.*
 
 *2026-04-20 — Hợp nhất PLAN + PLAYBOOK + Quant Agent thành pipeline duy nhất; codify pre-registration, significance-on-delta, R1 gate.*
