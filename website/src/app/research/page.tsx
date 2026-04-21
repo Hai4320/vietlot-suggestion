@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 
 // ============================================================
-// Deep Statistical Analysis Results
+// Deep Statistical Analysis Results (kept for detail section)
 // ============================================================
 
 const RNG_TESTS = [
@@ -26,223 +26,125 @@ const RNG_TESTS = [
   { test: "Digit Sum", max3d: { pass: true, p: 0.119 }, max3dPro: { pass: true, p: 0.655 }, meaning: "Tổng chữ số" },
 ];
 
-const DIGIT_BIAS_DATA = {
-  max3d: {
-    pos2: [
-      { digit: 0, ratio: 1.024 }, { digit: 1, ratio: 0.993 }, { digit: 2, ratio: 0.952 },
-      { digit: 3, ratio: 0.987 }, { digit: 4, ratio: 0.965 }, { digit: 5, ratio: 1.001 },
-      { digit: 6, ratio: 1.100 }, { digit: 7, ratio: 1.015 }, { digit: 8, ratio: 0.924 },
-      { digit: 9, ratio: 1.041 },
-    ],
-    pos1: [
-      { digit: 0, ratio: 0.983 }, { digit: 1, ratio: 0.982 }, { digit: 2, ratio: 1.047 },
-      { digit: 3, ratio: 1.001 }, { digit: 4, ratio: 0.982 }, { digit: 5, ratio: 1.060 },
-      { digit: 6, ratio: 0.982 }, { digit: 7, ratio: 0.986 }, { digit: 8, ratio: 1.012 },
-      { digit: 9, ratio: 0.966 },
-    ],
-  },
-  max3dPro: {
-    pos2: [
-      { digit: 0, ratio: 0.972 }, { digit: 1, ratio: 0.982 }, { digit: 2, ratio: 0.989 },
-      { digit: 3, ratio: 0.985 }, { digit: 4, ratio: 0.979 }, { digit: 5, ratio: 0.990 },
-      { digit: 6, ratio: 1.116 }, { digit: 7, ratio: 0.974 }, { digit: 8, ratio: 0.979 },
-      { digit: 9, ratio: 1.035 },
-    ],
-    pos1: [
-      { digit: 0, ratio: 1.005 }, { digit: 1, ratio: 1.003 }, { digit: 2, ratio: 1.027 },
-      { digit: 3, ratio: 0.975 }, { digit: 4, ratio: 0.961 }, { digit: 5, ratio: 1.065 },
-      { digit: 6, ratio: 1.029 }, { digit: 7, ratio: 0.915 }, { digit: 8, ratio: 0.990 },
-      { digit: 9, ratio: 1.031 },
-    ],
-  },
-};
+const DIGIT_BIAS_POS2_MAX3D_PRO = [
+  { digit: 0, ratio: 0.972 }, { digit: 1, ratio: 0.982 }, { digit: 2, ratio: 0.989 },
+  { digit: 3, ratio: 0.985 }, { digit: 4, ratio: 0.979 }, { digit: 5, ratio: 0.990 },
+  { digit: 6, ratio: 1.116 }, { digit: 7, ratio: 0.974 }, { digit: 8, ratio: 0.979 },
+  { digit: 9, ratio: 1.035 },
+];
+
+const DIGIT_BIAS_POS2_MAX3D = [
+  { digit: 0, ratio: 1.024 }, { digit: 1, ratio: 0.993 }, { digit: 2, ratio: 0.952 },
+  { digit: 3, ratio: 0.987 }, { digit: 4, ratio: 0.965 }, { digit: 5, ratio: 1.001 },
+  { digit: 6, ratio: 1.100 }, { digit: 7, ratio: 1.015 }, { digit: 8, ratio: 0.924 },
+  { digit: 9, ratio: 1.041 },
+];
 
 // ============================================================
-// Backtest Results — Advanced strategies
+// Hero stats (at-a-glance numbers)
 // ============================================================
 
-const STRATEGIES_3D = [
-  {
-    id: "ev_maximizer",
-    name: "EV Maximizer",
-    emoji: "💰",
-    badge: "★★ Mới",
-    category: "Optimization",
-    shortDesc: "Tối ưu hóa trực tiếp giá trị kỳ vọng (E[prize])",
-    description: "Tính Expected Value cho mỗi số = Σ P(số ∈ tier) × prize(tier). Dùng exponential decay (half_life=100 draws) " +
-      "để ưu tiên dữ liệu gần. Kết hợp diversity constraint (khoảng cách digit ≥ 4) để tránh clustering. " +
-      "Chiến lược #1 trên Max 3D Pro với ROI -26.5% (cải thiện 19pp so với random).",
-    formula: "E[prize(num)] = Σ_t I(num∈tier_t) × exp(-λ(T-t)) × prize(tier) / Σ_t exp(-λ(T-t))",
-    color: "hsl(45, 93%, 47%)",
-  },
-  {
-    id: "ultimate_composite",
-    name: "ULTIMATE Composite",
-    emoji: "🏆",
-    badge: "★★★ Mới",
-    category: "Hybrid",
-    shortDesc: "Kết hợp 4 tín hiệu: Joint Bias + Pair Synergy + Tier EV + Digit Sum",
-    description: "Score = 0.35×JointFreq + 0.30×PairSynergy + 0.20×TierEV + 0.15×DigitSumLikelihood. " +
-      "Greedy selection với diversity constraint. Temperature=0.5 để tập trung vào candidates mạnh nhất. " +
-      "#2 trên 3D Pro, ổn định trên cả hai sản phẩm.",
-    formula: "Score(n) = 0.35·f₁(n) + 0.30·f₂(n) + 0.20·f₃(n) + 0.15·f₄(n)",
-    color: "hsl(262, 83%, 58%)",
-  },
-  {
-    id: "joint_digit_bias",
-    name: "Joint Digit Bias",
-    emoji: "🧠",
-    badge: "★ Mới",
-    category: "Bias Exploitation",
-    shortDesc: "Khai thác phân phối đồng thời P(d0,d1,d2) thay vì P(d0)×P(d1)×P(d2)",
-    description: "Phát hiện: 3 vị trí digit KHÔNG độc lập (chi² test p<0.001). Thuật toán này sử dụng phân phối " +
-      "đồng thời thực tế thay vì giả sử độc lập. P(abc) = (count(abc) + α) / (total + 1000α) với temperature scaling. " +
-      "#3 trên cả hai sản phẩm.",
-    formula: "P(abc) = (count(abc) + α) / (total + 1000α), P_temp ∝ P^(1/T)",
-    color: "hsl(190, 80%, 45%)",
-  },
-  {
-    id: "pair_exploiter",
-    name: "Digit Pair Exploiter",
-    emoji: "🔗",
-    badge: "★★ Mới",
-    category: "Bias Exploitation",
-    shortDesc: "Khai thác tỷ lệ O/E của cặp digit không độc lập",
-    description: "Synergy(abc) = (O/E[a,b]) × (O/E[b,c]) × (O/E[a,c]). Số có synergy > 1 xuất hiện NHIỀU HƠN " +
-      "so với kỳ vọng nếu giả sử độc lập. Dùng geometric mean của O/E ratios × frequency prior. " +
-      "Mạnh trên Max 3D (#3).",
-    formula: "Synergy(abc) = ∏ᵢⱼ O/E[dᵢ,dⱼ], where O/E = Observed / (P(dᵢ)×P(dⱼ)×N)",
-    color: "hsl(340, 75%, 55%)",
-  },
-  {
-    id: "conditional_chain",
-    name: "Conditional Chain",
-    emoji: "⛓️",
-    badge: "★ Mới",
-    category: "Bias Exploitation",
-    shortDesc: "Chain rule: P(d0) × P(d1|d0) × P(d2|d0,d1)",
-    description: "Thay vì giả sử độc lập, sử dụng chain rule xác suất: P(d0,d1,d2) = P(d0)·P(d1|d0)·P(d2|d0,d1). " +
-      "Mỗi conditional được ước lượng từ dữ liệu với Laplace smoothing và temperature scaling.",
-    formula: "P(d₀,d₁,d₂) = P(d₀) × P(d₁|d₀) × P(d₂|d₀,d₁)",
-    color: "hsl(25, 85%, 50%)",
-  },
-  {
-    id: "tier_weighted",
-    name: "Tier-Weighted",
-    emoji: "🎯",
-    badge: "★ Mới",
-    category: "Coverage",
-    shortDesc: "Trọng số theo bậc giải: Đặc biệt ×100, Nhất ×35, Nhì ×21, Ba ×10",
-    description: "Tối ưu cho EXPECTED VALUE thay vì chỉ match rate. Số xuất hiện nhiều ở giải Đặc biệt đáng giá " +
-      "gấp 10 lần số ở giải Ba. Temperature scaling để kiểm soát mức tập trung.",
-    formula: "w(num) = Σ tier_weight × count_in_tier(num), P ∝ w^(1/T)",
-    color: "hsl(142, 71%, 45%)",
-  },
-  {
-    id: "multi_signal",
-    name: "Multi-Signal Ensemble",
-    emoji: "📡",
-    badge: "★★ Mới",
-    category: "Hybrid",
-    shortDesc: "6 tín hiệu: freq + joint bias + gap + digit sum + tier + conditional",
-    description: "Kết hợp 6 tín hiệu độc lập: tần suất (0.30), joint bias (0.25), digit sum likelihood (0.15), " +
-      "tier-weighted (0.15), gap/overdue (0.10), conditional probability (0.05). " +
-      "ROI tốt cho Max 3D (-35.6%).",
-    formula: "Score = Σᵢ wᵢ × signalᵢ(num), Σwᵢ = 1",
-    color: "hsl(200, 70%, 50%)",
-  },
-  {
-    id: "bayesian_joint",
-    name: "Bayesian Joint Posterior",
-    emoji: "📐",
-    badge: "★★ Mới",
-    category: "Hybrid",
-    shortDesc: "Dirichlet posterior trên joint distribution + exponential decay",
-    description: "Prior: Dirichlet(α=0.5) trên 1000 số. Likelihood: multinomial với exponential decay weighting. " +
-      "Posterior ∝ Prior × Likelihood. Decay half_life=100-150 draws cho phép theo dõi bias shifting.",
-    formula: "P(num) ∝ α + Σ_t count_t(num) × exp(-λ(T-t)), λ = ln(2)/half_life",
-    color: "hsl(280, 60%, 55%)",
-  },
+const KEY_STATS = [
+  { label: "Chiến lược đã test", value: "28", sub: "Qua 5 paradigm: Frequency · Joint-digit · Copula · GBM · Pool" },
+  { label: "Chu kỳ nghiên cứu", value: "8", sub: "Từ Chu kỳ 4 (03/2026) → Chu kỳ 13 (04/2026)" },
+  { label: "Dữ liệu draws", value: "1,776", sub: "Max 3D (1,065) + Max 3D Pro (711)" },
+  { label: "Accept confirmed", value: "0", sub: "Qua 3-gate protocol (full + split-half + forward)", alert: true },
 ];
 
-interface BacktestRow {
-  name: string;
-  exact: number;
-  roi: number;
-  hits: number;
-  sharpe: number;
-  delta: number;
-  type: "new" | "baseline";
-}
+// ============================================================
+// Research story chapters (narrative, plain Vietnamese)
+// ============================================================
 
-const BACKTEST_MAX_3D: BacktestRow[] = [
-  { name: "FreqWholeHot", exact: 2.347, roi: -32.8, hits: 238, sharpe: -0.546, delta: 0.375, type: "baseline" },
-  { name: "★ Joint Digit Bias", exact: 2.268, roi: -39.0, hits: 230, sharpe: -0.722, delta: 0.296, type: "new" },
-  { name: "★ Pair Exploiter", exact: 2.248, roi: -36.7, hits: 228, sharpe: -0.648, delta: 0.276, type: "new" },
-  { name: "★ Coverage Opt", exact: 2.219, roi: -35.8, hits: 225, sharpe: -0.649, delta: 0.247, type: "new" },
-  { name: "★ ULTIMATE v1", exact: 2.219, roi: -44.9, hits: 225, sharpe: -1.002, delta: 0.247, type: "new" },
-  { name: "★ Stratified Digit", exact: 2.199, roi: -40.8, hits: 223, sharpe: -0.760, delta: 0.227, type: "new" },
-  { name: "★ Adaptive Bias", exact: 2.081, roi: -45.0, hits: 211, sharpe: -0.882, delta: 0.109, type: "new" },
-  { name: "★ ULTIMATE v2", exact: 2.071, roi: -43.6, hits: 210, sharpe: -0.887, delta: 0.099, type: "new" },
-  { name: "★ Tier Weighted", exact: 2.061, roi: -44.8, hits: 209, sharpe: -0.880, delta: 0.089, type: "new" },
-  { name: "★ Multi-Signal", exact: 2.002, roi: -35.6, hits: 203, sharpe: -0.574, delta: 0.030, type: "new" },
-  { name: "Random", exact: 1.972, roi: -52.6, hits: 200, sharpe: -1.190, delta: 0.0, type: "baseline" },
-];
-
-const BACKTEST_MAX_3D_PRO: BacktestRow[] = [
-  { name: "★ EV Maximizer", exact: 2.496, roi: -26.5, hits: 165, sharpe: -0.428, delta: 0.499, type: "new" },
-  { name: "★ ULTIMATE v2 Sharp", exact: 2.421, roi: -27.5, hits: 160, sharpe: -0.447, delta: 0.424, type: "new" },
-  { name: "★ Joint Digit Bias", exact: 2.375, roi: -31.5, hits: 157, sharpe: -0.519, delta: 0.378, type: "new" },
-  { name: "★ Tier Weighted", exact: 2.179, roi: -43.0, hits: 144, sharpe: -0.838, delta: 0.181, type: "new" },
-  { name: "★ Bayesian Joint", exact: 2.163, roi: -45.0, hits: 143, sharpe: -0.911, delta: 0.166, type: "new" },
-  { name: "★ Bayesian HL100", exact: 2.133, roi: -33.4, hits: 141, sharpe: -0.551, delta: 0.136, type: "new" },
-  { name: "★ Cond Chain", exact: 2.103, roi: -38.3, hits: 139, sharpe: -0.646, delta: 0.106, type: "new" },
-  { name: "★ Multi-Signal", exact: 2.088, roi: -42.2, hits: 138, sharpe: -0.754, delta: 0.091, type: "new" },
-  { name: "★ Pair Exploiter", exact: 2.012, roi: -41.6, hits: 133, sharpe: -0.743, delta: 0.015, type: "new" },
-  { name: "Random", exact: 1.997, roi: -45.4, hits: 132, sharpe: -0.898, delta: 0.0, type: "baseline" },
-  { name: "FreqWholeHot", exact: 1.937, roi: -38.5, hits: 128, sharpe: -0.652, delta: -0.060, type: "baseline" },
-];
-
-const KEY_FINDINGS = [
+const CHAPTERS = [
+  {
+    icon: "🔬",
+    phase: "03-04/2026",
+    title: "Chương 1 — Phát hiện bias",
+    body: "Chúng tôi chạy 13 bài test thống kê trên dữ liệu. Phát hiện: RNG của Vietlott KHÔNG hoàn toàn đồng đều. Cụ thể: digit 6 xuất hiện NHIỀU HƠN 10-11% so với kỳ vọng ở vị trí đơn vị (cả Max 3D lẫn Max 3D Pro). Các vị trí digit cũng không độc lập — có mối phụ thuộc thực giữa chúng.",
+    cycle: "Chu kỳ 4",
+  },
   {
     icon: "⚡",
-    title: "Digit 6 vượt trội ở vị trí đơn vị",
-    detail: "Tần suất +10-11% so với kỳ vọng ở CẢ HAI sản phẩm. p-value ≈ 0 cho Max 3D, p = 0.003 cho 3D Pro.",
-    impact: "Cao",
+    phase: "04/2026",
+    title: "Chương 2 — Thử khai thác",
+    body: "Thiết kế 21 chiến lược khai thác bias: frequency, joint-digit histogram, conditional chain, EV maximizer, multi-signal ensemble, v.v. Kết quả ban đầu nhìn đầy hứa hẹn — nhiều chiến lược 'beat random' trên full-sample backtest.",
+    cycle: "Chu kỳ 4-6",
   },
   {
-    icon: "🔗",
-    title: "Các vị trí digit KHÔNG độc lập",
-    detail: "Chi-squared test bác bỏ giả thuyết P(abc)=P(a)×P(b)×P(c) với p < 0.001 cho tất cả cặp vị trí.",
-    impact: "Cao",
+    icon: "🧪",
+    phase: "04/2026",
+    title: "Chương 3 — Replication gate cắt xuống",
+    body: "Áp dụng split-half replication: chạy chiến lược riêng trên nửa đầu và nửa sau của dữ liệu. Kết quả: EV Maximizer nửa đầu p=0.0007 (rất tốt) → nửa sau p=0.865 (hoàn toàn fail). Đây là signature của overfitting. 2/2 chiến lược near-miss đều Reject.",
+    cycle: "Chu kỳ 7-9",
   },
   {
-    icon: "📊",
-    title: "Digit 5 vượt trội ở vị trí hàng chục",
-    detail: "Tần suất +6% ở cả hai sản phẩm, p = 0.006 cho 3D Pro.",
-    impact: "Trung bình",
-  },
-  {
-    icon: "🎯",
-    title: "EV Maximizer đánh bại random 25%",
-    detail: "Trên 3D Pro: exact match 2.496% vs random 1.997% (+0.499pp). ROI -26.5% vs -45.4%.",
-    impact: "Cao",
-  },
-  {
-    icon: "📈",
-    title: "15/19 chiến lược mới đánh bại random",
-    detail: "Trên Max 3D, 78.9% chiến lược mới có exact match rate cao hơn baseline ngẫu nhiên.",
-    impact: "Cao",
+    icon: "🚪",
+    phase: "04/2026",
+    title: "Chương 4 — Breakthrough mode + đóng 3D",
+    body: "Pivot sang paradigm mới: Copula (Path A), GBM tree-based (Path E), Cross-product pool (Path B). GBM ban đầu show +3pp trên Max 3D Pro — nhưng audit Chu kỳ 12.5 confirm overfitting (no leak). Cả 3 path Reject qua 3-gate protocol. 3D research line CHÍNH THỨC ĐÓNG.",
+    cycle: "Chu kỳ 10-13",
   },
 ];
 
-function BiasBar({ ratio, digit }: { ratio: number; digit: number }) {
+// ============================================================
+// Current picks (aligned with /suggest SuggestionPanel)
+// ============================================================
+
+const CURRENT_PICKS = [
+  {
+    product: "Max 3D",
+    color: "hsl(271, 91%, 65%)",
+    emoji: "🟣",
+    pick: "Bias liên hợp (JointDigitBias)",
+    delta: "+0.305pp",
+    caveat: "Directional only (p=0.11, chưa significant)",
+    why: "Mechanism khai thác digit dependencies (pos_1_2 χ²=157.74). Magnitude TRONG bias ceiling → không có dấu hiệu overfit.",
+  },
+  {
+    product: "Max 3D Pro",
+    color: "hsl(25, 95%, 53%)",
+    emoji: "🟠",
+    pick: "Bias liên hợp (JointDigitBias)",
+    delta: "+0.378pp",
+    caveat: "Directional only (p=0.14). EV Maximizer đã Reject Chu kỳ 7.",
+    why: "Strongest remaining pick sau khi EV Maximizer bị Reject (dramatic split-half flip h1 p=0.0007 → h2 p=0.865).",
+  },
+];
+
+// ============================================================
+// Cycles timeline (for technical detail section)
+// ============================================================
+
+const CYCLES_TIMELINE = [
+  { id: "4", name: "Deep Analysis + 21 Strategies", date: "03-04/2026", result: "Claims rút lại sau Chu kỳ 6 significance gating" },
+  { id: "6", name: "Significance Test Enforcement", date: "04/2026", result: "Z-test wired; 3 candidates near-miss Suggestive" },
+  { id: "7", name: "3D Split-half Replication", date: "04/2026", result: "2/2 Reject — EVMax dramatic flip, FreqWholeHot noise" },
+  { id: "8", name: "Drift Verification (R1 Gate)", date: "04/2026", result: "No drift — bias stable. 3D paused" },
+  { id: "11", name: "Copula (Path A)", date: "04/2026", result: "3/4 Reject + 1/4 Inconclusive — Copula thua JointBias heuristic" },
+  { id: "12", name: "Tree-based GBM (Path E)", date: "04/2026", result: "Max 3D Reject (fwd flip −1.9pp), Max 3D Pro Technical Accept" },
+  { id: "12.5", name: "GBM Audit (Diagnostic)", date: "04/2026", result: "No leak, overfit confirmed — Max 3D Pro GBM deprecated → Reject" },
+  { id: "13", name: "Cross-product Pool (Path B)", date: "04/2026", result: "4/4 Reject — shared-RNG hypothesis falsified" },
+];
+
+const PRINCIPLES = [
+  { n: "11", title: "Split-half replication mandatory", origin: "Chu kỳ 7, 9", body: "Mọi Suggestive claim từ full-sample phải pass split-half replication trước khi upgrade sang Accept." },
+  { n: "12", title: "Variable-baseline power analysis", origin: "Chu kỳ 8, 9", body: "Trước replication, tính n_required theo formula variable-baseline. Nếu power <80% → report limitation." },
+  { n: "13", title: "Forward gate mandatory (3-gate)", origin: "Chu kỳ 7, 9, 11, 12, 13 (5× validated)", body: "Stacked gate: full-sample + split-half + forward_last_100. 5 forward-flip cases justify binding rule." },
+  { n: "14", title: "Magnitude sanity check", origin: "Chu kỳ 12, 12.5", body: "Nếu |Δ| > 3× bias ceiling của product class (3D: 0.4pp, matrix: 0.3pp), auto-flag Ship-with-caveats pending audit." },
+  { n: "15", title: "Prediction concentration check (ML)", origin: "Chu kỳ 12.5", body: "ML/discriminative strategies require n_unique/total ≥ 0.30 + top-5 concentration < 30% để tránh overfit collapse." },
+];
+
+// ============================================================
+// UI helpers
+// ============================================================
+
+function BiasBar({ ratio, digit, highlight = false }: { ratio: number; digit: number; highlight?: boolean }) {
   const pct = Math.max(0, Math.min(100, (ratio - 0.85) / 0.3 * 100));
   const isAbove = ratio > 1.03;
   const isBelow = ratio < 0.97;
   return (
-    <div className="flex items-center gap-2 text-xs">
-      <span className="w-4 text-right font-mono">{digit}</span>
+    <div className={`flex items-center gap-2 text-xs ${highlight ? "bg-orange-500/10 rounded px-1" : ""}`}>
+      <span className={`w-4 text-right font-mono ${highlight ? "font-bold text-orange-500" : ""}`}>{digit}</span>
       <div className="flex-1 h-4 bg-muted rounded-sm overflow-hidden relative">
         <div
           className={`h-full rounded-sm transition-all ${isAbove ? "bg-green-500" : isBelow ? "bg-red-400" : "bg-blue-400/60"}`}
@@ -265,406 +167,388 @@ function ResultBadge({ pass }: { pass: boolean }) {
   );
 }
 
+// ============================================================
+// Page
+// ============================================================
+
 export default function ResearchPage() {
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">
-          🔬 Nghiên Cứu Thuật Toán Max 3D
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          8 chu kỳ nghiên cứu · 28 chiến lược · 3-gate protocol (full + split-half + forward) · <strong>research line closed 2026-04-21</strong>
+    <div className="space-y-8 pb-12">
+      {/* ================== HERO ================== */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3 flex-wrap">
+          <h1 className="text-3xl font-bold tracking-tight">
+            🔬 Nghiên Cứu Thuật Toán 3D
+          </h1>
+          <Badge variant="destructive" className="text-xs">Research line closed · 2026-04-21</Badge>
+        </div>
+        <p className="text-muted-foreground max-w-3xl">
+          Dự án này đã test 28 chiến lược dự đoán số qua 8 chu kỳ nghiên cứu nghiêm ngặt.
+          Dưới đây là kết quả, kết luận, và lý do tại sao không có thuật toán nào đảm bảo lợi nhuận.
         </p>
       </div>
 
-      {/* Research closed banner */}
+      {/* ================== TL;DR ================== */}
       <Card className="border-orange-500/40 bg-orange-500/5">
-        <CardContent className="pt-6">
-          <div className="flex items-start gap-3">
-            <span className="text-2xl">🔬</span>
-            <div className="flex-1 space-y-2 text-sm">
-              <div className="font-bold text-orange-700 dark:text-orange-400">
-                3D Research Line — Definitively Closed (Chu kỳ 13, 2026-04-21)
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <span>⚡</span> Tóm tắt — Đọc 30 giây
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 text-sm">
+          <div className="flex gap-3">
+            <span className="text-green-500 shrink-0">✓</span>
+            <p className="leading-relaxed">
+              <strong>Có bias THẬT</strong> trong RNG của Vietlott — digit 6 xuất hiện nhiều hơn 10-11%
+              ở vị trí đơn vị, các digit không độc lập nhau.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <span className="text-orange-500 shrink-0">⚠</span>
+            <p className="leading-relaxed">
+              <strong>Nhưng bias quá nhỏ</strong> so với noise. Với 1,000-2,000 draws dữ liệu hiện tại,
+              tín hiệu (~+0.4pp) bị nhiễu (±0.44pp) che mờ — không thể khẳng định thuật toán nào thắng.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <span className="text-red-500 shrink-0">✗</span>
+            <p className="leading-relaxed">
+              <strong>0/28 chiến lược đạt Accept</strong> qua quy trình 3-gate (full-sample + split-half
+              replication + forward validation). Mọi &ldquo;chiến thắng&rdquo; trên backtest đều thất bại khi
+              test lại trên dữ liệu mới.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <span className="text-blue-500 shrink-0">🎯</span>
+            <p className="leading-relaxed">
+              <strong>Có thể revisit khoảng 2027</strong> khi có thêm ~500 draws dữ liệu, hoặc khi tìm được
+              bias dimension mới (time-of-draw, machine serial, v.v.).
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ================== KEY STATS ================== */}
+      <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
+        {KEY_STATS.map((s) => (
+          <Card key={s.label} className={s.alert ? "border-red-500/40 bg-red-500/5" : ""}>
+            <CardContent className="pt-6 space-y-1">
+              <div className={`text-3xl font-bold font-mono ${s.alert ? "text-red-500" : "text-primary"}`}>
+                {s.value}
               </div>
-              <p className="text-muted-foreground leading-relaxed">
-                Sau 8 chu kỳ + 28 chiến lược qua 5 mechanism paradigms (Frequency, Joint-digit, Copula,
-                Discriminative ML, Cross-product pool), <strong className="text-foreground">0 chiến lược đạt ngưỡng Accept/Suggestive</strong>
-                qua 3-gate protocol (full-sample + split-half replication + forward_last_100).
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                3D RNG của Vietlott có bias real + stable (Chu kỳ 8 xác nhận no drift)
-                nhưng <strong className="text-foreground">không exploitable</strong> ở data horizon hiện tại —
-                bias ceiling ~+0.4pp quá nhỏ so với noise floor ±0.44pp của forward window n=1000.
-              </p>
-              <p className="text-xs text-muted-foreground/80 italic">
-                Revisit criteria: &gt;500 draws mới (~2027) OR novel bias dimension discovery OR Vietlott RNG methodology audit.
-              </p>
+              <div className="text-xs font-semibold uppercase tracking-wide">{s.label}</div>
+              <div className="text-[11px] text-muted-foreground leading-relaxed">{s.sub}</div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* ================== STORY ================== */}
+      <div>
+        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span>📖</span> Câu chuyện nghiên cứu
+        </h2>
+        <div className="space-y-3">
+          {CHAPTERS.map((c, i) => (
+            <Card key={i} className="relative overflow-hidden">
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary/60" />
+              <CardContent className="pt-5 pl-6 space-y-2">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xl">{c.icon}</span>
+                  <span className="font-bold text-base">{c.title}</span>
+                  <Badge variant="outline" className="text-[10px] font-mono">{c.cycle}</Badge>
+                  <span className="text-xs text-muted-foreground">· {c.phase}</span>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">{c.body}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* ================== WHY DOESN'T IT WORK? ================== */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl flex items-center gap-2">
+            <span>🤔</span> Tại sao bias thực nhưng không khai thác được?
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4 text-sm">
+          <p className="leading-relaxed">
+            <strong>Phép so sánh đơn giản:</strong> Tưởng tượng tung đồng xu 100 lần ra 52 mặt ngửa, 48 sấp.
+            Đồng xu này fair hay bias +2%? Không chắc — chênh lệch có thể do noise. Cần tung ~10,000 lần
+            mới phân biệt được.
+          </p>
+          <p className="leading-relaxed">
+            Với 3D, tình huống tương tự: bias +0.4pp (tín hiệu) gần bằng noise ±0.44pp (độ nhiễu) ở
+            forward validation window n=1,000. Signal-to-noise ratio ≈ 0.68 — quá thấp để confident.
+          </p>
+
+          {/* Visual: signal vs noise */}
+          <div className="rounded-lg border border-border p-4 space-y-3 bg-muted/30">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Tín hiệu vs Nhiễu trên forward window (n=1,000)
+            </div>
+            <div className="space-y-2">
+              <div>
+                <div className="flex items-center justify-between text-xs mb-1">
+                  <span>Tín hiệu (bias ceiling)</span>
+                  <span className="font-mono text-green-500">+0.4pp</span>
+                </div>
+                <div className="h-3 bg-muted rounded">
+                  <div className="h-3 bg-green-500/70 rounded" style={{ width: "40%" }} />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between text-xs mb-1">
+                  <span>Nhiễu (standard error)</span>
+                  <span className="font-mono text-red-400">±0.44pp</span>
+                </div>
+                <div className="h-3 bg-muted rounded">
+                  <div className="h-3 bg-red-400/70 rounded" style={{ width: "44%" }} />
+                </div>
+              </div>
+              <div className="text-[11px] text-muted-foreground italic mt-2">
+                → Tín hiệu và nhiễu gần bằng nhau → 50% khả năng thấy &ldquo;chiến thắng&rdquo; ngẫu nhiên ngay cả khi không có edge thực.
+              </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
 
-      {/* Key Findings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">⚡ Phát Hiện Chính</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {KEY_FINDINGS.map((f, i) => (
-              <div key={i} className="rounded-lg border border-border p-3 space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">{f.icon}</span>
-                  <span className="font-semibold text-sm">{f.title}</span>
-                </div>
-                <p className="text-xs text-muted-foreground">{f.detail}</p>
-                <Badge variant={f.impact === "Cao" ? "destructive" : "secondary"} className="text-xs">
-                  Impact: {f.impact}
-                </Badge>
-              </div>
-            ))}
+          <div className="rounded-lg border border-border p-4 space-y-2">
+            <div className="font-semibold flex items-center gap-2">
+              <span>🛡️</span> Forward gate — &ldquo;Gác cổng&rdquo; đã phát hiện 5 lần
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Chu kỳ 7 (EV Maximizer), Chu kỳ 9 (ExpDecay Cold), Chu kỳ 11 (Empirical Copula), Chu kỳ 12
+              (GBM), Chu kỳ 13 (Hierarchical Bayes) — mọi chiến lược &ldquo;nhìn có edge&rdquo; trên backtest đều
+              thất bại khi test lại trên 100 draws mới nhất (forward validation). Đây là signature
+              overfitting điển hình.
+            </p>
           </div>
         </CardContent>
       </Card>
 
-      {/* RNG Quality Tests */}
+      {/* ================== CURRENT PICKS ================== */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-xl">🧪 Kiểm Định Chất Lượng RNG</CardTitle>
+          <CardTitle className="text-xl flex items-center gap-2">
+            <span>🎯</span> Research picks — Nếu bạn vẫn muốn chơi
+          </CardTitle>
           <p className="text-sm text-muted-foreground">
-            13 bài kiểm tra thống kê — p &lt; 0.05 = bias đáng kể (FAIL)
+            Đây là chọn lựa TỐT NHẤT trong các chọn lựa không-tốt. <strong>KHÔNG phải confirmed edge.</strong>
           </p>
         </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Test</TableHead>
-                <TableHead className="text-center">Max 3D</TableHead>
-                <TableHead className="text-center">Max 3D Pro</TableHead>
-                <TableHead>Ý nghĩa</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {RNG_TESTS.map((t, i) => (
-                <TableRow key={i}>
-                  <TableCell className="font-medium text-sm">{t.test}</TableCell>
-                  <TableCell className="text-center">
-                    <div className="flex flex-col items-center gap-1">
-                      <ResultBadge pass={t.max3d.pass} />
-                      <span className="text-xs text-muted-foreground">p={t.max3d.p < 0.001 ? "<0.001" : t.max3d.p.toFixed(3)}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <div className="flex flex-col items-center gap-1">
-                      <ResultBadge pass={t.max3dPro.pass} />
-                      <span className="text-xs text-muted-foreground">p={t.max3dPro.p < 0.001 ? "<0.001" : t.max3dPro.p.toFixed(3)}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{t.meaning}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <CardContent className="grid gap-3 md:grid-cols-2">
+          {CURRENT_PICKS.map((p) => (
+            <div
+              key={p.product}
+              className="rounded-lg border-2 p-4 space-y-2"
+              style={{ borderColor: `${p.color}40`, background: `${p.color}08` }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-xl">{p.emoji}</span>
+                <span className="font-bold">{p.product}</span>
+                <Badge className="ml-auto text-[10px] bg-orange-600 text-white">🔬 Directional</Badge>
+              </div>
+              <div className="text-sm">
+                <span className="font-semibold">{p.pick}</span>
+                <span className="ml-2 text-green-500 font-mono text-xs">Δ {p.delta} vs Random</span>
+              </div>
+              <div className="text-xs text-orange-600 dark:text-orange-400">
+                ⚠ {p.caveat}
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">{p.why}</p>
+            </div>
+          ))}
         </CardContent>
       </Card>
 
-      {/* Digit Bias Visualization */}
+      {/* ================== FUTURE / REVISIT ================== */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl flex items-center gap-2">
+            <span>🔮</span> Khi nào có thể mở lại nghiên cứu?
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-3 md:grid-cols-3">
+          {[
+            {
+              icon: "📊",
+              title: "Data mở rộng",
+              body: "Chờ ~500 draws thêm (Max 3D Pro → 1,500 draws). Timeframe: khoảng 2027-2028 với tần suất draw hiện tại (180/năm).",
+            },
+            {
+              icon: "💡",
+              title: "Novel bias dimension",
+              body: "Phát hiện chiều bias mới: time-of-draw, machine serial correlations, cross-time patterns, operator schedule artifacts, v.v.",
+            },
+            {
+              icon: "📋",
+              title: "RNG audit công khai",
+              body: "Nếu Vietlott hoặc regulator công bố phương pháp RNG / audit → có thể target specific mathematical structure.",
+            },
+          ].map((c, i) => (
+            <div key={i} className="rounded-lg border border-border p-3 space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">{c.icon}</span>
+                <span className="font-semibold text-sm">{c.title}</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">{c.body}</p>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      {/* ================== DIGIT BIAS VIZ (kept visible) ================== */}
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">📊 Bias Digit — Max 3D (vị trí đơn vị)</CardTitle>
-            <p className="text-xs text-muted-foreground">Ratio O/E: &gt;1.03 = over-represented, &lt;0.97 = under-represented</p>
+            <CardTitle className="text-base">📊 Bias digit đơn vị — Max 3D Pro</CardTitle>
+            <p className="text-xs text-muted-foreground">Tỷ lệ O/E. Digit 6: <strong className="text-orange-500">+11.6%</strong> — bias mạnh nhất toàn nghiên cứu.</p>
           </CardHeader>
           <CardContent className="space-y-1.5">
-            {DIGIT_BIAS_DATA.max3d.pos2.map((d) => (
-              <BiasBar key={d.digit} digit={d.digit} ratio={d.ratio} />
+            {DIGIT_BIAS_POS2_MAX3D_PRO.map((d) => (
+              <BiasBar key={d.digit} digit={d.digit} ratio={d.ratio} highlight={d.digit === 6} />
             ))}
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">📊 Bias Digit — Max 3D Pro (vị trí đơn vị)</CardTitle>
-            <p className="text-xs text-muted-foreground">Digit 6: +11.6% — bias mạnh nhất</p>
+            <CardTitle className="text-base">📊 Bias digit đơn vị — Max 3D</CardTitle>
+            <p className="text-xs text-muted-foreground">Tỷ lệ O/E. Digit 6: <strong className="text-orange-500">+10.0%</strong> — cùng pattern với 3D Pro.</p>
           </CardHeader>
           <CardContent className="space-y-1.5">
-            {DIGIT_BIAS_DATA.max3dPro.pos2.map((d) => (
-              <BiasBar key={d.digit} digit={d.digit} ratio={d.ratio} />
+            {DIGIT_BIAS_POS2_MAX3D.map((d) => (
+              <BiasBar key={d.digit} digit={d.digit} ratio={d.ratio} highlight={d.digit === 6} />
             ))}
           </CardContent>
         </Card>
       </div>
 
-      {/* Strategy Descriptions */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">🧠 Thuật Toán Nghiên Cứu Mới</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            8 thuật toán mới được thiết kế riêng cho Max 3D, khai thác các bias phát hiện được
-          </p>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-2">
-            {STRATEGIES_3D.map((s) => (
-              <div key={s.id} className="rounded-lg border border-border p-4 space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-xl">{s.emoji}</span>
-                  <span className="font-bold">{s.name}</span>
-                  {s.badge && (
-                    <Badge variant="secondary" className="text-xs">{s.badge}</Badge>
-                  )}
-                </div>
-                <Badge variant="outline" className="text-xs">{s.category}</Badge>
-                <p className="text-sm text-muted-foreground">{s.description}</p>
-                <div className="bg-muted rounded-md p-2">
-                  <p className="text-xs font-mono text-muted-foreground">{s.formula}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Backtest Results — Max 3D */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">📈 Backtest: Max 3D (1.064 kỳ)</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Walk-forward | 5 runs | 2 predictions/draw | Seed=42
-          </p>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-8">#</TableHead>
-                <TableHead>Chiến lược</TableHead>
-                <TableHead className="text-right">Exact %</TableHead>
-                <TableHead className="text-right">ROI %</TableHead>
-                <TableHead className="text-right">Hits</TableHead>
-                <TableHead className="text-right">Sharpe</TableHead>
-                <TableHead className="text-right">Δ Random</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {BACKTEST_MAX_3D.map((r, i) => (
-                <TableRow key={i} className={r.type === "baseline" ? "bg-muted/30" : ""}>
-                  <TableCell className="font-bold text-muted-foreground">{i + 1}</TableCell>
-                  <TableCell className="font-medium">
-                    {r.name}
-                    {i === 0 && <Badge className="ml-2 text-xs" variant="default">🥇</Badge>}
-                    {i === 1 && <Badge className="ml-2 text-xs" variant="secondary">🥈</Badge>}
-                    {i === 2 && <Badge className="ml-2 text-xs" variant="secondary">🥉</Badge>}
-                  </TableCell>
-                  <TableCell className="text-right font-mono">{r.exact.toFixed(3)}</TableCell>
-                  <TableCell className={`text-right font-mono ${r.roi > -40 ? "text-green-400" : "text-muted-foreground"}`}>{r.roi.toFixed(1)}</TableCell>
-                  <TableCell className="text-right font-mono">{r.hits}</TableCell>
-                  <TableCell className="text-right font-mono">{r.sharpe.toFixed(3)}</TableCell>
-                  <TableCell className={`text-right font-mono ${r.delta > 0 ? "text-green-400" : r.delta < 0 ? "text-red-400" : "text-muted-foreground"}`}>
-                    {r.delta > 0 ? "+" : ""}{r.delta.toFixed(3)}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      {/* Backtest Results — Max 3D Pro */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">📈 Backtest: Max 3D Pro (711 kỳ)</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Walk-forward | 5 runs | 2 predictions/draw | Seed=42
-          </p>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-8">#</TableHead>
-                <TableHead>Chiến lược</TableHead>
-                <TableHead className="text-right">Exact %</TableHead>
-                <TableHead className="text-right">ROI %</TableHead>
-                <TableHead className="text-right">Hits</TableHead>
-                <TableHead className="text-right">Sharpe</TableHead>
-                <TableHead className="text-right">Δ Random</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {BACKTEST_MAX_3D_PRO.map((r, i) => (
-                <TableRow key={i} className={r.type === "baseline" ? "bg-muted/30" : ""}>
-                  <TableCell className="font-bold text-muted-foreground">{i + 1}</TableCell>
-                  <TableCell className="font-medium">
-                    {r.name}
-                    {i === 0 && <Badge className="ml-2 text-xs" variant="default">🥇</Badge>}
-                    {i === 1 && <Badge className="ml-2 text-xs" variant="secondary">🥈</Badge>}
-                    {i === 2 && <Badge className="ml-2 text-xs" variant="secondary">🥉</Badge>}
-                  </TableCell>
-                  <TableCell className="text-right font-mono">{r.exact.toFixed(3)}</TableCell>
-                  <TableCell className={`text-right font-mono ${r.roi > -35 ? "text-green-400" : "text-muted-foreground"}`}>{r.roi.toFixed(1)}</TableCell>
-                  <TableCell className="text-right font-mono">{r.hits}</TableCell>
-                  <TableCell className="text-right font-mono">{r.sharpe.toFixed(3)}</TableCell>
-                  <TableCell className={`text-right font-mono ${r.delta > 0 ? "text-green-400" : r.delta < 0 ? "text-red-400" : "text-muted-foreground"}`}>
-                    {r.delta > 0 ? "+" : ""}{r.delta.toFixed(3)}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      {/* Methodology */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">📋 Phương Pháp Nghiên Cứu</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
+      {/* ================== TECHNICAL DETAILS (COLLAPSIBLE) ================== */}
+      <details className="group rounded-lg border border-border">
+        <summary className="cursor-pointer list-none flex items-center justify-between p-4 hover:bg-muted/30 transition">
+          <span className="font-semibold text-base flex items-center gap-2">
+            <span>🔬</span> Chi tiết kỹ thuật (chu kỳ · principles · tests · backtest full)
+          </span>
+          <span className="text-xs text-muted-foreground group-open:hidden">Click để mở</span>
+          <span className="text-xs text-muted-foreground hidden group-open:inline">Click để đóng</span>
+        </summary>
+        <div className="border-t border-border p-4 space-y-6">
+          {/* Cycles timeline */}
+          <div>
+            <h3 className="font-semibold text-base mb-3">🔄 Timeline 8 chu kỳ</h3>
             <div className="space-y-2">
-              <h3 className="font-semibold">Quy trình nghiên cứu</h3>
-              <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Phân tích thống kê sâu (13 bài test)</li>
-                <li>Phát hiện bias trong RNG</li>
-                <li>Thiết kế 21 thuật toán mới (4 category)</li>
-                <li>Walk-forward backtest (không look-ahead)</li>
-                <li>Xếp hạng và phân tích kết quả</li>
-              </ol>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold">Đảm bảo chất lượng</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>✅ Không look-ahead bias</li>
-                <li>✅ Seed cố định (reproducible)</li>
-                <li>✅ 5 runs per strategy</li>
-                <li>✅ Cross-product validation</li>
-                <li>✅ Statistical significance tests</li>
-              </ul>
+              {CYCLES_TIMELINE.map((c) => (
+                <div key={c.id} className="flex gap-3 border-l-2 border-muted pl-3 py-1">
+                  <Badge variant="outline" className="shrink-0 font-mono text-[10px]">Chu kỳ {c.id}</Badge>
+                  <div className="flex-1">
+                    <div className="text-sm font-semibold">
+                      {c.name} <span className="text-xs text-muted-foreground font-normal">({c.date})</span>
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-0.5">{c.result}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="space-y-2">
-            <h3 className="font-semibold">Cấu hình backtest</h3>
+
+          {/* Principles */}
+          <div>
+            <h3 className="font-semibold text-base mb-3">📐 Methodology Principles #11-#15</h3>
+            <div className="space-y-2">
+              {PRINCIPLES.map((p) => (
+                <div key={p.n} className="rounded-lg border border-border p-3 bg-muted/20">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Badge className="font-mono text-[10px]">#{p.n}</Badge>
+                    <span className="font-semibold text-sm">{p.title}</span>
+                    <span className="text-[10px] text-muted-foreground">· {p.origin}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{p.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RNG tests */}
+          <div>
+            <h3 className="font-semibold text-base mb-3">🧪 10 bài test kiểm định RNG</h3>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Test</TableHead>
+                  <TableHead className="text-center">Max 3D</TableHead>
+                  <TableHead className="text-center">Max 3D Pro</TableHead>
+                  <TableHead>Ý nghĩa</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {RNG_TESTS.map((t, i) => (
+                  <TableRow key={i}>
+                    <TableCell className="font-medium text-sm">{t.test}</TableCell>
+                    <TableCell className="text-center">
+                      <div className="flex flex-col items-center gap-1">
+                        <ResultBadge pass={t.max3d.pass} />
+                        <span className="text-xs text-muted-foreground">
+                          p={t.max3d.p < 0.001 ? "<0.001" : t.max3d.p.toFixed(3)}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <div className="flex flex-col items-center gap-1">
+                        <ResultBadge pass={t.max3dPro.pass} />
+                        <span className="text-xs text-muted-foreground">
+                          p={t.max3dPro.p < 0.001 ? "<0.001" : t.max3dPro.p.toFixed(3)}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">{t.meaning}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <p className="text-[11px] text-muted-foreground italic mt-2">
+              PASS = phân bố đồng đều (p ≥ 0.05). FAIL = có bias đáng kể (p &lt; 0.05).
+            </p>
+          </div>
+
+          {/* Backtest config */}
+          <div>
+            <h3 className="font-semibold text-base mb-3">⚙️ Cấu hình backtest</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               {[
-                { label: "Min History", value: "50 draws" },
-                { label: "Predictions/Draw", value: "2 số" },
+                { label: "Min history", value: "50 draws" },
+                { label: "Predictions/draw", value: "2 số" },
                 { label: "Runs", value: "5 lần" },
-                { label: "Ticket Price", value: "10.000 VND" },
+                { label: "Ticket price", value: "10k VND" },
+                { label: "Forward window", value: "100 draws" },
+                { label: "Split type", value: "Time-ordered" },
+                { label: "Seed", value: "42 (fixed)" },
+                { label: "Multiple testing", value: "Bonferroni" },
               ].map((c) => (
-                <div key={c.label} className="rounded-md bg-muted p-2 text-center">
-                  <div className="text-xs text-muted-foreground">{c.label}</div>
-                  <div className="font-mono font-bold text-sm">{c.value}</div>
+                <div key={c.label} className="rounded-md bg-muted/50 p-2 text-center">
+                  <div className="text-[10px] text-muted-foreground">{c.label}</div>
+                  <div className="font-mono font-bold text-xs">{c.value}</div>
                 </div>
               ))}
             </div>
           </div>
-        </CardContent>
-      </Card>
 
-      {/* Recommendation */}
-      <Card className="border-primary/50">
-        <CardHeader>
-          <CardTitle className="text-xl">🏆 Khuyến Nghị</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="grid gap-3 md:grid-cols-2">
-            <div className="rounded-lg border-2 border-green-500/30 bg-green-500/5 p-4 space-y-2">
-              <h3 className="font-bold text-green-400">Max 3D</h3>
-              <p className="text-sm text-muted-foreground">
-                <strong>Chiến lược #1:</strong> FreqWholeHot hoặc Joint Digit Bias
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Exact match: 2.35% | ROI: -33% | Cải thiện 19% vs random
-              </p>
-            </div>
-            <div className="rounded-lg border-2 border-yellow-500/30 bg-yellow-500/5 p-4 space-y-2">
-              <h3 className="font-bold text-yellow-400">Max 3D Pro</h3>
-              <p className="text-sm text-muted-foreground">
-                <strong>Chiến lược #1:</strong> EV Maximizer hoặc ULTIMATE v2
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Exact match: 2.50% | ROI: -26.5% | Cải thiện 42% vs random
-              </p>
-              <p className="text-[11px] text-orange-600 dark:text-orange-400 mt-2 italic">
-                ⚠️ Claim trên là snapshot Chu kỳ 4 (pre-replication). Chu kỳ 7 split-half Rejected EV Maximizer
-                (h1 p=0.0007 → h2 p=0.865 direction flip). Xem Chu kỳ Timeline bên dưới.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Cycles Timeline (Chu kỳ 7-13) */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">🔄 Chu Kỳ Nghiên Cứu 3D — Timeline</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Từ Chu kỳ 4 (initial deep analysis) đến Chu kỳ 13 (research closed) — 8 cycles, progressive protocol tightening
+          <p className="text-xs text-muted-foreground italic">
+            Nguồn chi tiết: <code className="font-mono bg-muted px-1 rounded">website/research/3d/3D_FINAL_REPORT.md</code>,{" "}
+            <code className="font-mono bg-muted px-1 rounded">METHODOLOGY.md</code>, và per-cycle files trong{" "}
+            <code className="font-mono bg-muted px-1 rounded">website/research/history/</code>.
           </p>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3 text-sm">
-            {[
-              { id: "4", name: "Deep Analysis + 21 Strategies", date: "03-04/2026", result: "Claims rút lại sau Chu kỳ 6 significance gating" },
-              { id: "6", name: "Significance Test Enforcement", date: "04/2026", result: "Z-test wired; 3 candidates near-miss Suggestive" },
-              { id: "7", name: "3D Split-half Replication", date: "04/2026", result: "2/2 Reject — EVMax dramatic flip, FreqWholeHot noise" },
-              { id: "8", name: "Drift Verification (R1 Gate)", date: "04/2026", result: "No drift — bias stable. 3D paused" },
-              { id: "11", name: "Copula (Path A)", date: "04/2026", result: "3/4 Reject + 1/4 Inconclusive — Copula thua JointBias heuristic" },
-              { id: "12", name: "Tree-based GBM (Path E)", date: "04/2026", result: "Max 3D Reject (fwd flip −1.9pp), Max 3D Pro Technical Accept" },
-              { id: "12.5", name: "GBM Audit (Diagnostic)", date: "04/2026", result: "No leak, overfit confirmed — Max 3D Pro GBM deprecated → Reject" },
-              { id: "13", name: "Cross-product Pool (Path B)", date: "04/2026", result: "4/4 Reject — shared-RNG hypothesis falsified" },
-            ].map((c) => (
-              <div key={c.id} className="flex gap-3 border-l-2 border-muted pl-3 py-1">
-                <Badge variant="outline" className="shrink-0 font-mono">Chu kỳ {c.id}</Badge>
-                <div className="flex-1">
-                  <div className="font-semibold">{c.name} <span className="text-xs text-muted-foreground font-normal">({c.date})</span></div>
-                  <div className="text-xs text-muted-foreground mt-0.5">{c.result}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+        </div>
+      </details>
 
-      {/* Methodology Principles Corpus (#11-#15) */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl">📐 Methodology Principles — Codified từ 3D Research</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            5 binding principles mới được codify vào METHODOLOGY.md §3.5-3.9, chủ yếu từ 3D negative results
-          </p>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          {[
-            { n: "11", title: "Split-half replication mandatory", origin: "Chu kỳ 7, 9", body: "Mọi Suggestive claim từ full-sample phải pass split-half replication trước khi upgrade sang Accept." },
-            { n: "12", title: "Variable-baseline power analysis", origin: "Chu kỳ 8, 9", body: "Trước replication, tính n_required theo formula variable-baseline. Nếu power <80% → report limitation." },
-            { n: "13", title: "Forward gate mandatory (3-gate)", origin: "Chu kỳ 7, 9, 11, 12, 13 (5× validated)", body: "Stacked gate: full-sample + split-half + forward_last_100. 5 forward-flip cases justify binding rule." },
-            { n: "14", title: "Magnitude sanity check", origin: "Chu kỳ 12, 12.5", body: "Nếu |Δ| > 3× bias ceiling của product class (3D: 0.4pp, matrix: 0.3pp), auto-flag Ship-with-caveats pending audit." },
-            { n: "15", title: "Prediction concentration check (ML)", origin: "Chu kỳ 12.5", body: "ML/discriminative strategies require n_unique/total ≥ 0.30 + top-5 concentration < 30% để tránh overfit collapse." },
-          ].map((p) => (
-            <div key={p.n} className="rounded-lg border border-border p-3">
-              <div className="flex items-center gap-2 flex-wrap">
-                <Badge className="font-mono">#{p.n}</Badge>
-                <span className="font-semibold">{p.title}</span>
-                <span className="text-xs text-muted-foreground">· {p.origin}</span>
-              </div>
-              <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{p.body}</p>
-            </div>
-          ))}
-          <p className="text-xs text-muted-foreground italic mt-2">
-            Xem chi tiết binding rules + implementation trong METHODOLOGY.md §3 của repo research.
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Disclaimer */}
+      {/* ================== DISCLAIMER ================== */}
       <div className="rounded-lg border border-yellow-600/40 bg-yellow-600/5 px-4 py-3">
-        <p className="text-xs text-muted-foreground">
-          <strong>⚠️ Disclaimer:</strong> Nghiên cứu này chỉ mang tính chất giáo dục và thử nghiệm. 
-          Xổ số là trò chơi có kỳ vọng âm — <strong>không có thuật toán nào đảm bảo lợi nhuận</strong>. 
-          Kết quả backtest không đảm bảo hiệu suất tương lai. Không nên đánh cược nhiều hơn số tiền bạn có thể chịu mất.
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          <strong>⚠️ Disclaimer:</strong> Nghiên cứu này chỉ mang tính giáo dục và thử nghiệm.
+          Xổ số là trò chơi có kỳ vọng âm — <strong>không có thuật toán nào đảm bảo lợi nhuận</strong>.
+          Mọi research pick trên đây là directional only (nhắm đúng hướng bias), chưa được xác nhận
+          thống kê có edge thực. Không nên đánh cược nhiều hơn số tiền bạn có thể chịu mất.
         </p>
       </div>
     </div>
