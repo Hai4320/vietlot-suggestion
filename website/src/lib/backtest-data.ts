@@ -1,8 +1,12 @@
 // ============================================================
 // Shared backtest results — used by /algorithms and /suggest
-// Values refreshed 2026-04-20 (Chu kỳ 6) from matrix/backtest_results.json
-// + matrix/power535_wheeling_backtest_results.json
-// Significance fields: z-test vs Random baseline, Wilson CI, Bonferroni K=14.
+// Refreshed 2026-04-21 post-Chu kỳ 13 (3D research closed, 28 strategies tested).
+// Updates from Chu kỳ 6 baseline:
+//   - Mega 6/45 ExpDecay_Cold: Suggestive → Reject (Chu kỳ 9 split-half direction flip)
+//   - Mega 6/45 Ensemble/Bayesian AI Suggestive: note "untested replication"
+//   - 3D: added Chu kỳ 11 Copula, Chu kỳ 12 GBM, Chu kỳ 13 Pool strategies
+//   - 3D all: Reject per 3-gate protocol (full + split-half + forward)
+// Significance: z-test vs Random, Wilson CI, decision per EVALUATION §6 + Principle #13.
 // ============================================================
 
 export type Decision = "Accept" | "Suggestive" | "Inconclusive" | "Reject" | "baseline";
@@ -49,7 +53,11 @@ export interface ThreeDBacktest {
 //   Suggestive  = p<0.05 AND ci_lo>0 (không pass Bonferroni K=14, α=0.00357)
 //   Reject      = p≥0.05 hoặc CI chứa 0 hoặc Δ≤0
 //
-// Sau Chu kỳ 6: KHÔNG strategy matrix nào Accept. 6/45 ExpDecay_Cold là Suggestive mạnh nhất.
+// Sau Chu kỳ 6: KHÔNG strategy matrix nào Accept. 6/45 ExpDecay_Cold Chu kỳ 6 Suggestive.
+// Sau Chu kỳ 9: ExpDecay_Cold Rejected split-half (direction flip h1 −0.26pp, h2 +0.37pp).
+//   → Mega 6/45 bây giờ KHÔNG còn strategy Accept/Suggestive verified. Ensemble/Bayesian AI
+//     Suggestive status là "full-sample only, replication chưa test" — per Principle #11
+//     không thể claim Accept tới khi pass split-half.
 
 export const BACKTEST_MATRIX: Record<string, MatrixBacktest> = {
   "power-655": {
@@ -71,7 +79,7 @@ export const BACKTEST_MATRIX: Record<string, MatrixBacktest> = {
     baseline: { E: 0.8, winPct: 2.383 },
     totalDraws: 1302,
     strategies: [
-      { name: "Suy giảm hàm mũ (Cold)", avg: 0.8089, delta: +0.0089, winPct: 2.912, roi: -56.9, best: 5, type: "old", pValue: 0.0044, decision: "Suggestive" },
+      { name: "Suy giảm hàm mũ (Cold)", avg: 0.8089, delta: +0.0089, winPct: 2.912, roi: -56.9, best: 5, type: "old", pValue: 0.0044, decision: "Reject" }, // ⚠️ Chu kỳ 9 split-half Reject (direction flip h1 −0.26pp → h2 +0.37pp)
       { name: "★ Phủ sóng tối đa", avg: 0.8103, delta: +0.0103, winPct: 2.440, roi: -57.5, best: 5, type: "new", pValue: 0.105, decision: "Reject" },
       { name: "★ Kết hợp (Ensemble)", avg: 0.8073, delta: +0.0073, winPct: 2.579, roi: -63.9, best: 5, type: "new", pValue: 0.046, decision: "Suggestive" },
       { name: "★ Bayesian AI", avg: 0.8070, delta: +0.0070, winPct: 2.579, roi: -88.5, best: 4, type: "new", pValue: 0.046, decision: "Suggestive" },
@@ -99,34 +107,45 @@ export const BACKTEST_MATRIX: Record<string, MatrixBacktest> = {
   },
 };
 
-// ── 3D products (refreshed 2026-04-20 Chu kỳ 6) ──
-// Baseline: Random. Bonferroni K=20 (α_strict = 0.0025).
+// ── 3D products (refreshed 2026-04-21 post-Chu kỳ 13, research line CLOSED) ──
+// Baseline: Random. 3D mechanism space exhausted (28 strategies tested).
+// All 3D strategies Reject per 3-gate protocol (full + split-half + forward_last_100).
+// Chu kỳ 7: FreqWholeHot + EVMaximizer split-half Reject.
+// Chu kỳ 11: Copula variants (Gaussian + Empirical) Reject.
+// Chu kỳ 12: GBMDigitClassifier — Max 3D fwd flip, Max 3D Pro Technical Accept → Chu kỳ 12.5 audit → Reject (overfit).
+// Chu kỳ 13: Pool variants Reject — shared-RNG hypothesis falsified.
 
 export const BACKTEST_3D: Record<string, ThreeDBacktest> = {
   "max-3d": {
     label: "Max 3D",
-    totalDraws: 1064,
-    baseline: { exactPct: 2.0 },
+    totalDraws: 1065,
+    baseline: { exactPct: 1.704 },
     strategies: [
-      { name: "Tần suất cao (FreqWholeHot)", exactPct: 2.347, roi: -32.8, type: "best", pValue: 0.066, decision: "Reject" },
-      { name: "🧬 Bias liên hợp (JointBias)", exactPct: 2.268, roi: -39.0, type: "research", pValue: 0.144, decision: "Reject" },
-      { name: "PairExploiter (T=0.5)", exactPct: 2.248, roi: -36.7, type: "research", pValue: 0.171, decision: "Reject" },
-      { name: "★ Phủ sóng tối đa (CoverageOpt)", exactPct: 2.219, roi: -35.8, type: "new", pValue: 0.220, decision: "Reject" },
-      { name: "ULTIMATE_v1", exactPct: 2.219, roi: -44.9, type: "research", pValue: 0.220, decision: "Reject" },
-      { name: "Random", exactPct: 1.972, roi: -52.6, type: "base", decision: "baseline" },
-      { name: "💰 EV tối đa (EVMaximizer)", exactPct: 1.874, roi: -56.9, type: "research", pValue: 0.609, decision: "Reject" },
+      { name: "🧬 Bias liên hợp (JointBias)", exactPct: 2.010, roi: -52.5, type: "research", pValue: 0.107, decision: "Reject" }, // best directional pick, forward fail −0.7pp
+      { name: "Tần suất cao (FreqWholeHot)", exactPct: 1.862, roi: -46.7, type: "best", pValue: 0.396, decision: "Reject" }, // Chu kỳ 7 replication Reject
+      { name: "🔬 EmpiricalCopula (Chu kỳ 11)", exactPct: 2.118, roi: -44.3, type: "research", pValue: 0.031, decision: "Reject" }, // fwd flip −0.5pp
+      { name: "🔬 GaussianCopulaEmpMargins (Chu kỳ 11)", exactPct: 1.941, roi: -41.5, type: "research", pValue: 0.208, decision: "Reject" }, // Inconclusive → Reject overall
+      { name: "🤖 GBMDigitClassifier (Chu kỳ 12)", exactPct: 5.310, roi: +37.3, type: "research", pValue: 0.000, decision: "Reject" }, // ⚠️ overfit: fwd flip −1.9pp (p=0.002 against), Principle #14 magnitude flag
+      { name: "🔬 PooledDigitBias (Chu kỳ 13)", exactPct: 2.049, roi: -52.8, type: "research", pValue: 0.070, decision: "Reject" }, // fwd flip −1.1pp
+      { name: "🔬 HierarchicalBayesDigit (Chu kỳ 13)", exactPct: 2.197, roi: -52.4, type: "research", pValue: 0.011, decision: "Reject" }, // fwd flip −1.2pp (5th validation Principle #13)
+      { name: "Random", exactPct: 1.704, roi: -51.9, type: "base", decision: "baseline" },
+      { name: "💰 EV tối đa (EVMaximizer)", exactPct: 1.874, roi: -56.9, type: "research", pValue: 0.609, decision: "Reject" }, // ⚠️ Chu kỳ 7 split-half Reject (3D Pro)
     ],
   },
   "max-3d-pro": {
     label: "Max 3D Pro",
     totalDraws: 711,
-    baseline: { exactPct: 2.0 },
+    baseline: { exactPct: 1.997 },
     strategies: [
-      { name: "💰 EV tối đa (EVMaximizer)", exactPct: 2.496, roi: -26.5, type: "research", pValue: 0.053, decision: "Reject" },
+      { name: "🧬 Bias liên hợp (JointBias)", exactPct: 2.375, roi: -31.5, type: "research", pValue: 0.137, decision: "Reject" }, // best directional, forward +0.1pp
+      { name: "💰 EV tối đa (EVMaximizer)", exactPct: 2.496, roi: -26.5, type: "research", pValue: 0.053, decision: "Reject" }, // ⚠️ Chu kỳ 7 split-half Reject (h1 p=0.0007 → h2 p=0.865 flip)
       { name: "ULTIMATE_v2_sharp", exactPct: 2.421, roi: -27.5, type: "research", pValue: 0.098, decision: "Reject" },
-      { name: "🧬 Bias liên hợp (JointBias)", exactPct: 2.375, roi: -31.5, type: "research", pValue: 0.137, decision: "Reject" },
+      { name: "🤖 GBMDigitClassifier (Chu kỳ 12)", exactPct: 5.068, roi: +59.4, type: "research", pValue: 0.000, decision: "Reject" }, // ⚠️ Chu kỳ 12.5 audit confirmed overfit, Principle #14 flag
+      { name: "🔬 PooledDigitBias (Chu kỳ 13)", exactPct: 1.740, roi: -51.2, type: "research", pValue: 0.275, decision: "Reject" }, // full Δ<0, pool hurts
+      { name: "🔬 HierarchicalBayesDigit (Chu kỳ 13)", exactPct: 1.876, roi: -50.0, type: "research", pValue: 0.614, decision: "Reject" }, // full Δ<0
+      { name: "🔬 GaussianCopulaEmpMargins (Chu kỳ 11)", exactPct: 1.997, roi: -39.4, type: "research", pValue: 1.000, decision: "Reject" }, // Δ=0
+      { name: "🔬 EmpiricalCopula (Chu kỳ 11)", exactPct: 1.937, roi: -50.0, type: "research", pValue: 0.802, decision: "Reject" }, // full Δ<0
       { name: "TierWeighted", exactPct: 2.179, roi: -43.0, type: "research", pValue: 0.465, decision: "Reject" },
-      { name: "BayesJoint (HL=150 Sharp)", exactPct: 2.163, roi: -45.0, type: "research", pValue: 0.503, decision: "Reject" },
       { name: "Random", exactPct: 1.997, roi: -45.4, type: "base", decision: "baseline" },
       { name: "Tần suất cao (FreqWholeHot)", exactPct: 1.937, roi: -38.5, type: "best", pValue: 0.802, decision: "Reject" },
     ],

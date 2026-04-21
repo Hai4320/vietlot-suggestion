@@ -274,9 +274,36 @@ export default function ResearchPage() {
           🔬 Nghiên Cứu Thuật Toán Max 3D
         </h1>
         <p className="text-muted-foreground mt-2">
-          Phân tích thống kê chuyên sâu & 21 chiến lược dự đoán — walk-forward backtest trên 1.064+ kỳ quay
+          8 chu kỳ nghiên cứu · 28 chiến lược · 3-gate protocol (full + split-half + forward) · <strong>research line closed 2026-04-21</strong>
         </p>
       </div>
+
+      {/* Research closed banner */}
+      <Card className="border-orange-500/40 bg-orange-500/5">
+        <CardContent className="pt-6">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">🔬</span>
+            <div className="flex-1 space-y-2 text-sm">
+              <div className="font-bold text-orange-700 dark:text-orange-400">
+                3D Research Line — Definitively Closed (Chu kỳ 13, 2026-04-21)
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                Sau 8 chu kỳ + 28 chiến lược qua 5 mechanism paradigms (Frequency, Joint-digit, Copula,
+                Discriminative ML, Cross-product pool), <strong className="text-foreground">0 chiến lược đạt ngưỡng Accept/Suggestive</strong>
+                qua 3-gate protocol (full-sample + split-half replication + forward_last_100).
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                3D RNG của Vietlott có bias real + stable (Chu kỳ 8 xác nhận no drift)
+                nhưng <strong className="text-foreground">không exploitable</strong> ở data horizon hiện tại —
+                bias ceiling ~+0.4pp quá nhỏ so với noise floor ±0.44pp của forward window n=1000.
+              </p>
+              <p className="text-xs text-muted-foreground/80 italic">
+                Revisit criteria: &gt;500 draws mới (~2027) OR novel bias dimension discovery OR Vietlott RNG methodology audit.
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Key Findings */}
       <Card>
@@ -560,8 +587,75 @@ export default function ResearchPage() {
               <p className="text-xs text-muted-foreground">
                 Exact match: 2.50% | ROI: -26.5% | Cải thiện 42% vs random
               </p>
+              <p className="text-[11px] text-orange-600 dark:text-orange-400 mt-2 italic">
+                ⚠️ Claim trên là snapshot Chu kỳ 4 (pre-replication). Chu kỳ 7 split-half Rejected EV Maximizer
+                (h1 p=0.0007 → h2 p=0.865 direction flip). Xem Chu kỳ Timeline bên dưới.
+              </p>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Cycles Timeline (Chu kỳ 7-13) */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl">🔄 Chu Kỳ Nghiên Cứu 3D — Timeline</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Từ Chu kỳ 4 (initial deep analysis) đến Chu kỳ 13 (research closed) — 8 cycles, progressive protocol tightening
+          </p>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3 text-sm">
+            {[
+              { id: "4", name: "Deep Analysis + 21 Strategies", date: "03-04/2026", result: "Claims rút lại sau Chu kỳ 6 significance gating" },
+              { id: "6", name: "Significance Test Enforcement", date: "04/2026", result: "Z-test wired; 3 candidates near-miss Suggestive" },
+              { id: "7", name: "3D Split-half Replication", date: "04/2026", result: "2/2 Reject — EVMax dramatic flip, FreqWholeHot noise" },
+              { id: "8", name: "Drift Verification (R1 Gate)", date: "04/2026", result: "No drift — bias stable. 3D paused" },
+              { id: "11", name: "Copula (Path A)", date: "04/2026", result: "3/4 Reject + 1/4 Inconclusive — Copula thua JointBias heuristic" },
+              { id: "12", name: "Tree-based GBM (Path E)", date: "04/2026", result: "Max 3D Reject (fwd flip −1.9pp), Max 3D Pro Technical Accept" },
+              { id: "12.5", name: "GBM Audit (Diagnostic)", date: "04/2026", result: "No leak, overfit confirmed — Max 3D Pro GBM deprecated → Reject" },
+              { id: "13", name: "Cross-product Pool (Path B)", date: "04/2026", result: "4/4 Reject — shared-RNG hypothesis falsified" },
+            ].map((c) => (
+              <div key={c.id} className="flex gap-3 border-l-2 border-muted pl-3 py-1">
+                <Badge variant="outline" className="shrink-0 font-mono">Chu kỳ {c.id}</Badge>
+                <div className="flex-1">
+                  <div className="font-semibold">{c.name} <span className="text-xs text-muted-foreground font-normal">({c.date})</span></div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{c.result}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Methodology Principles Corpus (#11-#15) */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl">📐 Methodology Principles — Codified từ 3D Research</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            5 binding principles mới được codify vào METHODOLOGY.md §3.5-3.9, chủ yếu từ 3D negative results
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {[
+            { n: "11", title: "Split-half replication mandatory", origin: "Chu kỳ 7, 9", body: "Mọi Suggestive claim từ full-sample phải pass split-half replication trước khi upgrade sang Accept." },
+            { n: "12", title: "Variable-baseline power analysis", origin: "Chu kỳ 8, 9", body: "Trước replication, tính n_required theo formula variable-baseline. Nếu power <80% → report limitation." },
+            { n: "13", title: "Forward gate mandatory (3-gate)", origin: "Chu kỳ 7, 9, 11, 12, 13 (5× validated)", body: "Stacked gate: full-sample + split-half + forward_last_100. 5 forward-flip cases justify binding rule." },
+            { n: "14", title: "Magnitude sanity check", origin: "Chu kỳ 12, 12.5", body: "Nếu |Δ| > 3× bias ceiling của product class (3D: 0.4pp, matrix: 0.3pp), auto-flag Ship-with-caveats pending audit." },
+            { n: "15", title: "Prediction concentration check (ML)", origin: "Chu kỳ 12.5", body: "ML/discriminative strategies require n_unique/total ≥ 0.30 + top-5 concentration < 30% để tránh overfit collapse." },
+          ].map((p) => (
+            <div key={p.n} className="rounded-lg border border-border p-3">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge className="font-mono">#{p.n}</Badge>
+                <span className="font-semibold">{p.title}</span>
+                <span className="text-xs text-muted-foreground">· {p.origin}</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{p.body}</p>
+            </div>
+          ))}
+          <p className="text-xs text-muted-foreground italic mt-2">
+            Xem chi tiết binding rules + implementation trong METHODOLOGY.md §3 của repo research.
+          </p>
         </CardContent>
       </Card>
 

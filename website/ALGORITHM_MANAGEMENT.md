@@ -2,6 +2,8 @@
 
 > Tài liệu tham chiếu chính cho việc quản lý, phân loại, và mở rộng hệ thống thuật toán gợi ý xổ số.
 
+> ⚠️ **Cập nhật 2026-04-21 post-Chu kỳ 13**: 3D research line CLOSED. 28 chiến lược tested qua 8 cycles, 0 Accept/Suggestive. UI rec1 cho Max 3D + Max 3D Pro updated sang JointDigitBias (directional pick, no confirmed edge). Xem [research/3d/3D_FINAL_REPORT.md](research/3d/3D_FINAL_REPORT.md).
+
 ---
 
 ## 1. Tổng Quan Hệ Thống
@@ -12,8 +14,8 @@
 |------|----------|---------|
 | **Gợi ý (UI)** | 9 | Chạy trên browser, người dùng chọn trực tiếp |
 | **Backtest Python (CLI)** | 14 | Chạy offline, đánh giá strategies |
-| **Nghiên cứu Python** | 21+ | Chạy 1 lần để tìm thuật toán tốt nhất |
-| **Website hiển thị** | 9 (có sẵn) + 12 (chỉ kết quả) | Trang /algorithms |
+| **Nghiên cứu Python** | 28+ | Chu kỳ 1-13 combined; 3D paradigms: probabilistic/copula/ML/pool |
+| **Website hiển thị** | 9 (có sẵn) + 19 (chỉ kết quả) | Trang /algorithms + /research |
 
 ### Dòng chảy thuật toán
 
@@ -78,27 +80,31 @@ Thuật toán sinh ra từ quá trình phân tích thống kê sâu (13 bài tes
 
 | Thuật toán | Power 6/55 | Mega 6/45 | Lotto 5/35 | Max 3D | Max 3D Pro |
 |-----------|-----------|-----------|-----------|--------|-----------|
-| 📊 Tần suất cao | ✅ #2 | ✅ #3 | ✅ #3 | ✅ **#1** | ✅ #3 |
-| ⏳ Số vắng lâu | ⬜ #7 | ✅ #7 | ⬜ #7 | ⬜ #9 | ⬜ #9 |
-| 🎲 Kết hợp | ✅ #6 | ✅ #5 | ✅ #6 | ✅ #7 | ✅ #7 |
-| 🧠 Bayesian AI | ✅ **#1** | ✅ **#1** | ✅ #4 | ✅ #3 | ✅ #5 |
-| 🔮 Mẫu cấu trúc | ✅ #3 | ✅ #2 | ✅ **#1** | ✅ #5 | ⬜ #8 |
-| 🎯 Phủ sóng tối đa | ✅ #4 | ✅ #4 | ✅ #5 | ✅ #4 | ✅ #4 |
-| ⚡ Tự động tối ưu | ✅ #5 | ✅ #6 | ✅ #2 | ✅ #6 | ✅ #6 |
-| 💰 EV tối đa | ❌ | ❌ | ❌ | ⬜ #8 | ✅ **#1** |
-| 🧬 Bias liên hợp | ❌ | ❌ | ❌ | ✅ **#2** | ✅ **#2** |
+| 📊 Tần suất cao | ✅ #2 | ✅ #3 | ✅ #3 | ✅ #2 | ✅ #2 |
+| ⏳ Số vắng lâu | ⬜ #7 | ✅ #7 | ⬜ #8 | ⬜ #9 | ⬜ #9 |
+| 🎲 Kết hợp | ✅ #6 | ✅ #5 | ✅ #7 | ✅ #7 | ✅ #6 |
+| 🧠 Bayesian AI | ✅ **#1** | ✅ **#1** | ✅ #5 | ✅ #3 | ✅ #3 |
+| 🔮 Mẫu cấu trúc | ✅ #3 | ✅ #2 | ✅ **#1** | ✅ #5 | ⬜ #7 |
+| 🎯 Phủ sóng tối đa | ✅ #4 | ✅ #4 | ✅ #6 | ✅ #4 | ✅ #4 |
+| ⚡ Tự động tối ưu | ✅ #5 | ✅ #6 | ✅ #2 | ✅ #6 | ✅ #5 |
+| 💰 EV tối đa | ❌ | ❌ | ❌ | ⬜ #8 | ⬜ #8 ⚠️ |
+| 🧬 Bias liên hợp | ❌ | ❌ | ❌ | ✅ **#1** 🔬 | ✅ **#1** 🔬 |
+| 🎰 Hybrid Parity | ❌ | ❌ | ⬜ #4 ⚠️ | ❌ | ❌ |
 
 > **MAX_STRATEGIES_SHOWN = 7** — mỗi sản phẩm hiển thị tối đa 7 thuật toán tốt nhất.
+>
+> ⚠️ = Strategy đã bị Reject qua replication (Chu kỳ 5/7/9/11/12/13).
+> 🔬 = Research pick (directional only, no confirmed edge).
 
 ### Hiển thị mặc định khi user mở trang
 
-| Sản phẩm | Thuật toán mặc định (rec1) | Thuật toán phụ (rec2) |
-|----------|---------------------------|----------------------|
-| Power 6/55 | 🧠 Bayesian AI | 📊 Tần suất cao |
-| Mega 6/45 | 🧠 Bayesian AI (T=0.3) | 🔮 Mẫu cấu trúc |
-| Lotto 5/35 | 🔮 Mẫu cấu trúc | ⚡ Tự động tối ưu |
-| Max 3D | 📊 Tần suất cao | 🧬 Bias liên hợp |
-| Max 3D Pro | 💰 EV tối đa | 🧬 Bias liên hợp |
+| Sản phẩm | Thuật toán mặc định (rec1) | Thuật toán phụ (rec2) | Note |
+|----------|---------------------------|----------------------|------|
+| Power 6/55 | 🧠 Bayesian AI | 📊 Tần suất cao | Directional +0.031 matches, chưa replication-verified |
+| Mega 6/45 | 🧠 Bayesian AI (T=0.3) | 🔮 Mẫu cấu trúc | ExpDecay_Cold đã Rejected Chu kỳ 9 (direction flip) |
+| Lotto 5/35 | 🔮 Mẫu cấu trúc | ⚡ Tự động tối ưu | Hybrid Parity Rejected Chu kỳ 5 (sample-size bug fix: p=0.301) |
+| Max 3D | 🧬 Bias liên hợp 🔬 | 📊 Tần suất cao | Research line CLOSED Chu kỳ 13; directional only |
+| Max 3D Pro | 🧬 Bias liên hợp 🔬 | 📊 Tần suất cao | EV Maximizer Rejected Chu kỳ 7 (half-flip); GBM overfit Chu kỳ 12.5 |
 
 ---
 

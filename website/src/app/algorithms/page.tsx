@@ -405,27 +405,28 @@ const RECOMMENDATIONS_3D = [
     product: "Max 3D",
     emoji: "🟣",
     color: "hsl(271, 91%, 65%)",
-    primary: "Tần suất cao",
-    primaryEmoji: "📊",
-    secondary: "Bias liên hợp",
-    secondaryEmoji: "🧬",
+    primary: "Bias liên hợp (directional pick)",
+    primaryEmoji: "🧬",
+    secondary: "Tần suất cao",
+    secondaryEmoji: "📊",
     reason:
-      "Tần suất cao có Exact% cao nhất (2.347%) nhưng sau z-test Chu kỳ 6: p=0.066 → **Reject** (suýt đủ p<0.05). " +
-      "Digit bias Phase 1 (digit 6 +10% hàng đơn vị) tồn tại nhưng không strategy nào exploit đủ mạnh để beat Random significantly.",
-    special: "⚠️ FreqWholeHot p=0.066 — gần điểm Suggestive nhưng chưa đủ. Với thêm ~200 draws có thể cross p<0.05.",
+      "JointDigitBias Δ+0.305pp directional (within Principle #14 bias ceiling). " +
+      "28 chiến lược đã test qua 8 cycles, 0 chiến lược Accept/Suggestive sau 3-gate protocol. " +
+      "Đây là best directional pick, KHÔNG phải confirmed edge.",
+    special: "⚠️ Research line CLOSED Chu kỳ 13 — no algorithm beats Random significantly. Xem 3D Final Report.",
   },
   {
     product: "Max 3D Pro",
     emoji: "🟠",
     color: "hsl(25, 95%, 53%)",
-    primary: "EV tối đa",
-    primaryEmoji: "💰",
-    secondary: "ULTIMATE v2 Sharp",
-    secondaryEmoji: "🏆",
+    primary: "Bias liên hợp (directional pick)",
+    primaryEmoji: "🧬",
+    secondary: "Tần suất cao",
+    secondaryEmoji: "📊",
     reason:
-      "EV tối đa #1 Exact 2.496% + ROI -26.5% tốt nhất toàn nghiên cứu. Sau z-test: **p=0.053, Reject** (sát ngưỡng 0.05). " +
-      "ULTIMATE_v2_sharp (2.421%, p=0.098) và Bias liên hợp (2.375%, p=0.137) follow-up. CoverageOpt significantly worse than Random (p=0.013).",
-    special: "💎 EVMaximizer p=0.053 — closest to Accept across all 3D backtests. Candidate replicate trên data mới trong Chu kỳ 7.",
+      "JointDigitBias Δ+0.378pp directional — strongest remaining pick sau khi EV Maximizer bị Reject Chu kỳ 7 " +
+      "(split-half direction flip h1 p=0.0007 → h2 p=0.865). KHÔNG phải confirmed edge.",
+    special: "⚠️ EV Maximizer (formerly #1) deprecated — Chu kỳ 7 replication failure. GBM Chu kỳ 12 Technical Accept deprecated bởi Chu kỳ 12.5 audit (confirmed overfit).",
   },
 ];
 
@@ -900,9 +901,9 @@ export default function AlgorithmsPage() {
         <div className="flex items-center gap-3 mb-6">
           <div className="h-8 w-1 rounded-full bg-orange-500" />
           <div>
-            <h2 className="text-xl font-bold">Khuyến Nghị — Max 3D / 3D Pro</h2>
+            <h2 className="text-xl font-bold">Research Picks — Max 3D / 3D Pro</h2>
             <p className="text-sm text-muted-foreground">
-              Dựa trên 17 chiến lược backtest, bao gồm 2 thuật toán tự nghiên cứu (EV tối đa, Bias liên hợp)
+              28 chiến lược đã test qua 8 cycles (2026-03 → 2026-04). <strong className="text-orange-600">Research line CLOSED Chu kỳ 13.</strong> Dưới đây chỉ là directional picks — no confirmed edge.
             </p>
           </div>
         </div>
