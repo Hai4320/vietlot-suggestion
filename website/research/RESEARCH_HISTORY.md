@@ -26,6 +26,7 @@
 | 12 | 04/2026 | Tree-based GBM classifier (Path E, 3D) | **Split** — Max 3D Reject (fwd flip), Max 3D Pro "Technical Accept" flagged Ship-with-caveats |
 | 12.5 | 04/2026 | Audit GBM "Technical Accept" (diagnostic) | No leak. Confirmed overfit. Max 3D Pro GBM **deprecated → Reject**. Principles #13/14/15 codified |
 | 13 | 04/2026 | Cross-product pooling (Path B, 3D) | **4/4 Reject** — pooling HURTS Max 3D Pro. 3D exhausted (28 strategies). Principle #13 validated 5th |
+| 14 | 04/2026 | Online Bayesian Kalman (Path #1, matrix) | **6/6 Reject** — drift hypothesis falsified; adaptive family eliminated. Principle #13 validated 6th (Lotto OnlineBayes λ=0.03) |
 
 ---
 
@@ -47,6 +48,7 @@
 | 12 | [cycle12_gbm.md](history/cycle12_gbm.md) | GBM discriminative (Path E) — full-sample +3pp, forward flip Max 3D, implausible magnitudes |
 | 12.5 | [cycle12_5_audit.md](history/cycle12_5_audit.md) | GBM audit — no leak, overfit confirmed. Principles #14/#15 codified |
 | 13 | [cycle13_pool.md](history/cycle13_pool.md) | Cross-product pool (Path B) — 4/4 Reject. 3D mechanism space exhausted |
+| 14 | [cycle14_online_bayesian.md](history/cycle14_online_bayesian.md) | Online Bayesian Kalman (Path #1, matrix) — 6/6 Reject. Matrix bias stable same as 3D; adaptive family eliminated |
 
 ---
 
@@ -73,12 +75,12 @@ Guardrails bất biến (từ Chu kỳ 1+):
 ## Project-Wide Cumulative State (post-Chu kỳ 13)
 
 ### Strategies tested
-- **Matrix (Power 6/55, Mega 6/45, Lotto 5/35)**: ~20 strategies across cycles 1-6, 9
+- **Matrix (Power 6/55, Mega 6/45, Lotto 5/35)**: ~23 strategies across cycles 1-6, 9, 14
 - **3D (Max 3D, Max 3D Pro)**: **28 strategies** across cycles 4, 6, 7, 8, 11, 12, 13
-- **Total**: ~50 strategies × 5 products × 3-gate protocol (cycles 7+)
+- **Total**: ~53 strategies × 5 products × 3-gate protocol (cycles 7+)
 
 ### Accept / Suggestive tally
-- **0** scientifically robust Accept across entire project history
+- **0** scientifically robust Accept across entire project history (post Chu kỳ 14)
 - **0** current Suggestive (last candidate ExpDecay_Cold eliminated Chu kỳ 9)
 - **0** Ship-with-caveats standing (Chu kỳ 12 GBM Max 3D Pro deprecated Chu kỳ 12.5)
 
@@ -88,19 +90,26 @@ Guardrails bất biến (từ Chu kỳ 1+):
 📄 **Full synthesis**: [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md) — 28 strategies × 8 cycles tổng hợp, mechanism analysis, methodology corpus, revisit criteria.
 
 ### Matrix research line
-**ACTIVE** — Path #1 Online Bayesian chưa test trên matrix (pending Chu kỳ 14). [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) still has Path #1, #3 (cross-product Mega/Power/Lotto), Path #2 (Kelly portfolio) untested.
+**ACTIVE (weak hopes)** — Chu kỳ 14 Path #1 Online Bayesian 6/6 Reject. Drift hypothesis falsified trên matrix (consistent với Chu kỳ 8 3D finding). Adaptive/drift-based family eliminated. Remaining paths: Path #3 (Cross-product matrix Mega/Power/Lotto overlap [1,35]), Path #2 (Kelly portfolio ROI-axis), Path #5 (Copula matrix).
 
 ---
 
 ## Active / Next Cycle
 
-**Chu kỳ 14 (ready)**: Path #1 Online Bayesian Kalman trên matrix products.
-- Primary product: Mega 6/45 (N=1302)
-- Secondary: Lotto 5/35 (N=542)
-- Mechanism: `α_t = (1−λ)·α_{t−1} + obs_t` exponential forgetting thay batch refit
-- Protocol: 3-gate (full + split-half + forward_last_100), K=3 variants (3 forgetting rates) or K=1 best, Bonferroni accordingly
-- Principle #14 bias ceiling: matrix +0.3pp → auto-flag threshold +0.9pp
-- Expected effort: 1-2 ngày
+**Chu kỳ 14 (closed, 2026-04-21, 6/6 Reject)**: Path #1 Online Bayesian Kalman. Mega 6/45 all 3 λ variants Reject (split flip hoặc Δ<0). Lotto 5/35 same. See [cycle14_online_bayesian.md](history/cycle14_online_bayesian.md).
+
+**Chu kỳ 15 (proposal, user decide)**: 2 candidates:
+
+**Option A — Path #3 Cross-product Joint Matrix** (per roadmap priority):
+- Hypothesis: Power 6/55 + Mega 6/45 + Lotto 5/35 share bias on overlap [1,35] (same vendor, possibly shared physical machines)
+- Mechanism: pool bias estimates across 3 products → tighter P(number_i)
+- Win-rate axis, NOT drift-dependent
+- Caveat: Chu kỳ 13 3D variant Reject — matrix structure differs enough warrant test
+
+**Option B — Path #2 Kelly-optimal Multi-ticket Portfolio** (pivot to ROI-axis):
+- Hypothesis: win-rate stuck near-null (9 cycles); ROI optimization via multi-ticket selection tractable
+- Mechanism: Kelly criterion trên portfolio, EV-negative game explicit
+- Changes project focus from win-rate to ROI
 
 Chu kỳ 12 GBM Max 3D Pro deprecated — không ship, không rank. Audit complete.
 
@@ -108,4 +117,4 @@ Chu kỳ 12 GBM Max 3D Pro deprecated — không ship, không rank. Audit comple
 
 *File restructured 2026-04-21: split into per-cycle files trong [history/](history/). Main file giờ là compact index (this file, ~180 lines vs trước 1499 lines).*
 
-*Cập nhật lần cuối: 2026-04-21 — 3D research line closed. Chu kỳ 14 matrix pivot ready.*
+*Cập nhật lần cuối: 2026-04-21 — Chu kỳ 14 closed (6/6 Reject). Chu kỳ 15 pending user decision.*

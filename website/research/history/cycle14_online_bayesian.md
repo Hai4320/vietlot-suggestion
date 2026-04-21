@@ -150,4 +150,79 @@ Z-normalize across all 10 strategies in tournament. Top-1 per product reported +
 
 ---
 
-*Pre-registered: 2026-04-21 — Chu Kỳ 14 Path #1 Online Bayesian. Implementation pending approval. Backtest NOT yet run.*
+*Pre-registered: 2026-04-21 — Chu Kỳ 14 Path #1 Online Bayesian. Implementation approved, backtest executed cùng ngày.*
+
+### Result — Chu Kỳ 14 (2026-04-21, cùng ngày pre-registration)
+
+**Verdict: 6/6 Reject — Path #1 eliminated. Drift hypothesis falsified trên matrix; bias stable same as 3D (Chu kỳ 8 generalized).**
+
+Raw results: [`../matrix/cycle14_online_bayesian_results.json`](../matrix/cycle14_online_bayesian_results.json). Run log: [`../matrix/cycle14_online_bayesian_output.log`](../matrix/cycle14_online_bayesian_output.log). Total runtime 410s (≈7 min) on 20,010 predictions (Mega + Lotto × 4 segments × 10 strategies × 5 runs).
+
+#### Mega 6/45 (N=1302, midpoint=651)
+
+| Strategy | Full % | H1 % | H2 % | Fwd % | Full Δ (p) | Split | Fwd Δ (p) | vs Bayes (full) | **Overall** |
+|----------|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| Random | 2.363 | 2.033 | 2.704 | 2.000 | — | — | — | — | — |
+| Bayesian (anchor) | 2.696 | 2.432 | 2.519 | 1.200 | +0.333 (0.213) | — | −0.800 (0.27) | — | — |
+| **OnlineBayes λ0.01** | 2.662 | 2.868 | 2.581 | 3.000 | +0.299 (0.294) | Reject (d1=+0.835, d2=−0.123 — flip) | +1.000 (0.27) | **−0.034** | **Reject** (split flip) |
+| **OnlineBayes λ0.03** | 2.030 | 1.924 | 2.427 | 2.600 | **−0.333** (0.213) | Reject (Δ<0) | +0.600 (0.47) | −0.666 | **Reject** (Δ<0) |
+| **OnlineBayes λ0.10** | 2.529 | 2.432 | 1.843 | 1.800 | +0.166 (0.555) | Reject (h2 Δ=−0.861 flip) | −0.200 (0.80) | −0.167 | **Reject** (split flip + fwd Δ<0) |
+
+#### Lotto 5/35 (N=543, midpoint=271)
+
+| Strategy | Full % | H1 % | H2 % | Fwd % | Full Δ (p) | Split | Fwd Δ (p) | vs Bayes (full) | **Overall** |
+|----------|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| Random | 1.625 | 1.871 | 1.397 | 2.400 | — | — | — | — | — |
+| Bayesian (anchor) | 1.580 | 1.754 | 1.471 | 1.600 | −0.045 (0.895) | — | −0.800 (0.55) | — | — |
+| **OnlineBayes λ0.01** | 1.851 | 1.988 | 1.177 | 1.800 | +0.226 (0.565) | Reject (h2 Δ=−0.221 flip) | −0.600 (0.66) | +0.271 | **Reject** (split flip + fwd Δ<0) |
+| **OnlineBayes λ0.03** | 1.806 | 2.222 | 0.809 | 1.400 | +0.181 (0.644) | Reject (h2 Δ=**−0.588** flip) | −1.000 (0.47) | +0.226 | **Reject** (split flip + fwd Δ<0) |
+| **OnlineBayes λ0.10** | 1.580 | 1.871 | 1.691 | 1.400 | −0.045 (0.905) | Reject (Δ<0) | −1.000 (0.47) | +0.000 | **Reject** (Δ<0) |
+
+#### Principle #14 magnitude check
+
+All 6 hypotheses: `|Δ_full| ≤ 0.333pp < 0.9pp threshold` → **no auto-flag**. Result clean — không có Chu kỳ 12 GBM-style "Technical Accept" risk.
+
+#### Tournament composite (§8.2, full-sample)
+
+**Mega 6/45** — top 3:
+1. `Freq_Hot(365, 0.8)` composite +1.243 (Δ_win=+0.083pp, **Δ_roi=+17.29pp**, sharpe=−0.401) — driven by ROI outlier
+2. `OnlineBayes λ0.01` composite +0.669 (Δ_win=+0.299pp, Δ_roi=+1.80pp)
+3. `Bayesian (anchor)` composite +0.641 (Δ_win=+0.333pp, Δ_roi=+0.55pp)
+
+Freq_Hot ROI spike (+17pp vs Random) là noise single jackpot event — avg_matches 0.681 vs Random 0.690 (WORSE) nhưng 1 draw hit tier cao. KHÔNG là mechanism signal, ignore.
+
+**Lotto 5/35** — top 3:
+1. `OnlineBayes λ0.01` composite +1.275 (Δ_win=+0.226pp, Δ_roi=+3.16pp, sharpe=−3.817)
+2. `Adaptive` composite +0.656 (Δ_win=+0.226pp, Δ_roi=+1.13pp)
+3. `Freq_Hot` composite +0.364 (Δ_win=−0.045pp, Δ_roi=+1.80pp)
+
+OnlineBayes λ0.01 top-1 tournament on Lotto full-sample, NHƯNG split-half flip (h1 +0.117 → h2 **−0.221**) + forward Δ=−0.6pp → Reject per 3-gate protocol. Tournament top-1 một mình không đủ (Principle #13 forward gate + Principle #11 split-half gate binding).
+
+### Bài học Chu Kỳ 14
+
+- 🎯 **Drift hypothesis falsified on matrix** — core research question answered. OnlineBayes λ0.01 (long memory, closest to batch) gives Δ_full=+0.299pp on Mega 6/45, essentially identical to batch Bayesian's +0.333pp. Online adaptation adds nothing over batch refit khi không có drift để exploit. Consistent với Chu kỳ 8 3D finding → **matrix bias cũng stable** (không drift at detectable scale).
+
+- 🎯 **Adaptive/drift-based strategy family ELIMINATED from roadmap**. Bao gồm:
+  - Online Bayesian (Path #1) ← tested this cycle, Reject
+  - `AdaptiveWindowStrategy` (existing) — tournament rank 3 Mega, split-half flip (h1=+0.290 → h2=−0.891)
+  - Any future proposals relying on "bias drift over time" mechanism
+
+- 🎯 **Principle #13 forward gate validated lần thứ 6** (Chu kỳ 7 EVMax, 9 ExpDecay, 11 EmpCopula, 12 GBM, 13 HierarchicalBayes, **14 OnlineBayes_λ0.03 Lotto**). Lotto OnlineBayes_λ0.03 full Δ=+0.181pp directional, nhưng h2=−0.588pp flip + forward Δ=−1.0pp. Forward gate catches noise-driven full-sample positive.
+
+- 🎯 **Principle #14 magnitude ceiling validated** (prospective): all Δ values ≤ 0.333pp well within +0.9pp threshold. Consistent với matrix bias ceiling 0.3pp predicted in METHODOLOGY §3.8. Nếu có cycle tương lai claim Δ > 0.9pp matrix, audit mandatory.
+
+- 🎯 **Short memory (λ=0.10) WORSE than long memory** — on Mega 6/45, λ=0.10 Δ=+0.166pp vs λ=0.01 Δ=+0.299pp. Confirms: noisier estimates (short memory) < better averaged estimates (long memory). Khi no drift, more averaging wins. Supports "bias static" interpretation.
+
+- 🎯 **Project-wide cumulative state (post Chu kỳ 14)**: ~53 strategies tested × 5 products × 3-gate protocol = **0 scientifically robust Accept/Suggestive**. Matrix + 3D cả hai đều lệch về null hypothesis tại data horizon hiện tại.
+
+### Follow-up
+
+Per pre-registration Reject follow-up: **Chu Kỳ 15 candidate = Path #3 Cross-product joint matrix** (Power 6/55 + Mega 6/45 + Lotto 5/35 overlap [1,35]). Mechanism khác không phụ thuộc drift assumption — test nếu có shared bias cross-product, pooling 3× data → tighter P(number_i) estimate.
+
+Alternative: **pivot to ROI axis** — Chu Kỳ 15 = Path #2 Kelly Portfolio (multi-ticket, ROI-focused). Đã confirm win-rate axis cực khó exploit; có thể ROI-axis via smart ticket selection tractable hơn.
+
+Proposal: User decide giữa 2 paths cho Chu Kỳ 15. BREAKTHROUGH_ROADMAP hiện đặt Path #3 ưu tiên cao hơn Path #2, nhưng với negative results tích luỹ trên win-rate axis, có thể shift priority sang Path #2 meaningful.
+
+---
+
+*Result appended: 2026-04-21. Chu Kỳ 14 closed. Next: Chu Kỳ 15 proposal (Path #3 matrix OR Path #2 Kelly, user decide).*

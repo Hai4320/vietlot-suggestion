@@ -9,6 +9,8 @@
 > **⚡ Priority framework (Chu kỳ 10 refined)**: Primary goal = **tối đa hoá tỷ lệ trúng giải trong tương lai**. Paths re-ranked by **Win-rate impact** (direct > indirect). ROI (weight 0.30) vẫn meaningful — không loại Kelly path, chỉ demote ưu tiên.
 >
 > **Cập nhật 2026-04-21 (post Chu kỳ 13)**: 3D research line CLOSED. Chu kỳ 11/12/12.5/13 đã dùng cho 3D paths (Copula, GBM, Cross-product pool) — 4/4 Reject. **Chu kỳ 14 = Path #1 Online Bayesian trên matrix products** (đã defer 3 chu kỳ chờ 3D exhaust). Paths #2/#3/#5 cho matrix vẫn untested.
+>
+> **Cập nhật 2026-04-21 (post Chu kỳ 14)**: Path #1 Online Bayesian Reject 6/6 trên matrix. Drift hypothesis falsified (bias stable same as 3D). **Adaptive/drift-based family ELIMINATED** from future roadmap. Chu kỳ 15 = user decision giữa Path #3 (Cross-product matrix, win-rate axis) và Path #2 (Kelly portfolio, ROI-axis pivot).
 
 ---
 
@@ -16,10 +18,10 @@
 
 | # | Path | Effort | Win-rate impact | ROI impact | Novelty | Recommend order |
 |:-:|------|:-:|:-:|:-:|:-:|:-:|
-| 1 | Online Bayesian (Kalman-style) — matrix | Low | **▲▲▲ DIRECT** (adapts posterior P(num_i)) | ▲ | Medium | **1st (Chu kỳ 14)** ⬅ ready |
-| 3 | Cross-product joint model — matrix (Power/Mega/Lotto overlap) | Med | **▲▲▲** (3× data → better P estimates) | ▲ | High | **2nd (Chu kỳ 15 candidate)** — lưu ý: variant 3D (Path B) đã Reject Chu kỳ 13 |
+| 1 | Online Bayesian (Kalman-style) — matrix | Low | **▲▲▲ DIRECT** (adapts posterior P(num_i)) | ▲ | Medium | ~~1st~~ **Chu kỳ 14 — 6/6 Reject** (drift falsified) |
+| 3 | Cross-product joint model — matrix (Power/Mega/Lotto overlap) | Med | **▲▲▲** (3× data → better P estimates) | ▲ | High | **1st now (Chu kỳ 15 Option A)** — lưu ý: variant 3D (Path B) đã Reject Chu kỳ 13 |
 | 5 | Copula-based dependency modeling — matrix | Med-High | **▲▲** (captures joint → better P(any k)) | ▲ | High | 3rd — lưu ý: variant 3D đã Reject Chu kỳ 11 |
-| 2 | Kelly-optimal multi-ticket portfolio | Low-Med | ▲ (indirect via portfolio opt) | ▲▲▲ | High | 4th (after win-rate paths) |
+| 2 | Kelly-optimal multi-ticket portfolio | Low-Med | ▲ (indirect via portfolio opt) | ▲▲▲ | High | **2nd now (Chu kỳ 15 Option B)** — pivot to ROI-axis sau khi win-rate paths consistently null |
 | 6 | Genetic algorithm strategy search | Med | ▲▲ (optimizes composite, overfit risk) | ▲ | Medium | 5th |
 | 4 | Neural sequence (LSTM / Transformer) | High | ▲ (theoretically, overfit likely) | ▲ | Very high | 6th |
 | 7 | Reinforcement learning (bandit) | High | ▲ | ▲▲ | Very high | Not recommended until 1-6 explored |
