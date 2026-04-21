@@ -25,7 +25,7 @@ Sau Chu kỳ 9, project đã exhaust discovery mode (25+ strategies, 3/3 Suggest
 
 - **Tournament ranking** ([METHODOLOGY §8](METHODOLOGY.md) + [EVALUATION §8](EVALUATION.md)) — 4 metrics, weights `0.40/0.30/0.15/0.15`, pre-registered immutable.
 - **Forward validation** ([EVALUATION §9](EVALUATION.md)) — rolling-window last-20/100/300 draws. **Primary deployment signal**, có veto power trong decision gate (§9.5).
-- **Novel paradigms** ([BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md)): Online Bayesian (Path #1 — recommended Chu kỳ 11), Cross-product joint (Path #3), Copula (Path #5), Kelly portfolio (Path #2 — demoted, ROI-focused).
+- **Novel paradigms** ([BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md)): Online Bayesian (Path #1 — recommended Chu kỳ 14 matrix, defer 3 chu kỳ chờ 3D exhaust), Cross-product joint matrix (Path #3 — Chu kỳ 15 candidate), Copula matrix (Path #5), Kelly portfolio (Path #2 — demoted, ROI-focused, Chu kỳ 16+).
 
 ### Guardrails giữ nguyên (non-negotiable)
 
@@ -280,16 +280,18 @@ Nghiên cứu xong → Chạy backtest → Cập nhật 3 file website:
 
 **Tất cả 3D strategies Reject sau replication + drift verification.**
 
-### Project-level status (sau Chu kỳ 9)
+### Project-level status (sau Chu kỳ 13, 2026-04-21)
 
-**Discovery mode exhaust.** Không còn candidate Accept/Suggestive nào trên bất kỳ sản phẩm nào. Với 25+ strategies đã test × 5 products × walk-forward backtest + split-half replication, **không có evidence cho exploitable edge** qua existing paradigm (bias exploitation, coverage optimization, ensemble). Vietlott RNG gần white noise ở mức granularity hiện tại.
+**Discovery mode exhaust + 3D breakthrough exhaust.** Với ~50 strategies đã test × 5 products × 3-gate protocol (full-sample + split-half + forward_last_100), **0 scientifically robust Accept/Suggestive** trong toàn bộ lịch sử dự án. 3D research line CLOSED (28 strategies × 5 paradigms → 0 edge). Matrix research line ACTIVE — Paths #1/#3/#5 chưa test cho matrix.
 
 ### Breakthrough status (Chu kỳ 10+)
 
 **Chu kỳ 10 (2026-04-20)**: Pivot decision documented. Project chuyển sang breakthrough mode với tournament ranking + multi-objective (Δ_win, Δ_ROI, Sharpe, p-value).
 
-**Chu kỳ 11 (proposed — refined)**: **Path #1 — Online Bayesian với Kalman-style posterior updates** trên Mega 6/45 + Lotto 5/35. Win-rate relevance ▲▲▲ DIRECT (mechanism trực tiếp estimate P(number_i)). Forward validation last-100 làm primary gate. Xem [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) cho detail. Kelly portfolio (Path #2) moved to Chu kỳ 13+.
+**Chu kỳ 11/12/12.5/13 (04/2026)**: 3D breakthrough paths. Copula (Path A) Reject, GBM (Path E) Reject + overfit audit, Cross-product pool (Path B) 4/4 Reject. 3D line CLOSED. Xem [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md).
 
-**Chu kỳ 8 finding**: Digit bias stable qua 3 time windows (0/30 tuples fail Bonferroni homogeneity). EVMaximizer's half-1 p=0.0007 xuất phát từ **base-rate variance** (Random half-1 = 1.77% vs half-2 = 2.02%), **không** phải distribution shift. Với bias ổn định nhưng không exploitable + không drift để adapt → **3D research paused**. Full details: [RESEARCH_HISTORY Chu Kỳ 8](RESEARCH_HISTORY.md#chu-kỳ-8--pre-registration-distribution-shift-analysis--adaptive-exploitation-for-max-3d-pro-042026).
+**Chu kỳ 14 (proposed, ready)**: **Path #1 — Online Bayesian với Kalman-style posterior updates** trên Mega 6/45 (primary) + Lotto 5/35 (secondary). Win-rate relevance ▲▲▲ DIRECT (mechanism trực tiếp estimate P(number_i)). Forward validation last-100 làm primary gate. Principle #14 auto-flag threshold |Δ| > +0.9pp (3× matrix ceiling). Xem [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) cho detail. Chu kỳ 15 = Path #3 matrix fallback. Kelly (Path #2) defer Chu kỳ 16+.
+
+**Chu kỳ 8 finding**: Digit bias stable qua 3 time windows (0/30 tuples fail Bonferroni homogeneity). EVMaximizer's half-1 p=0.0007 xuất phát từ **base-rate variance** (Random half-1 = 1.77% vs half-2 = 2.02%), **không** phải distribution shift. Với bias ổn định nhưng không exploitable + không drift để adapt → **3D research paused** (formally CLOSED sau Chu kỳ 13). Full details: [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) + [history/cycle08_drift_verification.md](history/cycle08_drift_verification.md).
 
 > **Lưu ý**: Xổ số là hoàn toàn ngẫu nhiên. Không thuật toán nào đảm bảo lợi nhuận. ROI luôn âm.

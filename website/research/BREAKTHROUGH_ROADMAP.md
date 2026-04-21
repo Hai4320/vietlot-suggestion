@@ -7,16 +7,18 @@
 > **Không phải là**: Guideline cách run cycle. Đó là [METHODOLOGY.md](METHODOLOGY.md) + [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md).
 >
 > **⚡ Priority framework (Chu kỳ 10 refined)**: Primary goal = **tối đa hoá tỷ lệ trúng giải trong tương lai**. Paths re-ranked by **Win-rate impact** (direct > indirect). ROI (weight 0.30) vẫn meaningful — không loại Kelly path, chỉ demote ưu tiên.
+>
+> **Cập nhật 2026-04-21 (post Chu kỳ 13)**: 3D research line CLOSED. Chu kỳ 11/12/12.5/13 đã dùng cho 3D paths (Copula, GBM, Cross-product pool) — 4/4 Reject. **Chu kỳ 14 = Path #1 Online Bayesian trên matrix products** (đã defer 3 chu kỳ chờ 3D exhaust). Paths #2/#3/#5 cho matrix vẫn untested.
 
 ---
 
-## Priority Matrix (re-ranked Chu kỳ 10 refined — win-rate first)
+## Priority Matrix (re-ranked Chu kỳ 10 refined — win-rate first; Chu kỳ 14 numbering sync 2026-04-21)
 
 | # | Path | Effort | Win-rate impact | ROI impact | Novelty | Recommend order |
 |:-:|------|:-:|:-:|:-:|:-:|:-:|
-| 1 | Online Bayesian (Kalman-style) | Low | **▲▲▲ DIRECT** (adapts posterior P(num_i)) | ▲ | Medium | **1st (Chu kỳ 11)** |
-| 3 | Cross-product joint model | Med | **▲▲▲** (3× data → better P estimates) | ▲ | High | **2nd (Chu kỳ 12)** |
-| 5 | Copula-based dependency modeling | Med-High | **▲▲** (captures joint → better P(any k)) | ▲ | High | 3rd |
+| 1 | Online Bayesian (Kalman-style) — matrix | Low | **▲▲▲ DIRECT** (adapts posterior P(num_i)) | ▲ | Medium | **1st (Chu kỳ 14)** ⬅ ready |
+| 3 | Cross-product joint model — matrix (Power/Mega/Lotto overlap) | Med | **▲▲▲** (3× data → better P estimates) | ▲ | High | **2nd (Chu kỳ 15 candidate)** — lưu ý: variant 3D (Path B) đã Reject Chu kỳ 13 |
+| 5 | Copula-based dependency modeling — matrix | Med-High | **▲▲** (captures joint → better P(any k)) | ▲ | High | 3rd — lưu ý: variant 3D đã Reject Chu kỳ 11 |
 | 2 | Kelly-optimal multi-ticket portfolio | Low-Med | ▲ (indirect via portfolio opt) | ▲▲▲ | High | 4th (after win-rate paths) |
 | 6 | Genetic algorithm strategy search | Med | ▲▲ (optimizes composite, overfit risk) | ▲ | Medium | 5th |
 | 4 | Neural sequence (LSTM / Transformer) | High | ▲ (theoretically, overfit likely) | ▲ | Very high | 6th |
@@ -26,7 +28,7 @@
 
 ---
 
-## Path #1 — Online Bayesian with Kalman-style Posterior Updates ⭐ (RECOMMENDED FIRST — Chu kỳ 11)
+## Path #1 — Online Bayesian with Kalman-style Posterior Updates ⭐ (RECOMMENDED FIRST — Chu kỳ 14)
 
 ### Win-rate relevance: ▲▲▲ DIRECT
 Mechanism **directly estimates P(number_i)** cho mỗi vị trí trong không gian số, cập nhật posterior theo từng draw mới. Primary metric win_rate_ge3 là function trực tiếp của những posterior estimates này — better estimate → higher expected win rate. Đây là path matching primary goal tightest nhất.
@@ -72,7 +74,7 @@ class OnlineBayesianStrategy(StrategyBase):
 
 ---
 
-## Path #2 — Kelly-optimal Multi-ticket Portfolio (secondary, ROI-focused)
+## Path #2 — Kelly-optimal Multi-ticket Portfolio (secondary, ROI-focused — Chu kỳ 16+ candidate)
 
 ### Win-rate relevance: ▲ INDIRECT
 Kelly maximizes log-growth (ROI-centric), not P(win) directly. Win rate improvement chỉ là byproduct từ better ticket selection. Với priority refinement Chu kỳ 10 (win-rate 0.40 vs ROI 0.30), path này **demote từ "1st" → "4th"** — vẫn meaningful cho ROI-axis trong tournament nhưng không phải breakthrough trực tiếp cho primary goal.
@@ -130,7 +132,9 @@ class KellyPortfolioStrategy(StrategyBase):
 
 ---
 
-## Path #3 — Cross-product Joint Model (2nd priority — Chu kỳ 12 candidate)
+## Path #3 — Cross-product Joint Model — Matrix (2nd priority — Chu kỳ 15 candidate)
+
+> **Lưu ý scope**: Path #3 trong doc này áp dụng cho **matrix products** (Power 6/55, Mega 6/45, Lotto 5/35 trên overlap 1-35). Biến thể 3D (Path B) đã test Chu kỳ 13 — 4/4 Reject, shared-RNG hypothesis falsified cho 2 products 3D. Matrix vẫn untested — khác physical data (set-level vs digit-level) nên outcome có thể khác.
 
 ### Win-rate relevance: ▲▲▲
 Pool data across 3 matrix products → 3× sample size cho bias estimation. Better estimates of P(number_i) directly improve win rate nếu shared RNG bias exists. Nếu independent RNG, no improvement (acknowledged failure mode).
@@ -214,7 +218,9 @@ Pytorch LSTM với small hidden (32-64), output softmax 55-d (6/55). Train rolli
 
 ---
 
-## Path #5 — Copula-based Dependency Modeling (3rd priority)
+## Path #5 — Copula-based Dependency Modeling — Matrix (3rd priority)
+
+> **Lưu ý scope**: Biến thể 3D đã test Chu kỳ 11 (Gaussian + Empirical copula) — 3/4 Reject + 1/4 Inconclusive. Matrix copula vẫn untested; differs vì drawn-set structure (k chọn từ N) thay vì 3 digits độc lập vị trí.
 
 ### Win-rate relevance: ▲▲
 Copula captures joint dependency structure of drawn numbers. Nếu số có dependency thực (như Chu kỳ 4 finding trên 3D digits), marginal-independent Bayesian miss information → copula có thể lift P(any k match) directly.
@@ -293,11 +299,13 @@ Define strategy as parameterized formula (e.g., weighted combination of marginal
 | Candidate ticket generator (10k+ pool) | Path #2, #6 | **TODO** |
 | Split-half replication helper (generic) | All paths | Partial (per-cycle scripts) |
 
-**Recommend**: Implement tournament ranking + Kelly simulation cùng với Path #2 (Chu kỳ 11). Path #3 sẽ reuse cross-product loader.
+**Recommend**: Tournament ranking infra đã partial reuse qua Chu kỳ 11/12/13 (3D backtest). Cross-product loader sẽ xây khi Chu kỳ 15 (Path #3 matrix) bắt đầu. Kelly simulation defer cho Chu kỳ 16+.
 
 ---
 
-## Chu Kỳ 11 Proposal (first breakthrough cycle — refined)
+## Chu Kỳ 14 Proposal (first matrix breakthrough cycle — deferred 3 cycles chờ 3D exhaust)
+
+> **Historical note**: Đề xuất này ban đầu gắn Chu kỳ 11 (xem git log). Thực tế Chu kỳ 11/12/13 dành cho 3D (Copula Path A → Reject; GBM Path E → Reject; Cross-product pool Path B → 4/4 Reject). Sau khi 3D chính thức CLOSED (Chu kỳ 13), Path #1 Online Bayesian pick lại cho **Chu kỳ 14** — nguyên vẹn rationale + mechanism, chỉ shift cycle number.
 
 **Pick**: **Path #1 — Online Bayesian with Kalman-style Posterior Updates** (swap từ Kelly sau clarification priority win-rate → primary).
 
@@ -308,20 +316,21 @@ Define strategy as parameterized formula (e.g., weighted combination of marginal
 **Deliverables**:
 1. `research/matrix/online_bayesian.py` — core implementation (OnlineBayesianStrategy với 3-5 forgetting rate variants)
 2. `research/tournament.py` — generic §8 tournament script với forward validation §9 (reused by future cycles)
-3. Pre-registration in HISTORY (Chu Kỳ 11) — hypothesis + weights 0.40/0.30/0.15/0.15 + forward validation plan
+3. Pre-registration in `history/cycle14_online_bayesian.md` — hypothesis + weights 0.40/0.30/0.15/0.15 + forward validation plan
 4. Tournament results + split-half + forward validation JSON
 
-**Success criterion** (primary = win-rate focus):
+**Success criterion** (primary = win-rate focus, principles #11-#15 binding):
 - Tournament top-1 trên Mega 6/45 (4-metric composite, win-rate heaviest)
 - `forward_last_100` win_rate > Random AND > batch Bayesian baseline
 - Split-half both halves Δ_win > 0
+- **Principle #14 magnitude sanity**: matrix bias ceiling +0.3pp → auto-flag threshold |Δ| > +0.9pp
 - If all pass → Accept. If forward + split-half pass partially → Suggestive. If only forward pass + tournament top-1 → Ship-with-caveats.
 
-**Fallback if Path #1 produces no significant edge**: Chu Kỳ 12 = Path #3 (Cross-product) — mechanism khác cho win-rate axis.
-
-**Kelly portfolio (Path #2) moved to Chu Kỳ 13+** — ROI-focused, explore sau khi win-rate paths có results.
+**Fallback if Path #1 produces no significant edge**: Chu Kỳ 15 = Path #3 (Cross-product matrix) — mechanism khác cho win-rate axis. Chu Kỳ 16+ = Kelly portfolio (ROI-focused).
 
 ---
+
+*Cập nhật: 2026-04-21 — Post Chu kỳ 13. 3D CLOSED (28 strategies 0 Accept). Chu kỳ 11 Proposal rebrand → Chu Kỳ 14 Proposal. Priority matrix cycle numbers sync: Path #1→Chu kỳ 14, Path #3 matrix→Chu kỳ 15, Kelly→Chu kỳ 16+.*
 
 *Cập nhật: 2026-04-20 (late) — Chu kỳ 10 refined. Priority re-ranked theo win-rate goal. Chu kỳ 11 proposal swap từ Path #2 Kelly → **Path #1 Online Bayesian**. Kelly demote to Chu kỳ 13+.*
 

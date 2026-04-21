@@ -233,7 +233,7 @@ Xem [RESEARCH_TO_UI_PLAYBOOK.md §2](RESEARCH_TO_UI_PLAYBOOK.md) cho complete de
 
 **Anti-pattern**: ship stale Suggestive (e.g., Mega 6/45 ExpDecay_Cold shown Suggestive 2 months after Chu kỳ 9 Reject, fixed 2026-04-21). Xem [RESEARCH_TO_UI_PLAYBOOK.md §7](RESEARCH_TO_UI_PLAYBOOK.md) cho anti-patterns.
 
-### Giai đoạn 4: Theo dõi sau triển khai
+### Giai đoạn 6: Theo dõi sau triển khai
 
 - Khi có data mới (crawl hàng ngày) → thuật toán tự cập nhật (lookback window)
 - Mỗi 3-6 tháng: chạy lại backtest toàn bộ để xác nhận rankings vẫn đúng
@@ -296,4 +296,4 @@ Các thuật toán đã test nhưng **KHÔNG** đưa vào gợi ý:
 
 ---
 
-*Cập nhật: 2026-04-19 — 9 thuật toán, 5 sản phẩm, 4.948+ kỳ quay backtest*
+*Cập nhật: 2026-04-21 — 9 thuật toán UI, 5 sản phẩm, 4.948+ kỳ quay backtest. Post Chu kỳ 13: 3D research CLOSED (28 strategies 0 Accept). Chu kỳ 14 ready = Path #1 Online Bayesian matrix.*
