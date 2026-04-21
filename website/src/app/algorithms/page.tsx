@@ -42,18 +42,18 @@ const ORIGIN_TAGS = {
 const STRATEGIES = [
   {
     id: "hybridparity",
-    name: "Hybrid Parity (5/35)",
+    name: "Hybrid Parity (5/35) ⚠",
     emoji: "🎰",
     origin: "research" as const,
     scope: "all" as const,
-    shortDesc: "Multi-ticket wheeling: empirical parity allocation + max-min Hamming diversity",
+    shortDesc: "Multi-ticket wheeling (REJECTED Chu kỳ 5 correction)",
     description:
-      "Thuật toán đa vé đầu tiên có edge thống kê ý nghĩa trên Lotto 5/35 (p=0.011 ở N=20). " +
-      "Xuất phát từ phát hiện Phase 1: phân phối số lẻ trong 5 số chính lệch khỏi hypergeometric " +
-      "(Chi² p=0.0012, qua Bonferroni α=0.00357) — đặc biệt mode 3 số lẻ over +13%, mode 0 số lẻ over +84%. " +
-      "Single-ticket không khai thác được (đã chứng minh toán học: E[match] chỉ phụ thuộc trung bình, không phụ thuộc shape). " +
-      "Nhưng với N vé, phân bổ theo empirical parity + max-min Hamming distance tạo ra portfolio coverage " +
-      "khớp với phân phối draw thật → P(any vé trúng ≥3) cải thiện +4.3pp ở N=20 (27.65% vs Random 23.33%).",
+      "⚠️ **Chu kỳ 5 correction (2026-04-20)**: claim cũ &quot;p=0.011 ở N=20&quot; là artefact của bug sample-size dedup " +
+      "(`dates.unique()` bỏ 50% data vì Power 5/35 có 2 draws/day). Sau fix bug iterate per-row: " +
+      "thực chất Δ+1.75pp, p=0.301 → **Reject** (không có edge ý nghĩa thống kê). " +
+      "Mechanism: phát hiện Phase 1 phân phối số lẻ trong 5 số chính lệch khỏi hypergeometric " +
+      "(Chi² p=0.0012, Bonferroni pass). Bias tồn tại nhưng không exploitable single-ticket " +
+      "(đã chứng minh toán học) hay multi-ticket wheeling. Giữ trong UI làm reference implementation.",
     methodology: [
       "Ước lượng phân bố số lẻ (k ∈ {0..5}) từ lịch sử — Dirichlet smoothing α=1",
       "Phân bổ N vé theo tỷ lệ largest-remainder: vd N=20 → 1,3,6,8,2,0 vé ở mỗi parity bin",
@@ -69,17 +69,17 @@ const STRATEGIES = [
   },
   {
     id: "evmax",
-    name: "EV tối đa",
+    name: "EV tối đa ⚠",
     emoji: "💰",
     origin: "research" as const,
     scope: "3d" as const,
-    shortDesc: "Expected Value maximizer + exponential decay + diversity",
+    shortDesc: "Expected Value maximizer (REJECTED Chu kỳ 7 replication)",
     description:
-      "Tối ưu hóa giá trị kỳ vọng (Expected Value) cho từng số dựa trên giải thưởng theo hạng (ĐB, Nhất, Nhì, Ba) " +
-      "và tần suất xuất hiện có trọng số giảm theo thời gian (exponential decay, half-life = 100 kỳ). " +
-      "Thuật toán tính EV = Σ(weight × prize) cho mỗi số, xếp hạng theo EV, sau đó lấy mẫu từ top 80 số " +
-      "với ràng buộc đa dạng (min digit distance = 4 giữa 2 số được chọn). " +
-      "Xếp hạng #1 trên Max 3D Pro (2.50%, ROI -26.5% — tốt nhất toàn bộ 3D).",
+      "⚠️ **Chu kỳ 7 replication (2026-04-20)**: Full-sample p=0.053 near-miss Suggestive → split-half " +
+      "test exposed **dramatic direction flip** (h1 p=0.0007 very strong → h2 p=0.865 fully fail). " +
+      "Decision: **Reject**. Signature: full-sample signal was pooling artifact, không replicate trên held-out. " +
+      "Mechanism: tối ưu Expected Value = Σ(weight × prize) với exponential decay (half-life=100). " +
+      "Lấy mẫu từ top 80 với digit distance ≥ 4. Claim cũ &quot;#1 Max 3D Pro 2.50%&quot; rút lại.",
     methodology: [
       "Tính trọng số thời gian: weight = exp(-ln2 × i / half_life) cho kỳ thứ i",
       "Với mỗi số, tính EV = Σ (weight × prize_tier) qua 300 kỳ gần nhất",
@@ -92,18 +92,19 @@ const STRATEGIES = [
   },
   {
     id: "jointbias",
-    name: "Bias liên hợp",
+    name: "Bias liên hợp 🔬",
     emoji: "🧬",
     origin: "research" as const,
     scope: "3d" as const,
-    shortDesc: "Joint 3-digit frequency + Laplace smoothing",
+    shortDesc: "Joint 3-digit frequency — current research pick cho cả 2 3D products",
     description:
-      "Khai thác phát hiện thống kê rằng 3 vị trí chữ số (hàng trăm, chục, đơn vị) trong xổ số 3D " +
-      "KHÔNG độc lập (Chi² test: p < 0.001). Thay vì mô hình P(abc) = P(a)×P(b)×P(c), " +
-      "thuật toán tính trực tiếp tần suất đồng thời P(abc) trên 300 kỳ gần nhất, " +
-      "áp dụng Laplace smoothing (α=1.0) để xử lý số chưa xuất hiện, " +
-      "rồi lấy mẫu từ phân phối 1000 số theo xác suất joint. " +
-      "Xếp hạng #2 Max 3D (2.27%), #2 Max 3D Pro (2.38%).",
+      "Khai thác phát hiện thống kê rằng 3 vị trí chữ số trong 3D KHÔNG độc lập " +
+      "(Chi² pos_1_2 p=1e-06, pos_0_2 p=1.5e-05, pos_0_1 p=0.032). Thay vì P(abc) = P(a)×P(b)×P(c), " +
+      "thuật toán tính trực tiếp tần suất đồng thời P(abc) trên 300 kỳ gần nhất với Laplace smoothing " +
+      "(α=1.0), rồi lấy mẫu từ phân phối 1000 số theo xác suất joint. " +
+      "**Research pick current**: Max 3D Δ+0.305pp (p=0.11) + Max 3D Pro Δ+0.378pp (p=0.14) — " +
+      "directional only, không confirmed edge. Được chọn vì magnitude trong Principle #14 bias ceiling " +
+      "(+0.4pp) + không có overfit signature. Trở thành mechanism anchor cho Chu kỳ 11/12/13 so sánh.",
     methodology: [
       "Đếm tần suất đồng thời (joint frequency) cho mỗi số 000-999 qua 300 kỳ gần nhất",
       "Laplace smoothing: P(num) = (count + α) / (total + 1000 × α), α = 1.0",
@@ -263,7 +264,9 @@ const STRATEGIES = [
   },
 ];
 
-// Phase 4 backtest results — refreshed 2026-04-20 Chu kỳ 6 (added z-test + decision)
+// Backtest results — refreshed 2026-04-21 post-Chu kỳ 13.
+// Chu kỳ 9 update: Mega 6/45 ExpDecay_Cold Suggestive → Reject (direction flip split-half).
+// See lib/backtest-data.ts for canonical source consumed by BacktestCard.
 const BACKTEST_RESULTS = {
   power_655: {
     label: "Power 6/55",
@@ -284,7 +287,7 @@ const BACKTEST_RESULTS = {
     baseline: { E: 0.8, winPct: 2.383 },
     totalDraws: 1302,
     strategies: [
-      { name: "Suy giảm hàm mũ (Cold)", avg: 0.8089, delta: +0.0089, winPct: 2.912, roi: -56.9, best: 5, type: "old" as const, pValue: 0.0044, decision: "Suggestive" as Decision },
+      { name: "Suy giảm hàm mũ (Cold) ⚠", avg: 0.8089, delta: +0.0089, winPct: 2.912, roi: -56.9, best: 5, type: "old" as const, pValue: 0.0044, decision: "Reject" as Decision }, // Chu kỳ 9 split-half direction flip
       { name: "★ Phủ sóng tối đa", avg: 0.8103, delta: +0.0103, winPct: 2.440, roi: -57.5, best: 5, type: "new" as const, pValue: 0.105, decision: "Reject" as Decision },
       { name: "★ Kết hợp (Ensemble)", avg: 0.8073, delta: +0.0073, winPct: 2.579, roi: -63.9, best: 5, type: "new" as const, pValue: 0.046, decision: "Suggestive" as Decision },
       { name: "★ Bayesian AI", avg: 0.8070, delta: +0.0070, winPct: 2.579, roi: -88.5, best: 4, type: "new" as const, pValue: 0.046, decision: "Suggestive" as Decision },
@@ -316,86 +319,88 @@ const RECOMMENDATIONS = [
     product: "Power 6/55",
     emoji: "🔴",
     color: "hsl(0, 72%, 51%)",
-    primary: "Bayesian AI",
+    primary: "Bayesian AI (directional pick)",
     primaryEmoji: "🧠",
     secondary: "Tần suất cao",
     secondaryEmoji: "📊",
     reason:
-      "Bayesian AI có Δ avg match cao nhất (+0.031) nhưng sau z-test Chu kỳ 6: p=0.511 → **Reject**. " +
-      "Không strategy nào beat Random với significance. Dùng Bayesian nếu thích mô hình thông minh, nhưng hiểu rằng edge không thực tế.",
-    special: "⚠️ Chu kỳ 6 (2026-04-20): toàn bộ strategies Reject khi z-test vs Random. Pool 55 số có thể quá lớn cho 1334 draws.",
+      "Bayesian AI có Δ avg match cao nhất (+0.031, Win 1.65%). Full-sample z-test p=0.511 → Reject. " +
+      "Không có strategy nào beat Random với significance. Pool 55 số lớn, 1334 draws có thể chưa đủ.",
+    special: "🔬 Directional pick only — no confirmed edge. Chu kỳ 14 planned = Online Bayesian Kalman variant.",
   },
   {
     product: "Mega 6/45",
     emoji: "🔵",
     color: "hsl(217, 91%, 60%)",
-    primary: "Suy giảm hàm mũ (Cold)",
-    primaryEmoji: "⚡",
-    secondary: "Bayesian AI",
-    secondaryEmoji: "🧠",
+    primary: "Bayesian AI Sharp (directional pick)",
+    primaryEmoji: "🧠",
+    secondary: "Mẫu cấu trúc",
+    secondaryEmoji: "🔮",
     reason:
-      "🔬 **ExpDecay_Cold** là strategy duy nhất có signal mạnh nhất (p=0.0044, Suggestive): " +
-      "win rate 2.91% vs Random 1.89% (+1.03pp). Chưa pass Bonferroni K=14 (α=0.00357) — cần replicate trên data mới. " +
-      "Bayesian AI và Kết hợp (Ensemble) cũng Suggestive (p=0.046).",
-    special: "⚠️ 3 strategies Suggestive trên 6/45 — strongest signal qua toàn research. Ứng viên cho Chu kỳ 7 replicate validation.",
+      "Bayesian AI Sharp (T=0.3) có Win rate 3.14% directional positive. " +
+      "⚠ ExpDecay_Cold cũ (Chu kỳ 6 Suggestive p=0.0044) đã REJECTED Chu kỳ 9 sau split-half direction flip " +
+      "(h1 Δ=−0.26pp → h2 Δ=+0.37pp). Không còn strategy nào verified Suggestive cho 6/45.",
+    special: "⚠️ Chu kỳ 9 (2026-04-20): ExpDecay_Cold Rejected — claim cũ rút lại. Bayesian AI / Ensemble Suggestive status vẫn chưa được replication-verified.",
   },
   {
     product: "Lotto 5/35",
     emoji: "🟢",
     color: "hsl(142, 71%, 45%)",
-    primary: "Tự động tối ưu",
-    primaryEmoji: "🎛️",
-    secondary: "Mẫu cấu trúc",
-    secondaryEmoji: "🔮",
+    primary: "Mẫu cấu trúc (directional pick)",
+    primaryEmoji: "🔮",
+    secondary: "Tự động tối ưu",
+    secondaryEmoji: "🎛️",
     reason:
-      "Sau Chu kỳ 6 correction: HybridParityDiv claim cũ (p=0.011) là artefact của bug sample-size — thực chất p=0.301 → Reject. " +
-      "Tất cả strategies single-ticket + wheeling đều Reject. Bias T11 Parity (p=0.0012) tồn tại nhưng không exploitable. " +
-      "Adaptive có Δ cao nhất (+0.038) nhưng p=0.157 — chưa đủ ý nghĩa.",
-    special: "⚠️ HybridParityDiv: edge cũ biến mất sau khi fix bug `dates.unique()`. Kept trong UI làm reference implementation, không còn recommended.",
+      "Pattern có Δ+0.025 directional Win 1.78%. Tất cả strategies (including wheeling) đều Reject. " +
+      "⚠ HybridParityDiv cũ (claim p=0.011) là artefact của bug sample-size — Chu kỳ 5 correction cho p=0.301 → Reject. " +
+      "Bias T11 Parity (p=0.0012) tồn tại nhưng không exploitable single-ticket hay multi-ticket.",
+    special: "⚠️ HybridParityDiv: stale claim retracted 2026-04-20 after bug fix. Kept as reference implementation only.",
   },
 ];
 
 // ============================================================
-// 3D Products backtest data (15 strategies, 1064+ draws)
+// 3D Products backtest data — refreshed 2026-04-21 post-Chu kỳ 13 (28 strategies tested total).
+// All Reject per 3-gate protocol. See lib/backtest-data.ts for canonical source.
+// Key additions: Chu kỳ 11 Copula variants, Chu kỳ 12 GBM (overfit confirmed 12.5), Chu kỳ 13 Pool variants.
 // ============================================================
 
-// 3D backtest results — refreshed 2026-04-20 Chu kỳ 6. Baseline = Random.
 const BACKTEST_RESULTS_3D = {
   "3d": {
     label: "Max 3D",
-    totalDraws: 1064,
-    baseline: { exactPct: 2.0 },
+    totalDraws: 1065,
+    baseline: { exactPct: 1.704 },
     strategies: [
-      { name: "Tần suất cao (FreqWholeHot)", exactPct: 2.347, roi: -32.8, type: "best" as const, pValue: 0.066, decision: "Reject" as Decision },
-      { name: "🧬 Bias liên hợp (T=1.0)", exactPct: 2.268, roi: -39.0, type: "research" as const, pValue: 0.144, decision: "Reject" as Decision },
+      { name: "🧬 Bias liên hợp (JointBias)", exactPct: 2.010, roi: -52.5, type: "research" as const, pValue: 0.107, decision: "Reject" as Decision }, // mechanism anchor
+      { name: "Tần suất cao (FreqWholeHot) ⚠", exactPct: 1.862, roi: -46.7, type: "best" as const, pValue: 0.396, decision: "Reject" as Decision }, // Chu kỳ 7 replication Reject
+      { name: "🔬 EmpiricalCopula (Chu kỳ 11)", exactPct: 2.118, roi: -44.3, type: "research" as const, pValue: 0.031, decision: "Reject" as Decision }, // fwd flip −0.5pp
+      { name: "🔬 GaussianCopulaEmpMargins (Chu kỳ 11)", exactPct: 1.941, roi: -41.5, type: "research" as const, pValue: 0.208, decision: "Reject" as Decision },
+      { name: "🤖 GBMDigitClassifier (Chu kỳ 12) ⚠", exactPct: 5.310, roi: +37.3, type: "research" as const, pValue: 0.0000, decision: "Reject" as Decision }, // Principle #14 magnitude flag + Chu kỳ 12.5 overfit audit
+      { name: "🔬 PooledDigitBias (Chu kỳ 13)", exactPct: 2.049, roi: -52.8, type: "research" as const, pValue: 0.070, decision: "Reject" as Decision },
+      { name: "🔬 HierarchicalBayesDigit (Chu kỳ 13)", exactPct: 2.197, roi: -52.4, type: "research" as const, pValue: 0.011, decision: "Reject" as Decision }, // fwd flip −1.2pp
       { name: "PairExploiter (T=0.5)", exactPct: 2.248, roi: -36.7, type: "research" as const, pValue: 0.171, decision: "Reject" as Decision },
       { name: "★ Phủ sóng tối đa (CoverageOpt)", exactPct: 2.219, roi: -35.8, type: "new" as const, pValue: 0.220, decision: "Reject" as Decision },
       { name: "ULTIMATE_v1", exactPct: 2.219, roi: -44.9, type: "research" as const, pValue: 0.220, decision: "Reject" as Decision },
-      { name: "StratifiedDigit", exactPct: 2.199, roi: -40.8, type: "research" as const, pValue: 0.258, decision: "Reject" as Decision },
-      { name: "AdaptBias (T=0.9)", exactPct: 2.081, roi: -45.0, type: "research" as const, pValue: 0.584, decision: "Reject" as Decision },
-      { name: "TierWeighted", exactPct: 2.061, roi: -44.8, type: "research" as const, pValue: 0.653, decision: "Reject" as Decision },
-      { name: "BayesJoint (HL=100)", exactPct: 1.992, roi: -45.5, type: "research" as const, pValue: 0.920, decision: "Reject" as Decision },
-      { name: "Random", exactPct: 1.972, roi: -52.6, type: "base" as const, decision: "baseline" as Decision },
-      { name: "💰 EV tối đa (EVMaximizer)", exactPct: 1.874, roi: -56.9, type: "research" as const, pValue: 0.609, decision: "Reject" as Decision },
+      { name: "💰 EV tối đa (EVMaximizer) ⚠", exactPct: 1.874, roi: -56.9, type: "research" as const, pValue: 0.609, decision: "Reject" as Decision }, // Chu kỳ 7 3D Pro Reject (flip)
+      { name: "Random", exactPct: 1.704, roi: -51.9, type: "base" as const, decision: "baseline" as Decision },
     ],
   },
   "3d_pro": {
     label: "Max 3D Pro",
     totalDraws: 711,
-    baseline: { exactPct: 2.0 },
+    baseline: { exactPct: 1.997 },
     strategies: [
-      { name: "💰 EV tối đa (EVMaximizer)", exactPct: 2.496, roi: -26.5, type: "research" as const, pValue: 0.053, decision: "Reject" as Decision },
+      { name: "🧬 Bias liên hợp (JointBias)", exactPct: 2.375, roi: -31.5, type: "research" as const, pValue: 0.137, decision: "Reject" as Decision }, // strongest directional
+      { name: "💰 EV tối đa (EVMaximizer) ⚠", exactPct: 2.496, roi: -26.5, type: "research" as const, pValue: 0.053, decision: "Reject" as Decision }, // Chu kỳ 7 split-half h1 p=0.0007 → h2 p=0.865 flip
+      { name: "🤖 GBMDigitClassifier (Chu kỳ 12) ⚠", exactPct: 5.068, roi: +59.4, type: "research" as const, pValue: 0.0000, decision: "Reject" as Decision }, // Technical Accept per rule, Chu kỳ 12.5 audit overfit → deprecated
       { name: "ULTIMATE_v2_sharp", exactPct: 2.421, roi: -27.5, type: "research" as const, pValue: 0.098, decision: "Reject" as Decision },
-      { name: "🧬 Bias liên hợp (T=1.0)", exactPct: 2.375, roi: -31.5, type: "research" as const, pValue: 0.137, decision: "Reject" as Decision },
+      { name: "🔬 HierarchicalBayesDigit (Chu kỳ 13)", exactPct: 1.876, roi: -50.0, type: "research" as const, pValue: 0.614, decision: "Reject" as Decision }, // full Δ<0
+      { name: "🔬 PooledDigitBias (Chu kỳ 13)", exactPct: 1.740, roi: -51.2, type: "research" as const, pValue: 0.275, decision: "Reject" as Decision }, // full Δ<0, pool hurts
+      { name: "🔬 EmpiricalCopula (Chu kỳ 11)", exactPct: 1.937, roi: -50.0, type: "research" as const, pValue: 0.802, decision: "Reject" as Decision },
+      { name: "🔬 GaussianCopulaEmpMargins (Chu kỳ 11)", exactPct: 1.997, roi: -39.4, type: "research" as const, pValue: 1.000, decision: "Reject" as Decision }, // Δ=0
       { name: "TierWeighted", exactPct: 2.179, roi: -43.0, type: "research" as const, pValue: 0.465, decision: "Reject" as Decision },
       { name: "BayesJoint (HL=150 Sharp)", exactPct: 2.163, roi: -45.0, type: "research" as const, pValue: 0.503, decision: "Reject" as Decision },
-      { name: "BayesJoint (HL=100)", exactPct: 2.133, roi: -33.4, type: "research" as const, pValue: 0.582, decision: "Reject" as Decision },
-      { name: "Portfolio", exactPct: 2.118, roi: -57.6, type: "research" as const, pValue: 0.624, decision: "Reject" as Decision },
-      { name: "CondChain (T=0.8)", exactPct: 2.103, roi: -38.3, type: "research" as const, pValue: 0.668, decision: "Reject" as Decision },
-      { name: "MultiSignal Ensemble", exactPct: 2.088, roi: -42.2, type: "research" as const, pValue: 0.712, decision: "Reject" as Decision },
       { name: "Random", exactPct: 1.997, roi: -45.4, type: "base" as const, decision: "baseline" as Decision },
       { name: "Tần suất cao (FreqWholeHot)", exactPct: 1.937, roi: -38.5, type: "best" as const, pValue: 0.802, decision: "Reject" as Decision },
-      { name: "CoverageOpt", exactPct: 1.437, roi: -58.6, type: "research" as const, pValue: 0.013, decision: "Reject" as Decision },
     ],
   },
 };
@@ -441,26 +446,66 @@ export default function AlgorithmsPage() {
           Thuật Toán Gợi Ý
         </h1>
         <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Giải thích chi tiết 10 thuật toán gợi ý xổ số cho cả Ma trận (Power/Mega/Lotto)
-          lẫn Max 3D/3D Pro, đánh giá trên 4.900+ kỳ quay thực tế.
+          10 thuật toán triển khai UI + 28+ chiến lược đã test qua 8 chu kỳ nghiên cứu.
+          Walk-forward backtest + 3-gate protocol (full + split-half + forward validation).
         </p>
-        <div className="flex justify-center gap-8 mt-6">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8 mt-6">
           <div className="text-center">
             <div className="text-3xl font-extrabold text-primary">10</div>
-            <div className="text-xs text-muted-foreground mt-0.5">Thuật toán</div>
+            <div className="text-xs text-muted-foreground mt-0.5">UI thuật toán</div>
           </div>
-          <div className="h-10 w-px bg-border" />
+          <div className="h-10 w-px bg-border hidden md:block" />
+          <div className="text-center">
+            <div className="text-3xl font-extrabold text-primary">28+</div>
+            <div className="text-xs text-muted-foreground mt-0.5">Tested (3D)</div>
+          </div>
+          <div className="h-10 w-px bg-border hidden md:block" />
           <div className="text-center">
             <div className="text-3xl font-extrabold text-primary">5</div>
             <div className="text-xs text-muted-foreground mt-0.5">Sản phẩm</div>
           </div>
-          <div className="h-10 w-px bg-border" />
+          <div className="h-10 w-px bg-border hidden md:block" />
           <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">4.948</div>
+            <div className="text-3xl font-extrabold text-primary">4.951</div>
             <div className="text-xs text-muted-foreground mt-0.5">Kỳ quay phân tích</div>
+          </div>
+          <div className="h-10 w-px bg-border hidden md:block" />
+          <div className="text-center">
+            <div className="text-3xl font-extrabold text-red-500">0</div>
+            <div className="text-xs text-muted-foreground mt-0.5">Confirmed edge</div>
           </div>
         </div>
       </div>
+
+      {/* Research state banner */}
+      <Card className="border-orange-500/40 bg-orange-500/5">
+        <CardContent className="pt-6 pb-5">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl shrink-0">🔬</span>
+            <div className="flex-1 space-y-2 text-sm">
+              <div className="font-bold text-orange-700 dark:text-orange-400">
+                Trạng thái research (2026-04-21)
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                <strong className="text-foreground">3D research line CLOSED</strong> sau Chu kỳ 13 —
+                28 chiến lược đã test qua 5 paradigms (probabilistic, joint-digit, copula, GBM, pool),
+                <strong className="text-foreground"> 0 chiến lược đạt Accept/Suggestive</strong> qua 3-gate protocol.
+                Research picks hiển thị dưới đây chỉ là <em>directional pick</em> (hướng positive nhưng không significant),
+                không phải confirmed edge.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                <strong className="text-foreground">Matrix research</strong> (Power 6/55, Mega 6/45, Lotto 5/35) — đang active.
+                Chu kỳ 14 planned: Path #1 Online Bayesian Kalman. Current rankings vẫn là Chu kỳ 6 era + Chu kỳ 9 correction (ExpDecay_Cold Reject).
+              </p>
+              <p className="text-xs text-muted-foreground/80 flex flex-wrap gap-3 pt-1">
+                <a href="/research" className="underline hover:text-orange-600">Full research story →</a>
+                <span>·</span>
+                <span>5 Principles (#11-#15) codified trong METHODOLOGY.md</span>
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Origin legend */}
       <section>
@@ -595,7 +640,7 @@ export default function AlgorithmsPage() {
           <div>
             <h2 className="text-xl font-bold">Đánh Giá Xác Suất</h2>
             <p className="text-sm text-muted-foreground">
-              Walk-forward backtest trên dữ liệu thực tế (3 lần chạy/thuật toán, seed cố định)
+              Walk-forward backtest + 3-gate protocol (full + split-half + forward_last_100). 5 runs, seed=42.
             </p>
           </div>
         </div>
@@ -606,23 +651,31 @@ export default function AlgorithmsPage() {
             <div className="flex gap-3">
               <span className="text-xl shrink-0">📐</span>
               <div className="space-y-2">
-                <h4 className="font-semibold text-sm">Phương pháp đánh giá</h4>
+                <h4 className="font-semibold text-sm">Phương pháp đánh giá (updated post-Chu kỳ 13)</h4>
                 <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
                   <li>
-                    <strong>Walk-forward backtest</strong>: Huấn luyện trên dữ liệu cũ, dự đoán kỳ tiếp theo,
-                    rồi dịch cửa sổ lên — giống đúng thực tế
+                    <strong>Walk-forward backtest</strong>: huấn luyện trên `draws[:i]`, dự đoán `draws[i]`, dịch cửa sổ lên. No look-ahead.
                   </li>
                   <li>
-                    <strong>Baseline</strong>: Giá trị kỳ vọng toán học E[trùng khớp] từ phân phối siêu hình học (hypergeometric)
+                    <strong>3-gate protocol (Principle #13)</strong>: Accept yêu cầu pass cả 3 — full-sample + split-half (time-ordered midpoint) + forward_last_100 (held-out).
                   </li>
                   <li>
-                    <strong>Δ</strong>: Chênh lệch so với baseline — dương là tốt hơn ngẫu nhiên
+                    <strong>Baseline</strong>: Random (hypergeometric E[trùng]) + mechanism anchor (best existing family strategy).
                   </li>
                   <li>
-                    <strong>ROI</strong>: Return On Investment — tỷ suất lợi nhuận trên chi phí vé
+                    <strong>Δ</strong> vs Random; <strong>p-value</strong> từ z-test 2-proportion pooled; <strong>CI</strong> Newcombe hybrid-score.
                   </li>
                   <li>
-                    <strong>3 lần chạy</strong> với random seed = 42 để đảm bảo tái tạo kết quả
+                    <strong>5 lần chạy</strong>, seed=42 reset per strategy per segment.
+                  </li>
+                  <li>
+                    <strong>Bonferroni</strong>: α_strict = 0.05/K với K = # new strategies trong cycle.
+                  </li>
+                  <li>
+                    <strong>Principle #14</strong>: |Δ| &gt; 3× bias ceiling (3D: 0.4pp → flag 1.2pp; matrix: 0.3pp → flag 0.9pp) auto-flag Ship-with-caveats pending audit.
+                  </li>
+                  <li>
+                    <strong>Principle #15</strong>: ML strategies yêu cầu n_unique_predictions/total ≥ 0.30.
                   </li>
                 </ul>
               </div>
@@ -923,8 +976,8 @@ export default function AlgorithmsPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="rounded-lg border p-3 space-y-1.5" style={{ borderColor: `${r.color}40` }}>
-                  <Badge className="text-white text-[10px]" style={{ backgroundColor: r.color }}>
-                    #1 Khuyến nghị
+                  <Badge className="text-white text-[10px] bg-orange-600">
+                    🔬 Research pick
                   </Badge>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="text-xl">{r.primaryEmoji}</span>
@@ -1036,34 +1089,34 @@ export default function AlgorithmsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             {
-              icon: "🔮",
-              title: "Mẫu cấu trúc — #1 tổng hợp matrix",
-              desc: "Pattern analysis (spacing + band distribution) xếp hạng #1 trung bình qua tất cả sản phẩm matrix (Δ = +0.015). Đặc biệt mạnh trên pool nhỏ (5/35) vì cấu trúc bộ số quan trọng hơn thống kê khi dữ liệu ít.",
+              icon: "🔬",
+              title: "3D research line CLOSED (Chu kỳ 13)",
+              desc: "28 chiến lược tested qua 5 paradigms (probabilistic, joint-digit, copula, GBM discriminative, cross-product pool) — 0 chiến lược đạt Accept/Suggestive qua 3-gate protocol. Bias thực tồn tại nhưng quá nhỏ so với noise floor của forward window.",
             },
             {
-              icon: "🧠",
-              title: "Bayesian vượt trội trên pool lớn",
-              desc: "Thuật toán Bayesian AI đạt Δ = +0.0308 trên Power 6/55 — mức cải thiện cao nhất trong toàn bộ nghiên cứu. Hệ thống tự chọn temperature: 1.0 (rộng) cho pool ≥50 số, 0.3 (sắc nét) cho Mega 6/45.",
+              icon: "🛡️",
+              title: "Principle #13 (Forward Gate) validated 5×",
+              desc: "Chu kỳ 7 EVMax, 9 ExpDecay Cold, 11 EmpiricalCopula, 12 GBM, 13 HierarchicalBayes — tất cả fail forward_last_100 validation dù pass full-sample. Signature overfitting xuất hiện consistent. 3-gate protocol (full + split-half + forward) giờ binding cho mọi Accept claim.",
             },
             {
-              icon: "💰",
-              title: "EV tối đa — #1 Max 3D Pro",
-              desc: "Thuật toán tự nghiên cứu: tối ưu Expected Value theo tier prizes + exponential decay. Đạt 2.50% exact match và ROI -26.5% — tốt nhất toàn bộ nghiên cứu 3D. Diversity constraint (digit distance ≥ 4) đảm bảo vé không quá tương tự nhau.",
+              icon: "⚠️",
+              title: "Principle #14 (Magnitude Sanity) — caught GBM false Accept",
+              desc: "Chu kỳ 12 GBM Max 3D Pro technical Accept theo pre-reg rule (+3.07pp full, split-half pass, forward +0.5pp). Principle #14 flag: 3.07pp là 7× bias ceiling (0.4pp). Chu kỳ 12.5 audit confirm: 'pure overfitting, no leak'. Strategy deprecated.",
             },
             {
               icon: "🧬",
-              title: "Bias liên hợp — digit KHÔNG độc lập",
-              desc: "Chi² independence test phát hiện P(abc) ≠ P(a)×P(b)×P(c) với p < 0.001. Digit 6 xuất hiện +10% ở hàng đơn vị. Thuật toán Joint Digit Bias khai thác bias này, đạt #2 cả Max 3D (2.27%) và Max 3D Pro (2.38%).",
+              title: "Bias thực — digit 6 đơn vị +11.6%",
+              desc: "Chi² independence test phát hiện P(abc) ≠ P(a)×P(b)×P(c) với p<1e-06 (pos_1_2 Max 3D). Digit 6 hàng đơn vị xuất hiện +11.6% Max 3D Pro. Bias stable qua 3-window test Chu kỳ 8 (0/30 tuples fail Bonferroni). Real nhưng không exploitable tại current N.",
             },
             {
-              icon: "🎯",
-              title: "Phủ sóng tối đa — \"One Punch\" strategy",
-              desc: "Dù số trùng trung bình thấp hơn, Phủ sóng tối đa là thuật toán DUY NHẤT đạt trùng 5/6 số (trên Mega 6/45). ROI tốt nhất (-62% so với -90% thông thường). Phù hợp người chơi thích rủi ro cao.",
+              icon: "🚪",
+              title: "Mega 6/45 ExpDecay_Cold deprecated",
+              desc: "Chu kỳ 6 Suggestive claim (p=0.0044, +1.03pp) → Chu kỳ 9 split-half REJECT. Direction flip: half-1 Δ=−0.26pp → half-2 Δ=+0.37pp. Full-sample p được drive bởi baseline drift, không edge thật. Principle #11 split-half gate proven invaluable.",
             },
             {
               icon: "📊",
-              title: "Không thuật toán nào thắng xổ số",
-              desc: "Tất cả thuật toán đều có ROI âm (-26% đến -97%). Xổ số Vietlott là ngẫu nhiên thật sự. Các thuật toán chỉ giúp cải thiện nhỏ so với chọn random, không phải công cụ kiếm tiền.",
+              title: "0 confirmed edge, ROI luôn âm",
+              desc: "Sau ~50 strategies × 5 products × 3-gate protocol: 0 Accept/Suggestive robust. ROI luôn âm (-26% đến -97%). Xổ số Vietlott là −EV system — không thuật toán nào đảm bảo trúng thưởng. Research picks shown chỉ là directional, không promise return.",
             },
           ].map((insight) => (
             <Card key={insight.title}>
@@ -1091,16 +1144,18 @@ export default function AlgorithmsPage() {
             </p>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Nghiên cứu này thực hiện hoàn toàn vì mục đích học thuật và giải trí.
-              Xổ số Vietlott sử dụng bộ quay số ngẫu nhiên được kiểm định định kỳ —
+              Xổ số Vietlott là hệ thống negative-EV (kỳ vọng âm) —
               <strong> không có thuật toán nào có thể đảm bảo trúng thưởng</strong>.
-              Sự cải thiện nhỏ so với random là do khai thác các bias thống kê cực nhỏ
-              trong dữ liệu lịch sử, không phải lỗi hệ thống. Hãy chơi có trách nhiệm
-              và trong khả năng tài chính của bạn.
+              Sau 8 chu kỳ nghiên cứu + ~50 chiến lược tested × 5 sản phẩm × 3-gate protocol:
+              0 chiến lược Accept/Suggestive robust. Research picks hiển thị chỉ là directional pick
+              (positive trend trong backtest nhưng không significant), không phải confirmed edge.
+              Chơi có trách nhiệm, không chi nhiều hơn khả năng chịu mất.
             </p>
             <p className="text-[10px] text-muted-foreground/60">
-              Dữ liệu backtest: {(Object.values(BACKTEST_RESULTS).reduce((s, p) => s + p.totalDraws, 0) + Object.values(BACKTEST_RESULTS_3D).reduce((s, p) => s + p.totalDraws, 0)).toLocaleString()} kỳ quay
-              • Phương pháp: Walk-forward validation, 3 runs, seed=42
-              • Nguồn nghiên cứu: Dirichlet-Multinomial, Covering Designs (Gordon et al. 1995), Maximum Entropy (Jaynes 1957), Markov Chains, SumRange Filtering
+              Dữ liệu backtest: {(Object.values(BACKTEST_RESULTS).reduce((s, p) => s + p.totalDraws, 0) + Object.values(BACKTEST_RESULTS_3D).reduce((s, p) => s + p.totalDraws, 0)).toLocaleString()} kỳ quay (Chu kỳ 13 snapshot)
+              • Methodology: Walk-forward + 3-gate protocol (full + split-half + forward_last_100), 5 runs, seed=42
+              • Codified principles: METHODOLOGY.md §3.5-3.9 (#11-#15)
+              • Nguồn nghiên cứu: Dirichlet-Multinomial, Covering Designs (Gordon 1995), Maximum Entropy (Jaynes 1957), Gaussian/Empirical Copula, HistGradientBoosting + hand-crafted features
             </p>
           </div>
         </div>
