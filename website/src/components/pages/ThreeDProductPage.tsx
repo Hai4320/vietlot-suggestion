@@ -55,24 +55,17 @@ export default function ThreeDProductPage({ slug }: Props) {
   }, [product]);
 
   if (!product) return <div className="p-8 text-center">Sản phẩm không tồn tại</div>;
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-      </div>
-    );
-  }
 
-  const digit0 = calcDigitFrequency(draws, 0, tier, timeFilter);
-  const digit1 = calcDigitFrequency(draws, 1, tier, timeFilter);
-  const digit2 = calcDigitFrequency(draws, 2, tier, timeFilter);
-  const topNumbers = calcTopNumbers(draws, tier, timeFilter, 30);
+  const digit0 = loading ? [] : calcDigitFrequency(draws, 0, tier, timeFilter);
+  const digit1 = loading ? [] : calcDigitFrequency(draws, 1, tier, timeFilter);
+  const digit2 = loading ? [] : calcDigitFrequency(draws, 2, tier, timeFilter);
+  const topNumbers = loading ? [] : calcTopNumbers(draws, tier, timeFilter, 30);
 
   const lastDraw = draws[0];
 
   return (
     <div className="space-y-6">
-      {/* Research disclosure banner */}
+      {/* Research disclosure banner — always visible, before data loads */}
       <div className="rounded-lg border border-orange-500/40 bg-orange-500/5 p-3 text-sm">
         <div className="flex items-start gap-2">
           <span className="text-lg">🔬</span>
