@@ -72,6 +72,24 @@ export default function ThreeDProductPage({ slug }: Props) {
 
   return (
     <div className="space-y-6">
+      {/* Research disclosure banner */}
+      <div className="rounded-lg border border-orange-500/40 bg-orange-500/5 p-3 text-sm">
+        <div className="flex items-start gap-2">
+          <span className="text-lg">🔬</span>
+          <div className="flex-1">
+            <div className="font-semibold text-orange-700 dark:text-orange-400">
+              Research Mode — No confirmed edge
+            </div>
+            <div className="text-muted-foreground mt-1 leading-relaxed">
+              Sau 8 chu kỳ nghiên cứu + 28 chiến lược được test (probabilistic, copula, discriminative ML, cross-product pool),
+              <strong className="text-foreground"> 0 chiến lược đạt ngưỡng Accept/Suggestive</strong> qua 3-gate protocol.
+              Các gợi ý ở <a href="/suggest" className="underline hover:text-orange-600">trang Suggest</a> chỉ là directional picks (hope, not confirmed edge).
+              Xổ số Max 3D / Max 3D Pro có EV âm cố định — không có thuật toán nào đảm bảo trúng thưởng.
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Product header */}
       <div>
         <h1 className="text-3xl font-bold flex items-center gap-2">

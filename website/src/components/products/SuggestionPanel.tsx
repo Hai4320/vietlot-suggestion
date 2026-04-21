@@ -45,21 +45,21 @@ const ALL_STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; d
     key: "hybridparity",
     emoji: "🎰",
     label: "Hybrid Parity (5/35)",
-    description: "Wheeling đa vé: phân bổ parity empirical + max-min Hamming diversity. Edge thống kê p=0.011 với N=20 vé",
+    description: "Wheeling đa vé: phân bổ parity empirical + max-min Hamming diversity. ⚠️ Chu kỳ 5 correction: sau fix sample-size bug, Δ+1.75pp p=0.301 (Reject — không có edge ý nghĩa thống kê)",
     badge: "🔬 Nghiên cứu",
   },
   {
     key: "evmax",
     emoji: "💰",
     label: "EV tối đa",
-    description: "Tối ưu kỳ vọng giải thưởng × exponential decay + đa dạng vé — #1 Max 3D Pro (2.50%)",
+    description: "Tối ưu kỳ vọng giải thưởng × exponential decay + đa dạng vé. ⚠️ Chu kỳ 7 split-half replication Reject (half-1 p=0.0007 → half-2 p=0.865, direction flip). Không còn khuyến nghị cho Max 3D Pro",
     badge: "🔬 Nghiên cứu",
   },
   {
     key: "jointbias",
     emoji: "🧬",
     label: "Bias liên hợp",
-    description: "Khai thác phân bố đồng thời 3 chữ số — #2 Max 3D (2.27%), #3 Max 3D Pro (2.38%)",
+    description: "Khai thác phân bố đồng thời 3 chữ số — directional pick cho 3D sau khi các strategies mạnh hơn bị Reject. Δ+0.3-0.4pp consistent vs Random (không significant, không confirmed edge)",
     badge: "🔬 Nghiên cứu",
   },
   {
@@ -129,22 +129,22 @@ const PRODUCT_RANKS: Record<ProductSlug, { ranks: Record<SuggestionStrategy, num
     recReason: "Bayesian AI (Sharp T=0.3) đạt win rate 3.14% — cải thiện +0.64pp so với T=0.5 cũ. Phủ sóng tối đa đạt 5/6 trùng duy nhất!",
   },
   "power-535": {
-    ranks: { hybridparity: 1, pattern: 2, adaptive: 3, frequency: 4, bayesian: 5, maxentropy: 6, mixed: 7, absence: 8, evmax: 9, jointbias: 10 },
-    stats: { hybridparity: "🔬 N=20: 27.7% any≥3 (+4.3pp, p=0.011)", pattern: "Δ+0.025, Win 1.78%", adaptive: "Δ+0.025, hòa #2", frequency: "Win 1.58%, ROI -74%", bayesian: "Δ-0.028", maxentropy: "Δ-0.026", mixed: "50/50 nóng+lạnh", absence: "Win 0.79%, Δ-0.008", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
-    rec1: "hybridparity", rec2: "pattern",
-    recReason: "Hybrid Parity khai thác T11 parity bias (p=0.0012) qua wheeling đa vé — edge +4.3pp ở N=20 (p=0.011, ý nghĩa thống kê). Khuyến nghị N≥10, tối ưu N=20.",
+    ranks: { pattern: 1, adaptive: 2, frequency: 3, hybridparity: 4, bayesian: 5, maxentropy: 6, mixed: 7, absence: 8, evmax: 9, jointbias: 10 },
+    stats: { pattern: "Δ+0.025, Win 1.78% directional", adaptive: "Δ+0.025, hòa #1", frequency: "Win 1.58%, ROI -74%", hybridparity: "⚠️ Chu kỳ 5 correction: Reject (p=0.301 sau fix bug)", bayesian: "Δ-0.028", maxentropy: "Δ-0.026", mixed: "50/50 nóng+lạnh", absence: "Win 0.79%, Δ-0.008", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
+    rec1: "pattern", rec2: "adaptive",
+    recReason: "Pattern #1 directional Δ+0.025. Hybrid Parity đã bị Reject sau Chu kỳ 5 correction (sample-size bug fix → p=0.301 không significant). Không có strategy Accept/Suggestive cho 5/35.",
   },
   "max-3d": {
-    ranks: { frequency: 1, jointbias: 2, bayesian: 3, maxentropy: 4, pattern: 5, adaptive: 6, mixed: 7, evmax: 8, absence: 9, hybridparity: 10 },
-    stats: { frequency: "Exact 2.35%, ROI -32.8%", jointbias: "🔬 Exact 2.27%, ROI -39.0%", bayesian: "Exact 2.09%, 38× trúng Nhất", maxentropy: "Phủ sóng 2.06%, ROI -40%", pattern: "Exact ~2.0%", adaptive: "Exact 1.94%", mixed: "digit-by-digit", evmax: "Chỉ tốt cho 3D Pro", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
-    rec1: "frequency", rec2: "jointbias",
-    recReason: "Tần suất cao #1 (2.35%). Bias liên hợp (#2, 2.27%) khai thác sự phụ thuộc giữa 3 vị trí chữ số — phát hiện mới từ nghiên cứu thống kê.",
+    ranks: { jointbias: 1, frequency: 2, bayesian: 3, maxentropy: 4, pattern: 5, adaptive: 6, mixed: 7, evmax: 8, absence: 9, hybridparity: 10 },
+    stats: { jointbias: "🔬 Δ+0.305pp directional (Chu kỳ 13 mechanism anchor)", frequency: "Δ+0.158pp directional, simpler", bayesian: "Exact 2.09%, 38× trúng Nhất", maxentropy: "Phủ sóng 2.06%, ROI -40%", pattern: "Exact ~2.0%", adaptive: "Exact 1.94%", mixed: "digit-by-digit", evmax: "⚠️ Reject Chu kỳ 7 (3D Pro flip)", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
+    rec1: "jointbias", rec2: "frequency",
+    recReason: "JointDigitBias khai thác digit dependencies (pos_1_2 χ²=157.74 p=1e-06 Chu kỳ 4). Directional Δ+0.3pp, within Principle #14 ceiling. KHÔNG có edge confirmed — 28 strategies tested, 0 Accept. Xem 3D Final Report.",
   },
   "max-3d-pro": {
-    ranks: { evmax: 1, jointbias: 2, frequency: 3, maxentropy: 4, bayesian: 5, adaptive: 6, mixed: 7, pattern: 8, absence: 9, hybridparity: 10 },
-    stats: { evmax: "🔬 Exact 2.50%, ROI -26.5% 🏆", jointbias: "🔬 Exact 2.38%, ROI -31.5%", frequency: "Exact 1.94%", maxentropy: "Phủ sóng 2.30%, ROI -35.1%", bayesian: "Exact 2.07%", adaptive: "Exact 2.07%", mixed: "digit-by-digit", pattern: "Exact ~2.0%", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
-    rec1: "evmax", rec2: "jointbias",
-    recReason: "EV tối đa #1 (2.50%, ROI -26.5%) — tối ưu kỳ vọng giải thưởng + exponential decay. Bias liên hợp #2 (2.38%) khai thác phân bố đồng thời 3 chữ số.",
+    ranks: { jointbias: 1, frequency: 2, bayesian: 3, maxentropy: 4, adaptive: 5, mixed: 6, pattern: 7, evmax: 8, absence: 9, hybridparity: 10 },
+    stats: { jointbias: "🔬 Δ+0.378pp directional (strongest remaining pick)", frequency: "Δ-0.060pp near-zero", bayesian: "Exact 2.07%", maxentropy: "Phủ sóng 2.30%, ROI -35.1%", adaptive: "Exact 2.07%", mixed: "digit-by-digit", pattern: "Exact ~2.0%", evmax: "⚠️ REJECTED Chu kỳ 7 (split-half h1 p=0.0007 → h2 p=0.865 flip)", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
+    rec1: "jointbias", rec2: "frequency",
+    recReason: "JointDigitBias directional Δ+0.378pp — strongest research pick sau khi EV Maximizer bị Reject Chu kỳ 7 (dramatic split-half flip). KHÔNG có edge confirmed. Xem 3D Final Report.",
   },
 };
 
@@ -329,8 +329,8 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
       <div className="rounded-xl border-2 p-4" style={{ borderColor: `${props.color}40`, background: `${props.color}08` }}>
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <div className="flex items-center gap-2">
-            <span className="text-lg">🏆</span>
-            <span className="text-sm font-bold">Khuyến nghị:</span>
+            <span className="text-lg">🔬</span>
+            <span className="text-sm font-bold">Research pick:</span>
             <button onClick={() => handleSelectStrategy(productRank.rec1)}
               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-bold text-white transition-transform hover:scale-105"
               style={{ backgroundColor: props.color }}>
@@ -399,8 +399,11 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                 </span>
               )}
               {isRec && (
-                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-600 text-white">
-                  🏆 Khuyến nghị
+                <span
+                  className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-orange-600 text-white"
+                  title="Research pick — directional positive, no confirmed edge"
+                >
+                  🔬 Research pick
                 </span>
               )}
               </div>
