@@ -154,46 +154,78 @@ SuggestionPanel.tsx
 
 ## 5. Quy Trình Thêm Thuật Toán Mới
 
+> ⚠️ **Cập nhật 2026-04-21**: Các tiêu chí cũ trong §5.2 không còn đủ nghiêm. Post-Chu kỳ 7-13, mọi strategy claim Accept phải pass **3-gate protocol** (full + split-half + forward). Xem [RESEARCH_TO_UI_PLAYBOOK.md](RESEARCH_TO_UI_PLAYBOOK.md) cho full decision matrix + UI update checklist.
+
 ### Giai đoạn 1: Nghiên cứu (KHÔNG sửa UI)
 
 ```
-1. Viết script Python:  website/research/<product>_<name>.py
-2. Chạy backtest walk-forward (≥ 3 runs, seed=42)
-3. Lưu kết quả:          website/research/<product>_<name>_results.json
-4. So sánh exact match rate / win rate với:
-   a. Random baseline
-   b. Thuật toán #1 hiện tại của sản phẩm đó
+1. Pre-register hypothesis:  research/history/cycleNN_<slug>.md (trước khi chạy backtest!)
+2. Viết script Python:       website/research/<product>/<name>.py
+3. Chạy walk-forward + split-half + forward_last_100 (n_runs=5, seed=42)
+4. Run _significance.py:     z-test vs Random + Wilson CI + Newcombe diff CI
+5. Commit artifacts:         research/<product>/cycleN_*_results.json + .log
 ```
 
-### Giai đoạn 2: Đánh giá — Khi nào được thêm vào Gợi ý?
+### Giai đoạn 2: Đánh giá — 3-gate protocol (Principle #13, binding từ Chu kỳ 7)
 
-**Tiêu chí BẮT BUỘC** (cần đạt TẤT CẢ):
+**TIÊU CHÍ MỚI** (binding từ cycles 7-13, codified METHODOLOGY §3.7):
 
-| # | Tiêu chí | Lý do |
-|---|---------|-------|
-| 1 | **Thắng Random baseline** trên ≥ 1 sản phẩm | Nếu thua random thì không có giá trị |
-| 2 | **≥ 3 runs** với seed cố định, kết quả ổn định (std < 0.3pp) | Tránh fluky results |
-| 3 | **Không look-ahead bias** trong backtest | Đảm bảo kết quả thật |
-| 4 | **Giải thích được** tại sao nó hoạt động (cơ sở thống kê/toán) | User cần hiểu |
+| # | Gate | Yêu cầu | Principle |
+|---|------|---------|-----------|
+| 1 | **Full-sample** | p < 0.05 + CI_lo > 0. Bonferroni K dựa vào # strategies tested cùng cycle | METHODOLOGY §3.2 |
+| 2 | **Split-half replication** | Both halves Δ > 0 AND both p < 0.05 (time-ordered split) | Principle #11 §3.5 |
+| 3 | **Forward_last_100** | Δ > 0 directional (v1) hoặc Δ > 2×SE AND p < 0.15 (v2 proposed) | Principle #13 §3.7 |
 
-**Tiêu chí ĐỦ** (cần đạt ≥ 1):
+**Principle #14 magnitude sanity check** (auto-flag):
+- Nếu `|Δ_full| > 3 × bias_ceiling` (3D: 1.2pp, matrix: 0.9pp) → **Ship-with-caveats pending audit**, bất kể p-value.
+- Case Chu kỳ 12.5: GBM Δ=+3.07pp Max 3D Pro (7× ceiling) → flagged → audit confirm overfit → Reject.
 
-| # | Tiêu chí | Giải thích |
-|---|---------|-----------|
-| A | **Thắng thuật toán #1 hiện tại** trên ≥ 1 sản phẩm | Directly better |
-| B | **ROI tốt hơn đáng kể** (≥ 3pp) dù match rate không #1 | Khác biệt về chiến lược |
-| C | **Unique approach** không trùng với 9 thuật toán hiện có | Đa dạng cho user |
+**Principle #15 prediction concentration check** (ML/discriminative strategies):
+- Require `n_unique_predictions / total_predictions ≥ 0.30` + top-5 < 30%.
+- Violating → auto-Reject.
 
-### Giai đoạn 3: Triển khai
+### Giai đoạn 3: Decision state → UI action
+
+Xem [RESEARCH_TO_UI_PLAYBOOK.md §2](RESEARCH_TO_UI_PLAYBOOK.md) cho complete decision matrix:
+
+| State | Deploy? | SuggestionPanel rec1 | BacktestCard badge |
+|-------|:-:|----------|-----------|
+| Accept (3-gate pass + §14 OK) | ✅ Yes | Promote với green "✓ Accept" | `Accept` green |
+| Suggestive (partial gate) | 🟡 Ship-with-disclaimer | rec1 với "🔬 Directional" orange | `Suggestive` yellow |
+| Ship-with-caveats (§14 flag) | 🟡 Research/algo page only | NOT rec1 | `Suggestive` + caveat |
+| Inconclusive | ❌ No | Remove rec1 status | `Inconclusive` gray |
+| Reject | ❌ No | Demote + ⚠ note | `Reject` muted |
+
+### Giai đoạn 4: UI triển khai (nếu Accept / Suggestive / Ship-with-caveats)
+
+**Xem [RESEARCH_TO_UI_PLAYBOOK.md §3](RESEARCH_TO_UI_PLAYBOOK.md) cho file-by-file checklist**. Quick list:
 
 ```
-Bước 1: types.ts          → Thêm vào SuggestionStrategy union
-Bước 2: suggest-*.ts      → Implement case mới
-Bước 3: SuggestionPanel   → Thêm vào ALL_STRATEGIES + PRODUCT_RANKS
-Bước 4: algorithms/page   → Thêm mô tả + backtest data
-Bước 5: npx next build    → Phải PASS
-Bước 6: Git commit + push
+1. types.ts             → Thêm strategy ID vào SuggestionStrategy union (nếu mới)
+2. suggest-*.ts         → Implement case logic
+3. SuggestionPanel.tsx  → ALL_STRATEGIES + PRODUCT_RANKS ranks/stats/rec1/rec2
+4. backtest-data.ts     → BACKTEST_* rows với decision field
+5. research/page.tsx    → Cycles timeline + stats
+6. algorithms/page.tsx  → STRATEGIES + RECOMMENDATIONS
+7. ALGORITHM_MANAGEMENT.md → Ma trận table + default recs
+8. npm run build        → PASS mandatory
+9. curl smoke 6 routes  → all 200
+10. Git commit + push   → per template in PLAYBOOK §3.G
 ```
+
+### Giai đoạn 5: Nếu Reject/demote existing strategy
+
+**Critical**: prior Accept/Suggestive claims phải update ngay khi Reject:
+
+```
+1. backtest-data.ts     → Change decision field, add ⚠ comment with cycle reference
+2. SuggestionPanel      → Demote from rec1/rec2, add ⚠ note to description
+3. ALL_STRATEGIES       → Update description with Reject cycle reference
+4. algorithms/page.tsx  → Update RECOMMENDATIONS reason text
+5. ALGORITHM_MANAGEMENT.md → Add ⚠ marker in Ma trận row
+```
+
+**Anti-pattern**: ship stale Suggestive (e.g., Mega 6/45 ExpDecay_Cold shown Suggestive 2 months after Chu kỳ 9 Reject, fixed 2026-04-21). Xem [RESEARCH_TO_UI_PLAYBOOK.md §7](RESEARCH_TO_UI_PLAYBOOK.md) cho anti-patterns.
 
 ### Giai đoạn 4: Theo dõi sau triển khai
 

@@ -1,19 +1,32 @@
 # Tài Liệu Nghiên Cứu Thuật Toán Gợi Ý Xổ Số Vietlott
 
-**Dự án**: vietlott-data  
-**Phạm vi**: Nghiên cứu, backtest và triển khai thuật toán gợi ý số cho 5 sản phẩm xổ số Vietlott  
-**Thời gian nghiên cứu**: 07/2025 – 04/2026  
-**Trạng thái**: Đang tiến hành (Phase 4 + Phase-B wheeling cho Power 5/35 hoàn thành)
+> ⚠️ **PARTIAL STALE (2026-04-21)**: Doc này là technical synthesis monolith last-synced tới **Chu kỳ 6** (04/2026). Các sections 3-7, 11 CHƯA được update với Chu kỳ 7-13 outcomes — đặc biệt:
+>
+> - §6.3 Mega 6/45 **ExpDecay_Cold Suggestive** → **REJECTED Chu kỳ 9** (split-half direction flip h1 −0.26pp → h2 +0.37pp)
+> - §6 Max 3D + Max 3D Pro strategy claims — **ALL Rejected** Chu kỳ 7-13 (28 strategies tested, 0 Accept)
+> - §11 Recommendations — **stale**, reference strategies đã bị Reject
+>
+> **Canonical docs giờ split**: [METHODOLOGY.md](METHODOLOGY.md) (why), [TESTING.md](TESTING.md) (bias tests), [EVALUATION.md](EVALUATION.md) (metrics), [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) (how-to template).
+>
+> **Per-cycle source of truth**: [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) index + [history/cycleNN_*.md](history/) files. Current 3D synthesis: [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md).
+>
+> Doc này giữ làm historical snapshot — sections 1-2 (project scope + data products), 4 (strategy catalog), 8-10 (literature + architecture) vẫn valid. Sections 3/6/7/11 thiếu post-Chu kỳ 6 results.
 
-### Highlight — 04/2026 (corrected 2026-04-20 via Chu kỳ 6)
+**Dự án**: vietlott-data
+**Phạm vi**: Nghiên cứu, backtest và triển khai thuật toán gợi ý số cho 5 sản phẩm xổ số Vietlott
+**Thời gian nghiên cứu**: 07/2025 – 04/2026
+**Trạng thái (post-Chu kỳ 13)**: Matrix research ongoing (Chu kỳ 14 planned = Path #1 Online Bayesian). 3D research line CLOSED definitively Chu kỳ 13.
 
-**Kết quả sau significance test enforcement trên toàn bộ backtests**:
+### Highlight — 2026-04-21 (post-Chu kỳ 13, corrected)
 
-- ⚠️ **Mega 6/45 ExpDecay_Cold** là strategy duy nhất có signal có ý nghĩa (p=0.0044, Suggestive). Win rate 2.91% vs Random 1.89% (+1.03pp). Chưa pass Bonferroni K=14 — cần replicate trên held-out data để upgrade Accept.
-- ❌ Nhiều claim cũ **bị rút**: Bayesian "#1 trên 6/55" p=0.511 → Reject; HybridParityDiv "p=0.011 cho 5/35 N=20" là artefact của bug sample-size → sau correction p=0.301 → Reject.
-- 🔬 Framework ổn định: mọi backtest giờ output `p_value_raw`, `passes_bonferroni`, `ci95`, `decision` qua shared [`_significance.py`](./_significance.py).
+**Kết quả sau 3-gate protocol (full + split-half + forward_last_100) qua Chu kỳ 7-13**:
 
-Xem [RESEARCH_HISTORY Chu kỳ 5+6](RESEARCH_HISTORY.md) và §6.3.1.
+- 🔴 **Mega 6/45 ExpDecay_Cold Rejected** Chu kỳ 9 — direction flip split-half, previously Suggestive claim (Chu kỳ 6 p=0.0044 full-sample) proven pooling artifact.
+- 🔴 **3D research line closed** — 28 strategies tested qua 5 paradigms (probabilistic, joint-digit, copula, GBM discriminative, cross-product pool), **0 Accept/Suggestive** confirmed. Xem [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md).
+- 🎯 **Methodology corpus grown**: Principles #11-#15 codified vào METHODOLOGY.md §3.5-3.9 từ cycles 7-13 (split-half gate, variable-baseline power, forward gate, magnitude sanity check, prediction concentration check).
+- 🚪 **Project state**: 0 scientifically robust Accept/Suggestive across ~50 strategies × 5 products. Chu kỳ 14 pivot matrix (Online Bayesian Kalman).
+
+Xem [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) cycles 7-13 và [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md) cho chi tiết.
 
 ---
 
