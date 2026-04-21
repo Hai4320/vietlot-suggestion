@@ -2,7 +2,9 @@
 
 > Tài liệu tham chiếu chính cho việc quản lý, phân loại, và mở rộng hệ thống thuật toán gợi ý xổ số.
 
-> ⚠️ **Cập nhật 2026-04-21 post-Chu kỳ 13**: 3D research line CLOSED. 28 chiến lược tested qua 8 cycles, 0 Accept/Suggestive. UI rec1 cho Max 3D + Max 3D Pro updated sang JointDigitBias (directional pick, no confirmed edge). Xem [research/3d/3D_FINAL_REPORT.md](research/3d/3D_FINAL_REPORT.md).
+> ⚠️ **Cập nhật 2026-04-21 post-Chu kỳ 13**: 3D research line CLOSED. 28 chiến lược tested qua 8 cycles, 0 Accept/Suggestive. Research picks updated cho cả 5 products (xem §3 "Hiển thị mặc định"). Xem [research/3d/3D_FINAL_REPORT.md](research/3d/3D_FINAL_REPORT.md).
+>
+> ⚠️ **Cập nhật 2026-04-21 pick-by-metric refactor**: `PRODUCT_RANKS.rec1`/`rec2` → `picks: { winrate, roi? }`. Mỗi product có 1-2 picks split theo axis (🎯 Tỷ lệ trúng cao nhất + 💰 Lỗ ít nhất). Nếu cùng strategy Pareto-dominant cả 2 axes → 1 pick. Xem [RESEARCH_TO_UI_PLAYBOOK.md §2 Decision Matrix](RESEARCH_TO_UI_PLAYBOOK.md) cho rule đầy đủ + [/glossary "Pick selection rule"](src/app/glossary/page.tsx).
 
 ---
 
@@ -96,15 +98,19 @@ Thuật toán sinh ra từ quá trình phân tích thống kê sâu (13 bài tes
 > ⚠️ = Strategy đã bị Reject qua replication (Chu kỳ 5/7/9/11/12/13).
 > 🔬 = Research pick (directional only, no confirmed edge).
 
-### Hiển thị mặc định khi user mở trang
+### Hiển thị mặc định khi user mở trang (post 2026-04-21 pick-by-metric)
 
-| Sản phẩm | Thuật toán mặc định (rec1) | Thuật toán phụ (rec2) | Note |
-|----------|---------------------------|----------------------|------|
-| Power 6/55 | 🧠 Bayesian AI | 📊 Tần suất cao | Directional +0.031 matches, chưa replication-verified |
-| Mega 6/45 | 🧠 Bayesian AI (T=0.3) | 🔮 Mẫu cấu trúc | ExpDecay_Cold đã Rejected Chu kỳ 9 (direction flip) |
-| Lotto 5/35 | 🔮 Mẫu cấu trúc | ⚡ Tự động tối ưu | Hybrid Parity Rejected Chu kỳ 5 (sample-size bug fix: p=0.301) |
-| Max 3D | 🧬 Bias liên hợp 🔬 | 📊 Tần suất cao | Research line CLOSED Chu kỳ 13; directional only |
-| Max 3D Pro | 🧬 Bias liên hợp 🔬 | 📊 Tần suất cao | EV Maximizer Rejected Chu kỳ 7 (half-flip); GBM overfit Chu kỳ 12.5 |
+Mỗi product có 1-2 picks theo axis. Default-selected = `picks.winrate.strategy`.
+
+| Sản phẩm | 🎯 Trúng cao nhất | 💰 Lỗ ít nhất | # picks | Note |
+|----------|-------------------|---------------|:-:|------|
+| Power 6/55 | 🧠 Bayesian AI (Win 1.65%, ROI −91.4%) | *Pareto-dominant* | 1 | Bayesian thắng cả 2 axes. Directional p=0.511. |
+| Mega 6/45 | 🧠 Bayesian Sharp T=0.3 (Win 3.14%) | 🎯 Phủ sóng tối đa (ROI −57.5%) | 2 | Split axes. ExpDecay_Cold Rejected Chu kỳ 9 (direction flip). |
+| Lotto 5/35 | ⚡ Tự động tối ưu (Win 1.90%) | 🎯 Phủ sóng tối đa (ROI −84.4%) | 2 | Split axes. HybridParity Rejected Chu kỳ 5 (sample-size bug fix: p=0.301). |
+| Max 3D | 🎯 Phủ sóng tối đa (Win 2.22%, ROI −35.8%) | *Pareto-dominant* | 1 | CoverageOpt dominates JointBias mechanism anchor metric-wise. Research line CLOSED. |
+| Max 3D Pro | 🧬 Bias liên hợp (Win 2.38%, ROI −31.5%) | *Pareto-dominant* | 1 | EV Maximizer Rejected Chu kỳ 7 (half-flip); GBM overfit Chu kỳ 12.5. |
+
+**Pick selection rule**: (1) loại strategy Reject vì overfit/flip/Principle #14/#15 fail, (2) max `winPct`/`exactPct` → winrate_pick, (3) max `roi` → roi_pick, (4) same strategy → 1 pick. ⚠️ Rule này chưa áp replication cho chính quy tắc pick — điểm yếu methodology, cần cải thiện cycle sau.
 
 ---
 
@@ -188,13 +194,13 @@ SuggestionPanel.tsx
 
 Xem [RESEARCH_TO_UI_PLAYBOOK.md §2](RESEARCH_TO_UI_PLAYBOOK.md) cho complete decision matrix:
 
-| State | Deploy? | SuggestionPanel rec1 | BacktestCard badge |
+| State | Deploy? | SuggestionPanel picks | BacktestCard badge |
 |-------|:-:|----------|-----------|
-| Accept (3-gate pass + §14 OK) | ✅ Yes | Promote với green "✓ Accept" | `Accept` green |
-| Suggestive (partial gate) | 🟡 Ship-with-disclaimer | rec1 với "🔬 Directional" orange | `Suggestive` yellow |
-| Ship-with-caveats (§14 flag) | 🟡 Research/algo page only | NOT rec1 | `Suggestive` + caveat |
-| Inconclusive | ❌ No | Remove rec1 status | `Inconclusive` gray |
-| Reject | ❌ No | Demote + ⚠ note | `Reject` muted |
+| Accept (3-gate pass + §14 OK) | ✅ Yes | Promote thành `picks.winrate` với green "✓ Accept" badge | `Accept` green |
+| Suggestive (partial gate) | 🟡 Ship-with-disclaimer | Candidate cho `picks.winrate`/`picks.roi` với "🔬 Directional" orange | `Suggestive` yellow |
+| Ship-with-caveats (§14 flag) | 🟡 Research/algo page only | NOT trong `picks` | `Suggestive` + caveat |
+| Inconclusive | ❌ No | Remove khỏi `picks` | `Inconclusive` gray |
+| Reject (overfit/flip) | ❌ No | Remove khỏi `picks`, demote in `ranks` + ⚠ note in `stats` | `Reject` muted |
 
 ### Giai đoạn 4: UI triển khai (nếu Accept / Suggestive / Ship-with-caveats)
 
@@ -203,7 +209,7 @@ Xem [RESEARCH_TO_UI_PLAYBOOK.md §2](RESEARCH_TO_UI_PLAYBOOK.md) cho complete de
 ```
 1. types.ts             → Thêm strategy ID vào SuggestionStrategy union (nếu mới)
 2. suggest-*.ts         → Implement case logic
-3. SuggestionPanel.tsx  → ALL_STRATEGIES + PRODUCT_RANKS ranks/stats/rec1/rec2
+3. SuggestionPanel.tsx  → ALL_STRATEGIES + PRODUCT_RANKS ranks/stats/picks (winrate + roi?)
 4. backtest-data.ts     → BACKTEST_* rows với decision field
 5. research/page.tsx    → Cycles timeline + stats
 6. algorithms/page.tsx  → STRATEGIES + RECOMMENDATIONS
@@ -219,7 +225,7 @@ Xem [RESEARCH_TO_UI_PLAYBOOK.md §2](RESEARCH_TO_UI_PLAYBOOK.md) cho complete de
 
 ```
 1. backtest-data.ts     → Change decision field, add ⚠ comment with cycle reference
-2. SuggestionPanel      → Demote from rec1/rec2, add ⚠ note to description
+2. SuggestionPanel      → Remove khỏi `picks.winrate`/`picks.roi` (nếu có), demote in `ranks`, add ⚠ note trong `stats[key]`
 3. ALL_STRATEGIES       → Update description with Reject cycle reference
 4. algorithms/page.tsx  → Update RECOMMENDATIONS reason text
 5. ALGORITHM_MANAGEMENT.md → Add ⚠ marker in Ma trận row

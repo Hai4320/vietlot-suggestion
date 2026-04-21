@@ -71,7 +71,10 @@ export function Navbar() {
                 <span>🔬</span><span>Thuật toán</span>
               </Link>
               <Link href="/research" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/research" && "bg-accent font-medium")}>
-                <span>📊</span><span>Nghiên cứu 3D</span>
+                <span>📊</span><span>Nghiên cứu</span>
+              </Link>
+              <Link href="/glossary" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/glossary" && "bg-accent font-medium")}>
+                <span>📚</span><span>Thuật ngữ</span>
               </Link>
             </nav>
           </SheetContent>
@@ -139,6 +142,15 @@ export function Navbar() {
             )}
           >
             📊 Nghiên cứu
+          </Link>
+          <Link
+            href="/glossary"
+            className={cn(
+              "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
+              pathname === "/glossary" && "bg-accent font-medium text-primary"
+            )}
+          >
+            📚 Thuật ngữ
           </Link>
         </nav>
 

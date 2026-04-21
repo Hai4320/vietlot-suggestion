@@ -110,48 +110,68 @@ const ALL_STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; d
   },
 ];
 
-// Per-product ranking & backtest stats from actual backtest results
-// Order = rank (1 = best). Derived from walk-forward backtest on real data.
-// Each product shows only the top 6 strategies (MAX_SHOWN=6) out of 7 total.
+// Per-product ranking + research picks split by metric (win rate vs ROI).
+// Rule (codified 2026-04-21): each product has 1-2 picks from UI-available strategies,
+// excluding Reject-vì-overfit/direction-flip. winrate = max winPct/exactPct. roi = max roi (ít lỗ nhất).
+// Nếu cùng strategy thắng cả 2 axes → chỉ 1 pick (roi field omitted). Source of truth: backtest-data.ts.
 type ProductSlug = "power-655" | "power-645" | "power-535" | "max-3d" | "max-3d-pro";
 const MAX_STRATEGIES_SHOWN = 7;
-const PRODUCT_RANKS: Record<ProductSlug, { ranks: Record<SuggestionStrategy, number>; stats: Record<SuggestionStrategy, string>; rec1: SuggestionStrategy; rec2: SuggestionStrategy; recReason: string }> = {
+
+type ProductPick = { strategy: SuggestionStrategy; stat: string };
+const PRODUCT_RANKS: Record<ProductSlug, {
+  ranks: Record<SuggestionStrategy, number>;
+  stats: Record<SuggestionStrategy, string>;
+  picks: { winrate: ProductPick; roi?: ProductPick };
+  recReason: string;
+}> = {
   "power-655": {
     ranks: { bayesian: 1, frequency: 2, pattern: 3, maxentropy: 4, adaptive: 5, mixed: 6, absence: 7, evmax: 8, jointbias: 9, hybridparity: 10 },
-    stats: { bayesian: "Δ+0.031, Win 1.65%", frequency: "Δ+0.024, Win 1.51%", pattern: "Δ+0.003, ổn định #1 tổng hợp", maxentropy: "Win 1.54%, ROI -62%", adaptive: "Δ-0.014", mixed: "50/50 nóng+lạnh", absence: "Win 1.24%, Δ-0.015", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35" },
-    rec1: "bayesian", rec2: "frequency",
-    recReason: "Pool 55 số lớn nhất — Bayesian AI (temp=1.0) khai thác posterior rộng, vượt trội +0.031 avg matches.",
+    stats: { bayesian: "Δ+0.031, Win 1.65%, ROI −91.4% (best cả 2)", frequency: "Δ+0.024, Win 1.51%, ROI −93.3%", pattern: "Δ+0.003, ổn định #1 tổng hợp", maxentropy: "Win 1.54%, ROI −94.7%", adaptive: "Δ−0.014", mixed: "50/50 nóng+lạnh", absence: "Win 1.24%, Δ−0.015", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35" },
+    picks: {
+      winrate: { strategy: "bayesian", stat: "Win 1.65%, Δ+0.031 avg" },
+    },
+    recReason: "Bayesian AI thắng cả 2 axes: Win rate 1.65% (cao nhất) + ROI −91.4% (ít lỗ nhất). Pool 55 số lớn → noise cao, không significance.",
   },
   "power-645": {
-    ranks: { bayesian: 1, pattern: 2, frequency: 3, maxentropy: 4, mixed: 5, adaptive: 6, absence: 7, evmax: 8, jointbias: 9, hybridparity: 10 },
-    stats: { bayesian: "Sharp T=0.3, Win 3.14%", pattern: "Δ+0.017, ổn định", frequency: "Δ+0.006, Win 2.78%", maxentropy: "5/6 trùng! ROI -62%", mixed: "50/50 nóng+lạnh", adaptive: "Win 1.94%", absence: "Win 2.78%, Δ-0.005", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35" },
-    rec1: "bayesian", rec2: "pattern",
-    recReason: "Bayesian AI (Sharp T=0.3) đạt win rate 3.14% — cải thiện +0.64pp so với T=0.5 cũ. Phủ sóng tối đa đạt 5/6 trùng duy nhất!",
+    ranks: { bayesian: 1, maxentropy: 2, pattern: 3, frequency: 4, mixed: 5, adaptive: 6, absence: 7, evmax: 8, jointbias: 9, hybridparity: 10 },
+    stats: { bayesian: "Sharp T=0.3, Win 3.14% (max Win)", maxentropy: "ROI −57.5% (max ROI), Δ+0.010 avg", pattern: "Δ+0.017, ổn định", frequency: "Δ+0.006, Win 2.78%", mixed: "50/50 nóng+lạnh", adaptive: "Win 1.94%", absence: "Win 2.78%, Δ−0.005", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35" },
+    picks: {
+      winrate: { strategy: "bayesian", stat: "Sharp T=0.3, Win 3.14%" },
+      roi: { strategy: "maxentropy", stat: "ROI −57.5% (ít lỗ nhất, 30pp tốt hơn Bayesian)" },
+    },
+    recReason: "Split axes: Bayesian Sharp max Win rate 3.14%. Phủ sóng tối đa min lỗ ROI −57.5%. ExpDecay_Cold Rejected Chu kỳ 9 (dramatic split-half flip).",
   },
   "power-535": {
-    ranks: { pattern: 1, adaptive: 2, frequency: 3, hybridparity: 4, bayesian: 5, maxentropy: 6, mixed: 7, absence: 8, evmax: 9, jointbias: 10 },
-    stats: { pattern: "Δ+0.025, Win 1.78% directional", adaptive: "Δ+0.025, hòa #1", frequency: "Win 1.58%, ROI -74%", hybridparity: "⚠️ Chu kỳ 5 correction: Reject (p=0.301 sau fix bug)", bayesian: "Δ-0.028", maxentropy: "Δ-0.026", mixed: "50/50 nóng+lạnh", absence: "Win 0.79%, Δ-0.008", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
-    rec1: "pattern", rec2: "adaptive",
-    recReason: "Pattern #1 directional Δ+0.025. Hybrid Parity đã bị Reject sau Chu kỳ 5 correction (sample-size bug fix → p=0.301 không significant). Không có strategy Accept/Suggestive cho 5/35.",
+    ranks: { adaptive: 1, maxentropy: 2, pattern: 3, frequency: 4, hybridparity: 5, bayesian: 6, mixed: 7, absence: 8, evmax: 9, jointbias: 10 },
+    stats: { adaptive: "Win 1.90%, Δ+0.038 avg (max Win)", maxentropy: "Win 1.75%, ROI −84.4% (max ROI, tied)", pattern: "Δ+0.025 directional", frequency: "Win 1.37%, ROI −93%", hybridparity: "⚠️ Chu kỳ 5 correction: Reject (p=0.301 sau fix bug)", bayesian: "Win 1.75%, ROI −84.4% (tied)", mixed: "50/50 nóng+lạnh", absence: "Win 0.79%, Δ−0.008", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
+    picks: {
+      winrate: { strategy: "adaptive", stat: "Win 1.90%, Δ+0.038 avg (cao nhất)" },
+      roi: { strategy: "maxentropy", stat: "ROI −84.4% (tied với Bayesian, avg cao hơn)" },
+    },
+    recReason: "Split axes: Tự động tối ưu max Win rate 1.90%. Phủ sóng tối đa min lỗ ROI −84.4%. HybridParity Rejected sau Chu kỳ 5 sample-size bug fix.",
   },
   "max-3d": {
-    ranks: { jointbias: 1, frequency: 2, bayesian: 3, maxentropy: 4, pattern: 5, adaptive: 6, mixed: 7, evmax: 8, absence: 9, hybridparity: 10 },
-    stats: { jointbias: "🔬 Δ+0.305pp directional (Chu kỳ 13 mechanism anchor)", frequency: "Δ+0.158pp directional, simpler", bayesian: "Exact 2.09%, 38× trúng Nhất", maxentropy: "Phủ sóng 2.06%, ROI -40%", pattern: "Exact ~2.0%", adaptive: "Exact 1.94%", mixed: "digit-by-digit", evmax: "⚠️ Reject Chu kỳ 7 (3D Pro flip)", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
-    rec1: "jointbias", rec2: "frequency",
-    recReason: "JointDigitBias khai thác digit dependencies (pos_1_2 χ²=157.74 p=1e-06 Chu kỳ 4). Directional Δ+0.3pp, within Principle #14 ceiling. KHÔNG có edge confirmed — 28 strategies tested, 0 Accept. Xem 3D Final Report.",
+    ranks: { maxentropy: 1, jointbias: 2, frequency: 3, bayesian: 4, pattern: 5, adaptive: 6, mixed: 7, evmax: 8, absence: 9, hybridparity: 10 },
+    stats: { maxentropy: "🎯 Phủ sóng Exact 2.22%, ROI −35.8% (best cả 2)", jointbias: "🧬 Δ+0.305pp mechanism anchor (Chu kỳ 13)", frequency: "Δ+0.158pp, ROI −46.7%", bayesian: "Exact 2.09%, 38× trúng Nhất", pattern: "Exact ~2.0%", adaptive: "Exact 1.94%", mixed: "digit-by-digit", evmax: "⚠️ Reject Chu kỳ 7 (3D Pro flip)", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
+    picks: {
+      winrate: { strategy: "maxentropy", stat: "Phủ sóng Exact 2.22%, ROI −35.8% (cả 2 best)" },
+    },
+    recReason: "Phủ sóng tối đa (CoverageOpt) Pareto-dominant: Win rate 2.22% + ROI −35.8% cả 2 best. JointBias Δ+0.305pp mechanism anchor nhưng bị dominated metric. Toàn bộ 28 strategies Reject qua 3-gate.",
   },
   "max-3d-pro": {
-    ranks: { jointbias: 1, frequency: 2, bayesian: 3, maxentropy: 4, adaptive: 5, mixed: 6, pattern: 7, evmax: 8, absence: 9, hybridparity: 10 },
-    stats: { jointbias: "🔬 Δ+0.378pp directional (strongest remaining pick)", frequency: "Δ-0.060pp near-zero", bayesian: "Exact 2.07%", maxentropy: "Phủ sóng 2.30%, ROI -35.1%", adaptive: "Exact 2.07%", mixed: "digit-by-digit", pattern: "Exact ~2.0%", evmax: "⚠️ REJECTED Chu kỳ 7 (split-half h1 p=0.0007 → h2 p=0.865 flip)", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
-    rec1: "jointbias", rec2: "frequency",
-    recReason: "JointDigitBias directional Δ+0.378pp — strongest research pick sau khi EV Maximizer bị Reject Chu kỳ 7 (dramatic split-half flip). KHÔNG có edge confirmed. Xem 3D Final Report.",
+    ranks: { jointbias: 1, maxentropy: 2, frequency: 3, bayesian: 4, adaptive: 5, mixed: 6, pattern: 7, evmax: 8, absence: 9, hybridparity: 10 },
+    stats: { jointbias: "🧬 Exact 2.38%, ROI −31.5% (best cả 2)", maxentropy: "Phủ sóng 2.30%, ROI −35.1%", frequency: "Exact 1.94%, ROI −38.5%", bayesian: "Exact 2.07%", adaptive: "Exact 2.07%", mixed: "digit-by-digit", pattern: "Exact ~2.0%", evmax: "⚠️ REJECTED Chu kỳ 7 (split-half h1 p=0.0007 → h2 p=0.865 flip)", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
+    picks: {
+      winrate: { strategy: "jointbias", stat: "Bias liên hợp Exact 2.38%, ROI −31.5% (cả 2 best)" },
+    },
+    recReason: "JointBias Pareto-dominant 3D Pro: Win rate 2.38% + ROI −31.5% cả 2 best (EVMax ROI tốt hơn nhưng Reject Chu kỳ 7 dramatic flip). Δ+0.378pp directional, within Principle #14 ceiling.",
   },
 };
 
 export function SuggestionPanel(props: SuggestionPanelProps) {
   const productRank = PRODUCT_RANKS[props.slug];
   const cached = panelStateCache.get(props.slug);
-  const [strategy, setStrategy] = useState<SuggestionStrategy>(cached?.strategy ?? productRank.rec1);
+  const [strategy, setStrategy] = useState<SuggestionStrategy>(cached?.strategy ?? productRank.picks.winrate.strategy);
   const [count, setCount] = useState(cached?.count ?? 5);
   const [countInput, setCountInput] = useState(cached?.countInput ?? "5");
   const [results, setResults] = useState<(SuggestionSet | ThreeDSuggestionSet)[]>(cached?.results ?? []);
@@ -325,27 +345,98 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         </div>
       </div>
 
-      {/* Recommendation card */}
+      {/* Research picks card — 1 or 2 picks split by metric (win rate vs ROI) */}
       <div className="rounded-xl border-2 p-4" style={{ borderColor: `${props.color}40`, background: `${props.color}08` }}>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-lg">🔬</span>
-            <span className="text-sm font-bold">Research pick:</span>
-            <button onClick={() => handleSelectStrategy(productRank.rec1)}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-bold text-white transition-transform hover:scale-105"
-              style={{ backgroundColor: props.color }}>
-              {ALL_STRATEGIES.find(s => s.key === productRank.rec1)?.emoji} {ALL_STRATEGIES.find(s => s.key === productRank.rec1)?.label}
-            </button>
-            <span className="text-xs text-muted-foreground">hoặc</span>
-            <button onClick={() => handleSelectStrategy(productRank.rec2)}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-medium border transition-transform hover:scale-105"
-              style={{ borderColor: props.color, color: props.color }}>
-              {ALL_STRATEGIES.find(s => s.key === productRank.rec2)?.emoji} {ALL_STRATEGIES.find(s => s.key === productRank.rec2)?.label}
-            </button>
+            <span className="text-sm font-bold">
+              {productRank.picks.roi ? "Research picks:" : "Research pick:"}
+            </span>
+            {/* Win rate pick */}
+            <div className="inline-flex items-center gap-1.5">
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-600/15 text-green-700 dark:text-green-400" title="Chiến lược có tỷ lệ trúng cao nhất trong các strategy đã test. KHÔNG confirmed edge — directional only.">
+                🎯 Tỷ lệ trúng cao nhất
+              </span>
+              <button onClick={() => handleSelectStrategy(productRank.picks.winrate.strategy)}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-bold text-white transition-transform hover:scale-105"
+                style={{ backgroundColor: props.color }}
+                title={productRank.picks.winrate.stat}>
+                {ALL_STRATEGIES.find(s => s.key === productRank.picks.winrate.strategy)?.emoji} {ALL_STRATEGIES.find(s => s.key === productRank.picks.winrate.strategy)?.label}
+              </button>
+            </div>
+            {/* ROI pick (only when different from win rate pick) */}
+            {productRank.picks.roi && (
+              <div className="inline-flex items-center gap-1.5">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-yellow-600/15 text-yellow-700 dark:text-yellow-400" title="Chiến lược lỗ ít nhất (ROI âm ít nhất). KHÔNG có lãi — chỉ lỗ ít hơn các strategy khác.">
+                  💰 Lỗ ít nhất
+                </span>
+                <button onClick={() => handleSelectStrategy(productRank.picks.roi!.strategy)}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-medium border transition-transform hover:scale-105"
+                  style={{ borderColor: props.color, color: props.color }}
+                  title={productRank.picks.roi.stat}>
+                  {ALL_STRATEGIES.find(s => s.key === productRank.picks.roi!.strategy)?.emoji} {ALL_STRATEGIES.find(s => s.key === productRank.picks.roi!.strategy)?.label}
+                </button>
+              </div>
+            )}
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed flex-1">{productRank.recReason}</p>
         </div>
+        {!productRank.picks.roi && (
+          <p className="text-[11px] text-muted-foreground/80 mt-2 italic">
+            Chiến lược này thắng cả 2 axes (tỷ lệ trúng + lỗ ít nhất) trong các strategy đã test.
+          </p>
+        )}
       </div>
+
+      {/* Honest-broker disclaimer about research picks — expanded by default for first-time users */}
+      <details className="group rounded-lg border border-yellow-600/40 bg-yellow-600/5 px-3 py-2">
+        <summary className="cursor-pointer list-none flex items-center justify-between gap-2 text-xs font-semibold">
+          <div className="flex items-center gap-2">
+            <span>ℹ️</span>
+            <span>Hiểu đúng về research picks — đọc trước khi chơi</span>
+          </div>
+          <span className="text-muted-foreground group-open:hidden">▼ mở</span>
+          <span className="text-muted-foreground hidden group-open:inline">▲ thu gọn</span>
+        </summary>
+        <div className="mt-3 space-y-2.5 text-xs text-muted-foreground leading-relaxed">
+          <div className="flex gap-2">
+            <span className="text-green-500 shrink-0 font-mono">🎯</span>
+            <p>
+              <strong className="text-foreground">Tỷ lệ trúng cao nhất</strong> = strategy có Win rate / Exact rate cao nhất trong các strategy đã test
+              (loại GBM/EVMax/ExpDecay_Cold/Copula bị Reject do overfit hoặc direction flip).
+              <strong className="text-orange-600 dark:text-orange-400"> Directional only</strong> — p-value ≥ 0.05, chưa đủ dữ liệu để khẳng định beat Random.
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <span className="text-yellow-500 shrink-0 font-mono">💰</span>
+            <p>
+              <strong className="text-foreground">Lỗ ít nhất</strong> = strategy có ROI âm <em>ít nhất</em> (KHÔNG có lãi). ROI thực tế từ −31% đến −94%
+              tùy product. Label này chỉ cho biết strategy lỗ NHẸ hơn các lựa chọn khác, không gợi ý có cơ hội sinh lời.
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <span className="text-red-500 shrink-0 font-mono">⚠</span>
+            <p>
+              <strong className="text-foreground">Toàn bộ dự án: 0/~50 strategy đạt Accept</strong> qua 3-gate protocol (full + split-half + forward).
+              Mọi pick chỉ là best-of-Reject. Framework tìm kiếm vẫn đang chạy (Chu kỳ 14 matrix pending) — nếu pass thì sẽ update.
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <span className="text-blue-500 shrink-0 font-mono">📐</span>
+            <p>
+              <strong className="text-foreground">Quy tắc chọn pick</strong>: (1) loại strategy Reject vì overfit/flip/Principle #14 fail,
+              (2) pick max Win rate, (3) pick max ROI. Same strategy → 1 pick. Rule chưa áp replication cho CHÍNH quy tắc pick
+              — điểm yếu methodology cần cải thiện cycle sau.
+            </p>
+          </div>
+          <div className="text-[11px] pt-1 border-t border-yellow-600/20 flex flex-wrap gap-3">
+            <a href="/research" className="underline hover:text-orange-600">📊 Câu chuyện research đầy đủ</a>
+            <a href="/glossary" className="underline hover:text-blue-500">📚 Thuật ngữ (directional · 3-gate · Pareto-dominant)</a>
+            <a href="/algorithms" className="underline hover:text-purple-500">🔬 So sánh 10 thuật toán</a>
+          </div>
+        </div>
+      </details>
 
       {/* Strategy selector — sorted by backtest rank */}
       <div>
@@ -358,7 +449,9 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {sortedStrategies.map((s, idx) => {
             const bt = productRank.stats[s.key];
-            const isRec = s.key === productRank.rec1;
+            const isWinratePick = s.key === productRank.picks.winrate.strategy;
+            const isRoiPick = s.key === productRank.picks.roi?.strategy;
+            const isRec = isWinratePick || isRoiPick;
             return (
             <button
               key={s.key}
@@ -398,12 +491,20 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                   {s.badge}
                 </span>
               )}
-              {isRec && (
+              {isWinratePick && (
                 <span
-                  className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-orange-600 text-white"
-                  title="Research pick — directional positive, no confirmed edge"
+                  className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-600 text-white"
+                  title={`🎯 Tỷ lệ trúng cao nhất (directional, KHÔNG confirmed) — ${productRank.picks.winrate.stat}`}
                 >
-                  🔬 Research pick
+                  🎯 Trúng cao nhất
+                </span>
+              )}
+              {isRoiPick && (
+                <span
+                  className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-600 text-white"
+                  title={`💰 Lỗ ít nhất (ROI vẫn âm) — ${productRank.picks.roi!.stat}`}
+                >
+                  💰 Lỗ ít nhất
                 </span>
               )}
               </div>

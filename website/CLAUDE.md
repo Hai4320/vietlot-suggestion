@@ -48,9 +48,30 @@ npx tsc --noEmit       # type check only
 5. Build + type check + curl smoke + visual check
 6. Commit per template
 
-**Avoid UX lies**: any strategy shown in SuggestionPanel `rec1` with claim contradicting latest cycle = critical bug. Historical cases (all fixed 2026-04-21):
+**Avoid UX lies**: any strategy shown in SuggestionPanel `picks.winrate` or `picks.roi` with claim contradicting latest cycle = critical bug. Historical cases (all fixed 2026-04-21):
 - Max 3D Pro rec1="evmax" (Rejected Chu kỳ 7 months earlier)
 - Power 5/35 rec1="hybridparity" with "p=0.011 significant" claim (Chu kỳ 5 correction showed p=0.301 Reject)
+
+## Research pick schema (post 2026-04-21 refactor)
+
+`PRODUCT_RANKS[slug].picks` replaces old `rec1`/`rec2` fields. Each product has 1-2 picks split by metric:
+
+```ts
+picks: {
+  winrate: { strategy, stat };   // 🎯 Tỷ lệ trúng cao nhất — max winPct/exactPct
+  roi?:    { strategy, stat };   // 💰 Lỗ ít nhất — max roi (absent = Pareto-dominant)
+}
+```
+
+**Pick selection rule** (codified 2026-04-21):
+1. Loại strategy có decision Reject vì overfit/direction-flip/Principle #14/#15 fail
+2. Max `winPct` (matrix) / `exactPct` (3D) → `picks.winrate`
+3. Max `roi` (least negative) → `picks.roi`
+4. Nếu cùng strategy thắng cả 2 axes → omit `picks.roi` (collapse to 1 pick)
+
+Default-selected strategy in SuggestionPanel `useState` = `picks.winrate.strategy`.
+
+**Methodology caveat** (flag rõ ràng trong UI [/glossary "Pick selection rule"](src/app/glossary/page.tsx)): quy tắc này chưa áp replication cho CHÍNH quy tắc pick. Tie-breaking bằng `avg_matches` là ad-hoc. Cần cải thiện cycle sau.
 
 ## Strategy tier + badge conventions
 
@@ -58,11 +79,12 @@ See [ALGORITHM_MANAGEMENT.md §2](ALGORITHM_MANAGEMENT.md) for tier system (Buil
 
 See [RESEARCH_TO_UI_PLAYBOOK.md §5](RESEARCH_TO_UI_PLAYBOOK.md) for badge colors + language conventions:
 - `✓ Accept` (green) — 3-gate pass, confirmed edge
-- `🔬 Research pick` (orange) — directional only, best-in-family
+- `🎯 Trúng cao nhất` (green) — winrate pick, directional only
+- `💰 Lỗ ít nhất` (yellow) — roi pick, ROI still negative
 - `⚠ Ship-with-caveats` (yellow) — technical pass but scientific doubt
 - `Reject` (muted) — failed replication
 
-**Never** use "🏆 Khuyến nghị" cho strategy without confirmed Accept — orange "🔬 Research pick" là correct default.
+**Never** use "🏆 Khuyến nghị" cho strategy without confirmed Accept — split picks "🎯 Trúng cao nhất" + "💰 Lỗ ít nhất" là correct default. Labels must be honest: winrate pick ≠ confirmed edge, roi pick ≠ có lãi.
 
 ## Research disclosure banners
 

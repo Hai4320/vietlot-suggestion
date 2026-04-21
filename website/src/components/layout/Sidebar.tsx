@@ -86,7 +86,17 @@ export function Sidebar() {
           )}
         >
           <span>📊</span>
-          <span>Nghiên cứu 3D</span>
+          <span>Nghiên cứu</span>
+        </Link>
+        <Link
+          href="/glossary"
+          className={cn(
+            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
+            pathname === "/glossary" && "bg-accent text-accent-foreground font-medium"
+          )}
+        >
+          <span>📚</span>
+          <span>Thuật ngữ</span>
         </Link>
       </div>
     </aside>

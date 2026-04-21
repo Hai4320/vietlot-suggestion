@@ -253,44 +253,51 @@ const STRATEGIES = [
 // Any future cycle updates → edit lib/backtest-data.ts ONLY.
 const BACKTEST_RESULTS = BACKTEST_MATRIX;
 
-const RECOMMENDATIONS = [
+// Research picks split by metric (Win rate vs ROI). 1-2 picks per product.
+// Excludes Reject-vì-overfit/direction-flip. Source of truth: lib/backtest-data.ts.
+type MetricPick = { name: string; emoji: string; stat: string };
+type Recommendation = {
+  product: string;
+  emoji: string;
+  color: string;
+  winratePick: MetricPick;
+  roiPick?: MetricPick; // undefined if same strategy wins both axes
+  reason: string;
+  special?: string;
+};
+
+const RECOMMENDATIONS: Recommendation[] = [
   {
     product: "Power 6/55",
     emoji: "🔴",
     color: "hsl(0, 72%, 51%)",
-    primary: "Bayesian AI (directional pick)",
-    primaryEmoji: "🧠",
-    secondary: "Tần suất cao",
-    secondaryEmoji: "📊",
+    winratePick: { name: "Bayesian AI", emoji: "🧠", stat: "Win 1.65%, Δ+0.031 avg, ROI −91.4%" },
+    // Bayesian Pareto-dominant → no separate ROI pick
     reason:
-      "Bayesian AI có Δ avg match cao nhất (+0.031, Win 1.65%). Full-sample z-test p=0.511 → Reject. " +
-      "Không có strategy nào beat Random với significance. Pool 55 số lớn, 1334 draws có thể chưa đủ.",
-    special: "🔬 Directional pick only — no confirmed edge. Chu kỳ 14 planned = Online Bayesian Kalman variant.",
+      "Bayesian AI thắng cả 2 axes trong 7 strategies đã test: Win rate cao nhất (1.65%) + ROI ít lỗ nhất (−91.4%, " +
+      "tốt hơn 2-3pp so với phần còn lại). Pool 55 số lớn + 1,334 draws → noise cao, z-test p=0.511 → Reject.",
+    special: "🔬 Directional pick only — không confirmed edge. Chu kỳ 14 planned = Online Bayesian Kalman variant.",
   },
   {
     product: "Mega 6/45",
     emoji: "🔵",
     color: "hsl(217, 91%, 60%)",
-    primary: "Bayesian AI Sharp (directional pick)",
-    primaryEmoji: "🧠",
-    secondary: "Mẫu cấu trúc",
-    secondaryEmoji: "🔮",
+    winratePick: { name: "Bayesian AI Sharp", emoji: "🧠", stat: "T=0.3, Win 3.14%" },
+    roiPick: { name: "Phủ sóng tối đa", emoji: "🎯", stat: "ROI −57.5%, Δ+0.010 avg" },
     reason:
-      "Bayesian AI Sharp (T=0.3) có Win rate 3.14% directional positive. " +
-      "⚠ ExpDecay_Cold cũ (Chu kỳ 6 Suggestive p=0.0044) đã REJECTED Chu kỳ 9 sau split-half direction flip " +
-      "(h1 Δ=−0.26pp → h2 Δ=+0.37pp). Không còn strategy nào verified Suggestive cho 6/45.",
-    special: "⚠️ Chu kỳ 9 (2026-04-20): ExpDecay_Cold Rejected — claim cũ rút lại. Bayesian AI / Ensemble Suggestive status vẫn chưa được replication-verified.",
+      "Split axes: Bayesian Sharp (T=0.3) maximize Win rate 3.14%. Phủ sóng tối đa minimize lỗ với ROI −57.5% " +
+      "(30pp tốt hơn Bayesian −88.5%). ⚠ ExpDecay_Cold (Chu kỳ 6 Suggestive p=0.0044) Rejected Chu kỳ 9 sau " +
+      "split-half direction flip (h1 Δ=−0.26pp → h2 Δ=+0.37pp).",
+    special: "⚠️ Chu kỳ 9 (2026-04-20): ExpDecay_Cold Rejected — claim cũ rút lại. Ensemble + Bayesian AI Suggestive full-sample (p=0.046) chưa replication-verified.",
   },
   {
     product: "Lotto 5/35",
     emoji: "🟢",
     color: "hsl(142, 71%, 45%)",
-    primary: "Mẫu cấu trúc (directional pick)",
-    primaryEmoji: "🔮",
-    secondary: "Tự động tối ưu",
-    secondaryEmoji: "🎛️",
+    winratePick: { name: "Tự động tối ưu", emoji: "⚡", stat: "Win 1.90%, Δ+0.038 avg" },
+    roiPick: { name: "Phủ sóng tối đa", emoji: "🎯", stat: "ROI −84.4% (tied với Bayesian, avg cao hơn)" },
     reason:
-      "Pattern có Δ+0.025 directional Win 1.78%. Tất cả strategies (including wheeling) đều Reject. " +
+      "Split axes: Adaptive max Win rate 1.90% (cao nhất). Phủ sóng tối đa min lỗ ROI −84.4% (10pp tốt hơn Adaptive). " +
       "⚠ HybridParityDiv cũ (claim p=0.011) là artefact của bug sample-size — Chu kỳ 5 correction cho p=0.301 → Reject. " +
       "Bias T11 Parity (p=0.0012) tồn tại nhưng không exploitable single-ticket hay multi-ticket.",
     special: "⚠️ HybridParityDiv: stale claim retracted 2026-04-20 after bug fix. Kept as reference implementation only.",
@@ -304,32 +311,29 @@ const RECOMMENDATIONS = [
 
 const BACKTEST_RESULTS_3D = BACKTEST_3D;
 
-const RECOMMENDATIONS_3D = [
+const RECOMMENDATIONS_3D: Recommendation[] = [
   {
     product: "Max 3D",
     emoji: "🟣",
     color: "hsl(271, 91%, 65%)",
-    primary: "Bias liên hợp (directional pick)",
-    primaryEmoji: "🧬",
-    secondary: "Tần suất cao",
-    secondaryEmoji: "📊",
+    winratePick: { name: "Phủ sóng tối đa", emoji: "🎯", stat: "Exact 2.22%, ROI −35.8% (cả 2 best)" },
+    // CoverageOpt Pareto-dominates → no separate ROI pick
     reason:
-      "JointDigitBias Δ+0.305pp directional (within Principle #14 bias ceiling). " +
-      "28 chiến lược đã test qua 8 cycles, 0 chiến lược Accept/Suggestive sau 3-gate protocol. " +
-      "Đây là best directional pick, KHÔNG phải confirmed edge.",
+      "Phủ sóng tối đa (CoverageOpt) Pareto-dominant: Win rate 2.22% (+0.52pp vs Random) + ROI −35.8% cả 2 best " +
+      "trong UI-available non-overfit strategies. JointBias Δ+0.305pp là mechanism anchor (Chu kỳ 13) nhưng bị dominated metric. " +
+      "28 chiến lược đã test qua 8 cycles, 0 Accept/Suggestive sau 3-gate protocol.",
     special: "⚠️ Research line CLOSED Chu kỳ 13 — no algorithm beats Random significantly. Xem 3D Final Report.",
   },
   {
     product: "Max 3D Pro",
     emoji: "🟠",
     color: "hsl(25, 95%, 53%)",
-    primary: "Bias liên hợp (directional pick)",
-    primaryEmoji: "🧬",
-    secondary: "Tần suất cao",
-    secondaryEmoji: "📊",
+    winratePick: { name: "Bias liên hợp", emoji: "🧬", stat: "Exact 2.38%, ROI −31.5% (cả 2 best)" },
+    // JointBias Pareto-dominant → no separate ROI pick
     reason:
-      "JointDigitBias Δ+0.378pp directional — strongest remaining pick sau khi EV Maximizer bị Reject Chu kỳ 7 " +
-      "(split-half direction flip h1 p=0.0007 → h2 p=0.865). KHÔNG phải confirmed edge.",
+      "JointBias Pareto-dominant trong UI-available non-overfit: Win rate 2.38% + ROI −31.5%. " +
+      "EVMax ROI −26.5% tốt hơn nhưng Rejected Chu kỳ 7 (dramatic split-half flip h1 p=0.0007 → h2 p=0.865). " +
+      "Δ+0.378pp directional, within Principle #14 ceiling.",
     special: "⚠️ EV Maximizer (formerly #1) deprecated — Chu kỳ 7 replication failure. GBM Chu kỳ 12 Technical Accept deprecated bởi Chu kỳ 12.5 audit (confirmed overfit).",
   },
 ];
@@ -873,25 +877,37 @@ export default function AlgorithmsPage() {
                   <CardTitle className="text-base">{r.product}</CardTitle>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
+                {/* Win rate pick (always) */}
                 <div className="rounded-lg border p-3 space-y-1.5" style={{ borderColor: `${r.color}40` }}>
-                  <Badge className="text-white text-[10px] bg-orange-600">
-                    🔬 Research pick
+                  <Badge className="text-white text-[10px] bg-green-600">
+                    🎯 Win rate pick
                   </Badge>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xl">{r.primaryEmoji}</span>
-                    <span className="font-bold text-sm">{r.primary}</span>
+                    <span className="text-xl">{r.winratePick.emoji}</span>
+                    <span className="font-bold text-sm">{r.winratePick.name}</span>
                   </div>
+                  <div className="text-[11px] font-mono text-muted-foreground">{r.winratePick.stat}</div>
                 </div>
-                <div className="rounded-lg border border-border/50 p-3 space-y-1.5">
-                  <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
-                    Lựa chọn phụ
+                {/* ROI pick (only if different) */}
+                {r.roiPick ? (
+                  <div className="rounded-lg border p-3 space-y-1.5" style={{ borderColor: `${r.color}40` }}>
+                    <Badge className="text-white text-[10px] bg-yellow-600">
+                      💰 ROI pick
+                    </Badge>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xl">{r.roiPick.emoji}</span>
+                      <span className="font-bold text-sm">{r.roiPick.name}</span>
+                    </div>
+                    <div className="text-[11px] font-mono text-muted-foreground">{r.roiPick.stat}</div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{r.secondaryEmoji}</span>
-                    <span className="text-sm">{r.secondary}</span>
+                ) : (
+                  <div className="rounded-lg border border-dashed border-border/60 p-2 text-center">
+                    <p className="text-[11px] text-muted-foreground italic">
+                      Chiến lược trên thắng cả 2 axes (Win rate + ROI) → 1 pick duy nhất
+                    </p>
                   </div>
-                </div>
+                )}
                 <p className="text-xs text-muted-foreground leading-relaxed">{r.reason}</p>
                 {r.special && (
                   <div className="rounded-lg bg-orange-500/10 border border-orange-500/30 p-2.5">
@@ -929,30 +945,38 @@ export default function AlgorithmsPage() {
                   <CardTitle className="text-base">{r.product}</CardTitle>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Primary recommendation */}
+              <CardContent className="space-y-3">
+                {/* Win rate pick (always) */}
                 <div className="rounded-lg border p-3 space-y-1.5" style={{ borderColor: `${r.color}40` }}>
-                  <div className="flex items-center gap-2">
-                    <Badge className="text-white text-[10px]" style={{ backgroundColor: r.color }}>
-                      #1 Khuyến nghị
-                    </Badge>
-                  </div>
+                  <Badge className="text-white text-[10px] bg-green-600">
+                    🎯 Win rate pick
+                  </Badge>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xl">{r.primaryEmoji}</span>
-                    <span className="font-bold text-sm">{r.primary}</span>
+                    <span className="text-xl">{r.winratePick.emoji}</span>
+                    <span className="font-bold text-sm">{r.winratePick.name}</span>
                   </div>
+                  <div className="text-[11px] font-mono text-muted-foreground">{r.winratePick.stat}</div>
                 </div>
 
-                {/* Secondary */}
-                <div className="rounded-lg border border-border/50 p-3 space-y-1.5">
-                  <div className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
-                    Lựa chọn phụ
+                {/* ROI pick (only if different) */}
+                {r.roiPick ? (
+                  <div className="rounded-lg border p-3 space-y-1.5" style={{ borderColor: `${r.color}40` }}>
+                    <Badge className="text-white text-[10px] bg-yellow-600">
+                      💰 ROI pick
+                    </Badge>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xl">{r.roiPick.emoji}</span>
+                      <span className="font-bold text-sm">{r.roiPick.name}</span>
+                    </div>
+                    <div className="text-[11px] font-mono text-muted-foreground">{r.roiPick.stat}</div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{r.secondaryEmoji}</span>
-                    <span className="text-sm">{r.secondary}</span>
+                ) : (
+                  <div className="rounded-lg border border-dashed border-border/60 p-2 text-center">
+                    <p className="text-[11px] text-muted-foreground italic">
+                      Chiến lược trên thắng cả 2 axes (Win rate + ROI) → 1 pick duy nhất
+                    </p>
                   </div>
-                </div>
+                )}
 
                 {/* Reason */}
                 <p className="text-xs text-muted-foreground leading-relaxed">

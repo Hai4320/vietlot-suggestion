@@ -52,13 +52,36 @@ src/app/algorithms/page.tsx
 
 Sau khi cycle kết thúc, apply decision rule binding từ pre-registration. Actions per state:
 
-| Research state | Deploy to UI? | SuggestionPanel rec1/rec2? | BacktestCard decision badge | Banner / disclaimer | Rationale |
+| Research state | Deploy to UI? | SuggestionPanel `picks`? | BacktestCard decision badge | Banner / disclaimer | Rationale |
 |----------------|:-:|-----------|-----------|---------|-----------|
-| **Accept** (pass 3-gate + Principle #14 magnitude OK) | ✅ Yes | Promote to rec1 với green "✓ Accept" badge | `Accept` (green) | None — confirmed edge | First robust edge in project history; allowed to claim edge |
-| **Suggestive** (full Bonferroni + split-half pass + forward directional, pending Accept) | 🟡 Ship-with-disclaimer | rec1 with "🔬 Directional" orange badge | `Suggestive` (yellow) | "Suggestive — pending replication" | Has statistical evidence, not robust across all gates |
-| **Ship-with-caveats** (Principle #14 flag OR scientific doubt despite technical pass) | 🟡 **LIMITED** — research/algorithms page only; NOT SuggestionPanel rec1 | NOT rec1. Display in ranked list với "⚠ Ship-with-caveats" | `Suggestive` + caveat note | "Replication required, do not deploy" | Usually from audit cycle (e.g., Chu kỳ 12.5 GBM) |
-| **Inconclusive** (split-half disagreement hoặc gate partial) | ❌ No | Move out of rec1/rec2 spots | `Inconclusive` (gray) | Optional note in description | Not enough evidence either way |
-| **Reject** (Δ≤0, split-half direction flip, forward flip, etc) | ❌ No | Remove rec1 status; demote in `ranks` | `Reject` (muted red) | If was claimed before: ⚠ stale claim retracted | Scientific confidence it's not real |
+| **Accept** (pass 3-gate + Principle #14 magnitude OK) | ✅ Yes | Candidate cho `picks.winrate`/`picks.roi` với green "✓ Accept" badge | `Accept` (green) | None — confirmed edge | First robust edge in project history; allowed to claim edge |
+| **Suggestive** (full Bonferroni + split-half pass + forward directional, pending Accept) | 🟡 Ship-with-disclaimer | Candidate cho `picks` với "🔬 Directional" orange badge; gắn "🎯 Trúng cao nhất" hoặc "💰 Lỗ ít nhất" tùy axis | `Suggestive` (yellow) | "Suggestive — pending replication" | Has statistical evidence, not robust across all gates |
+| **Ship-with-caveats** (Principle #14 flag OR scientific doubt despite technical pass) | 🟡 **LIMITED** — research/algorithms page only; NOT trong SuggestionPanel `picks` | Display trong ranked list với "⚠ Ship-with-caveats", KHÔNG trong `picks` | `Suggestive` + caveat note | "Replication required, do not deploy" | Usually from audit cycle (e.g., Chu kỳ 12.5 GBM) |
+| **Inconclusive** (split-half disagreement hoặc gate partial) | ❌ No | Remove khỏi `picks` nếu đang ở đó | `Inconclusive` (gray) | Optional note in description | Not enough evidence either way |
+| **Reject** (Δ≤0, split-half direction flip, forward flip, etc) | ❌ No | Remove khỏi `picks`; demote in `ranks`; add ⚠ vào `stats[key]` | `Reject` (muted red) | If was claimed before: ⚠ stale claim retracted | Scientific confidence it's not real |
+
+### 2.5 Pick selection rule (post 2026-04-21 pick-by-metric refactor)
+
+Mỗi product có 1-2 picks split theo axis. Rule codified sau khi replace `rec1`/`rec2` flat fields bằng `picks: { winrate, roi? }`:
+
+| Axis | Pick key | Label UI | Tiêu chí chọn |
+|------|----------|----------|---------------|
+| 🎯 Tỷ lệ trúng cao nhất | `picks.winrate` | Green badge "🎯 Trúng cao nhất" | Max `winPct` (matrix) / `exactPct` (3D) trong non-Reject-overfit UI-available strategies |
+| 💰 Lỗ ít nhất | `picks.roi` (optional) | Yellow badge "💰 Lỗ ít nhất" | Max `roi` (least negative). Omit nếu cùng strategy với winrate → Pareto-dominant, 1 pick |
+
+**Algorithm** (dev-side, khi sync sau cycle):
+1. Lọc strategies có decision `Reject` vì overfit/direction-flip/Principle #14/#15 fail → EXCLUDE
+2. Lọc strategies không có UI mapping (vd: CoverageOpt ↔ maxentropy) → EXCLUDE
+3. Sort theo winPct desc → top 1 = `picks.winrate.strategy`
+4. Sort theo roi desc → top 1
+5. Nếu step 3 & step 4 cùng strategy → omit `picks.roi` (collapse)
+6. Tie-break (cùng winPct hoặc cùng roi): avg_matches cao hơn
+
+**⚠️ Methodology caveat** (flagged trong UI disclaimer + [/glossary "Pick selection rule"](src/app/glossary/page.tsx)):
+- Rule dùng point estimate từ 1 backtest, KHÔNG áp split-half cho chính quy tắc pick
+- Tie-breaking bằng avg_matches là ad-hoc, có thể flip ở split khác
+- Label "💰 Lỗ ít nhất" cần honest: ROI từ −31% đến −94%, không có lãi
+- Cần cải thiện cycle sau (vd: pick bằng cross-validated estimate thay vì train-set max)
 
 ### Key gate definitions
 
@@ -111,21 +134,27 @@ Sau khi cycle kết thúc, apply decision rule binding từ pre-registration. Ac
 - [ ] `src/components/products/SuggestionPanel.tsx`:
   - `ALL_STRATEGIES` — add new strategy entry nếu chưa có, với emoji + label + description
   - `PRODUCT_RANKS[<slug>]`:
-    - Update `ranks` (re-order by new cycle result)
-    - Update `stats` (với Δ, p-value)
-    - Update `rec1`, `rec2` per decision matrix above
-    - Update `recReason` với honest framing ("Directional only" vs "Confirmed edge" vs "Ship-with-caveats")
+    - Update `ranks` (re-order by new cycle result; winrate pick nên rank 1)
+    - Update `stats` (với Δ, p-value, mark best axis với 🎯/💰)
+    - Update `picks.winrate` (always) + `picks.roi` (omit nếu Pareto-dominant) per §2.5 rule
+    - Update `recReason` với honest framing ("Split axes..." hoặc "Pareto-dominant...")
 - [ ] `src/app/algorithms/page.tsx`:
   - `STRATEGIES` array — add new entry nếu chưa có
-  - `RECOMMENDATIONS_3D` or `RECOMMENDATIONS` — update rec1/rec2 per product
+  - `RECOMMENDATIONS_3D` or `RECOMMENDATIONS` — update `winratePick` + `roiPick?` per product theo `MetricPick` schema
   - Update backtest tables nếu liệt kê cycle-specific results
+- [ ] `src/app/research/page.tsx`:
+  - `CURRENT_PICKS` — update `winratePick` + `roiPick?` per `CurrentPick` schema (mirror SuggestionPanel)
+- [ ] `src/app/glossary/page.tsx`:
+  - Update "Research pick (UI)" example nếu picks thay đổi; "Pareto-dominant" example nếu dominance thay đổi
 
 **Only if Reject** (previously was Accept/Suggestive/Ship):
 
-- [ ] Demote from `rec1`/`rec2` in SuggestionPanel → replace với next-best directional
+- [ ] Remove khỏi `picks.winrate`/`picks.roi` in SuggestionPanel → replace với next-best per §2.5 rule; re-check Pareto-dominance
+- [ ] Demote trong `ranks`; update `stats[key]` với ⚠️ marker
 - [ ] `ALL_STRATEGIES` description: add ⚠️ note with cycle reference ("⚠️ Chu kỳ N split-half Reject")
-- [ ] Remove "🏆 Khuyến nghị" badge, kept if still ranked but not top
-- [ ] `algorithms/page.tsx` RECOMMENDATIONS: update reason text
+- [ ] Remove "🏆 Khuyến nghị" / "🎯 Trúng cao nhất" / "💰 Lỗ ít nhất" badge (tự động mất khi strategy không còn trong `picks`)
+- [ ] `algorithms/page.tsx` RECOMMENDATIONS: update `winratePick` / `roiPick` + reason text
+- [ ] `research/page.tsx` CURRENT_PICKS: mirror update
 
 ### Phase D — Research transparency page
 
@@ -139,7 +168,7 @@ Sau khi cycle kết thúc, apply decision rule binding từ pre-registration. Ac
 
 - [ ] `website/ALGORITHM_MANAGEMENT.md`:
   - Update "Ma trận Thuật toán × Sản phẩm" table (rankings per product)
-  - Update "Hiển thị mặc định" table (rec1/rec2 per product + note)
+  - Update "Hiển thị mặc định" table: 🎯 Trúng cao nhất + 💰 Lỗ ít nhất columns (2 picks hoặc 1 Pareto-dominant) + note
   - Add ⚠️ marker for Rejected strategies in Ma trận table
 
 ### Phase F — Validation
@@ -156,10 +185,11 @@ Sau khi cycle kết thúc, apply decision rule binding từ pre-registration. Ac
   ```
 - [ ] Visual check: open relevant pages in browser, verify:
   - Research banner shows (3D pages)
-  - SuggestionPanel rec1 matches decision matrix
+  - SuggestionPanel `picks.winrate` (+ `picks.roi` if 2 picks) matches decision matrix + §2.5 rule
   - BacktestCard decision badges per new state
-  - Research page TL;DR + stats match
-  - Algorithms page rec1/rec2 consistent
+  - Research page TL;DR + stats match + CURRENT_PICKS consistent
+  - Algorithms page `winratePick`/`roiPick` consistent với SuggestionPanel
+  - Glossary "Pick selection rule" + "Pareto-dominant" examples chưa stale
 
 ### Phase G — Commit
 
@@ -201,13 +231,25 @@ Sau khi cycle kết thúc, apply decision rule binding từ pre-registration. Ac
   - Added 2 new rows to BACKTEST_3D for both products với Reject decision
   - Updated Mega 6/45 ExpDecay_Cold (Chu kỳ 9): Suggestive → Reject retroactively
 
-**Phase C** ✓
+**Phase C** ✓ (Original Chu kỳ 13 scope)
 - [`SuggestionPanel.tsx`](src/components/products/SuggestionPanel.tsx):
   - Both 3D products: rec1 → JointDigitBias (best remaining directional)
   - rec2 → frequency (simpler backup)
   - Demoted EV Maximizer from rec1 (Chu kỳ 7 Reject)
   - Replaced "🏆 Khuyến nghị" badge với "🔬 Research pick" orange
 - Added research-disclosure banner to [`ThreeDProductPage.tsx`](src/components/pages/ThreeDProductPage.tsx)
+
+**Phase C'** ✓ (2026-04-21 pick-by-metric refactor, sau Chu kỳ 13)
+- [`SuggestionPanel.tsx`](src/components/products/SuggestionPanel.tsx): `rec1`/`rec2` flat fields → `picks: { winrate, roi? }` schema
+  - Power 6/55: Bayesian AI Pareto-dominant → 1 pick
+  - Mega 6/45: Bayesian Sharp (win) + Phủ sóng (roi) → 2 picks
+  - Lotto 5/35: Tự động tối ưu (win) + Phủ sóng (roi) → 2 picks
+  - Max 3D: Phủ sóng Pareto-dominant (CoverageOpt) → 1 pick (JointBias demoted to rank 2 mechanism anchor)
+  - Max 3D Pro: JointBias Pareto-dominant → 1 pick
+- Badges renamed: "🎯 Win rate" → "🎯 Trúng cao nhất", "💰 ROI" → "💰 Lỗ ít nhất" (honest framing)
+- Added "Hiểu đúng về research picks" collapsible disclaimer dưới picks card
+- [`algorithms/page.tsx`](src/app/algorithms/page.tsx) + [`research/page.tsx`](src/app/research/page.tsx): mirror schema update
+- [`glossary/page.tsx`](src/app/glossary/page.tsx): added 4 terms — "Research pick (UI)", "Pareto-dominant", "Pick selection rule", "Best-of-Reject"
 
 **Phase D** ✓
 - Redesigned [`src/app/research/page.tsx`](src/app/research/page.tsx):
@@ -236,8 +278,9 @@ Consistent UX language across UI surfaces. Align all files to these:
 | Badge | Color | When used | Where |
 |-------|-------|-----------|-------|
 | `✓ Accept` | green | Strategy passed 3-gate protocol + Principle #14 check | BacktestCard, SuggestionPanel |
-| `🔬 Research pick` | orange | Directional-only pick, ranked best in family | SuggestionPanel rec1/rec2 |
-| `⚠ Ship-with-caveats` | yellow | Technical pass but scientific doubt | BacktestCard only, NOT SuggestionPanel rec1 |
+| `🎯 Trúng cao nhất` | green | Winrate pick — max winPct/exactPct trong non-Reject (directional only, KHÔNG confirmed) | SuggestionPanel `picks.winrate`, /algorithms, /research |
+| `💰 Lỗ ít nhất` | yellow | ROI pick — max roi (least negative). ROI vẫn âm, KHÔNG có lãi | SuggestionPanel `picks.roi` (when different from winrate) |
+| `⚠ Ship-with-caveats` | yellow | Technical pass but scientific doubt | BacktestCard only, NOT trong SuggestionPanel `picks` |
 | `Inconclusive` | gray | Gates disagree, not enough evidence | BacktestCard |
 | `Reject` | muted red | Failed gate | BacktestCard |
 | `🥇 #1` / `🥈 #2` / `🥉 #3` | medals | Relative ranking only, no edge claim | SuggestionPanel strategy grid |
@@ -246,7 +289,9 @@ Consistent UX language across UI surfaces. Align all files to these:
 
 | ❌ Avoid (promotional) | ✅ Use instead (honest) |
 |------------------------|------------------------|
-| "Best strategy", "Khuyến nghị #1" | "Research pick", "Directional pick" |
+| "Best strategy", "Khuyến nghị #1" | "🎯 Trúng cao nhất", "💰 Lỗ ít nhất", "Directional pick" |
+| "Win rate pick" (sounds like "winner") | "Trúng cao nhất" (directional, clear không phải confirmed) |
+| "ROI pick" (sounds like "có lãi") | "Lỗ ít nhất" (rõ ROI vẫn âm) |
 | "Win rate X% — beat random 25%" (absolute) | "Δ +0.3pp vs Random" (relative + directional) |
 | "ROI -26.5% (cải thiện 42%)" (sounds positive) | "ROI -26.5% vs Random -45%" (comparative) |
 | "Confirmed edge" (unless Accept) | "Directional only (p=0.X, chưa significant)" |
@@ -303,7 +348,7 @@ Không tự động re-rank UI mỗi lần data crawl. Chỉ re-backtest khi:
 ### Data refresh doesn't imply UI update
 
 - Data refresh = new draws crawled
-- UI update = PRODUCT_RANKS / BACKTEST_* constants regenerated
+- UI update = PRODUCT_RANKS (ranks/stats/picks) / BACKTEST_* constants regenerated
 - UI update chỉ happen khi có cycle completion HOẶC re-backtest trigger above
 
 ---
@@ -326,8 +371,8 @@ After each cycle:
 
 1. ✅ Append cycle result to `research/history/cycleNN_*.md` + update RESEARCH_HISTORY.md
 2. ✅ Update `backtest-data.ts` with new strategies + **revised decisions** for existing Rejects
-3. ✅ If shipping: update `SuggestionPanel.tsx` PRODUCT_RANKS với new rec1/rec2
-4. ✅ If demoting: remove from rec1, demote in ranks, add ⚠ note to description
+3. ✅ If shipping: update `SuggestionPanel.tsx` PRODUCT_RANKS với new `picks.winrate` / `picks.roi?` per §2.5 rule
+4. ✅ If demoting: remove khỏi `picks` (winrate + roi), demote in ranks, add ⚠ note trong stats[key]. Re-run §2.5 rule để pick next-best.
 5. ✅ Update `research/page.tsx` stats + cycles timeline + principles
 6. ✅ Update `algorithms/page.tsx` RECOMMENDATIONS if top picks changed
 7. ✅ Update `ALGORITHM_MANAGEMENT.md` Ma trận table + default recs
