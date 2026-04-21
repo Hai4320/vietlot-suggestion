@@ -8,25 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Decision } from "@/lib/backtest-data";
-
-function formatPValue(p?: number) {
-  if (p === undefined) return "—";
-  if (p < 0.001) return "<0.001";
-  return p.toFixed(3);
-}
-
-function DecisionBadge({ d }: { d?: Decision }) {
-  if (!d || d === "baseline") return null;
-  const cls: Record<Decision, string> = {
-    Accept: "bg-green-600 text-white",
-    Suggestive: "bg-yellow-500 text-black",
-    Inconclusive: "bg-gray-400 text-white",
-    Reject: "bg-muted text-muted-foreground",
-    baseline: "",
-  };
-  return <Badge className={`text-[9px] px-1 py-0 ${cls[d]}`}>{d}</Badge>;
-}
+import { BACKTEST_MATRIX, BACKTEST_3D, type Decision } from "@/lib/backtest-data";
+import { DecisionBadge } from "@/components/common/DecisionBadge";
+import { formatPValue } from "@/lib/format";
 
 // ============================================================
 // Backtest data from Phase 4 evaluation (1300+ draws)
@@ -264,55 +248,10 @@ const STRATEGIES = [
   },
 ];
 
-// Backtest results — refreshed 2026-04-21 post-Chu kỳ 13.
-// Chu kỳ 9 update: Mega 6/45 ExpDecay_Cold Suggestive → Reject (direction flip split-half).
-// See lib/backtest-data.ts for canonical source consumed by BacktestCard.
-const BACKTEST_RESULTS = {
-  power_655: {
-    label: "Power 6/55",
-    baseline: { E: 0.6545, winPct: 1.333 },
-    totalDraws: 1334,
-    strategies: [
-      { name: "★ Bayesian AI", avg: 0.6853, delta: +0.0308, winPct: 1.648, roi: -91.4, best: 4, type: "new" as const, pValue: 0.511, decision: "Reject" as Decision },
-      { name: "Tần suất cao", avg: 0.6780, delta: +0.0235, winPct: 1.513, roi: -93.3, best: 4, type: "old" as const, pValue: 0.848, decision: "Reject" as Decision },
-      { name: "Random", avg: 0.6764, delta: +0.0219, winPct: 1.459, roi: -94.2, best: 4, type: "base" as const, decision: "baseline" as Decision },
-      { name: "★ Phủ sóng tối đa", avg: 0.6613, delta: +0.0068, winPct: 1.540, roi: -94.7, best: 4, type: "new" as const, pValue: 0.774, decision: "Reject" as Decision },
-      { name: "★ Mẫu cấu trúc ¹", avg: 0.6575, delta: +0.0030, winPct: 1.594, roi: -93.0, best: 4, type: "new" as const, pValue: 0.636, decision: "Reject" as Decision },
-      { name: "Số vắng lâu", avg: 0.6394, delta: -0.0151, winPct: 1.243, roi: -94.1, best: 4, type: "old" as const, pValue: 0.421, decision: "Reject" as Decision },
-      { name: "★ Tự động tối ưu", avg: 0.6405, delta: -0.0140, winPct: 1.270, roi: -94.7, best: 4, type: "new" as const, pValue: 0.483, decision: "Reject" as Decision },
-    ],
-  },
-  power_645: {
-    label: "Mega 6/45",
-    baseline: { E: 0.8, winPct: 2.383 },
-    totalDraws: 1302,
-    strategies: [
-      { name: "Suy giảm hàm mũ (Cold) ⚠", avg: 0.8089, delta: +0.0089, winPct: 2.912, roi: -56.9, best: 5, type: "old" as const, pValue: 0.0044, decision: "Reject" as Decision }, // Chu kỳ 9 split-half direction flip
-      { name: "★ Phủ sóng tối đa", avg: 0.8103, delta: +0.0103, winPct: 2.440, roi: -57.5, best: 5, type: "new" as const, pValue: 0.105, decision: "Reject" as Decision },
-      { name: "★ Kết hợp (Ensemble)", avg: 0.8073, delta: +0.0073, winPct: 2.579, roi: -63.9, best: 5, type: "new" as const, pValue: 0.046, decision: "Suggestive" as Decision },
-      { name: "★ Bayesian AI", avg: 0.8070, delta: +0.0070, winPct: 2.579, roi: -88.5, best: 4, type: "new" as const, pValue: 0.046, decision: "Suggestive" as Decision },
-      { name: "★ Mẫu cấu trúc ¹", avg: 0.7995, delta: -0.0005, winPct: 2.413, roi: -87.5, best: 4, type: "new" as const, pValue: 0.123, decision: "Reject" as Decision },
-      { name: "★ Bayesian AI (Sharp)", avg: 0.7992, delta: -0.0008, winPct: 2.357, roi: -89.2, best: 4, type: "new" as const, pValue: 0.165, decision: "Reject" as Decision },
-      { name: "Tần suất cao", avg: 0.7978, delta: -0.0022, winPct: 1.969, roi: -89.6, best: 4, type: "old" as const, pValue: 0.797, decision: "Reject" as Decision },
-      { name: "Random", avg: 0.7976, delta: -0.0024, winPct: 1.886, roi: -92.1, best: 4, type: "base" as const, decision: "baseline" as Decision },
-    ],
-  },
-  power_535: {
-    label: "Lotto 5/35",
-    baseline: { E: 0.7143, winPct: 1.386 },
-    totalDraws: 539,
-    strategies: [
-      { name: "★ Tự động tối ưu", avg: 0.7525, delta: +0.0382, winPct: 1.898, roi: -87.1, best: 4, type: "new" as const, pValue: 0.157, decision: "Reject" as Decision },
-      { name: "Tần suất cặp", avg: 0.7472, delta: +0.0329, winPct: 1.367, roi: -93.2, best: 3, type: "old" as const, pValue: 0.730, decision: "Reject" as Decision },
-      { name: "★ Khoảng cách tối đa", avg: 0.7229, delta: +0.0086, winPct: 1.671, roi: -91.7, best: 3, type: "new" as const, pValue: 0.327, decision: "Reject" as Decision },
-      { name: "★ Phủ sóng tối đa", avg: 0.7183, delta: +0.0040, winPct: 1.746, roi: -84.4, best: 4, type: "new" as const, pValue: 0.259, decision: "Reject" as Decision },
-      { name: "Random", avg: 0.7175, delta: +0.0032, winPct: 1.215, roi: -90.5, best: 4, type: "base" as const, decision: "baseline" as Decision },
-      { name: "★ Bayesian AI", avg: 0.7046, delta: -0.0097, winPct: 1.746, roi: -84.4, best: 4, type: "new" as const, pValue: 0.259, decision: "Reject" as Decision },
-      { name: "★ Mẫu cấu trúc ¹", avg: 0.6970, delta: -0.0173, winPct: 1.367, roi: -93.2, best: 3, type: "new" as const, pValue: 0.730, decision: "Reject" as Decision },
-      { name: "🔬 HybridParityDiv (N=20)", avg: 0.7075, delta: -0.0068, winPct: 25.89, roi: -91.4, best: 4, type: "new" as const, pValue: 0.301, decision: "Reject" as Decision },
-    ],
-  },
-};
+// Backtest results alias from SSOT in lib/backtest-data.ts.
+// Previously duplicated inline — consolidated 2026-04-21 (Phase B refactor).
+// Any future cycle updates → edit lib/backtest-data.ts ONLY.
+const BACKTEST_RESULTS = BACKTEST_MATRIX;
 
 const RECOMMENDATIONS = [
   {
@@ -359,51 +298,11 @@ const RECOMMENDATIONS = [
 ];
 
 // ============================================================
-// 3D Products backtest data — refreshed 2026-04-21 post-Chu kỳ 13 (28 strategies tested total).
-// All Reject per 3-gate protocol. See lib/backtest-data.ts for canonical source.
-// Key additions: Chu kỳ 11 Copula variants, Chu kỳ 12 GBM (overfit confirmed 12.5), Chu kỳ 13 Pool variants.
+// 3D Products backtest data — SSOT in lib/backtest-data.ts
+// (consolidated 2026-04-21 Phase B refactor — was triple-duplicated).
 // ============================================================
 
-const BACKTEST_RESULTS_3D = {
-  "3d": {
-    label: "Max 3D",
-    totalDraws: 1065,
-    baseline: { exactPct: 1.704 },
-    strategies: [
-      { name: "🧬 Bias liên hợp (JointBias)", exactPct: 2.010, roi: -52.5, type: "research" as const, pValue: 0.107, decision: "Reject" as Decision }, // mechanism anchor
-      { name: "Tần suất cao (FreqWholeHot) ⚠", exactPct: 1.862, roi: -46.7, type: "best" as const, pValue: 0.396, decision: "Reject" as Decision }, // Chu kỳ 7 replication Reject
-      { name: "🔬 EmpiricalCopula (Chu kỳ 11)", exactPct: 2.118, roi: -44.3, type: "research" as const, pValue: 0.031, decision: "Reject" as Decision }, // fwd flip −0.5pp
-      { name: "🔬 GaussianCopulaEmpMargins (Chu kỳ 11)", exactPct: 1.941, roi: -41.5, type: "research" as const, pValue: 0.208, decision: "Reject" as Decision },
-      { name: "🤖 GBMDigitClassifier (Chu kỳ 12) ⚠", exactPct: 5.310, roi: +37.3, type: "research" as const, pValue: 0.0000, decision: "Reject" as Decision }, // Principle #14 magnitude flag + Chu kỳ 12.5 overfit audit
-      { name: "🔬 PooledDigitBias (Chu kỳ 13)", exactPct: 2.049, roi: -52.8, type: "research" as const, pValue: 0.070, decision: "Reject" as Decision },
-      { name: "🔬 HierarchicalBayesDigit (Chu kỳ 13)", exactPct: 2.197, roi: -52.4, type: "research" as const, pValue: 0.011, decision: "Reject" as Decision }, // fwd flip −1.2pp
-      { name: "PairExploiter (T=0.5)", exactPct: 2.248, roi: -36.7, type: "research" as const, pValue: 0.171, decision: "Reject" as Decision },
-      { name: "★ Phủ sóng tối đa (CoverageOpt)", exactPct: 2.219, roi: -35.8, type: "new" as const, pValue: 0.220, decision: "Reject" as Decision },
-      { name: "ULTIMATE_v1", exactPct: 2.219, roi: -44.9, type: "research" as const, pValue: 0.220, decision: "Reject" as Decision },
-      { name: "💰 EV tối đa (EVMaximizer) ⚠", exactPct: 1.874, roi: -56.9, type: "research" as const, pValue: 0.609, decision: "Reject" as Decision }, // Chu kỳ 7 3D Pro Reject (flip)
-      { name: "Random", exactPct: 1.704, roi: -51.9, type: "base" as const, decision: "baseline" as Decision },
-    ],
-  },
-  "3d_pro": {
-    label: "Max 3D Pro",
-    totalDraws: 711,
-    baseline: { exactPct: 1.997 },
-    strategies: [
-      { name: "🧬 Bias liên hợp (JointBias)", exactPct: 2.375, roi: -31.5, type: "research" as const, pValue: 0.137, decision: "Reject" as Decision }, // strongest directional
-      { name: "💰 EV tối đa (EVMaximizer) ⚠", exactPct: 2.496, roi: -26.5, type: "research" as const, pValue: 0.053, decision: "Reject" as Decision }, // Chu kỳ 7 split-half h1 p=0.0007 → h2 p=0.865 flip
-      { name: "🤖 GBMDigitClassifier (Chu kỳ 12) ⚠", exactPct: 5.068, roi: +59.4, type: "research" as const, pValue: 0.0000, decision: "Reject" as Decision }, // Technical Accept per rule, Chu kỳ 12.5 audit overfit → deprecated
-      { name: "ULTIMATE_v2_sharp", exactPct: 2.421, roi: -27.5, type: "research" as const, pValue: 0.098, decision: "Reject" as Decision },
-      { name: "🔬 HierarchicalBayesDigit (Chu kỳ 13)", exactPct: 1.876, roi: -50.0, type: "research" as const, pValue: 0.614, decision: "Reject" as Decision }, // full Δ<0
-      { name: "🔬 PooledDigitBias (Chu kỳ 13)", exactPct: 1.740, roi: -51.2, type: "research" as const, pValue: 0.275, decision: "Reject" as Decision }, // full Δ<0, pool hurts
-      { name: "🔬 EmpiricalCopula (Chu kỳ 11)", exactPct: 1.937, roi: -50.0, type: "research" as const, pValue: 0.802, decision: "Reject" as Decision },
-      { name: "🔬 GaussianCopulaEmpMargins (Chu kỳ 11)", exactPct: 1.997, roi: -39.4, type: "research" as const, pValue: 1.000, decision: "Reject" as Decision }, // Δ=0
-      { name: "TierWeighted", exactPct: 2.179, roi: -43.0, type: "research" as const, pValue: 0.465, decision: "Reject" as Decision },
-      { name: "BayesJoint (HL=150 Sharp)", exactPct: 2.163, roi: -45.0, type: "research" as const, pValue: 0.503, decision: "Reject" as Decision },
-      { name: "Random", exactPct: 1.997, roi: -45.4, type: "base" as const, decision: "baseline" as Decision },
-      { name: "Tần suất cao (FreqWholeHot)", exactPct: 1.937, roi: -38.5, type: "best" as const, pValue: 0.802, decision: "Reject" as Decision },
-    ],
-  },
-};
+const BACKTEST_RESULTS_3D = BACKTEST_3D;
 
 const RECOMMENDATIONS_3D = [
   {

@@ -16,28 +16,9 @@ import {
   BACKTEST_3D,
   type MatrixBacktest,
   type ThreeDBacktest,
-  type Decision,
 } from "@/lib/backtest-data";
-
-function DecisionBadge({ d }: { d?: Decision }) {
-  if (!d || d === "baseline") return null;
-  const styles: Record<Decision, string> = {
-    Accept: "bg-green-600 text-white",
-    Suggestive: "bg-yellow-500 text-black",
-    Inconclusive: "bg-gray-400 text-white",
-    Reject: "bg-muted text-muted-foreground",
-    baseline: "",
-  };
-  return (
-    <Badge className={`text-[9px] px-1 py-0 ${styles[d]}`}>{d}</Badge>
-  );
-}
-
-function formatPValue(p?: number) {
-  if (p === undefined) return "—";
-  if (p < 0.001) return "<0.001";
-  return p.toFixed(3);
-}
+import { DecisionBadge } from "@/components/common/DecisionBadge";
+import { formatPValue } from "@/lib/format";
 
 interface Props {
   slug: string;

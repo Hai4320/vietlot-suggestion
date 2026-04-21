@@ -128,8 +128,11 @@ export const BACKTEST_3D: Record<string, ThreeDBacktest> = {
       { name: "🤖 GBMDigitClassifier (Chu kỳ 12)", exactPct: 5.310, roi: +37.3, type: "research", pValue: 0.000, decision: "Reject" }, // ⚠️ overfit: fwd flip −1.9pp (p=0.002 against), Principle #14 magnitude flag
       { name: "🔬 PooledDigitBias (Chu kỳ 13)", exactPct: 2.049, roi: -52.8, type: "research", pValue: 0.070, decision: "Reject" }, // fwd flip −1.1pp
       { name: "🔬 HierarchicalBayesDigit (Chu kỳ 13)", exactPct: 2.197, roi: -52.4, type: "research", pValue: 0.011, decision: "Reject" }, // fwd flip −1.2pp (5th validation Principle #13)
-      { name: "Random", exactPct: 1.704, roi: -51.9, type: "base", decision: "baseline" },
+      { name: "PairExploiter (T=0.5)", exactPct: 2.248, roi: -36.7, type: "research", pValue: 0.171, decision: "Reject" },
+      { name: "★ Phủ sóng tối đa (CoverageOpt)", exactPct: 2.219, roi: -35.8, type: "new", pValue: 0.220, decision: "Reject" },
+      { name: "ULTIMATE_v1", exactPct: 2.219, roi: -44.9, type: "research", pValue: 0.220, decision: "Reject" },
       { name: "💰 EV tối đa (EVMaximizer)", exactPct: 1.874, roi: -56.9, type: "research", pValue: 0.609, decision: "Reject" }, // ⚠️ Chu kỳ 7 split-half Reject (3D Pro)
+      { name: "Random", exactPct: 1.704, roi: -51.9, type: "base", decision: "baseline" },
     ],
   },
   "max-3d-pro": {
@@ -146,6 +149,7 @@ export const BACKTEST_3D: Record<string, ThreeDBacktest> = {
       { name: "🔬 GaussianCopulaEmpMargins (Chu kỳ 11)", exactPct: 1.997, roi: -39.4, type: "research", pValue: 1.000, decision: "Reject" }, // Δ=0
       { name: "🔬 EmpiricalCopula (Chu kỳ 11)", exactPct: 1.937, roi: -50.0, type: "research", pValue: 0.802, decision: "Reject" }, // full Δ<0
       { name: "TierWeighted", exactPct: 2.179, roi: -43.0, type: "research", pValue: 0.465, decision: "Reject" },
+      { name: "BayesJoint (HL=150 Sharp)", exactPct: 2.163, roi: -45.0, type: "research", pValue: 0.503, decision: "Reject" },
       { name: "Random", exactPct: 1.997, roi: -45.4, type: "base", decision: "baseline" },
       { name: "Tần suất cao (FreqWholeHot)", exactPct: 1.937, roi: -38.5, type: "best", pValue: 0.802, decision: "Reject" },
     ],
