@@ -11,6 +11,8 @@
 > **Cập nhật 2026-04-21 (post Chu kỳ 13)**: 3D research line CLOSED. Chu kỳ 11/12/12.5/13 đã dùng cho 3D paths (Copula, GBM, Cross-product pool) — 4/4 Reject. **Chu kỳ 14 = Path #1 Online Bayesian trên matrix products** (đã defer 3 chu kỳ chờ 3D exhaust). Paths #2/#3/#5 cho matrix vẫn untested.
 >
 > **Cập nhật 2026-04-21 (post Chu kỳ 14)**: Path #1 Online Bayesian Reject 6/6 trên matrix. Drift hypothesis falsified (bias stable same as 3D). **Adaptive/drift-based family ELIMINATED** from future roadmap. Chu kỳ 15 = user decision giữa Path #3 (Cross-product matrix, win-rate axis) và Path #2 (Kelly portfolio, ROI-axis pivot).
+>
+> **Cập nhật 2026-04-21 (post Chu kỳ 15)**: Path #3 Cross-product Joint Matrix 5/6 Reject + 1/6 Inconclusive. Shared-RNG hypothesis falsified on matrix (Lotto pool hurt Δ=−0.677pp p=0.046, consistent Chu kỳ 13 3D finding). **Win-rate mechanism space FULLY EXHAUSTED** across both product families (~55 strategies × 5 products × 3-gate = 0 robust Accept). **Chu kỳ 16 MANDATORY pivot → Path #2 Kelly Portfolio (ROI-axis)**.
 
 ---
 
@@ -19,9 +21,9 @@
 | # | Path | Effort | Win-rate impact | ROI impact | Novelty | Recommend order |
 |:-:|------|:-:|:-:|:-:|:-:|:-:|
 | 1 | Online Bayesian (Kalman-style) — matrix | Low | **▲▲▲ DIRECT** (adapts posterior P(num_i)) | ▲ | Medium | ~~1st~~ **Chu kỳ 14 — 6/6 Reject** (drift falsified) |
-| 3 | Cross-product joint model — matrix (Power/Mega/Lotto overlap) | Med | **▲▲▲** (3× data → better P estimates) | ▲ | High | **1st now (Chu kỳ 15 Option A)** — lưu ý: variant 3D (Path B) đã Reject Chu kỳ 13 |
-| 5 | Copula-based dependency modeling — matrix | Med-High | **▲▲** (captures joint → better P(any k)) | ▲ | High | 3rd — lưu ý: variant 3D đã Reject Chu kỳ 11 |
-| 2 | Kelly-optimal multi-ticket portfolio | Low-Med | ▲ (indirect via portfolio opt) | ▲▲▲ | High | **2nd now (Chu kỳ 15 Option B)** — pivot to ROI-axis sau khi win-rate paths consistently null |
+| 3 | Cross-product joint model — matrix (Power/Mega/Lotto overlap) | Med | **▲▲▲** (3× data → better P estimates) | ▲ | High | ~~1st now~~ **Chu kỳ 15 — 5/6 Reject + 1/6 Inconclusive** (shared-RNG falsified; Lotto pool hurt −0.677pp) |
+| 5 | Copula-based dependency modeling — matrix | Med-High | **▲▲** (captures joint → better P(any k)) | ▲ | High | Deprioritize — long-shot after win-rate axis exhausted; variant 3D đã Reject Chu kỳ 11 |
+| 2 | Kelly-optimal multi-ticket portfolio | Low-Med | ▲ (indirect via portfolio opt) | ▲▲▲ | High | **1st now (Chu kỳ 16 MANDATORY)** — ROI-axis pivot after win-rate exhausted |
 | 6 | Genetic algorithm strategy search | Med | ▲▲ (optimizes composite, overfit risk) | ▲ | Medium | 5th |
 | 4 | Neural sequence (LSTM / Transformer) | High | ▲ (theoretically, overfit likely) | ▲ | Very high | 6th |
 | 7 | Reinforcement learning (bandit) | High | ▲ | ▲▲ | Very high | Not recommended until 1-6 explored |

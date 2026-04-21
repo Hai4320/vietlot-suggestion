@@ -158,4 +158,89 @@ Same constraints as Chu kỳ 14 (matrix Δ ≈ 0.3pp expected vs baseline 2.4%):
 
 ---
 
-*Pre-registered: 2026-04-21 — Chu Kỳ 15 Path #3 Cross-product Joint Matrix. Implementation pending user approval.*
+*Pre-registered: 2026-04-21 — Chu Kỳ 15 Path #3 Cross-product Joint Matrix. User approved, backtest executed cùng ngày.*
+
+### Result — Chu Kỳ 15 (2026-04-21, cùng ngày pre-registration)
+
+**Verdict: 5/6 Reject + 1/6 Inconclusive — Path #3 matrix variant eliminated. Shared-RNG hypothesis FALSIFIED on matrix (consistent Chu kỳ 13 3D). Win-rate mechanism space FULLY EXHAUSTED across both product families.**
+
+Raw results: [`../matrix/cycle15_cross_product_results.json`](../matrix/cycle15_cross_product_results.json). Run log: [`../matrix/cycle15_cross_product_output.log`](../matrix/cycle15_cross_product_output.log). Total runtime 461s (≈7.5 min) on 30,030 predictions across 3 products.
+
+#### Result matrix (per pre-reg 6 cells)
+
+| # | Strategy | Product | Full Δ (p) | Split | Forward Δ (p) | **Overall** |
+|:-:|----------|---------|:-:|:-:|:-:|:-:|
+| H1 | PooledMatrixBias | Mega 6/45 | **−0.117 (0.67)** | Reject (Δ<0) | +0.200 (0.83) | **Reject** |
+| H2 | PooledMatrixBias | Power 6/55 | +0.032 (0.87) | Reject (h1 Δ=−0.106 flip) | **−0.400 (0.52)** | **Reject** |
+| H3 | PooledMatrixBias | Lotto 5/35 | **−0.677 (0.046)** | Reject (Δ<0) | **−1.200 (0.39)** | **Reject** (Δ<0 nominal sig) |
+| H4 | HierarchicalBayesMatrix w=0.5 | Mega 6/45 | **−0.299 (0.26)** | Reject (Δ<0) | +0.600 (0.55) | **Reject** |
+| H5 | HierarchicalBayesMatrix w=0.5 | Power 6/55 | +0.032 (0.87) | Reject (h2 Δ=+0.030 tiny) | +0.200 (0.80) | **Inconclusive** |
+| H6 | HierarchicalBayesMatrix w=0.5 | Lotto 5/35 | **−0.677 (0.046)** | Reject (Δ<0) | **−1.200 (0.39)** | **Reject** (Δ<0 nominal sig) |
+
+#### Per-product detail
+
+**Mega 6/45 (N=1302)**:
+
+| Strategy | Full % | H1 % | H2 % | Fwd % | Full Δ (p) | vs Bayes (full) |
+|----------|:-:|:-:|:-:|:-:|:-:|:-:|
+| Random | 2.363 | 2.033 | 2.704 | 2.000 | — | — |
+| Bayesian (anchor) | 2.696 | 2.432 | 2.519 | 1.200 | +0.333 (0.21) | — |
+| PooledMatrixBias | 2.246 | 2.105 | 2.704 | 2.200 | −0.117 (0.67) | **−0.450** (worse) |
+| HierBayesMatrix w0.5 | 2.063 | 1.887 | 2.396 | 2.600 | −0.299 (0.26) | **−0.633** (worse) |
+
+**Power 6/55 (N=1334)**:
+
+| Strategy | Full % | H1 % | H2 % | Fwd % | Full Δ (p) | vs Bayes (full) |
+|----------|:-:|:-:|:-:|:-:|:-:|:-:|
+| Random | 1.264 | 1.270 | 0.990 | 1.200 | — | — |
+| Bayesian (anchor) | 1.361 | 1.446 | 1.289 | 1.400 | +0.097 (0.66) | — |
+| PooledMatrixBias | 1.297 | 1.164 | 1.439 | 0.800 | +0.032 (0.87) | −0.065 |
+| HierBayesMatrix w0.5 | 1.297 | 1.305 | 1.020 | 1.400 | +0.032 (0.87) | −0.065 |
+
+**Lotto 5/35 (N=543)** — most telling:
+
+| Strategy | Full % | H1 % | H2 % | Fwd % | Full Δ (p) | vs Bayes (full) |
+|----------|:-:|:-:|:-:|:-:|:-:|:-:|
+| Random | 1.625 | 1.871 | 1.397 | 2.400 | — | — |
+| Bayesian (anchor) | 1.580 | 1.754 | 1.471 | 1.600 | −0.045 (0.90) | — |
+| PooledMatrixBias | **0.948** | 1.170 | 1.323 | 1.200 | **−0.677 (0.046)** | **−0.632** (much worse) |
+| HierBayesMatrix w0.5 | **0.948** | 0.936 | 1.765 | 1.200 | **−0.677 (0.046)** | **−0.632** (much worse) |
+
+#### Principle #14 magnitude check
+
+All 6 hypotheses: `|Δ_full| ≤ 0.677pp < 0.9pp threshold` → **no auto-flag**. Lotto negative Δ=−0.677pp borderline but within limit. Clean result.
+
+#### Tournament composite (§8.2, full-sample)
+
+- **Mega 6/45**: Freq_Hot #1 (driven by +17pp ROI outlier noise, same as Chu kỳ 14). OnlineBayes_λ0.01 #2, Bayesian #3. Pooled strategies not in top 3.
+- **Power 6/55**: Bayesian (own-product) #1, PooledMatrixBias/HierBayes #2-3 (Δ_win=+0.032pp).
+- **Lotto 5/35**: OnlineBayes_λ0.01 #1 (same as Chu kỳ 14), Adaptive #2. Pooled strategies in bottom tier.
+
+Pool strategies **never tournament top-1** across 3 products → mechanism không competitive ngay cả với weak baseline z-normalization.
+
+### Bài học Chu Kỳ 15
+
+- 🎯 **Shared-RNG hypothesis FALSIFIED on matrix** — replicates Chu kỳ 13 3D finding (Max 3D Pro pooling hurt −0.64pp vs JointDigitBias). Lotto 5/35 pool hurt **−0.632pp vs own-product Bayesian** — gần identical magnitude với Chu kỳ 13 3D hurt. Cross-product pooling **consistently bad across both product families** khi bias patterns distinct.
+
+- 🎯 **Data horizon artifact trên Lotto**: Lotto has only 543 draws (post-2025-06), nên pool evidence từ Power/Mega **dominates numerically** (Power+Mega contribute ~7900 draws of numbers in [1,35] vs Lotto's ~2000). Pool "drowns" Lotto's own signal với Power/Mega's distinct distribution → measurable harm Δ=−0.68pp. Validates "products have distinct RNG distributions" stronger hơn symmetric case.
+
+- 🎯 **Principle #14 magnitude check held** — all |Δ| ≤ 0.677pp < 0.9pp threshold. No false Accept risk. Lotto borderline nominal sig p=0.046 direction NEGATIVE → "significant evidence that pooling HURTS", not "significant evidence of edge". Correct null-rejection semantics.
+
+- 🎯 **Win-rate axis FULLY EXHAUSTED** cross-product × 2 family × 5 paradigms:
+  - 3D frequency/probabilistic/joint/copula/discriminative/pooled — all Reject (Chu kỳ 4-13)
+  - Matrix frequency/Bayesian/adaptive/online/pooled — all Reject (Chu kỳ 1-15)
+  - Project-wide ~55 strategies × 5 products × 3-gate = **0 robust Accept/Suggestive**
+  - Next win-rate path would be Path #4 Neural (highly likely overfit per Chu kỳ 12 lesson) or Path #6 GA (same risk) — BREAKTHROUGH_ROADMAP assigns both low priority
+  - **Mandatory pivot Chu kỳ 16 → Path #2 Kelly Portfolio** (ROI-axis, only remaining meaningful mechanism)
+
+- 🎯 **Validation of Chu kỳ 13 generalization**: Chu kỳ 13 finding "distinct bias patterns, pool hurts" predicted Chu kỳ 15 outcome correctly. Methodology corpus strengthened — shared-infrastructure hypotheses need specific evidence, not assumed.
+
+### Follow-up
+
+Per pre-registration 6/6 Reject follow-up: **Chu Kỳ 16 mandatory = Path #2 Kelly-optimal Multi-ticket Portfolio** (ROI-axis pivot).
+
+Project research focus shifts from "win-rate maximization" (confirmed near-null across all tested mechanisms) to "ROI damage minimization via portfolio theory". EV-negative game acknowledged; goal becomes "least negative ROI per dollar bet" không phải "positive ROI".
+
+---
+
+*Result appended: 2026-04-21. Chu Kỳ 15 closed. Next: Chu Kỳ 16 Path #2 Kelly Portfolio (ROI-axis pivot mandatory).*

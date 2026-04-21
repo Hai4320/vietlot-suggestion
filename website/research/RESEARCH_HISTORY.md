@@ -27,6 +27,7 @@
 | 12.5 | 04/2026 | Audit GBM "Technical Accept" (diagnostic) | No leak. Confirmed overfit. Max 3D Pro GBM **deprecated → Reject**. Principles #13/14/15 codified |
 | 13 | 04/2026 | Cross-product pooling (Path B, 3D) | **4/4 Reject** — pooling HURTS Max 3D Pro. 3D exhausted (28 strategies). Principle #13 validated 5th |
 | 14 | 04/2026 | Online Bayesian Kalman (Path #1, matrix) | **6/6 Reject** — drift hypothesis falsified; adaptive family eliminated. Principle #13 validated 6th (Lotto OnlineBayes λ=0.03) |
+| 15 | 04/2026 | Cross-product Joint Matrix (Path #3) | **5/6 Reject + 1/6 Inconclusive** — shared-RNG hypothesis falsified on matrix (Lotto pool hurt −0.677pp p=0.046). Win-rate axis fully exhausted |
 
 ---
 
@@ -49,6 +50,7 @@
 | 12.5 | [cycle12_5_audit.md](history/cycle12_5_audit.md) | GBM audit — no leak, overfit confirmed. Principles #14/#15 codified |
 | 13 | [cycle13_pool.md](history/cycle13_pool.md) | Cross-product pool (Path B) — 4/4 Reject. 3D mechanism space exhausted |
 | 14 | [cycle14_online_bayesian.md](history/cycle14_online_bayesian.md) | Online Bayesian Kalman (Path #1, matrix) — 6/6 Reject. Matrix bias stable same as 3D; adaptive family eliminated |
+| 15 | [cycle15_cross_product.md](history/cycle15_cross_product.md) | Cross-product Joint Matrix (Path #3) — 5/6 Reject + 1/6 Inconclusive. Shared-RNG falsified (matrix + 3D both). Win-rate axis exhausted |
 
 ---
 
@@ -75,12 +77,12 @@ Guardrails bất biến (từ Chu kỳ 1+):
 ## Project-Wide Cumulative State (post-Chu kỳ 13)
 
 ### Strategies tested
-- **Matrix (Power 6/55, Mega 6/45, Lotto 5/35)**: ~23 strategies across cycles 1-6, 9, 14
+- **Matrix (Power 6/55, Mega 6/45, Lotto 5/35)**: ~25 strategies across cycles 1-6, 9, 14, 15
 - **3D (Max 3D, Max 3D Pro)**: **28 strategies** across cycles 4, 6, 7, 8, 11, 12, 13
-- **Total**: ~53 strategies × 5 products × 3-gate protocol (cycles 7+)
+- **Total**: ~55 strategies × 5 products × 3-gate protocol (cycles 7+)
 
 ### Accept / Suggestive tally
-- **0** scientifically robust Accept across entire project history (post Chu kỳ 14)
+- **0** scientifically robust Accept across entire project history (post Chu kỳ 15)
 - **0** current Suggestive (last candidate ExpDecay_Cold eliminated Chu kỳ 9)
 - **0** Ship-with-caveats standing (Chu kỳ 12 GBM Max 3D Pro deprecated Chu kỳ 12.5)
 
@@ -90,26 +92,22 @@ Guardrails bất biến (từ Chu kỳ 1+):
 📄 **Full synthesis**: [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md) — 28 strategies × 8 cycles tổng hợp, mechanism analysis, methodology corpus, revisit criteria.
 
 ### Matrix research line
-**ACTIVE (weak hopes)** — Chu kỳ 14 Path #1 Online Bayesian 6/6 Reject. Drift hypothesis falsified trên matrix (consistent với Chu kỳ 8 3D finding). Adaptive/drift-based family eliminated. Remaining paths: Path #3 (Cross-product matrix Mega/Power/Lotto overlap [1,35]), Path #2 (Kelly portfolio ROI-axis), Path #5 (Copula matrix).
+**Win-rate EXHAUSTED (post Chu kỳ 15)** — Path #1 Online Bayesian 6/6 Reject (Chu kỳ 14, drift falsified), Path #3 Cross-product Pool 5/6 Reject + 1/6 Inconclusive (Chu kỳ 15, shared-RNG falsified, Lotto pool hurt −0.677pp p=0.046). Eliminated families: adaptive/drift-based, cross-product pooling, per-product Bayesian at current data horizon. **Remaining meaningful paths for matrix: Path #2 Kelly (ROI-axis), Path #5 Copula (long-shot win-rate).**
 
 ---
 
 ## Active / Next Cycle
 
-**Chu kỳ 14 (closed, 2026-04-21, 6/6 Reject)**: Path #1 Online Bayesian Kalman. Mega 6/45 all 3 λ variants Reject (split flip hoặc Δ<0). Lotto 5/35 same. See [cycle14_online_bayesian.md](history/cycle14_online_bayesian.md).
+**Chu kỳ 14 (closed, 2026-04-21, 6/6 Reject)**: Path #1 Online Bayesian. Drift hypothesis falsified. See [cycle14_online_bayesian.md](history/cycle14_online_bayesian.md).
 
-**Chu kỳ 15 (proposal, user decide)**: 2 candidates:
+**Chu kỳ 15 (closed, 2026-04-21, 5/6 Reject + 1/6 Inconclusive)**: Path #3 Cross-product Joint Matrix. Shared-RNG falsified on matrix (consistent Chu kỳ 13 3D). Lotto pool hurt nominally significant. Win-rate mechanism space EXHAUSTED. See [cycle15_cross_product.md](history/cycle15_cross_product.md).
 
-**Option A — Path #3 Cross-product Joint Matrix** (per roadmap priority):
-- Hypothesis: Power 6/55 + Mega 6/45 + Lotto 5/35 share bias on overlap [1,35] (same vendor, possibly shared physical machines)
-- Mechanism: pool bias estimates across 3 products → tighter P(number_i)
-- Win-rate axis, NOT drift-dependent
-- Caveat: Chu kỳ 13 3D variant Reject — matrix structure differs enough warrant test
-
-**Option B — Path #2 Kelly-optimal Multi-ticket Portfolio** (pivot to ROI-axis):
-- Hypothesis: win-rate stuck near-null (9 cycles); ROI optimization via multi-ticket selection tractable
-- Mechanism: Kelly criterion trên portfolio, EV-negative game explicit
-- Changes project focus from win-rate to ROI
+**Chu kỳ 16 (MANDATORY, pivot to ROI-axis)**: **Path #2 Kelly-optimal Multi-ticket Portfolio**.
+- Win-rate axis confirmed near-null across ~55 strategies × 5 products × 3-gate protocol — no more win-rate breakthroughs expected at current data horizon
+- Project focus shifts: from "future win rate maximization" to "least-negative ROI via multi-ticket Kelly allocation"
+- Mechanism: Kelly criterion on portfolio of N tickets, each with estimated P(win) from existing Bayesian baseline, maximize log-growth subject to budget + diversity constraints
+- Acknowledges EV-negative lottery game explicitly; goal "minimize ROI damage" not "profitable"
+- Untested family — different mathematical framing, could extract value from existing weak bias even if no win-rate edge
 
 Chu kỳ 12 GBM Max 3D Pro deprecated — không ship, không rank. Audit complete.
 
@@ -117,4 +115,4 @@ Chu kỳ 12 GBM Max 3D Pro deprecated — không ship, không rank. Audit comple
 
 *File restructured 2026-04-21: split into per-cycle files trong [history/](history/). Main file giờ là compact index (this file, ~180 lines vs trước 1499 lines).*
 
-*Cập nhật lần cuối: 2026-04-21 — Chu kỳ 14 closed (6/6 Reject). Chu kỳ 15 pending user decision.*
+*Cập nhật lần cuối: 2026-04-21 — Chu kỳ 15 closed (5/6 Reject + 1 Inconclusive). Win-rate axis exhausted. Chu kỳ 16 mandatory Path #2 Kelly pivot.*
