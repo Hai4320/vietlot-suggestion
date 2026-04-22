@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "checklist_item": "A5 min-N table",
+    "alpha": 0.005,
+    "bonferroni_k_assumed": 10,
+    "effect_sizes_pp": [
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.5,
+      1.0
+    ],
+    "power_targets": [
+      0.5,
+      0.8
+    ],
+    "n_underpowered_at_0_3pp_80pct": 5
+  },
+  "rows": [
+    {
+      "product": "max_3d",
+      "N_current": 1065,
+      "p0_baseline_pct": 2.0,
+      "n_req_\u03940.05pp_power50": 1250617,
+      "n_req_\u03940.05pp_power80": 2112976,
+      "n_req_\u03940.1pp_power50": 316431,
+      "n_req_\u03940.1pp_power80": 534625,
+      "n_req_\u03940.2pp_power50": 80993,
+      "n_req_\u03940.2pp_power80": 136842,
+      "n_req_\u03940.3pp_power50": 36833,
+      "n_req_\u03940.3pp_power80": 62231,
+      "n_req_\u03940.5pp_power50": 13860,
+      "n_req_\u03940.5pp_power80": 23418,
+      "n_req_\u03941.0pp_power50": 3838,
+      "n_req_\u03941.0pp_power80": 6484
+    },
+    {
+      "product": "max_3d_pro",
+      "N_current": 711,
+      "p0_baseline_pct": 2.0,
+      "n_req_\u03940.05pp_power50": 1250617,
+      "n_req_\u03940.05pp_power80": 2112976,
+      "n_req_\u03940.1pp_power50": 316431,
+      "n_req_\u03940.1pp_power80": 534625,
+      "n_req_\u03940.2pp_power50": 80993,
+      "n_req_\u03940.2pp_power80": 136842,
+      "n_req_\u03940.3pp_power50": 36833,
+      "n_req_\u03940.3pp_power80": 62231,
+      "n_req_\u03940.5pp_power50": 13860,
+      "n_req_\u03940.5pp_power80": 23418,
+      "n_req_\u03941.0pp_power50": 3838,
+      "n_req_\u03941.0pp_power80": 6484
+    },
+    {
+      "product": "power_655",
+      "N_current": 1334,
+      "p0_baseline_pct": 1.5,
+      "n_req_\u03940.05pp_power50": 946628,
+      "n_req_\u03940.05pp_power80": 1599373,
+      "n_req_\u03940.1pp_power50": 240473,
+      "n_req_\u03940.1pp_power80": 406290,
+      "n_req_\u03940.2pp_power50": 62024,
+      "n_req_\u03940.2pp_power80": 104791,
+      "n_req_\u03940.3pp_power50": 28411,
+      "n_req_\u03940.3pp_power80": 48002,
+      "n_req_\u03940.5pp_power50": 10835,
+      "n_req_\u03940.5pp_power80": 18305,
+      "n_req_\u03941.0pp_power50": 3085,
+      "n_req_\u03941.0pp_power80": 5212
+    },
+    {
+      "product": "power_645",
+      "N_current": 1302,
+      "p0_baseline_pct": 2.0,
+      "n_req_\u03940.05pp_power50": 1250617,
+      "n_req_\u03940.05pp_power80": 2112976,
+      "n_req_\u03940.1pp_power50": 316431,
+      "n_req_\u03940.1pp_power80": 534625,
+      "n_req_\u03940.2pp_power50": 80993,
+      "n_req_\u03940.2pp_power80": 136842,
+      "n_req_\u03940.3pp_power50": 36833,
+      "n_req_\u03940.3pp_power80": 62231,
+      "n_req_\u03940.5pp_power50": 13860,
+      "n_req_\u03940.5pp_power80": 23418,
+      "n_req_\u03941.0pp_power50": 3838,
+      "n_req_\u03941.0pp_power80": 6484
+    },
+    {
+      "product": "power_535",
+      "N_current": 543,
+      "p0_baseline_pct": 1.5,
+      "n_req_\u03940.05pp_power50": 946628,
+      "n_req_\u03940.05pp_power80": 1599373,
+      "n_req_\u03940.1pp_power50": 240473,
+      "n_req_\u03940.1pp_power80": 406290,
+      "n_req_\u03940.2pp_power50": 62024,
+      "n_req_\u03940.2pp_power80": 104791,
+      "n_req_\u03940.3pp_power50": 28411,
+      "n_req_\u03940.3pp_power80": 48002,
+      "n_req_\u03940.5pp_power50": 10835,
+      "n_req_\u03940.5pp_power80": 18305,
+      "n_req_\u03941.0pp_power50": 3085,
+      "n_req_\u03941.0pp_power80": 5212
+    }
+  ],
+  "underpowered_products": [
+    {
+      "product": "max_3d",
+      "N_current": 1065,
+      "N_required_for_\u03940.3pp_80%": 62231,
+      "ratio": 0.017
+    },
+    {
+      "product": "max_3d_pro",
+      "N_current": 711,
+      "N_required_for_\u03940.3pp_80%": 62231,
+      "ratio": 0.011
+    },
+    {
+      "product": "power_655",
+      "N_current": 1334,
+      "N_required_for_\u03940.3pp_80%": 48002,
+      "ratio": 0.028
+    },
+    {
+      "product": "power_645",
+      "N_current": 1302,
+      "N_required_for_\u03940.3pp_80%": 62231,
+      "ratio": 0.021
+    },
+    {
+      "product": "power_535",
+      "N_current": 543,
+      "N_required_for_\u03940.3pp_80%": 48002,
+      "ratio": 0.011
+    }
+  ]
+}

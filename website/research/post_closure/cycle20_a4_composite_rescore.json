@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "checklist_item": "A4 composite re-score",
+    "weights": {
+      "win_rate": 0.4,
+      "roi_pct": 0.3,
+      "sharpe": 0.15,
+      "p_neg_log": 0.15
+    },
+    "description": "Re-rank cycles 7-17 strategies by composite z-score. Flag groups where composite-top \u2260 single-metric-top",
+    "n_groups": 8,
+    "n_flips": 5
+  },
+  "flips": [
+    {
+      "cycle": "cycle17",
+      "product": "max_3d",
+      "win_top": "HMM_K2_W40(FreqWholeHot/Random)",
+      "roi_top": "FreqWholeHot",
+      "composite_top": "HMM_K2_W40(FreqWholeHot/Random)",
+      "comp_top_composite": 0.175,
+      "win_top_composite": 0.175,
+      "n_strategies": 3
+    },
+    {
+      "cycle": "cycle14",
+      "product": "power_645",
+      "win_top": "Bayesian",
+      "roi_top": "Freq_Hot",
+      "composite_top": "Freq_Hot",
+      "comp_top_composite": 1.046,
+      "win_top_composite": 0.56,
+      "n_strategies": 9
+    },
+    {
+      "cycle": "cycle14",
+      "product": "power_535",
+      "win_top": "Adaptive",
+      "roi_top": "OnlineBayes_\u03bb0.01",
+      "composite_top": "OnlineBayes_\u03bb0.01",
+      "comp_top_composite": 1.129,
+      "win_top_composite": 0.573,
+      "n_strategies": 9
+    },
+    {
+      "cycle": "cycle15",
+      "product": "power_645",
+      "win_top": "Bayesian",
+      "roi_top": "Freq_Hot",
+      "composite_top": "Freq_Hot",
+      "comp_top_composite": 1.127,
+      "win_top_composite": 0.612,
+      "n_strategies": 9
+    },
+    {
+      "cycle": "cycle15",
+      "product": "power_535",
+      "win_top": "Adaptive",
+      "roi_top": "OnlineBayes_\u03bb0.01",
+      "composite_top": "OnlineBayes_\u03bb0.01",
+      "comp_top_composite": 0.907,
+      "win_top_composite": 0.613,
+      "n_strategies": 9
+    }
+  ]
+}

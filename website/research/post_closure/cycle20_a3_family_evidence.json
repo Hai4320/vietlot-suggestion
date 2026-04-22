@@ -1,0 +1,168 @@
+{
+  "meta": {
+    "checklist_item": "A3 family evidence",
+    "description": "Convergent evidence count per mechanism family",
+    "n_families": 12,
+    "n_eliminated_families_convergent": 7
+  },
+  "per_family": {
+    "adaptive": {
+      "n_tests_full_segment": 5,
+      "cycles_tested": [
+        "cycle14",
+        "cycle15"
+      ],
+      "n_rejects": 5,
+      "n_positive_delta_rejects": 2,
+      "convergent": true,
+      "mean_delta_pp": 0.0039,
+      "min_delta_pp": -0.1997,
+      "max_delta_pp": 0.2257
+    },
+    "baseline_random": {
+      "n_tests_full_segment": 6,
+      "cycles_tested": [
+        "cycle17"
+      ],
+      "n_rejects": 6,
+      "n_positive_delta_rejects": 3,
+      "convergent": false,
+      "mean_delta_pp": -0.1304,
+      "min_delta_pp": -0.411,
+      "max_delta_pp": 0.1618
+    },
+    "bayesian": {
+      "n_tests_full_segment": 24,
+      "cycles_tested": [
+        "cycle13",
+        "cycle14",
+        "cycle15"
+      ],
+      "n_rejects": 23,
+      "n_positive_delta_rejects": 12,
+      "convergent": true,
+      "mean_delta_pp": 0.0076,
+      "min_delta_pp": -0.6772,
+      "max_delta_pp": 0.4926
+    },
+    "copula": {
+      "n_tests_full_segment": 4,
+      "cycles_tested": [
+        "cycle11"
+      ],
+      "n_rejects": 3,
+      "n_positive_delta_rejects": 1,
+      "convergent": false,
+      "mean_delta_pp": 0.1474,
+      "min_delta_pp": -0.0605,
+      "max_delta_pp": 0.4138
+    },
+    "cross_product": {
+      "n_tests_full_segment": 5,
+      "cycles_tested": [
+        "cycle13",
+        "cycle15"
+      ],
+      "n_rejects": 5,
+      "n_positive_delta_rejects": 2,
+      "convergent": true,
+      "mean_delta_pp": -0.1347,
+      "min_delta_pp": -0.6772,
+      "max_delta_pp": 0.3448
+    },
+    "frequency": {
+      "n_tests_full_segment": 14,
+      "cycles_tested": [
+        "cycle11",
+        "cycle12",
+        "cycle13",
+        "cycle14",
+        "cycle15",
+        "cycle17"
+      ],
+      "n_rejects": 14,
+      "n_positive_delta_rejects": 6,
+      "convergent": true,
+      "mean_delta_pp": -0.0297,
+      "min_delta_pp": -0.411,
+      "max_delta_pp": 0.1576
+    },
+    "gbm_discriminative": {
+      "n_tests_full_segment": 2,
+      "cycles_tested": [
+        "cycle12"
+      ],
+      "n_rejects": 0,
+      "n_positive_delta_rejects": 0,
+      "convergent": false,
+      "mean_delta_pp": 3.3385,
+      "min_delta_pp": 3.0711,
+      "max_delta_pp": 3.6059
+    },
+    "joint_digit_bias": {
+      "n_tests_full_segment": 6,
+      "cycles_tested": [
+        "cycle11",
+        "cycle12",
+        "cycle13"
+      ],
+      "n_rejects": 6,
+      "n_positive_delta_rejects": 6,
+      "convergent": true,
+      "mean_delta_pp": 0.3418,
+      "min_delta_pp": 0.3054,
+      "max_delta_pp": 0.3782
+    },
+    "kelly_portfolio": {
+      "n_tests_full_segment": 9,
+      "cycles_tested": [
+        "cycle16"
+      ],
+      "n_rejects": 9,
+      "n_positive_delta_rejects": 0,
+      "convergent": false,
+      "mean_delta_pp": -13.6935,
+      "min_delta_pp": -28.0532,
+      "max_delta_pp": -3.5666
+    },
+    "max_entropy": {
+      "n_tests_full_segment": 5,
+      "cycles_tested": [
+        "cycle14",
+        "cycle15"
+      ],
+      "n_rejects": 5,
+      "n_positive_delta_rejects": 0,
+      "convergent": true,
+      "mean_delta_pp": -0.1456,
+      "min_delta_pp": -0.2829,
+      "max_delta_pp": 0
+    },
+    "other(HotN)": {
+      "n_tests_full_segment": 3,
+      "cycles_tested": [
+        "cycle16"
+      ],
+      "n_rejects": 3,
+      "n_positive_delta_rejects": 0,
+      "convergent": false,
+      "mean_delta_pp": -0.2338,
+      "min_delta_pp": -0.4063,
+      "max_delta_pp": -0.1331
+    },
+    "pattern": {
+      "n_tests_full_segment": 8,
+      "cycles_tested": [
+        "cycle14",
+        "cycle15",
+        "cycle16"
+      ],
+      "n_rejects": 8,
+      "n_positive_delta_rejects": 1,
+      "convergent": true,
+      "mean_delta_pp": -0.2283,
+      "min_delta_pp": -0.6321,
+      "max_delta_pp": 0.7675
+    }
+  }
+}
