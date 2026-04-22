@@ -2,11 +2,20 @@
 
 Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tích cho hệ thống gợi ý số Vietlott.
 
-## 🔎 Trạng thái hiện tại (2026-04-22)
+## 🔎 Trạng thái hiện tại (2026-04-22) — PROJECT CLOSED
 
-**Chu kỳ 16 đóng** (Kelly Portfolio 9/9 Reject, Δ tới −28pp). Cumulative: **~60 strategies × 5 products × 3-gate = 0 Accept/Suggestive**. Cả win-rate và ROI axes đều exhausted với mechanisms đã thử.
+**Active breakthrough research ĐÓNG sau Chu kỳ 18**. Terminal artifact: [**PROJECT_CLOSURE_REPORT.md**](PROJECT_CLOSURE_REPORT.md).
 
-**Chu kỳ 17 PAUSED** chờ quyết định kịch bản. Đọc [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) để biết 8 hướng khuyến nghị + 3 kịch bản ghép. Pre-reg Optimization mode ([proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md)) tạm hoãn.
+**Cumulative**: ~66 strategies × 5 products × 3-gate = **0 Accept / 0 Suggestive**. Win-rate + ROI + regime-detection axes all null at current data horizon.
+
+**Cycles 16-18**:
+- Chu kỳ 16: Kelly Portfolio 9/9 Reject (ROI axis exhausted)
+- Chu kỳ 17: HMM Regime Detection 6/6 Reject (paradigm falsified; Principle #16 Retry Tree codified)
+- Chu kỳ 18: Closure report
+
+**Chu kỳ 19 OPTIONAL**: [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) Optimization mode — rank existing strategies theo ROI cho UI `picks.roi`. NOT breakthrough-search. User-initiated.
+
+**Reopen breakthrough**: chỉ khi đủ triggers — xem [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md).
 
 ## Mục tiêu (Chu kỳ 10+ — Breakthrough Mode, refined 2026-04-20)
 
@@ -130,7 +139,8 @@ research/
 
 | # | File | Mô tả | Khi nào đọc |
 |---|------|--------|-------------|
-| 0 | [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) | 🧭 Meta-analysis 16 chu kỳ + 8 hướng khuyến nghị + 3 kịch bản ghép (PAUSED decision) | Đọc ĐẦU TIÊN khi pick up project 2026-04-22+ |
+| 0 | [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | 🏁 **Terminal closure artifact** (2026-04-22) — 17 cycles consolidated, null findings catalog, reopen criteria, utility statement | Đọc ĐẦU TIÊN khi pick up project |
+| 0b | [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) | Meta-analysis 16 chu kỳ + 8 hướng + 3 kịch bản (superseded by closure report, kept for traceability) | Khi muốn hiểu lý do chọn Kịch bản 2 / Hướng C |
 
 ### Context & lịch sử
 
