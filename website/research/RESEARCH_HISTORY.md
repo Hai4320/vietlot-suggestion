@@ -29,6 +29,7 @@
 | 14 | 04/2026 | Online Bayesian Kalman (Path #1, matrix) | **6/6 Reject** — drift hypothesis falsified; adaptive family eliminated. Principle #13 validated 6th (Lotto OnlineBayes λ=0.03) |
 | 15 | 04/2026 | Cross-product Joint Matrix (Path #3) | **5/6 Reject + 1/6 Inconclusive** — shared-RNG hypothesis falsified on matrix (Lotto pool hurt −0.677pp p=0.046). Win-rate axis fully exhausted |
 | 16 | 04/2026 | Kelly-optimal Multi-ticket Portfolio (Path #2, ROI-axis) | **9/9 Reject** với Δ dramatic NEGATIVE (-3.57 to -28.05pp). Kelly concentration ⊥ set-coverage lottery. Both win-rate + ROI axes exhausted |
+| 17 | 04/2026 | HMM Regime Detection (Hướng C, Kịch bản 2 1-shot) | **6/6 Reject**. 4/6 Principle #15 collapse (single-state degenerate); 2/6 passed concentration fail split-half + forward. Discrete latent regime hypothesis falsified. **Principle #16 Retry Tree codified** (first cycle using it). |
 
 ---
 
@@ -53,6 +54,7 @@
 | 14 | [cycle14_online_bayesian.md](history/cycle14_online_bayesian.md) | Online Bayesian Kalman (Path #1, matrix) — 6/6 Reject. Matrix bias stable same as 3D; adaptive family eliminated |
 | 15 | [cycle15_cross_product.md](history/cycle15_cross_product.md) | Cross-product Joint Matrix (Path #3) — 5/6 Reject + 1/6 Inconclusive. Shared-RNG falsified (matrix + 3D both). Win-rate axis exhausted |
 | 16 | [cycle16_kelly_portfolio.md](history/cycle16_kelly_portfolio.md) | Kelly Portfolio (Path #2) — 9/9 Reject with dramatic negative Δ. Kelly concentration ⊥ set-coverage lottery. Both axes exhausted |
+| 17 | [cycle17_hmm_regime.md](history/cycle17_hmm_regime.md) | HMM Regime Detection (Hướng C Kịch bản 2) — 6/6 Reject. Principle #15 fired on 4/6 (state collapse); 2/6 concentration-pass fail split-half + forward. Principle #16 Retry Tree codified & applied. Paradigm falsified. |
 
 ---
 
@@ -107,17 +109,11 @@ Guardrails bất biến (từ Chu kỳ 1+):
 
 **Chu kỳ 16 (closed, 2026-04-21, 9/9 Reject with Δ up to −28pp)**: Path #2 Kelly Portfolio. Kelly concentration fundamentally mismatches set-coverage lottery structure (RandomN diversification beats Kelly top-M pool). Both axes now null. See [cycle16_kelly_portfolio.md](history/cycle16_kelly_portfolio.md).
 
-**Chu Kỳ 17 = PROJECT-LEVEL DECISION POINT (PAUSED 2026-04-22 chờ quyết định)**.
+**Chu kỳ 17 (closed, 2026-04-22, 6/6 Reject)**: HMM Regime Detection (Hướng C from Kịch bản 2). 4/6 Principle #15 collapse + 2/6 fail split-half/forward. Discrete latent regime hypothesis falsified. **Principle #16 Retry Tree** codified in this cycle as meta-governance improvement. See [cycle17_hmm_regime.md](history/cycle17_hmm_regime.md).
 
-📄 **Decision anchor**: [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) — meta-analysis 16 chu kỳ + 8 hướng khuyến nghị + 3 kịch bản ghép.
-
-**3 kịch bản** (user chọn):
-
-- **Kịch bản 1 — Closure nhanh**: G Closure report (3d) → H Optimization 17a+17b (2w) → ship UI. Accept null hypothesis, deliver best-we-have. Total ~3 tuần.
-- **Kịch bản 2 — 1-shot mới + closure** (default đề xuất): Hướng A Retail Betting Pool Signal (6d) hoặc C HMM regime (7d) → G Closure (3d) → H optional. Total ~2-3 tuần. Cho 1 cơ hội breakthrough trước khi close.
-- **Kịch bản 3 — Full exhaustion**: A+B+C+D+G → H. Total ~5-6 tuần.
-
-**Optimization mode pre-reg** ([cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md)) **PAUSED** chờ quyết định kịch bản.
+**Chu Kỳ 18 = NEXT (per Kịch bản 2 Stage 2)**:
+- **G — Closure report**: `PROJECT_CLOSURE_REPORT.md` consolidate 1-17 cycles (~66 strategies × 0 Accept), methodology corpus, null findings, future reopen criteria. Effort 2-3d.
+- Stage 3 optional: **H — Optimization mode** ([cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) PAUSED). Resume for `PRODUCT_RANKS.picks.roi` UI update post-closure if user wants.
 
 Chu kỳ 12 GBM Max 3D Pro deprecated — không ship, không rank. Audit complete.
 
