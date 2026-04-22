@@ -2,6 +2,8 @@
 
 **Status (2026-04-22)**: ACTIVE — doc-only improvements, no experiment. Estimated 2 ngày effort.
 
+**Companion doc**: [cycle20_evaluation_checklist.md](cycle20_evaluation_checklist.md) — before/after measurement protocol. No improvement approved without checklist pass.
+
 ### Context
 
 Sau Chu kỳ 18 Closure + Chu kỳ 19 post-closure exploration, user requested methodology self-critique. Analysis identified **4 genuine weaknesses** beyond §7.4 acknowledged gaps — structural issues that affect scientific claim quality, not just missing tests.
