@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { BACKTEST_MATRIX, BACKTEST_3D } from "@/lib/backtest-data";
 import { CYCLE22_PRODUCTS, type C22ProfileName } from "@/lib/cycle22-data";
+import { SortableBacktestTable, type BacktestRow } from "@/components/algorithms/SortableBacktestTable";
 
 // ============================================================
 // /algorithms — 13 UI strategies + Chu kỳ 22 rankings compact
@@ -173,42 +173,94 @@ function formatDelta(n: number, digits = 2) {
   return `${sign}${n.toFixed(digits)}`;
 }
 
-// Historical backtest rows for compact per-product tables
-type HistoricalRow = { name: string; metric: number; metricLabel: string; roi: number; decision?: string };
-
 type MatrixSlug = "power-655" | "power-645" | "power-535";
 type ThreeDSlug = "max-3d" | "max-3d-pro";
 
-function matrixHistoricalRows(slug: MatrixSlug): HistoricalRow[] {
-  const d = BACKTEST_MATRIX[slug];
-  if (!d) return [];
-  return d.strategies
-    .slice()
-    .sort((a, b) => b.winPct - a.winPct)
-    .slice(0, 8)
-    .map((s) => ({
-      name: s.name,
-      metric: s.winPct,
-      metricLabel: "Win %",
-      roi: s.roi,
-      decision: s.decision,
-    }));
+// Historical strategy names duplicated in Chu kỳ 22 re-backtest → skip (use C22 fresh data)
+const HIST_SKIP = new Set([
+  "Random", "Tần suất cao", "★ Mẫu cấu trúc", "Mẫu cấu trúc",
+  "★ Phủ sóng tối đa", "Phủ sóng tối đa", "★ Phủ sóng tối đa (CoverageOpt)",
+  "★ Bayesian AI", "★ Bayesian AI (Sharp)",
+  "★ Tự động tối ưu", "★ Bayes_Sharp", "★ Ensemble", "★ Khoảng cách tối đa",
+  "Số vắng lâu", "Suy giảm hàm mũ (Cold)", "ExpDecay_Cold", "Freq_Cold",
+  "NotRepeat", "Pattern", "ExpDecay_Hot", "PairFreq",
+  "Tần suất cặp", "Tần suất cao (FreqWholeHot)",
+  "🧬 Bias liên hợp (JointBias)", "💰 EV tối đa (EVMaximizer)",
+  "PairExploiter (T=0.5)", "TierWeighted", "ULTIMATE_v1", "ULTIMATE_v2_sharp",
+  "BayesJoint (HL=150 Sharp)",
+]);
+
+/** Build merged rows — Chu kỳ 22 fresh data priority, historical-only as fallback. */
+function buildMatrixRows(productSlug: MatrixSlug, c22Slug: string): BacktestRow[] {
+  const rows: BacktestRow[] = [];
+  const c22 = CYCLE22_PRODUCTS.find((p) => p.slug === c22Slug);
+  // C22 fresh rows (use balanced profile — raw data same across profiles)
+  if (c22) {
+    for (const e of c22.rankings.balanced) {
+      rows.push({
+        name: e.strategy,
+        metric: e.raw.raw_primary_pct,
+        roi: e.raw.raw_roi_pct,
+        deltaWin: e.raw.delta_win_pp,
+        deltaRoi: e.raw.delta_roi_pct,
+        pValue: e.raw.p_value_raw,
+        source: "c22",
+        excluded: e.strategy === "Random" ? false : !e.pick_eligible,
+      });
+    }
+  }
+  // Historical-only rows (not covered by C22)
+  const hist = BACKTEST_MATRIX[productSlug];
+  if (hist) {
+    for (const s of hist.strategies) {
+      if (HIST_SKIP.has(s.name)) continue;
+      rows.push({
+        name: s.name,
+        metric: s.winPct,
+        roi: s.roi,
+        pValue: s.pValue,
+        source: "historical",
+        decision: s.decision,
+        excluded: s.decision === "Reject",
+      });
+    }
+  }
+  return rows;
 }
 
-function threeDHistoricalRows(slug: ThreeDSlug): HistoricalRow[] {
-  const d = BACKTEST_3D[slug];
-  if (!d) return [];
-  return d.strategies
-    .slice()
-    .sort((a, b) => b.exactPct - a.exactPct)
-    .slice(0, 8)
-    .map((s) => ({
-      name: s.name,
-      metric: s.exactPct,
-      metricLabel: "Exact %",
-      roi: s.roi,
-      decision: s.decision,
-    }));
+function build3DRows(productSlug: ThreeDSlug, c22Slug: string): BacktestRow[] {
+  const rows: BacktestRow[] = [];
+  const c22 = CYCLE22_PRODUCTS.find((p) => p.slug === c22Slug);
+  if (c22) {
+    for (const e of c22.rankings.balanced) {
+      rows.push({
+        name: e.strategy,
+        metric: e.raw.raw_primary_pct,
+        roi: e.raw.raw_roi_pct,
+        deltaWin: e.raw.delta_win_pp,
+        deltaRoi: e.raw.delta_roi_pct,
+        pValue: e.raw.p_value_raw,
+        source: "c22",
+        excluded: e.strategy === "Random" ? false : !e.pick_eligible,
+      });
+    }
+  }
+  const hist = BACKTEST_3D[productSlug];
+  if (hist) {
+    for (const s of hist.strategies) {
+      if (HIST_SKIP.has(s.name)) continue;
+      rows.push({
+        name: s.name,
+        metric: s.exactPct,
+        roi: s.roi,
+        pValue: s.pValue,
+        source: "historical",
+        decision: s.decision,
+        excluded: s.decision === "Reject",
+      });
+    }
+  }
+  return rows;
 }
 
 export default function AlgorithmsPage() {
@@ -316,57 +368,67 @@ export default function AlgorithmsPage() {
         </div>
       </section>
 
-      {/* Historical backtest data — collapsed per product */}
+      {/* Backtest data per product — sortable, merged C22 fresh + historical */}
       <section className="space-y-4">
-        <h2 className="text-xl font-bold">📊 Dữ liệu backtest lịch sử</h2>
+        <h2 className="text-xl font-bold">📊 Dữ liệu backtest per sản phẩm</h2>
         <p className="text-xs text-muted-foreground">
-          Top 8 strategies per product theo win-rate. Historical snapshot — current picks dùng bảng <Link href="#" className="underline">Chu kỳ 22</Link> ở trên.
+          Merged: Chu kỳ 22 fresh re-backtest (rows badged <span className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded bg-primary/15 text-primary font-semibold">🔄 C22</span>) + historical strategies (excluded/không port vào C22).
+          Click tiêu đề cột để sort (theo % trúng, ROI, Δ, p-value).
         </p>
 
         <div className="grid gap-3">
           {/* Matrix */}
-          {(["power-655", "power-645", "power-535"] as MatrixSlug[]).map((slug) => {
+          {([
+            { slug: "power-655" as MatrixSlug, c22: "power-655" },
+            { slug: "power-645" as MatrixSlug, c22: "power-645" },
+            { slug: "power-535" as MatrixSlug, c22: "power-535" },
+          ]).map(({ slug, c22 }) => {
             const d = BACKTEST_MATRIX[slug];
-            if (!d) return null;
-            const rows = matrixHistoricalRows(slug);
+            const rows = buildMatrixRows(slug, c22);
+            const freshCount = rows.filter((r) => r.source === "c22").length;
             return (
               <details key={slug} className="group rounded-lg border open:bg-muted/10">
                 <summary className="cursor-pointer list-none flex items-center justify-between gap-2 p-3">
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">{d.label}</span>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-sm">{d?.label ?? slug}</span>
                     <span className="text-[10px] text-muted-foreground">
-                      N={d.totalDraws.toLocaleString()} · baseline {d.baseline.winPct.toFixed(2)}%
+                      {rows.length} strategies ({freshCount} fresh C22 + {rows.length - freshCount} historical)
+                      {d && ` · baseline ${d.baseline.winPct.toFixed(2)}%`}
                     </span>
                   </div>
                   <span className="text-xs text-muted-foreground group-open:hidden">▼ mở</span>
                   <span className="text-xs text-muted-foreground hidden group-open:inline">▲ thu gọn</span>
                 </summary>
                 <div className="px-3 pb-3">
-                  <HistoricalTable rows={rows} />
+                  <SortableBacktestTable rows={rows} metricLabel="Win %" defaultSort="metric" />
                 </div>
               </details>
             );
           })}
 
           {/* 3D */}
-          {(["max-3d", "max-3d-pro"] as ThreeDSlug[]).map((slug) => {
+          {([
+            { slug: "max-3d" as ThreeDSlug, c22: "max-3d" },
+            { slug: "max-3d-pro" as ThreeDSlug, c22: "max-3d-pro" },
+          ]).map(({ slug, c22 }) => {
             const d = BACKTEST_3D[slug];
-            if (!d) return null;
-            const rows = threeDHistoricalRows(slug);
+            const rows = build3DRows(slug, c22);
+            const freshCount = rows.filter((r) => r.source === "c22").length;
             return (
               <details key={slug} className="group rounded-lg border open:bg-muted/10">
                 <summary className="cursor-pointer list-none flex items-center justify-between gap-2 p-3">
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm">{d.label}</span>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-sm">{d?.label ?? slug}</span>
                     <span className="text-[10px] text-muted-foreground">
-                      N={d.totalDraws.toLocaleString()} · baseline {d.baseline.exactPct.toFixed(2)}%
+                      {rows.length} strategies ({freshCount} fresh C22 + {rows.length - freshCount} historical)
+                      {d && ` · baseline ${d.baseline.exactPct.toFixed(2)}%`}
                     </span>
                   </div>
                   <span className="text-xs text-muted-foreground group-open:hidden">▼ mở</span>
                   <span className="text-xs text-muted-foreground hidden group-open:inline">▲ thu gọn</span>
                 </summary>
                 <div className="px-3 pb-3">
-                  <HistoricalTable rows={rows} />
+                  <SortableBacktestTable rows={rows} metricLabel="Exact %" defaultSort="metric" />
                 </div>
               </details>
             );
@@ -392,44 +454,3 @@ export default function AlgorithmsPage() {
   );
 }
 
-function HistoricalTable({ rows }: { rows: HistoricalRow[] }) {
-  return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-xs font-mono">
-        <thead className="text-muted-foreground">
-          <tr>
-            <th className="text-right px-2 py-1 w-8">#</th>
-            <th className="text-left px-2 py-1">Strategy</th>
-            <th className="text-right px-2 py-1 w-16">{rows[0]?.metricLabel ?? ""}</th>
-            <th className="text-right px-2 py-1 w-16">ROI%</th>
-            <th className="text-left px-2 py-1 w-24">Decision</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, i) => (
-            <tr key={r.name} className="border-t border-muted/30">
-              <td className="text-right px-2 py-1 text-muted-foreground">{i + 1}</td>
-              <td className="px-2 py-1">{r.name}</td>
-              <td className="text-right px-2 py-1">{r.metric.toFixed(3)}</td>
-              <td className={`text-right px-2 py-1 ${r.roi > 0 ? "text-green-600" : r.roi < -50 ? "text-red-600" : ""}`}>
-                {r.roi.toFixed(1)}
-              </td>
-              <td className="px-2 py-1">
-                {r.decision ? (
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                    r.decision === "Accept" ? "bg-green-500/15 text-green-700 dark:text-green-400" :
-                    r.decision === "Suggestive" ? "bg-yellow-500/15 text-yellow-700 dark:text-yellow-400" :
-                    r.decision === "Reject" ? "bg-red-500/15 text-red-700 dark:text-red-400" :
-                    "bg-muted text-muted-foreground"
-                  }`}>
-                    {r.decision}
-                  </span>
-                ) : "—"}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
