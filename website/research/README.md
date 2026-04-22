@@ -2,18 +2,24 @@
 
 Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tích cho hệ thống gợi ý số Vietlott.
 
-## 🔎 Trạng thái hiện tại (2026-04-22) — PROJECT CLOSED
+## 🔎 Trạng thái hiện tại (2026-04-22) — PROJECT CLOSED + Chu kỳ 20 Methodology Refinement
 
 **Active breakthrough research ĐÓNG sau Chu kỳ 18**. Terminal artifact: [**PROJECT_CLOSURE_REPORT.md**](PROJECT_CLOSURE_REPORT.md).
 
 **Cumulative**: ~66 strategies × 5 products × 3-gate = **0 Accept / 0 Suggestive**. Win-rate + ROI + regime-detection axes all null at current data horizon.
 
-**Cycles 16-18**:
+**Cycles 16-19**:
 - Chu kỳ 16: Kelly Portfolio 9/9 Reject (ROI axis exhausted)
-- Chu kỳ 17: HMM Regime Detection 6/6 Reject (paradigm falsified; Principle #16 Retry Tree codified)
+- Chu kỳ 17: HMM Regime Detection 6/6 Reject (paradigm falsified; Principle #16 codified)
 - Chu kỳ 18: Closure report
+- Chu kỳ 19: 5 mini-cycles post-closure (FDR/ROI rank/NIST/seasonality/ensemble) → +2 falsifications, 3 methodology gaps closed
 
-**Chu kỳ 19 OPTIONAL**: [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) Optimization mode — rank existing strategies theo ROI cho UI `picks.roi`. NOT breakthrough-search. User-initiated.
+**Chu kỳ 20 IN PROGRESS — Methodology Refinement** (post-closure self-assessment):
+- 4 improvements: power-binding + Inconclusive verdict / eliminated-family tracking / composite-binding decision / power gate Phase 0
+- Doc-only, ~2 ngày effort
+- Pre-reg: [proposals/cycle20_methodology_refinement.md](proposals/cycle20_methodology_refinement.md)
+
+**Chu kỳ 21 OPTIONAL (Optimization mode)**: Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) cho UI `picks.roi`. 1-2w effort, user-initiated.
 
 **Reopen breakthrough**: chỉ khi đủ triggers — xem [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md).
 
@@ -69,12 +75,17 @@ research/
 ├── BREAKTHROUGH_ROADMAP.md         ← Novel R&D paths (Chu kỳ 10+): online, Kelly portfolio, cross-product, neural…
 │
 │   ── Context, trạng thái & lịch sử ──
-├── META_REVIEW_POST_CYCLE16.md     ← 🧭 Decision anchor hiện tại (2026-04-22): 8 hướng + 3 kịch bản
-├── RESEARCH_HISTORY.md             ← Nhật ký 16 chu kỳ đã đóng (index + corpus)
+├── PROJECT_CLOSURE_REPORT.md       ← 🏁 Terminal closure artifact (post Chu kỳ 18/19)
+├── RESEARCH_HISTORY.md             ← Nhật ký 19 chu kỳ đã đóng (index + corpus)
 │
-│   ── Proposals (PAUSED / pre-registered chờ quyết định) ──
+│   ── Proposals (pre-registered / active / PAUSED) ──
 ├── proposals/
-│   └── cycle17a_roi_ranking_3d.md  ← Optimization mode pre-reg (PAUSED 2026-04-22)
+│   ├── cycle17a_roi_ranking_3d.md  ← Optimization mode pre-reg (PAUSED 2026-04-22, resumable as Chu kỳ 21)
+│   └── cycle20_methodology_refinement.md ← ACTIVE Chu kỳ 20 pre-reg (doc-only improvements)
+│
+│   ── Post-closure mini-cycle data ──
+├── post_closure/                   ← Chu kỳ 19 experiment data (FDR/ROI/NIST/seasonality/ensemble)
+│   └── cycle19{a,b,c,d,e}_*.json
 │
 │   ── Code + kết quả ──
 ├── matrix/                         ← Sản phẩm ma trận (Power 6/55, Mega 6/45, Lotto 5/35)
@@ -111,6 +122,7 @@ research/
 │
 └── archive/                        ← File superseded (giữ để tham khảo)
     ├── superseded_docs/            ← Docs đã được thay thế
+    │   ├── META_REVIEW_POST_CYCLE16.md     ← Decision anchor for Chu kỳ 17 (role subsumed by PROJECT_CLOSURE_REPORT §11 + Chu kỳ 19, moved 2026-04-22)
     │   ├── RESEARCH_DOCUMENTATION.md       ← Technical monolith stale sau Chu kỳ 6 (moved 2026-04-22)
     │   ├── 3d_REPORT_cycle4_snapshot.md    ← 3D Chu kỳ 4 pre-replication (moved 2026-04-22)
     │   ├── RESEARCH_PLAN.md                ← 07/2025 5-phase plan → thay bằng METHODOLOGY + EVALUATION + TESTING
@@ -139,8 +151,9 @@ research/
 
 | # | File | Mô tả | Khi nào đọc |
 |---|------|--------|-------------|
-| 0 | [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | 🏁 **Terminal closure artifact** (2026-04-22) — 17 cycles consolidated, null findings catalog, reopen criteria, utility statement | Đọc ĐẦU TIÊN khi pick up project |
-| 0b | [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) | Meta-analysis 16 chu kỳ + 8 hướng + 3 kịch bản (superseded by closure report, kept for traceability) | Khi muốn hiểu lý do chọn Kịch bản 2 / Hướng C |
+| 0 | [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | 🏁 **Terminal closure artifact** (2026-04-22, updated Chu kỳ 19) — 17 cycles consolidated, null findings catalog, reopen criteria, utility statement | Đọc ĐẦU TIÊN khi pick up project |
+| 0b | [proposals/cycle20_methodology_refinement.md](proposals/cycle20_methodology_refinement.md) | 🔧 **ACTIVE Chu kỳ 20** — post-closure methodology refinement (4 improvements: power-binding, eliminated families, composite-binding, power gate Phase 0) | Khi implement methodology updates hoặc chuẩn bị future cycles |
+| 0c | [archive/superseded_docs/META_REVIEW_POST_CYCLE16.md](archive/superseded_docs/META_REVIEW_POST_CYCLE16.md) | Historical meta-analysis pre-Chu kỳ 17 (role superseded) | Khi trace tại sao chọn Kịch bản 2 / Hướng C |
 
 ### Context & lịch sử
 

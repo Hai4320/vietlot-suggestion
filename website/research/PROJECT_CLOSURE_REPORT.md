@@ -310,7 +310,7 @@ From META_REVIEW §2b "paradigm shifts chưa try":
 | [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) | Templates (discovery + breakthrough + retry tree) |
 | [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) | 7 novel paths (historical, most falsified by Chu kỳ 16) |
 | [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | 17-cycle index + Principles Corpus |
-| [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) | Pre-Chu kỳ 17 meta-analysis (8 hướng + 3 kịch bản) |
+| [archive/superseded_docs/META_REVIEW_POST_CYCLE16.md](archive/superseded_docs/META_REVIEW_POST_CYCLE16.md) | Pre-Chu kỳ 17 meta-analysis (8 hướng + 3 kịch bản — role superseded by this report) |
 | [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md) | 3D line synthesis (28 strategies × 8 cycles) |
 | **This file** | Project terminal closure |
 

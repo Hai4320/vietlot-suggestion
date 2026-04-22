@@ -119,7 +119,9 @@ Guardrails bất biến (từ Chu kỳ 1+):
 
 **Chu kỳ 19 (closed, 2026-04-22)**: **Post-closure exploration** — 5 mini-cycles (19a FDR / 19b ROI rank / 19c NIST / 19d seasonality / 19e ensemble). +2 new falsifications (seasonality, single+multi ensemble). Methodology gaps §7.4 closed. Closure strengthened. See [cycle19_post_closure_exploration.md](history/cycle19_post_closure_exploration.md).
 
-**Chu kỳ 20 (optional)**: Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) Optimization mode cho UI `PRODUCT_RANKS.picks.roi` update. 1-2w effort. NOT breakthrough-search — ranking existing strategies. User-initiated only.
+**Chu kỳ 20 IN PROGRESS (2026-04-22)**: **Methodology refinement** — post-closure self-assessment identified 4 improvements. Pre-reg: [proposals/cycle20_methodology_refinement.md](proposals/cycle20_methodology_refinement.md). Doc-only updates (METHODOLOGY, EVALUATION, PLAYBOOK, PROJECT_CLOSURE_REPORT). ~2 ngày.
+
+**Chu kỳ 21 OPTIONAL** (user-initiated only): Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) Optimization mode cho UI `PRODUCT_RANKS.picks.roi`. 1-2w effort. NOT breakthrough-search.
 
 **Reopen breakthrough**: only on triggers in [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md) (data N≥2000, Vietlott discloses betting volume, novel paradigm paper, null-reversal finding).
 

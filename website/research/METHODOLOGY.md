@@ -278,7 +278,7 @@ Strategies violating → auto-flag as **Reject** (overfit signature). Applies to
 
 ### 3.10 Retry Tree + Optionality Preservation (Principle #16 — từ Chu kỳ 17)
 
-**Bối cảnh**: Meta-review [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) 2026-04-22 phát hiện: sau 16 cycles × ~60 strategies × 0 Accept, project dễ bị "locked in" vào 1 design choice mà không còn visibility vào alternatives đã cân nhắc. Nếu một cycle reject mà không có retry tree documented, user phải re-derive alternatives from scratch — lose institutional knowledge + risk proposing same variant lại.
+**Bối cảnh**: Meta-review [META_REVIEW_POST_CYCLE16.md](archive/superseded_docs/META_REVIEW_POST_CYCLE16.md) 2026-04-22 phát hiện: sau 16 cycles × ~60 strategies × 0 Accept, project dễ bị "locked in" vào 1 design choice mà không còn visibility vào alternatives đã cân nhắc. Nếu một cycle reject mà không có retry tree documented, user phải re-derive alternatives from scratch — lose institutional knowledge + risk proposing same variant lại.
 
 **Rule (binding for all pre-registrations cycle 17+)**: Mỗi pre-reg phải include 2 levels of alternatives:
 
@@ -353,7 +353,8 @@ Phase 3 p-value < 0.05 sau Bonferroni?
 | [EVALUATION.md](EVALUATION.md) | Metric + significance test cho Phase 3 |
 | [TESTING.md](TESTING.md) | Test battery chi tiết cho Phase 1 |
 | [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | Index + principles corpus (nơi ghi pre-reg hypothesis vào `history/cycleNN_<slug>.md`) |
-| [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) | Current decision anchor (8 hướng + 3 kịch bản, PAUSED 2026-04-22) |
+| [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | Terminal closure artifact (post Chu kỳ 18, updated Chu kỳ 19) — current decision anchor |
+| [archive/superseded_docs/META_REVIEW_POST_CYCLE16.md](archive/superseded_docs/META_REVIEW_POST_CYCLE16.md) | Historical meta-analysis pre-Chu kỳ 17 (role superseded) |
 
 ---
 

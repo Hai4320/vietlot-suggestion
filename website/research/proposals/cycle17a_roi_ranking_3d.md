@@ -1,6 +1,6 @@
 ## Chu Kỳ 17a — ROI Ranking for 3D Products (Max 3D + Max 3D Pro)
 
-> **⏸ TRẠNG THÁI (2026-04-22)**: **PAUSED** chờ quyết định 3 kịch bản từ [META_REVIEW_POST_CYCLE16.md](../META_REVIEW_POST_CYCLE16.md). Optimization mode (17a + 17b) là Hướng H trong meta-review; có thể resume sau khi user chọn kịch bản (Closure nhanh / 1-shot mới + closure / Full exhaustion).
+> **⏸ TRẠNG THÁI (2026-04-22)**: **PAUSED** — Kịch bản 2 chosen (Chu kỳ 17 HMM → Chu kỳ 18 closure → Chu kỳ 19 post-closure). Optimization mode resumable as **Chu kỳ 21** per user decision. See [PROJECT_CLOSURE_REPORT.md §11.4](../PROJECT_CLOSURE_REPORT.md) continuation notes. Original meta-review: [archive/superseded_docs/META_REVIEW_POST_CYCLE16.md](../archive/superseded_docs/META_REVIEW_POST_CYCLE16.md).
 
 ### Mode shift: từ "breakthrough research" sang "optimization research"
 
