@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Chu Kỳ 17 — HMM Regime Detection Backtest (3D products).
 
-Pre-reg: website/research/proposals/cycle17_hmm_regime.md
+Pre-reg: website/research/proposals/executed/cycle17_hmm_regime.md
 Principle #16 (Retry Tree): pre-reg §Retry Tree — 6 variants 17.1-17.6.
 
 Strategies:
@@ -383,7 +383,7 @@ def main():
         "meta": {
             "cycle": "17",
             "paradigm": "HMM regime detection",
-            "pre_reg": "website/research/proposals/cycle17_hmm_regime.md",
+            "pre_reg": "website/research/proposals/executed/cycle17_hmm_regime.md",
             "principle_16": "Retry Tree in pre-reg §Retry Tree (17.1-17.6)",
             "min_history": MIN_HISTORY,
             "n_runs": N_RUNS,

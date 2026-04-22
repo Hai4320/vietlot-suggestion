@@ -6,8 +6,8 @@ for before-change measurement. No backtest; all analytical.
 
 Usage: PYTHONPATH=website/research uv run python website/research/post_closure/cycle20_baseline_analysis.py
 
-Pre-reg: proposals/cycle20_methodology_refinement.md
-Checklist: proposals/cycle20_evaluation_checklist.md sections A1-A5
+Pre-reg: proposals/executed/cycle20_methodology_refinement.md
+Checklist: proposals/executed/cycle20_evaluation_checklist.md sections A1-A5
 """
 from __future__ import annotations
 

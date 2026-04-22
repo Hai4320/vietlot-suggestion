@@ -2,7 +2,7 @@
 
 **Hướng C từ Kịch bản 2 — 1-shot mới + closure**. Implementation + results 2026-04-22.
 
-**Pre-reg (immutable)**: [proposals/cycle17_hmm_regime.md](../proposals/cycle17_hmm_regime.md) — 2-state Gaussian HMM, 2-dim observation [chi²_recent_W, max_dev_recent_W], signal state → FreqHot, noise state → Random. 3 products × 2 windows = 6 configs, Bonferroni K=6.
+**Pre-reg (immutable)**: [proposals/executed/cycle17_hmm_regime.md](../proposals/executed/cycle17_hmm_regime.md) — 2-state Gaussian HMM, 2-dim observation [chi²_recent_W, max_dev_recent_W], signal state → FreqHot, noise state → Random. 3 products × 2 windows = 6 configs, Bonferroni K=6.
 
 ### Executive summary
 
@@ -136,7 +136,7 @@ Pre-reg documented 6 within-paradigm retries (17.1 K states, 17.2 observations, 
 
 ### Artifacts
 
-- **Pre-reg**: [proposals/cycle17_hmm_regime.md](../proposals/cycle17_hmm_regime.md) (with retry tree)
+- **Pre-reg**: [proposals/executed/cycle17_hmm_regime.md](../proposals/executed/cycle17_hmm_regime.md) (with retry tree)
 - **Shared module**: [hmm_regime.py](../hmm_regime.py)
 - **Backtest scripts**:
   - [3d/cycle17_hmm_backtest.py](../3d/cycle17_hmm_backtest.py)

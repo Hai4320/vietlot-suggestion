@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Chu Kỳ 17 — HMM Regime Detection Backtest (Matrix: Power 6/55).
 
-Pre-reg: website/research/proposals/cycle17_hmm_regime.md
+Pre-reg: website/research/proposals/executed/cycle17_hmm_regime.md
 
 Strategies:
   - Random (baseline)
@@ -356,7 +356,7 @@ def main():
         "meta": {
             "cycle": "17",
             "paradigm": "HMM regime detection",
-            "pre_reg": "website/research/proposals/cycle17_hmm_regime.md",
+            "pre_reg": "website/research/proposals/executed/cycle17_hmm_regime.md",
             "scope": "matrix (Power 6/55)",
             "min_history": MIN_HISTORY,
             "n_runs": N_RUNS,

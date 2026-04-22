@@ -75,9 +75,12 @@ research/
 ├── RESEARCH_HISTORY.md             ← Nhật ký 19 chu kỳ đã đóng (index + corpus)
 │
 │   ── Proposals (pre-registered / active / PAUSED) ──
-├── proposals/
-│   ├── cycle17a_roi_ranking_3d.md  ← Optimization mode pre-reg (PAUSED 2026-04-22, resumable as Chu kỳ 21)
-│   └── cycle20_methodology_refinement.md ← ACTIVE Chu kỳ 20 pre-reg (doc-only improvements)
+├── proposals/                      ← Index: [proposals/README.md](proposals/README.md)
+│   ├── cycle17a_roi_ranking_3d.md  ← PAUSED (resumable as Chu kỳ 21 Optimization mode)
+│   └── executed/                   ← Frozen pre-regs của completed cycles
+│       ├── cycle17_hmm_regime.md
+│       ├── cycle20_methodology_refinement.md
+│       └── cycle20_evaluation_checklist.md
 │
 │   ── Post-closure mini-cycle data ──
 ├── post_closure/                   ← Chu kỳ 19 experiment data (FDR/ROI/NIST/seasonality/ensemble)
@@ -148,7 +151,8 @@ research/
 | # | File | Mô tả | Khi nào đọc |
 |---|------|--------|-------------|
 | 0 | [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | 🏁 **Terminal closure artifact** (2026-04-22, updated Chu kỳ 19) — 17 cycles consolidated, null findings catalog, reopen criteria, utility statement | Đọc ĐẦU TIÊN khi pick up project |
-| 0b | [proposals/cycle20_methodology_refinement.md](proposals/cycle20_methodology_refinement.md) | 🔧 **ACTIVE Chu kỳ 20** — post-closure methodology refinement (4 improvements: power-binding, eliminated families, composite-binding, power gate Phase 0) | Khi implement methodology updates hoặc chuẩn bị future cycles |
+| 0b | [history/cycle20_methodology_refinement.md](history/cycle20_methodology_refinement.md) | ✓ Chu kỳ 20 DONE — post-closure methodology refinement (4 improvements codified) | Khi cần biết rule changes post-Chu kỳ 20 |
+| 0c | [proposals/README.md](proposals/README.md) | 📋 Proposals index + TODO list (what's pending, what's done) | Khi planning Chu kỳ 21+ |
 | 0c | [archive/superseded_docs/META_REVIEW_POST_CYCLE16.md](archive/superseded_docs/META_REVIEW_POST_CYCLE16.md) | Historical meta-analysis pre-Chu kỳ 17 (role superseded) | Khi trace tại sao chọn Kịch bản 2 / Hướng C |
 
 ### Context & lịch sử

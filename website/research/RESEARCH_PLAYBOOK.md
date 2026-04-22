@@ -689,7 +689,7 @@ Nếu N.1-N.4 all reject → paradigm-level rethink. Candidates:
 
 ### Ví dụ thực tế
 
-Xem [proposals/cycle17_hmm_regime.md §Retry Tree](proposals/cycle17_hmm_regime.md#retry-tree--within-hmm-paradigm-alternatives) — 6 variants (17.1 K values, 17.2 observations, 17.3 strategy mapping, 17.4 window size, 17.5 product scope, 17.6 paradigm family escape) với trigger conditions cụ thể.
+Xem [proposals/executed/cycle17_hmm_regime.md §Retry Tree](proposals/executed/cycle17_hmm_regime.md#retry-tree--within-hmm-paradigm-alternatives) — 6 variants (17.1 K values, 17.2 observations, 17.3 strategy mapping, 17.4 window size, 17.5 product scope, 17.6 paradigm family escape) với trigger conditions cụ thể.
 
 ---
 

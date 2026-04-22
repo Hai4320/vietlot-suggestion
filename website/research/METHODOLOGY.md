@@ -331,7 +331,7 @@ Strategies violating → auto-flag as **Reject** (overfit signature). Applies to
 
 Preservation of optionality giữ user option value cao: nếu paradigm fail, đường kế tiếp đã sẵn. Nếu paradigm pass, retry tree làm baseline scope cho follow-up cycles.
 
-**Template**: Xem [RESEARCH_PLAYBOOK.md §Retry Tree Template](RESEARCH_PLAYBOOK.md#retry-tree-template). Ví dụ thực tế: [proposals/cycle17_hmm_regime.md §Retry Tree](proposals/cycle17_hmm_regime.md#retry-tree--within-hmm-paradigm-alternatives) (6 variants 17.1-17.6, each with trigger + rationale).
+**Template**: Xem [RESEARCH_PLAYBOOK.md §Retry Tree Template](RESEARCH_PLAYBOOK.md#retry-tree-template). Ví dụ thực tế: [proposals/executed/cycle17_hmm_regime.md §Retry Tree](proposals/executed/cycle17_hmm_regime.md#retry-tree--within-hmm-paradigm-alternatives) (6 variants 17.1-17.6, each with trigger + rationale).
 
 ### 3.11 Family-level elimination binding (Principle #17 — từ Chu kỳ 20)
 

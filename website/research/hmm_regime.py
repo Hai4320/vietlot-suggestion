@@ -4,7 +4,7 @@ Implements 2-state Gaussian HMM với observations = [chi²_recent_W, max_dev_re
 on digit frequency (3D) or number frequency (matrix). Walk-forward fit per-draw
 với no look-ahead, Viterbi decode state posterior, strategy switch per inferred regime.
 
-Pre-reg: website/research/proposals/cycle17_hmm_regime.md
+Pre-reg: website/research/proposals/executed/cycle17_hmm_regime.md
 Principle §3.10 (#16): Retry Tree documented inline pre-reg.
 
 Reproducibility: seed=42 throughout. Baum-Welch EM w/ 10 random restarts, pick best log-lik.

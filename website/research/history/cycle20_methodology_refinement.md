@@ -1,7 +1,7 @@
 ## Chu Kỳ 20 — Methodology Refinement (Closed 2026-04-22)
 
-**Pre-reg** (immutable): [proposals/cycle20_methodology_refinement.md](../proposals/cycle20_methodology_refinement.md)
-**Checklist** (immutable): [proposals/cycle20_evaluation_checklist.md](../proposals/cycle20_evaluation_checklist.md)
+**Pre-reg** (immutable): [proposals/executed/cycle20_methodology_refinement.md](../proposals/executed/cycle20_methodology_refinement.md)
+**Checklist** (immutable): [proposals/executed/cycle20_evaluation_checklist.md](../proposals/executed/cycle20_evaluation_checklist.md)
 **Baseline data**: [post_closure/cycle20_a1-a5_*.json](../post_closure/)
 
 ### Executive summary
@@ -165,8 +165,8 @@ Pre-reg documented 4 Tier-2 variants (20.1 threshold adjust, 20.2 family sunset,
 - [RESEARCH_HISTORY.md](../RESEARCH_HISTORY.md) Principles Corpus row #17
 
 **Pre-reg + checklist** (frozen):
-- [proposals/cycle20_methodology_refinement.md](../proposals/cycle20_methodology_refinement.md)
-- [proposals/cycle20_evaluation_checklist.md](../proposals/cycle20_evaluation_checklist.md)
+- [proposals/executed/cycle20_methodology_refinement.md](../proposals/executed/cycle20_methodology_refinement.md)
+- [proposals/executed/cycle20_evaluation_checklist.md](../proposals/executed/cycle20_evaluation_checklist.md)
 
 ### Status
 
