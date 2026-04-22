@@ -331,7 +331,7 @@ const SECTIONS: Section[] = [
     id: "cycle22",
     icon: "🧪",
     title: "Chu kỳ 22 — Optimization Mode",
-    blurb: "3 composite profiles + split-half on picks + null picks honest. Xem /research/cycle22 cho rankings đầy đủ.",
+    blurb: "3 composite profiles + split-half on picks + null picks honest. Xem /research#cycle22 cho rankings đầy đủ.",
     terms: [
       {
         name: "Optimization mode",
