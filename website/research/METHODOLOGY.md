@@ -72,21 +72,31 @@ Bài học lớn nhất từ [Chu kỳ 5](RESEARCH_HISTORY.md#chu-kỳ-5): Phase
                 → stop]        implementation] ≥ 2σ?]
 ```
 
-### Phase 0 — Data Ingestion
+### Phase 0 — Data Ingestion + Power Gate (upgraded Chu kỳ 20)
 
-**Mục tiêu**: Hiểu đầy đủ cấu trúc dữ liệu, định thức baseline lý thuyết.
+**Mục tiêu**: Hiểu đầy đủ cấu trúc dữ liệu, định thức baseline lý thuyết, **và xác định liệu data có đủ power cho cycle scheduled không**.
 
-**Entry**: Sản phẩm chưa được nghiên cứu, hoặc dữ liệu đã cập nhật đáng kể (>50 kỳ mới).
+**Entry**: Sản phẩm chưa được nghiên cứu, hoặc dữ liệu đã cập nhật đáng kể (>50 kỳ mới), hoặc cycle mới propose.
 
 **Deliverables**:
 - Data format note (fields, encoding, số kỳ, date range)
 - Baseline lý thuyết: `E[match]`, `P(win≥k)` bằng công thức (không backtest)
 - Data quality check: duplicates, missing draws, outliers
+- **Power gate**: `n_required_for_50%_and_80%_power` tại bias ceiling per product (Principle #12 binding formula)
 
 **Exit criteria**:
 - [ ] Biết chính xác số kỳ, số/kỳ, không gian số, prize tiers
 - [ ] Đã tính `E[match]` theo hypergeometric/binomial
 - [ ] Đã verify head+tail của file (format consistent)
+- [ ] **Power gate check** (binding Chu kỳ 20+):
+  - Compute `n_required(80% power, α=0.05/K_bonf, Δ=bias_ceiling)` cho primary metric
+  - If `N_available >= n_required(80%)` → normal cycle, can claim strong Accept/Reject
+  - If `N_available >= n_required(50%)` but `< n_required(80%)` → flag "moderate power, Reject=moderate falsification only"
+  - If `N_available < n_required(50%)` → **cycle MUST declare exploratory-only** (no Accept/Reject claims, only descriptive observations)
+
+**Current project status** (as of Chu kỳ 20 baseline): ALL 5 products underpowered for Δ=0.3pp at 80% power (ratios 0.011-0.028). See [PROJECT_CLOSURE_REPORT.md §6.3](PROJECT_CLOSURE_REPORT.md) updated table.
+
+**Anti-pattern**: Skip power gate, run cycle at <10% power, claim Reject means "no effect exists." Per Chu kỳ 20 retrospective, 8 historical candidates had Δ>0.3pp but power<50% → those claims were reclassified to Inconclusive-underpowered (not Reject).
 
 ### Phase 1 — Bias Detection
 
@@ -224,19 +234,36 @@ Bài học từ Chu kỳ 5 Phase 2a: single-ticket không thể exploit parity b
 
 **Anti-pattern**: "Full-sample p=0.0044 là đủ để ship" → sai. Chu kỳ 9 cho thấy full-sample p có thể được drive hoàn toàn bởi pooling artifact — pool 2 halves có flip direction tạo spurious low p-value khi baseline drift across halves. Chỉ split-half mới phát hiện.
 
-### 3.6 Variable-baseline power analysis pre-cycle (Principle #12 — từ Chu kỳ 8+9)
+### 3.6 Variable-baseline power analysis pre-cycle (Principle #12 — từ Chu kỳ 8+9, **upgraded BINDING Chu kỳ 20**)
 
-**Bối cảnh**: Chu kỳ 8 phát hiện Random baseline tự nó flutter ±0.25-0.30pp giữa halves. Khi true edge <0.5pp, effect size không detect được ngay cả khi strategy thật sự có edge.
+**Bối cảnh**: Chu kỳ 8 phát hiện Random baseline tự nó flutter ±0.25-0.30pp giữa halves. Khi true edge <0.5pp, effect size không detect được ngay cả khi strategy thật sự có edge. Chu kỳ 20 baseline analysis cho thấy **0.8%** tests toàn project có power ≥50%, **0.0%** có power ≥80% — "Reject" ở low power là weak falsification, không phải falsified.
 
-**Rule**: Trước khi chạy replication cycle, tính `n_required` theo công thức two-proportion với variable baseline:
+**Rule (BINDING post Chu kỳ 20)**: Trước khi chạy replication cycle, tính `n_required` theo công thức two-proportion với variable baseline:
 
 ```
 n_per_half ≈ (z_α + z_β)² × [p_s(1−p_s) + p_b(1−p_b)] / δ²
 ```
 
-Với α=0.05, power=80% (z_α=1.96, z_β=0.84). Nếu `n_runs × n_draws_per_half < n_per_half` → tăng n_runs hoặc report limitation rõ ràng trong HISTORY. Không claim Accept nếu power <80%.
+Với α=0.05, power=80% (z_α=1.96, z_β=0.84). Thresholds:
+
+| Power level | Treatment of Reject |
+|---|---|
+| ≥ 80% | `Reject` — strong falsification |
+| 50-80% | `Reject` — moderate falsification, flag as "moderate power" |
+| < 50% | **`Inconclusive-underpowered` if Δ>0.3pp observed; else `Reject (weak evidence)`** |
+
+Nếu `n_runs × n_draws_per_half < n_per_half`:
+- Option A: tăng n_runs để đạt ≥50% power
+- Option B: pre-register cycle as **exploratory-only** (no Reject/Accept claims)
+- Option C: delay cycle until data horizon grows (N ≥ threshold per §3.6.1)
+
+**Không claim Accept nếu power <80%**. Không claim strong Reject nếu power <50%.
+
+**Inconclusive-underpowered trigger**: observed Δ > 0.3pp in direction consistent with hypothesis + test power <50% + p>0.05 → classify as **Inconclusive-underpowered**, revisit at `N ≥ n_required_for_80%_power`. Do NOT count as falsification evidence for family elimination (Principle #17).
 
 **Anti-pattern**: Dựa trên single-rate power formula (coi baseline cố định) → underestimate n cần thiết. Power analysis phải account for baseline variance.
+
+**Retroactive application (Chu kỳ 20)**: 8 existing Reject verdicts reclassified as Inconclusive-underpowered — see [PROJECT_CLOSURE_REPORT.md §7.1](PROJECT_CLOSURE_REPORT.md) updated table.
 
 ### 3.7 Forward gate mandatory (Principle #13 — từ Chu kỳ 7/9/11/12)
 
@@ -305,6 +332,41 @@ Strategies violating → auto-flag as **Reject** (overfit signature). Applies to
 Preservation of optionality giữ user option value cao: nếu paradigm fail, đường kế tiếp đã sẵn. Nếu paradigm pass, retry tree làm baseline scope cho follow-up cycles.
 
 **Template**: Xem [RESEARCH_PLAYBOOK.md §Retry Tree Template](RESEARCH_PLAYBOOK.md#retry-tree-template). Ví dụ thực tế: [proposals/cycle17_hmm_regime.md §Retry Tree](proposals/cycle17_hmm_regime.md#retry-tree--within-hmm-paradigm-alternatives) (6 variants 17.1-17.6, each with trigger + rationale).
+
+### 3.11 Family-level elimination binding (Principle #17 — từ Chu kỳ 20)
+
+**Bối cảnh**: Chu kỳ 19e tested "Single+Multi ticket ensemble" — variant của concentration paradigm đã falsified Chu kỳ 16 (Kelly 9/9 Reject, geometric ⊥ set-coverage). Retrospect: cycle wasted 3-4h do không có binding rule blocking eliminated-family variants. Chu kỳ 20 baseline analysis xác nhận 6 mechanism families có convergent evidence (≥2 cycles × ≥2 rejects, mean Δ null-leaning).
+
+**Rule (binding forward — Chu kỳ 21+)**:
+
+1. **Eliminated family registry**: maintained as structured table trong [PROJECT_CLOSURE_REPORT.md §7.5](PROJECT_CLOSURE_REPORT.md). Each row:
+   - Family name
+   - Origin cycles (convergent evidence)
+   - Mean Δ observed (null-leaning)
+   - **Unbind trigger**: explicit condition dưới đó family được re-test (e.g., "N ≥ 2000 per product", "novel paradigm paper", "Vietlott API discloses X")
+
+2. **Pre-reg blocker**: Any new cycle (Chu kỳ 21+) proposing a mechanism in the eliminated family **must**:
+   - Cite the unbind trigger
+   - Demonstrate trigger condition met (evidence + artifact)
+   - Route through Principle #16 retry tree explicitly (not implicit bypass)
+
+3. **Exception — audit cycles**: Audit cycles (like Chu kỳ 12.5 GBM audit) MAY test eliminated family for diagnostic purposes but MUST declare `diagnostic-only, no Accept claims`.
+
+**Eliminated families (as of Chu kỳ 20, 2026-04-22)** — see [closure report §7.5](PROJECT_CLOSURE_REPORT.md) for full table with unbind triggers:
+
+1. Adaptive/drift-based (Chu kỳ 8 + 14)
+2. Cross-product pooling (Chu kỳ 13 + 15)
+3. Kelly concentration multi-ticket (Chu kỳ 16, reinforced 19e)
+4. HMM regime detection (Chu kỳ 17, convergent with 8+14)
+5. GBM discriminative at current feature dimensionality (Chu kỳ 12/12.5)
+6. Single+Multi ticket ensemble (Chu kỳ 19e, same geometry root)
+
+**Execution policy**:
+- Eliminated family check is Phase 2 mandatory step per [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md)
+- Unbind trigger must be evidenced in pre-reg (not "we might want to try again someday")
+- Default unbind trigger for data-bound families: `N ≥ 2 × current_N_per_product`
+
+**Rationale**: Prevents sunk-cost paradigm revisits. Each convergent family elimination represents ~3-5 weeks of aggregate cycle work — cheap to preserve via table, expensive to re-discover.
 
 ---
 

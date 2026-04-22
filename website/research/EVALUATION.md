@@ -243,26 +243,35 @@ Khi viết section "Kết quả" vào cycle record `history/cycleNN_<slug>.md` (
 
 ---
 
-## 6. Decision Rules — Accept, Suggestive, Ship-with-caveats, Inconclusive, Reject
+## 6. Decision Rules — Accept, Suggestive, Ship-with-caveats, Inconclusive, Inconclusive-underpowered, Reject
 
-**Primary metric** cho decision: `win_rate_ge3` (matrix) / `exact_match_rate` (3D). ROI/Sharpe là secondary contributors trong tournament §8 nhưng không phải gate condition.
+**Primary metric** cho decision: **Composite tournament score** ([METHODOLOGY §8](METHODOLOGY.md)) — BINDING post Chu kỳ 20. Single-metric shortcuts (win-rate only OR ROI only) **không được phép** drive verdict quyết định. win_rate_ge3/exact_match_rate là input cho composite, không phải standalone gate.
 
-| Kết quả | Quyết định | Action |
-|---------|-----------|--------|
-| `p_raw < 0.05` & `passes_bonferroni` & `ci_lo > 0` & **split-half** both Δ>0 & p<0.025 both & **forward_last_100 Δ>0** | **Accept** — edge confirmed + future-consistent | Ship, primary recommendation |
-| `p_raw < 0.05` & split-half both Δ>0 & p<0.05 both & forward_last_100 Δ>0 | **Suggestive** — consistent weak signal | Ship với minor caveat |
-| **Tournament top-1** ([METHODOLOGY §8](METHODOLOGY.md)) + forward_last_100 Δ>0 + split-half inconsistent/not-run | **Ship-with-caveats** | Ship với UI badge "unverified edge — tournament best" |
-| forward_last_100 Δ ≤ 0 (regardless of historical) | Downgrade by one tier (§9.5) | Forward has veto |
-| `p_raw ≥ 0.05` & `ci_lo > 0` | **Inconclusive** — under-powered | Tăng n_runs/n_draws hoặc chạy again trên data mới |
-| Direction flip between halves (split-half fail) | **Reject** — không robust | Không ship; ghi HISTORY |
-| `p_raw ≥ 0.05` & `ci` qua 0 | **Reject** — không có edge | Không ship; ghi HISTORY |
-| Δ > 0 nhưng baseline beat strategy ở ≥2 products | **Reject** — không robust | Không ship |
+**Power prerequisite** (BINDING Chu kỳ 20): Any Reject verdict requires power ≥ 50% at bias ceiling (§12 METHODOLOGY). Below 50% power → verdict is **Inconclusive-underpowered**, not Reject.
 
-**Guardrails (Chu kỳ 9-10 derived)**:
+| Kết quả | Power | Quyết định | Action |
+|---------|:---:|-----------|--------|
+| Composite rank #1 + `p_raw < 0.05` & `passes_bonferroni` & `ci_lo > 0` & **split-half** both Δ>0 & p<0.025 both & **forward_last_100 Δ>0** | ≥80% | **Accept** — edge confirmed + future-consistent | Ship, primary recommendation |
+| Composite rank #1 + `p_raw < 0.05` & split-half both Δ>0 & p<0.05 both & forward_last_100 Δ>0 | ≥50% | **Suggestive** — consistent weak signal | Ship với minor caveat |
+| **Composite tournament top-1** + forward_last_100 Δ>0 + split-half inconsistent/not-run | ≥50% | **Ship-with-caveats** | Ship với UI badge "unverified edge — tournament best" |
+| forward_last_100 Δ ≤ 0 (regardless of historical) | — | Downgrade by one tier (§9.5) | Forward has veto |
+| `p_raw ≥ 0.05` & `ci_lo > 0` & power ≥ 50% | ≥50% | **Inconclusive** — moderate power, need more data | Tăng n_runs/n_draws hoặc chạy again |
+| **Δ > 0.3pp observed AND power < 50% AND p_raw ≥ 0.05** (NEW Chu kỳ 20) | <50% | **Inconclusive-underpowered** — revisit at N≥`n_required(80%)` | Do NOT count as falsification for Principle #17 family elimination |
+| Direction flip between halves (split-half fail) | any | **Reject** — không robust | Không ship; ghi HISTORY |
+| `p_raw ≥ 0.05` & Δ ≤ 0.3pp & power ≥ 50% | ≥50% | **Reject** — không có edge (strong falsification) | Không ship; convergent evidence for family elimination |
+| `p_raw ≥ 0.05` & Δ ≤ 0.3pp & power < 50% | <50% | **Reject (weak evidence)** — disclosed limitation | Không ship; do NOT count toward family elimination |
+| Δ > 0 nhưng baseline beat strategy ở ≥2 products | any | **Reject** — không robust | Không ship |
+
+**Guardrails (Chu kỳ 9-10 derived + Chu kỳ 20 upgrade)**:
 - Mọi Accept/Suggestive claim **phải pass split-half replication** (Principle #11, [METHODOLOGY §3.5](METHODOLOGY.md)).
+- Mọi Accept claim phải **pass power gate** ≥80% (Principle #12 binding post Chu kỳ 20, [METHODOLOGY §3.6](METHODOLOGY.md)).
+- Reject claims với power <50% **phải flag as Reject (weak evidence)** — not counted for family elimination (Principle #17, [METHODOLOGY §3.11](METHODOLOGY.md)).
 - **Forward validation §9 có veto power** — `forward_last_100 Δ ≤ 0` downgrade decision by one tier ngay cả khi historical pass.
-- Ship-with-caveats **không thay thế** Accept — chỉ valid cho tournament top-1 + forward positive khi Accept chưa đạt.
+- **Composite-binding (Chu kỳ 20)**: Decision rank derived từ composite score §8, không từ single metric. Single-metric tops là diagnostic output, không phải decision driver.
+- Ship-with-caveats **không thay thế** Accept — chỉ valid cho composite top-1 + forward positive khi Accept chưa đạt.
 - Ship-with-caveats **phải có UI disclosure** hiển thị rõ "không có p<0.05 verified edge".
+
+**Inconclusive-underpowered — revisit criteria** (Chu kỳ 20): Candidate flagged with (cycle, product, strategy, observed_Δ, current_power, n_required_for_80%_power). Revisit condition: `N_per_product ≥ n_required_for_80%_power` (typically requires 2-10× more data). See [PROJECT_CLOSURE_REPORT.md §7.1](PROJECT_CLOSURE_REPORT.md) updated table for 8 current Inconclusive-underpowered candidates.
 
 ---
 
@@ -284,9 +293,22 @@ Khi viết section "Kết quả" vào cycle record `history/cycleNN_<slug>.md` (
 
 ---
 
-## 8. Tournament Ranking — Multi-objective Winner Selection (Chu kỳ 10+)
+## 8. Tournament Ranking — Multi-objective Winner Selection (Chu kỳ 10+, BINDING post Chu kỳ 20)
 
 Phase 3' trong [METHODOLOGY §7.3](METHODOLOGY.md) dùng tournament ranking để select winner-per-product và cross-product robust winner trong breakthrough mode.
+
+**BINDING POLICY post Chu kỳ 20**: Composite tournament score **IS the decision output**. Single-metric decisions (win-rate only, ROI only) disallowed. This upgrades the Chu kỳ 10 pre-reg from "codified but operationally advisory" to "codified and binding."
+
+**Rationale**: Chu kỳ 20 baseline analysis ([post_closure/cycle20_a4_composite_rescore.json](post_closure/cycle20_a4_composite_rescore.json)) found 5 of 8 cycle-product groups had composite-top ≠ single-metric-top (e.g., Chu kỳ 14/15 Power 6/45: composite picks Freq_Hot, win-rate picks Bayesian, ROI picks Freq_Hot). Historical operational practice often defaulted to win-rate primary despite pre-reg weight 0.40 — hidden single-metric bias.
+
+**Concrete check during Phase 3' execution**:
+1. Compute 4 metric z-scores per strategy in tournament
+2. Compute composite score using pre-registered weights (§8.2)
+3. Rank by composite
+4. **Decision verdicts derive from composite rank + 3-gate** — not from single-metric rank
+5. Report single-metric ranks as diagnostic output, not decision input
+
+**Retroactive note**: 5 Chu kỳ 14-17 cycle-product groups had composite-single-metric divergence but NO verdict reversal (all strategies were Reject regardless of which "top" was picked). Historical bias thus operational-only, did not invalidate cumulative "0 Accept" claim.
 
 ### 8.1 Canonical metric set (fixed per cycle)
 

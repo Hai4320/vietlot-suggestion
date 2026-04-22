@@ -74,6 +74,11 @@ Methodology principles phát sinh từ negative results:
 | 14 | **Magnitude sanity check** — auto-flag if \|Δ\| > 3× bias ceiling | 12, 12.5 | [METHODOLOGY §3.8](METHODOLOGY.md) |
 | 15 | **Prediction concentration check** (ML strategies) — n_unique/total ≥ 0.30 | 12.5 | [METHODOLOGY §3.9](METHODOLOGY.md) |
 | 16 | **Retry tree + optionality preservation** — pre-reg phải document Tầng 1 (cycle-level) + Tầng 2 (within-paradigm) alternatives với trigger conditions | 17 (meta-review 2026-04-22) | [METHODOLOGY §3.10](METHODOLOGY.md) |
+| 17 | **Family-level elimination binding** — new cycles cannot propose mechanisms in eliminated families without citing + evidencing unbind trigger | 20 (2026-04-22, retroactive from 8/13/14/15/16/17/19e) | [METHODOLOGY §3.11](METHODOLOGY.md) + [PROJECT_CLOSURE_REPORT §7.5](PROJECT_CLOSURE_REPORT.md) |
+
+**Principle #12 upgraded BINDING Chu kỳ 20**: Power analysis từ advisory thành binding gate. Reject verdict requires power ≥50%; otherwise `Inconclusive-underpowered`. See [METHODOLOGY §3.6](METHODOLOGY.md) updated + [EVALUATION §6](EVALUATION.md) new verdict row.
+
+**EVALUATION §8 composite-binding BINDING Chu kỳ 20**: Tournament composite score is the decision output. Single-metric verdicts disallowed.
 
 Guardrails bất biến (từ Chu kỳ 1+):
 - Walk-forward (no look-ahead)

@@ -208,20 +208,25 @@ Chu kỳ 4 13-test RNG battery + Chu kỳ 8 drift analysis: bias exists (digit 6
 
 **Null-leaning interpretation**: 66 strategies × 3-gate × 0 Accept is strong cumulative evidence for "white noise at exploitable scale." Not formal proof (always possible Δ=0.01pp exists undetected), but actionable conclusion: cannot extract value with current data + methodology.
 
-### 6.3 Data horizon limitation
+### 6.3 Data horizon limitation (updated Chu kỳ 20)
 
-Current N per product (2026-04-22):
-| Product | N | First draw | Latest draw |
-|---|---|---|---|
-| Max 3D | 1065 | 2019-04-22 | 2026-04-20 |
-| Max 3D Pro | 711 | 2021-09-14 | 2026-04-18 |
-| Power 6/55 | 1334 | 2017-08-01 | 2026-04-21 |
-| Power 6/45 | 1302 | 2018-07-24 | 2026-04-20 |
-| Power 5/35 | 543 | 2024-10-12 | 2026-04-21 |
+Current N per product (2026-04-22) with minimum-N-for-power:
+
+| Product | N | N req for Δ=0.3pp @ 80% | Ratio | N req for Δ=0.1pp @ 80% | Status |
+|---|:---:|:---:|:---:|:---:|---|
+| Max 3D | 1065 | 62,231 | 0.017 | 534,625 | **Exploratory-only** |
+| Max 3D Pro | 711 | 62,231 | **0.011** | 534,625 | **Exploratory-only (worst 3D)** |
+| Power 6/55 | 1334 | 48,002 | 0.028 | 406,290 | **Exploratory-only** |
+| Power 6/45 | 1302 | 62,231 | 0.021 | 534,625 | **Exploratory-only** |
+| Power 5/35 | 543 | 48,002 | **0.011** | 406,290 | **Exploratory-only (smallest N)** |
+
+**Calculations** (Principle #12 binding post Chu kỳ 20): α=0.005 (Bonferroni K=10 projected), baseline rates 1.5-2% per product family. See [post_closure/cycle20_a5_min_n_table.json](post_closure/cycle20_a5_min_n_table.json) for full table with power_50% also computed.
+
+**Updated implication** (Chu kỳ 20 baseline): Project is **data-starved 30-100×** relative to gold-standard power, not 30-50× as previously estimated. Even at N=10,000 per product (achievable ~2035 at current growth), only Δ=1pp effects detectable at 80% power — which is 2.5× the 3D bias ceiling (0.4pp) and 3.3× matrix ceiling (0.3pp). **No real effect at bias-ceiling magnitude is formally detectable with foreseeable data horizon.**
+
+**Updated reopen criteria**: `N ≥ 2000` remains threshold for revisit of Inconclusive-underpowered candidates (§7.1), but **cumulative claim strength** will stay "moderate-power evidence" indefinitely unless RNG audit access opens (§6.4).
 
 Lotto 5/35 newest (N=543) → most power-constrained. Expected to reach N~1000 by mid-2027 (weekly growth ~8-10 draws). Matrix products grow ~150-200 draws/year.
-
-**Implication**: 2027 data horizon might halve Lotto uncertainty + 15% increase Matrix N. Still insufficient for Δ<0.1pp detection at 80% power. Meaningful data-led reopen criteria: **N ≥ 2000 per product**, likely ~2030+.
 
 ### 6.4 Black-box RNG — no audit access
 
@@ -254,6 +259,30 @@ What the project definitively ruled out or left unresolved, in one table for fut
 | Weekday / month seasonality | Chu kỳ 19d (10/10 tests PASS) | **FALSIFIED** (2026-04-22) |
 | Single+Multi ensemble offsets coverage loss | Chu kỳ 19e (Hybrid_1S_5R / _3S_3R Reject split-half) | **FALSIFIED** (same geometry ⊥ as Kelly) |
 
+### 7.1.1 Inconclusive-underpowered candidates (reclassified Chu kỳ 20)
+
+Previously `Reject`, reclassified as `Inconclusive-underpowered` after Principle #12 binding upgrade. Criterion: observed Δ > 0.3pp + power < 50% + direction consistent with hypothesis.
+
+| Cycle | Product | Strategy | Observed Δ pp | Power at bias ceiling | Revisit at N |
+|:---:|---|---|:---:|:---:|:---:|
+| 16 | Power 5/35 | PatternN | +0.767 | 0.020 | ≥ 48,002 |
+| 13 | Max 3D | PooledDigitBias | +0.345 | 0.438 | ≥ 62,231 |
+| 11 | Max 3D Pro | JointDigitBias | +0.378 | 0.251 | ≥ 62,231 |
+| 12 | Max 3D Pro | JointDigitBias | +0.378 | 0.348 | ≥ 62,231 |
+| 13 | Max 3D Pro | JointDigitBias | +0.378 | 0.251 | ≥ 62,231 |
+| 14 | Power 6/45 | Bayesian (batch) | +0.333 | 0.090 | ≥ 62,231 |
+| 15 | Power 6/45 | Bayesian (batch) | +0.333 | 0.117 | ≥ 62,231 |
+| 11 | Max 3D | JointDigitBias | +0.305 | 0.438 | ≥ 62,231 |
+
+**8 candidates**. **Do NOT count** as falsification evidence for family elimination (§7.5, Principle #17). If `N_per_product` reaches listed threshold (~2027+), these candidates may be re-tested with proper 3-gate protocol.
+
+**Note on family classification**: JointDigitBias appears 5× above across 3 cycles × 2 products → convergent pattern suggests "joint-digit exploitation" is close-call-but-not-convergent-reject family. Current data horizon insufficient to close case. Similarly Bayesian-batch 2× Power 6/45 → close call.
+
+**Updated cumulative claim** (post Chu kỳ 20):
+> "66 strategies × 5 products × 3-gate = 0 Accept / 0 Suggestive (strong) / 79 Reject (adequate power OR no positive Δ) / **8 Inconclusive-underpowered** (revisit at N ≥ 2000-3000 per product, typically ~2027-2030)."
+
+This is more honest than pre-Chu kỳ 20 claim "0 Accept / 0 Suggestive" which conflated strong falsification với weak-evidence reject.
+
 ### 7.2 Confirmed present but not exploitable
 
 | Finding | Origin | Status |
@@ -278,12 +307,34 @@ From META_REVIEW §2b "paradigm shifts chưa try":
 
 ### 7.4 Methodology gaps (acknowledged)
 
-- **Power analysis**: most gates <30% power. "No-pass" = inconclusive not falsifying in strict sense. Acceptable given project scope but documented limitation.
+- ~~**Power analysis**: most gates <30% power. "No-pass" = inconclusive not falsifying in strict sense.~~ → **CLOSED Chu kỳ 20**: Principle #12 upgraded to binding, "Inconclusive-underpowered" verdict added (EVALUATION §6), 8 candidates reclassified (§7.1 below). ALL 5 products flagged exploratory-only at current N (§6.3).
 - **Cycles 1-6 pre-registration**: not formal; some hyperparameter cherry-picking possible. Cycles 7+ binding pre-reg; issue closed forward.
-- ~~**Formal RNG audit battery**: not run~~ → **CLOSED 2026-04-22 Chu kỳ 19c**: NIST-style battery (integer-sequence adaptation) confirms number-level uniformity for all 5 products; 3D digit bias replicated. Methodology gap resolved.
+- ~~**Formal RNG audit battery**: not run~~ → **CLOSED Chu kỳ 19c**: NIST-style battery confirms number-level uniformity for all 5 products; 3D digit bias replicated.
 - **Stratified split-half**: only time-ordered tested. Stratified might expose recency-dependent behavior. *(Untested; low priority given convergent null.)*
-- ~~**Seasonality test per weekday / lunar calendar**: not formally run~~ → **CLOSED 2026-04-22 Chu kỳ 19d**: chi² contingency tests on weekday × month × holiday for all 5 products; 10/10 tests pass. Seasonality hypothesis falsified.
-- **Multiple-comparison correction choice (Bonferroni vs FDR)**: potential over-conservatism. Chu kỳ 19a applied BH-FDR re-analysis to 37 gate-1 candidates; 0 resurrections. Confirms 3-gate stacking (Principles #11 + #13) — not Bonferroni — is the binding filter. Gap resolved.
+- ~~**Seasonality test per weekday / lunar calendar**: not formally run~~ → **CLOSED Chu kỳ 19d**: chi² contingency tests 10/10 PASS. Seasonality falsified.
+- ~~**Multiple-comparison correction choice (Bonferroni vs FDR)**~~ → **CLOSED Chu kỳ 19a**: BH-FDR re-analysis 0 resurrections. 3-gate stacking is binding filter.
+- ~~**Single-metric decision bias** (operational single-metric despite codified composite)~~ → **CLOSED Chu kỳ 20**: Composite-binding rule (EVALUATION §8). 5 historical cycle-product groups had composite ≠ single-metric top but NO verdict reversal.
+
+### 7.5 Eliminated families — binding registry (Principle #17, Chu kỳ 20)
+
+**Rule** (METHODOLOGY §3.11): New cycles Chu kỳ 21+ cannot propose mechanisms in eliminated families without citing + evidencing unbind trigger. Routed through Principle #16 retry tree.
+
+| Family | Origin cycles | Convergent evidence | Mean Δ observed | **Unbind trigger** |
+|---|---|---|:---:|---|
+| Adaptive / drift-based | 8 (3D no drift), 14 (matrix online Kalman 6/6 R) | 2 cycles + 11 strategies | +0.004pp | Novel non-stationary hypothesis + evidence drift emerged post-observation period |
+| Cross-product pooling | 13 (3D 4/4 R), 15 (matrix 5/6 R + 1 Inc) | 2 cycles + 9 strategies | -0.135pp | Vietlott confirms shared-RNG infrastructure between products |
+| Kelly concentration multi-ticket | 16 (9/9 R Δ up to −28pp), 19e (Hybrid reject) | 2 cycles + 12 strategies | -13.694pp (Kelly proper) | Geometric proof of exception to set-coverage ⊥ concentration |
+| HMM regime detection | 17 (6/6 R), convergent với 8 (no drift) + 14 (Kalman) | 3 cycles convergent | -0.130pp | Discrete regime structure detected via non-HMM method first |
+| GBM discriminative at current features | 12 (+3pp flagged), 12.5 (audit confirms overfit) | 1 cycle + 1 audit | +3.338pp (overfit, not real) | Feature dimensionality increase ≥10× OR novel training paradigm (LLM-based reasoning, etc.) |
+| Single+Multi ticket ensemble | 19e (Hybrid_1S_5R / _3S_3R Reject split-half) | 1 cycle + Kelly geometry | Negative on full/halves, isolated +1.2-1.4pp forward (p>0.4 noise) | Kelly unbind condition met (geometric exception to set-coverage) |
+
+**Unbinding procedure**:
+1. Pre-reg must cite specific unbind trigger
+2. Evidence trigger met (artifact: data, paper, API response, proof)
+3. Route through Principle #16 retry tree explicitly
+4. User approval required
+
+**Common default unbind trigger for data-bound families**: `N ≥ 2 × current_N_per_product` (per Principle #12 power gate logic).
 
 ---
 
@@ -381,25 +432,41 @@ Even without a predictive edge, the project produces value:
 
 ## 11. Closing remarks
 
-### 11.1 Scientific integrity
-This project ended with a null result. The rigor of that null — 3-gate stacked, pre-registered, convergent across 17 cycles — is itself the contribution. Many popular "lottery strategies" in commercial apps and academic-adjacent papers rely on single-gate full-sample tests; any of them would have produced "promising" Chu kỳ 1-6 results here. 3-gate stacking dissolved all of them. The protocol is the real artifact.
+### 11.1 Scientific integrity (updated Chu kỳ 20)
+
+This project ended with a null result. The rigor of that null — 3-gate stacked, pre-registered, convergent across 19 cycles, refined Chu kỳ 20 with Principles #17 (family elimination) and binding #12 (power) — is the contribution. Many popular "lottery strategies" in commercial apps and academic-adjacent papers rely on single-gate full-sample tests; any of them would have produced "promising" Chu kỳ 1-6 results here. 3-gate stacking dissolved all of them. The protocol is the real artifact.
+
+**Known historical biases acknowledged (Chu kỳ 20 self-assessment)**:
+1. **Single-metric decision bias**: Composite weights codified Chu kỳ 10 (0.40/0.30/0.15/0.15) but operationally many decisions defaulted to win-rate primary. Chu kỳ 19b + 20 A4 surfaced 5 cycle-product groups where composite-top ≠ single-metric-top. **No verdict reversal** (all strategies in those groups were Reject regardless) but the bias existed. Post Chu kỳ 20: composite-binding rule enforced.
+2. **Underpowered reject claims**: 99.2% of 364 significance tests ran at <50% power. "Reject at low power" was treated equivalent to "Reject at adequate power" — incorrect. Post Chu kỳ 20: Principle #12 binding; 8 reject verdicts reclassified to Inconclusive-underpowered (§7.1.1).
+3. **Paradigm revisits without family blocker**: Chu kỳ 19e tested Single+Multi ensemble — variant of concentration paradigm falsified Chu kỳ 16. Principle #17 (family elimination binding) now prevents similar wasted cycles.
+
+These biases **did not reverse the 0-Accept conclusion** but did inflate confidence in "falsification" claims for weak-evidence rejects. Post-refinement claim is narrower + defensible:
+
+> "19 cycles × 66 strategies × 3-gate with convergent family-level evidence = 0 strong Accept, 79 strong Reject (6 families eliminated with unbind triggers), 8 Inconclusive-underpowered pending N≥2000 per product."
 
 ### 11.2 What not to update
-Do **not** update this document with minor findings from follow-on Optimization cycles (if Chu kỳ 19 runs). This is the project-level closure; per-cycle records handle post-closure activity.
 
-Do **not** claim "we proved no edge exists." We demonstrated "no edge we could find with 17 cycles × 66 strategies × current data horizon passes 3-gate validation." Narrower, honest, scientifically defensible.
+Do **not** update this document with minor findings from follow-on cycles (Chu kỳ 21+ Optimization mode or future reopens). This is the project-level closure; per-cycle records in `history/` handle post-closure activity.
+
+**Exception list** (items requiring this document to update):
+- 2026-04-22 Chu kỳ 19: added §7.1 new falsifications (seasonality, ensemble), §7.4 gaps closed
+- 2026-04-22 Chu kỳ 20: §6.3 min-N table, §7.1.1 Inconclusive-underpowered reclassification, §7.5 family registry, §11.1 bias acknowledgment
+- Future: any Reopen (§9 triggers met) that produces new Accept/Suggestive candidates — MUST update §7.1 status + §11 narrative
+
+Do **not** claim "we proved no edge exists." We demonstrated "no edge we could find with 19 cycles × 66 strategies × current data horizon passes refined 3-gate validation with adequate power." Narrower, honest, scientifically defensible.
 
 ### 11.3 Acknowledgments
-Methodology principles #11-#16 distilled from failures, not wins. Each principle has an origin cycle where a specific false-positive would have slipped through without it. The cycles are the teachers.
+Methodology principles #11-#17 distilled from failures, not wins. Each principle has an origin cycle where a specific false-positive (or false-certainty) would have slipped through without it. The cycles are the teachers.
 
 ### 11.4 Contact + continuation
 
 For users of this codebase:
 - **Maintain crawler + website**: continue, low maintenance.
 - **Ship UI changes**: use [RESEARCH_TO_UI_PLAYBOOK.md](../RESEARCH_TO_UI_PLAYBOOK.md).
-- **Chu kỳ 19 Optimization mode** (optional): resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) for ROI-backed UI picks. ~1-2 weeks effort. Not breakthrough-search; it's ranking existing strategies.
-- **Reopen breakthrough research**: only on §9 triggers.
+- **Chu kỳ 21 Optimization mode** (optional): resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) for ROI-backed UI picks. ~1-2 weeks effort. Not breakthrough-search; ranks existing strategies. Now benefits from Chu kỳ 20 composite-binding rule.
+- **Reopen breakthrough research**: only on §9 triggers. New cycles must comply với Principle #17 (family elimination) + binding Principle #12 (power gate).
 
 ---
 
-*Document frozen 2026-04-22. Modifications after this date must be flagged in §11.2 exception list.*
+*Document frozen 2026-04-22 (initial Chu kỳ 18). Updated Chu kỳ 19 (post-closure) + Chu kỳ 20 (methodology refinement). See §11.2 exception list for all updates.*

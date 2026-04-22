@@ -28,7 +28,7 @@ Phase 0: Data ingest → Phase 1: Bias detect → Phase 2: Design → Phase 3: V
 
 ---
 
-## Phase 0 — Hiểu Dữ Liệu
+## Phase 0 — Hiểu Dữ Liệu + Power Gate (upgraded Chu kỳ 20)
 
 ### Checklist
 
@@ -38,6 +38,33 @@ Phase 0: Data ingest → Phase 1: Bias detect → Phase 2: Design → Phase 3: V
 - [ ] Xác định cấu trúc giải thưởng (tier, prize value)
 - [ ] Đếm số kỳ quay, date range
 - [ ] Kiểm tra duplicate, missing draws, data quality
+- [ ] **POWER GATE** (Principle #12 binding post Chu kỳ 20):
+  - Compute `n_required(power=80%, α=0.05/K_bonf, Δ=bias_ceiling)` cho primary metric
+  - Compare với `N_available × n_runs`
+  - **Classify cycle**: ≥80% = standard | 50-80% = moderate-power flag | <50% = **exploratory-only** (no Reject claims)
+  - Current project status (2026-04-22): ALL 5 products ở exploratory-only tier cho Δ=0.3pp at 80% — see [post_closure/cycle20_a5_min_n_table.json](post_closure/cycle20_a5_min_n_table.json)
+
+### Phase 0 power gate — quick formula
+
+```python
+from scipy.stats import norm
+import math
+
+def n_required(p0, delta, alpha=0.005, power=0.80):
+    """Per-group n for two-proportion z-test."""
+    p1 = p0 + delta
+    z_alpha = norm.ppf(1 - alpha/2)
+    z_beta = norm.ppf(power)
+    numer = (z_alpha + z_beta)**2 * (p0*(1-p0) + p1*(1-p1))
+    return math.ceil(numer / delta**2)
+
+# Example: 3D bias ceiling 0.4pp, baseline 2%, K_bonf=10
+# n_required(0.02, 0.004, alpha=0.005, power=0.80) ≈ 62,231 per group
+```
+
+**Exit criteria**:
+- [ ] Power gate checked + classified (standard / moderate / exploratory-only)
+- [ ] If exploratory-only: pre-reg MUST declare "no Accept/Reject claims, descriptive observations only"
 
 ### Lưu ý quan trọng
 
@@ -94,6 +121,29 @@ Output JSON schema và interpretation flowchart: [TESTING.md §2, §7](TESTING.m
 ## Phase 2 — Thiết Kế Thuật Toán
 
 ### ⚡ Bắt buộc trước khi code (Phase 2 gates)
+
+#### Gate 0: Family elimination check (Principle #17 — BINDING Chu kỳ 21+)
+
+**Kiểm tra** proposed mechanism có thuộc eliminated family không (xem [PROJECT_CLOSURE_REPORT.md §7.5](PROJECT_CLOSURE_REPORT.md)):
+
+| Eliminated family | Origin | Unbind trigger |
+|---|---|---|
+| Adaptive / drift-based | Chu kỳ 8, 14 | Novel non-stationary hypothesis + evidence drift emerged post-2026 |
+| Cross-product pooling | Chu kỳ 13, 15 | Vietlott confirms shared-RNG infrastructure between products |
+| Kelly concentration multi-ticket | Chu kỳ 16, 19e | Fundamental geometry proof of exception |
+| HMM regime detection | Chu kỳ 17 (conv with 8/14) | Regime structure detected via other method first |
+| GBM discriminative at current features | Chu kỳ 12, 12.5 | Feature dimensionality increase ≥10× OR novel training paradigm |
+| Single+Multi ticket ensemble | Chu kỳ 19e | Kelly unbind condition met (geometric exception) |
+
+**Rule**: If proposed mechanism ∈ eliminated family:
+- [ ] Document which eliminated family
+- [ ] Cite unbind trigger explicitly
+- [ ] Demonstrate trigger condition met (evidence + artifact link)
+- [ ] Route through Principle #16 retry tree (not implicit bypass)
+
+**Exception**: Audit/diagnostic cycles (like Chu kỳ 12.5) may test eliminated family với declaration `diagnostic-only, no Accept claims`.
+
+**Skip this gate if mechanism is novel paradigm** (no related family in eliminated registry).
 
 #### Gate 1: Pre-registration hypothesis (METHODOLOGY §3.1)
 
@@ -281,6 +331,8 @@ Sample from top-50 most frequent with frequency weighting
 - [ ] **Significance test trên Δ vs Random** (z-test proportion hoặc permutation) — bắt buộc, xem [EVALUATION §3](EVALUATION.md)
 - [ ] Report: point estimate + p-value + Wilson 95% CI + `passes_bonferroni`
 - [ ] Cross-product validation khi applicable
+- [ ] **Composite tournament score MANDATORY** (Chu kỳ 20 binding): compute 4-metric z-normalized composite per [EVALUATION §8](EVALUATION.md). Decision verdicts **derive from composite rank**, không từ single metric. Single-metric ranks = diagnostic output only.
+- [ ] **Power classification reported** per segment: standard (≥80%) / moderate (50-80%) / exploratory (<50%). Reject verdicts với power <50% → flag as "Reject (weak evidence)" không count cho family elimination.
 
 ### Common pitfalls
 
