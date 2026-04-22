@@ -6,9 +6,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { NumberBall } from "./NumberBall";
-import { BacktestCard } from "./BacktestCard";
+import { AlgorithmComparisonTable } from "./AlgorithmComparisonTable";
+import { AlgorithmLiftSummary } from "./AlgorithmLiftSummary";
 import type { SuggestionStrategy, SuggestionSet, ThreeDSuggestionSet } from "@/lib/types";
 import { calculatePrizeProbabilities, formatProbability, type PrizeTierProbability } from "@/lib/prize-probability";
+import { getRepresentativeRow, getStrategyRows } from "@/lib/algorithm-comparison";
+import { CYCLE22_PRODUCTS } from "@/lib/cycle22-data";
 
 // ── Module-level cache: survives across page navigations ──
 interface CachedPanelState {
@@ -129,75 +132,44 @@ const ALL_STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; d
 // See website/research/optimization/MEASUREMENT.md §3 for semantics.
 // Null picks: Power 6/45 (baseline drift flip) + Max 3D Pro (regime split) — honest outcome.
 type ProductSlug = "power-655" | "power-645" | "power-535" | "max-3d" | "max-3d-pro";
-const MAX_STRATEGIES_SHOWN = 7;
 
 type ProductPick = { strategy: SuggestionStrategy; stat: string };
-type CollapseMode = "none" | "all_three" | "winrate_roi" | "winrate_balanced" | "roi_balanced";
 const PRODUCT_RANKS: Record<ProductSlug, {
-  ranks: Record<SuggestionStrategy, number>;
-  stats: Record<SuggestionStrategy, string>;
   picks: { winrate: ProductPick | null; roi: ProductPick | null; balanced: ProductPick | null };
-  collapse: CollapseMode;
   // Fallback strategy for useState initializer when all picks are null
   defaultStrategy: SuggestionStrategy;
-  recReason: string;
 }> = {
   "power-655": {
-    // Chu kỳ 22: MinDistance top all 3 profiles (composite +1.757/+1.334/+1.546), collapse all_three
-    ranks: { mindistance: 1, maxentropy: 2, frequency: 3, pattern: 4, bayesian: 5, absence: 6, mixed: 7, adaptive: 8, evmax: 9, jointbias: 10, hybridparity: 11, coverageopt: 12, pairexploiter: 13 },
-    stats: { mindistance: "Δ+0.308pp, ROI +1.36% vs Random, split-half verified (C22 pick)", maxentropy: "Δ+0.081pp, ROI +1.55%", frequency: "Δ−0.065pp, ROI +1.12%", pattern: "Δ−0.227pp, ROI +0.19%", bayesian: "🚫 Tier 2 excluded (Bayesian family eliminated Chu kỳ 21)", absence: "Δ−0.162pp, ROI +0.82%", mixed: "50/50 nóng+lạnh", adaptive: "🚫 Tier 2 excluded (Adaptive family eliminated Chu kỳ 14)", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35", coverageopt: "Chỉ cho 3D", pairexploiter: "Chỉ cho 3D" },
     picks: {
       winrate: { strategy: "mindistance", stat: "Δ+0.308pp, composite +1.757 (rank 1)" },
       roi: { strategy: "mindistance", stat: "Δ_ROI +1.36%, composite +1.334 (rank 1)" },
       balanced: { strategy: "mindistance", stat: "composite +1.546 (rank 1)" },
     },
-    collapse: "all_three",
     defaultStrategy: "mindistance",
-    recReason: "Chu kỳ 22: MinDistance dominates cả 3 profiles (winrate/roi/balanced) — Δ+0.308pp win, ROI +1.36% vs Random. Split-half verified. Composite +1.757 cách biệt khá với #2 ExpDecay_Hot (+0.764).",
   },
   "power-645": {
-    // Chu kỳ 22: all picks null — baseline drift between halves (+0.67pp shift) flips all top candidates
-    ranks: { mindistance: 1, frequency: 2, maxentropy: 3, pattern: 4, absence: 5, mixed: 6, bayesian: 7, adaptive: 8, evmax: 9, jointbias: 10, hybridparity: 11, coverageopt: 12, pairexploiter: 13 },
-    stats: { mindistance: "Δ+0.399pp, ROI +2.55% | ⚠ split-half flip (h1+, h2−)", frequency: "Δ+0.083pp, ROI +17.29% | ⚠ split-half flip", maxentropy: "Δ−0.283pp", pattern: "Δ−0.133pp", absence: "Δ−0.083pp", mixed: "50/50 nóng+lạnh", bayesian: "🚫 Tier 2 excluded", adaptive: "🚫 Tier 2 excluded", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35", coverageopt: "Chỉ cho 3D", pairexploiter: "Chỉ cho 3D" },
     picks: { winrate: null, roi: null, balanced: null },
-    collapse: "none",
     defaultStrategy: "mindistance",
-    recReason: "Chu kỳ 22: Không có pick đủ tin cậy cho Mega 6/45. Random baseline dịch +0.67pp giữa hai halves → mọi strategy top đều flip direction. Đây là honest null outcome — không phải bug. Vui lòng tham khảo bảng xếp hạng chi tiết để tự chọn.",
   },
   "power-535": {
-    // Chu kỳ 22: Freq_Hot top all 3 profiles (collapse all_three). ⚠ Δ_win=-0.045 (negative) but composite wins via ROI+sharpe.
-    ranks: { frequency: 1, maxentropy: 2, absence: 3, pattern: 4, mindistance: 5, mixed: 6, hybridparity: 7, bayesian: 8, adaptive: 9, evmax: 10, jointbias: 11, coverageopt: 12, pairexploiter: 13 },
-    stats: { frequency: "Δ+1.80% ROI (best), Δ_win −0.045pp (≈ tie Random)", maxentropy: "Δ_win +0.000pp, ROI 0 (tied Random)", absence: "Δ−0.271pp", pattern: "Δ−0.452pp", mindistance: "Δ−0.135pp, ROI −0.68%", mixed: "50/50 nóng+lạnh", hybridparity: "⚠️ Chu kỳ 5 Reject (p=0.301)", bayesian: "🚫 Tier 2 excluded", adaptive: "🚫 Tier 2 excluded", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", coverageopt: "Chỉ cho 3D", pairexploiter: "Chỉ cho 3D" },
     picks: {
       winrate: { strategy: "frequency", stat: "composite +0.814 (rank 1) — lưu ý: Δ_win −0.045pp (≈ tie Random)" },
       roi: { strategy: "frequency", stat: "ROI +1.80% vs Random, composite +1.208" },
       balanced: { strategy: "frequency", stat: "composite +1.012 (rank 1)" },
     },
-    collapse: "all_three",
     defaultStrategy: "frequency",
-    recReason: "Chu kỳ 22: Freq_Hot dominates cả 3 profiles. ⚠ Pick winrate có Δ_win NEGATIVE nhẹ (−0.045pp ≈ tie với Random) — được chọn vì composite winner (ROI +1.8% + least bad win). Xem /glossary để hiểu semantic 'pick = composite winner, không đảm bảo beat Random'.",
   },
   "max-3d": {
-    // Chu kỳ 22: 3 picks diverse. Winrate=PairExploiter (rank 1, +0.414pp, p=0.038), ROI=CoverageOpt (rank 2 after retry, +11.6pp ROI), Balanced=FreqWholeHot (rank 1, +12.9pp ROI)
-    ranks: { pairexploiter: 1, frequency: 2, coverageopt: 3, maxentropy: 4, jointbias: 5, pattern: 6, bayesian: 7, adaptive: 8, mixed: 9, evmax: 10, absence: 11, hybridparity: 12, mindistance: 13 },
-    stats: { pairexploiter: "Δ+0.414pp, ROI +10.35%, p=0.0379 (C22 winrate pick)", frequency: "Δ+0.374pp, ROI +12.93% (FreqWholeHot, C22 balanced pick)", coverageopt: "Δ+0.364pp, ROI +11.61% (C22 roi pick, retry #2)", maxentropy: "~ tương đương CoverageOpt (không tested C22, Freq 3D close)", jointbias: "Δ+0.118pp (A1 JointBias_T1.0 ranked)", pattern: "chưa có equivalent direct", bayesian: "🚫 Tier 2 excluded (BayesJoint)", adaptive: "🚫 Tier 2 excluded (AdaptBias)", mixed: "digit-by-digit", evmax: "D1 tested: Δ+0.020pp, ROI −9.48% (rank #17)", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35", mindistance: "Chỉ cho matrix" },
     picks: {
       winrate: { strategy: "pairexploiter", stat: "Δ+0.414pp, p=0.038, composite +1.603 (rank 1)" },
       roi: { strategy: "coverageopt", stat: "Δ_ROI +11.61%, composite +1.465 (rank 2 after retry)" },
       balanced: { strategy: "frequency", stat: "FreqWholeHot: Δ_ROI +12.93%, composite +1.586 (rank 1 balanced)" },
     },
-    collapse: "none",
     defaultStrategy: "pairexploiter",
-    recReason: "Chu kỳ 22: 3 picks diverse — PairExploiter winrate (p=0.038 best nominal sig của cycle), CoverageOpt ROI (+11.6pp), FreqWholeHot balanced. Tất cả split-half verified. Pick đa dạng theo user intent (max trúng / min lỗ / cân bằng).",
   },
   "max-3d-pro": {
-    // Chu kỳ 22: all picks null — regime split between halves. D1 top but h1→h2 flip from +1.15pp to -0.20pp.
-    ranks: { evmax: 1, frequency: 2, jointbias: 3, pairexploiter: 4, maxentropy: 5, coverageopt: 6, pattern: 7, bayesian: 8, adaptive: 9, mixed: 10, absence: 11, hybridparity: 12, mindistance: 13 },
-    stats: { evmax: "Δ+0.484pp, ROI +13.43% | ⚠ split-half flip (h1 +1.15pp → h2 −0.20pp)", frequency: "Δ+0.030pp, ROI −7.38% (FreqWholeHot in C22)", jointbias: "Δ+0.363pp (A1 JointBias_T1.0)", pairexploiter: "Δ+0.121pp, ROI −0.21%", maxentropy: "~ tương đương B1", coverageopt: "Δ−0.575pp, ROI −18.71% (rank #17 cuối bảng cho 3D Pro)", pattern: "chưa tested", bayesian: "🚫 Tier 2 excluded", adaptive: "🚫 Tier 2 excluded", mixed: "digit-by-digit", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35", mindistance: "Chỉ cho matrix" },
     picks: { winrate: null, roi: null, balanced: null },
-    collapse: "none",
     defaultStrategy: "evmax",
-    recReason: "Chu kỳ 22: Không có pick đủ tin cậy cho Max 3D Pro. Regime split giữa hai halves: EVMaximizer top composite nhưng h1 +1.15pp → h2 −0.20pp (direction flip). ULTIMATE_v2_sharp opposite flip. Honest null outcome — tham khảo bảng xếp hạng chi tiết.",
   },
 };
 
@@ -224,11 +196,40 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
     panelStateCache.set(props.slug, { strategy, count, countInput, results, page });
   }, [props.slug, strategy, count, countInput, results, page]);
 
-  const sortedStrategies = useMemo(() => {
-    return [...ALL_STRATEGIES]
-      .filter((s) => productRank.ranks[s.key] <= MAX_STRATEGIES_SHOWN)
-      .sort((a, b) => productRank.ranks[a.key] - productRank.ranks[b.key]);
-  }, [productRank]);
+  // Build pill list for quick strategy selector — dedupe UI keys by best
+  // composite-balanced rank, order ascending. Strategies without C22 data
+  // (e.g. mixed, bayesian, adaptive, hybridparity for Matrix products)
+  // appended at the end so everything remains reachable.
+  const quickPills = useMemo(() => {
+    const rows = getStrategyRows(props.slug);
+    const byUiKey = new Map<SuggestionStrategy, { rank: number; deltaWinPp: number }>();
+    for (const r of rows) {
+      if (r.isBaseline || !r.uiKey) continue;
+      const existing = byUiKey.get(r.uiKey);
+      if (!existing || r.rank.balanced < existing.rank) {
+        byUiKey.set(r.uiKey, { rank: r.rank.balanced, deltaWinPp: r.deltaWinPp });
+      }
+    }
+    const withData = Array.from(byUiKey.entries())
+      .map(([key, m]) => ({ key, ...m, hasData: true }))
+      .sort((a, b) => a.rank - b.rank);
+
+    // Append UI-only strategies (no C22 data) that are still valid for this product
+    const HIDE_PER_PRODUCT: Record<string, SuggestionStrategy[]> = {
+      "power-655": ["evmax", "jointbias", "coverageopt", "pairexploiter", "hybridparity"],
+      "power-645": ["evmax", "jointbias", "coverageopt", "pairexploiter", "hybridparity"],
+      "power-535": ["evmax", "jointbias", "coverageopt", "pairexploiter"],
+      "max-3d":    ["mindistance", "hybridparity", "absence", "bayesian", "adaptive"],
+      "max-3d-pro":["mindistance", "hybridparity", "absence", "bayesian", "adaptive"],
+    };
+    const hidden = new Set(HIDE_PER_PRODUCT[props.slug] ?? []);
+    const inWithData = new Set(withData.map((r) => r.key));
+    const extras = ALL_STRATEGIES
+      .filter((s) => !inWithData.has(s.key) && !hidden.has(s.key))
+      .map((s) => ({ key: s.key, rank: 99, deltaWinPp: NaN, hasData: false }));
+
+    return [...withData, ...extras];
+  }, [props.slug]);
 
   const handleCountChange = (val: string) => {
     setCountInput(val);
@@ -367,13 +368,14 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         <h2 className="text-lg font-bold">Bộ số may mắn</h2>
       </div>
 
-      {/* Research picks card — Chu kỳ 22: 3 profiles (winrate/roi/balanced) + collapse modes + null support */}
+      {/* Research picks card — Chu kỳ 22: 3 profiles (winrate/roi/balanced).
+          Each pick card shows inline stats (Δ_win, Δ_ROI, p-value) so users
+          can compare picks without relying on tooltip hover. */}
       {(() => {
         const wrPick = productRank.picks.winrate;
         const roiPick = productRank.picks.roi;
         const balPick = productRank.picks.balanced;
         const allNull = !wrPick && !roiPick && !balPick;
-        const collapse = productRank.collapse;
 
         if (allNull) {
           return (
@@ -382,62 +384,192 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                 <span className="text-base shrink-0">⚠️</span>
                 <div className="flex-1 text-sm">
                   <span className="font-semibold">Chưa có pick đủ tin cậy.</span>{" "}
-                  <span className="text-muted-foreground">Chọn chiến lược tuỳ ý bên dưới. Chi tiết tại <a href="/research" className="underline">/research</a>.</span>
+                  <span className="text-muted-foreground">Chọn chiến lược tuỳ ý bên dưới, hoặc tham khảo bảng so sánh để tự quyết. Chi tiết tại <a href="/research" className="underline">/research</a>.</span>
                 </div>
               </div>
             </div>
           );
         }
 
-        // Deduplicate picks theo strategy (collapse modes hiển thị chỉ unique picks)
-        type RenderedPick = { label: string; icon: string; bgClass: string; pick: ProductPick };
+        // Deduplicate picks (collapse modes show only unique strategies)
+        type RenderedPick = {
+          label: string;
+          icon: string;
+          bgClass: string;
+          borderClass: string;
+          pick: ProductPick;
+        };
         const seen = new Set<string>();
         const rendered: RenderedPick[] = [];
         if (wrPick && !seen.has(wrPick.strategy)) {
-          rendered.push({ label: "Trúng", icon: "🎯", bgClass: "bg-green-600 text-white", pick: wrPick });
+          rendered.push({ label: "Trúng cao nhất", icon: "🎯", bgClass: "bg-green-600 text-white", borderClass: "border-green-600/40", pick: wrPick });
           seen.add(wrPick.strategy);
         }
         if (roiPick && !seen.has(roiPick.strategy)) {
-          rendered.push({ label: "Lỗ ít", icon: "💰", bgClass: "bg-yellow-600 text-white", pick: roiPick });
+          rendered.push({ label: "Lỗ ít nhất", icon: "💰", bgClass: "bg-yellow-600 text-white", borderClass: "border-yellow-600/40", pick: roiPick });
           seen.add(roiPick.strategy);
         }
         if (balPick && !seen.has(balPick.strategy)) {
-          rendered.push({ label: "Cân bằng", icon: "⚖", bgClass: "bg-slate-600 text-white", pick: balPick });
+          rendered.push({ label: "Cân bằng", icon: "⚖", bgClass: "bg-slate-600 text-white", borderClass: "border-slate-600/40", pick: balPick });
           seen.add(balPick.strategy);
         }
 
         return (
           <div className="rounded-xl border p-4" style={{ borderColor: `${props.color}40`, background: `${props.color}08` }}>
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  {rendered.length === 1 ? "Gợi ý tối ưu" : "Gợi ý theo mục tiêu"}
-                </span>
-                {rendered.map((r, i) => (
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
+              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                {rendered.length === 1 ? "Gợi ý tối ưu" : "So sánh 3 gợi ý"}
+              </span>
+              <span className="text-[10px] text-muted-foreground">· Chu kỳ 22 · click để chọn</span>
+            </div>
+            <div className={`grid gap-2.5 ${rendered.length === 1 ? "grid-cols-1" : rendered.length === 2 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-3"}`}>
+              {rendered.map((r, i) => {
+                const isActive = strategy === r.pick.strategy;
+                const rep = getRepresentativeRow(props.slug, r.pick.strategy);
+                const stratLabel = ALL_STRATEGIES.find((s) => s.key === r.pick.strategy)?.label ?? r.pick.strategy;
+                return (
                   <button
                     key={i}
                     onClick={() => handleSelectStrategy(r.pick.strategy)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-transform hover:scale-105"
-                    style={{
-                      backgroundColor: strategy === r.pick.strategy ? props.color : "transparent",
-                      color: strategy === r.pick.strategy ? "white" : props.color,
-                      border: `1.5px solid ${props.color}`,
-                    }}
-                    title={r.pick.stat}
+                    className={`relative text-left rounded-lg border-2 p-3 transition-all hover:shadow-md ${r.borderClass}`}
+                    style={isActive ? { backgroundColor: `${props.color}18`, borderColor: props.color } : { background: "var(--background)" }}
                   >
-                    <span className={`inline-flex items-center justify-center text-[10px] font-bold px-1.5 py-0.5 rounded ${r.bgClass}`}>
-                      {r.icon} {r.label}
-                    </span>
-                    <span>{ALL_STRATEGIES.find(s => s.key === r.pick.strategy)?.label}</span>
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded ${r.bgClass}`}>
+                        {r.icon} {r.label}
+                      </span>
+                      {isActive && (
+                        <span className="text-[10px] font-semibold" style={{ color: props.color }}>✓ đang chọn</span>
+                      )}
+                    </div>
+                    <div className="text-sm font-bold mb-1.5 leading-tight">{stratLabel}</div>
+                    {rep ? (
+                      <div className="grid grid-cols-3 gap-1.5 text-[11px] font-mono">
+                        <div>
+                          <div className="text-[9px] text-muted-foreground uppercase tracking-wider">Δ trúng</div>
+                          <div className={rep.deltaWinPp > 0 ? "text-green-600 dark:text-green-400 font-semibold" : rep.deltaWinPp < 0 ? "text-red-600 dark:text-red-400 font-semibold" : ""}>
+                            {rep.deltaWinPp > 0 ? "+" : ""}{rep.deltaWinPp.toFixed(2)}pp
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-[9px] text-muted-foreground uppercase tracking-wider">Δ ROI</div>
+                          <div className={rep.deltaRoiPct > 0 ? "text-green-600 dark:text-green-400 font-semibold" : rep.deltaRoiPct < 0 ? "text-red-600 dark:text-red-400 font-semibold" : ""}>
+                            {rep.deltaRoiPct > 0 ? "+" : ""}{rep.deltaRoiPct.toFixed(1)}%
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-[9px] text-muted-foreground uppercase tracking-wider">p-value</div>
+                          <div className={rep.pValue < 0.05 ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-muted-foreground"}>
+                            {rep.pValue < 0.001 ? "<.001" : rep.pValue.toFixed(3)}
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-[11px] text-muted-foreground italic">{r.pick.stat}</div>
+                    )}
                   </button>
-                ))}
-              </div>
+                );
+              })}
             </div>
           </div>
         );
       })()}
 
-      {/* Count + Generate (primary action, immediately after picks) */}
+      {/* Part A: Full algorithm comparison table — sortable, 3 profile tabs. */}
+      {(() => {
+        const product = CYCLE22_PRODUCTS.find((p) => p.slug === props.slug);
+        if (!product) return null;
+        const primaryLabel = product.scope === "matrix" ? "Win %" : "Exact %";
+        return (
+          <AlgorithmComparisonTable
+            slug={props.slug}
+            selectedUiKey={strategy}
+            onSelectUiKey={handleSelectStrategy}
+            picks={productRank.picks}
+            primaryMetricLabel={primaryLabel}
+            color={props.color}
+          />
+        );
+      })()}
+
+      {/* Primary strategy picker — card grid, always visible, above Count+Generate.
+          Per-product filtered via `quickPills`. Each card: emoji + label +
+          description + Δ_win. Pick badges top-left, ✓ indicator top-right
+          when active. Grid collapses to 2 cols on tablet, 1 on mobile. */}
+      <div className="space-y-2">
+        <div className="flex items-baseline justify-between gap-2">
+          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            Chọn chiến lược
+          </span>
+          <span className="text-[10px] text-muted-foreground hidden sm:inline">
+            💡 Số liệu chi tiết tại bảng so sánh phía trên
+          </span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+          {quickPills.map(({ key, deltaWinPp, hasData }) => {
+            const meta = ALL_STRATEGIES.find((s) => s.key === key);
+            if (!meta) return null;
+            const isSelected = strategy === key;
+            const isWinratePick = key === productRank.picks.winrate?.strategy;
+            const isRoiPick = key === productRank.picks.roi?.strategy;
+            const isBalancedPick = key === productRank.picks.balanced?.strategy;
+            const deltaStr = !hasData ? "—" : `${deltaWinPp >= 0 ? "+" : ""}${deltaWinPp.toFixed(2)}pp`;
+            const deltaColor = !hasData ? "text-muted-foreground/50"
+              : deltaWinPp > 0 ? "text-green-600 dark:text-green-400"
+              : deltaWinPp < 0 ? "text-red-600 dark:text-red-400"
+              : "text-muted-foreground";
+            return (
+              <button
+                key={key}
+                onClick={() => handleSelectStrategy(key)}
+                className={`relative text-left rounded-xl border-2 p-3 pr-4 transition-all duration-200 hover:shadow-md ${
+                  isSelected ? "shadow-md" : "border-border hover:border-muted-foreground/30"
+                }`}
+                style={isSelected ? { borderColor: props.color, backgroundColor: `${props.color}12` } : undefined}
+              >
+                {/* Pick badge corner */}
+                {isWinratePick && (
+                  <span className="absolute -top-1.5 left-2 px-1.5 py-0.5 rounded text-[9px] font-bold bg-green-600 text-white shadow-sm">
+                    🎯 Trúng
+                  </span>
+                )}
+                {!isWinratePick && isRoiPick && (
+                  <span className="absolute -top-1.5 left-2 px-1.5 py-0.5 rounded text-[9px] font-bold bg-yellow-600 text-white shadow-sm">
+                    💰 Lỗ ít
+                  </span>
+                )}
+                {!isWinratePick && !isRoiPick && isBalancedPick && (
+                  <span className="absolute -top-1.5 left-2 px-1.5 py-0.5 rounded text-[9px] font-bold bg-slate-600 text-white shadow-sm">
+                    ⚖ Cân bằng
+                  </span>
+                )}
+                {/* Selected check */}
+                {isSelected && (
+                  <span
+                    className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow-sm"
+                    style={{ backgroundColor: props.color }}
+                  >
+                    ✓
+                  </span>
+                )}
+                {/* Content */}
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-xl">{meta.emoji}</span>
+                  <span className="font-bold text-sm flex-1 truncate">{meta.label}</span>
+                  <span className={`text-[11px] font-mono font-semibold ${isSelected ? "" : deltaColor}`} style={isSelected ? { color: props.color } : undefined}>
+                    {deltaStr}
+                  </span>
+                </div>
+                <div className="text-[11px] text-muted-foreground mt-1 leading-relaxed line-clamp-2">
+                  {meta.description}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Count + Generate (primary action) */}
       <div className="flex flex-wrap items-center gap-3 pt-1">
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Tạo</span>
@@ -514,84 +646,6 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         </div>
       </details>
 
-      {/* Advanced strategy selector — collapsed by default */}
-      <details className="group rounded-lg border px-3 py-2">
-        <summary className="cursor-pointer list-none flex items-center gap-2 text-sm font-semibold">
-          <span>🔧 Tuỳ chỉnh chiến lược</span>
-          <span className="text-xs font-normal text-muted-foreground">
-            (đang dùng: {selectedStrategy.emoji} {selectedStrategy.label})
-          </span>
-          <span className="ml-auto text-[10px] text-muted-foreground group-open:hidden">▼ mở</span>
-          <span className="ml-auto text-[10px] text-muted-foreground hidden group-open:inline">▲ thu gọn</span>
-        </summary>
-        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {sortedStrategies.map((s) => {
-            const isWinratePick = s.key === productRank.picks.winrate?.strategy;
-            const isRoiPick = s.key === productRank.picks.roi?.strategy;
-            const isBalancedPick = s.key === productRank.picks.balanced?.strategy;
-            const isRec = isWinratePick || isRoiPick || isBalancedPick;
-            return (
-            <button
-              key={s.key}
-              onClick={() => handleSelectStrategy(s.key)}
-              className={`relative text-left rounded-xl border-2 p-4 transition-all duration-200 hover:shadow-md ${
-                strategy === s.key
-                  ? "border-primary bg-primary/5 shadow-md shadow-primary/10"
-                  : isRec
-                    ? "border-border bg-primary/[0.02] hover:border-muted-foreground/30"
-                    : "border-border hover:border-muted-foreground/30"
-              }`}
-              style={isRec && strategy !== s.key ? { borderColor: `${props.color}30` } : undefined}
-            >
-              {strategy === s.key && (
-                <div className="absolute top-2 right-2">
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px]"
-                    style={{ backgroundColor: props.color }}
-                  >
-                    ✓
-                  </div>
-                </div>
-              )}
-              {/* Pick badge — 1 per card, priority: winrate > roi > balanced */}
-              {isWinratePick && (
-                <div className="absolute top-2 left-2">
-                  <span
-                    className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-600 text-white"
-                    title={`🎯 Trúng cao nhất — ${productRank.picks.winrate!.stat}`}
-                  >
-                    🎯 Trúng
-                  </span>
-                </div>
-              )}
-              {!isWinratePick && isRoiPick && (
-                <div className="absolute top-2 left-2">
-                  <span
-                    className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-600 text-white"
-                    title={`💰 Lỗ ít nhất — ${productRank.picks.roi!.stat}`}
-                  >
-                    💰 Lỗ ít
-                  </span>
-                </div>
-              )}
-              {!isWinratePick && !isRoiPick && isBalancedPick && (
-                <div className="absolute top-2 left-2">
-                  <span
-                    className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-600 text-white"
-                    title={`⚖ Cân bằng — ${productRank.picks.balanced!.stat}`}
-                  >
-                    ⚖ Cân bằng
-                  </span>
-                </div>
-              )}
-              <div className="text-2xl mb-2 mt-5">{s.emoji}</div>
-              <div className="font-bold text-sm">{s.label}</div>
-              <div className="text-xs text-muted-foreground mt-1 leading-relaxed">{s.description}</div>
-            </button>
-            );
-          })}
-        </div>
-      </details>
-
       {/* Results */}
       {results.length > 0 && (
         <div ref={resultsRef} className="space-y-4">
@@ -621,6 +675,15 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
               </button>
             </div>
           </div>
+
+          {/* Part B: Historical lift summary — shown above prize table */}
+          <AlgorithmLiftSummary
+            slug={props.slug}
+            selectedUiKey={strategy}
+            selectedLabel={selectedStrategy.label}
+            ticketCount={results.length}
+            color={props.color}
+          />
 
           {/* Prize tier probability table */}
           {prizeTiers.length > 0 && (
@@ -788,8 +851,11 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         </div>
       )}
 
-      {/* Backtest evaluation */}
-      <BacktestCard slug={props.slug} color={props.color} />
+      {/* Link to historical decisions page */}
+      <p className="text-[11px] text-muted-foreground text-center">
+        Xem Decision (Accept/Suggestive/Reject) + các paradigms đã bị loại (Copula, GBM, Pool...) tại{" "}
+        <a href="/algorithms" className="underline hover:text-foreground">/algorithms</a>.
+      </p>
 
       {/* Disclaimer */}
       <div className="relative rounded-xl border border-dashed border-yellow-500/30 bg-yellow-500/5 p-4">
