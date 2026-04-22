@@ -6,6 +6,7 @@ import { loadMatrixData } from "@/lib/data-loader";
 import { calcFrequency, calcHotCold, calcPairFrequency, calcTrend } from "@/lib/stats-matrix";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 import { MatrixResultTable } from "@/components/products/MatrixResultTable";
 import { FrequencyBarChart } from "@/components/charts/FrequencyBarChart";
 import { TrendLineChart } from "@/components/charts/TrendLineChart";
@@ -68,25 +69,34 @@ export default function MatrixProductPage({ slug }: Props) {
   return (
     <div className="space-y-6">
       {/* Product header */}
-      <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          {product.emoji} {product.nameVi}
-        </h1>
-        <p className="text-muted-foreground mt-1">{product.descriptionVi}</p>
-        {lastDraw && (
-          <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
-            <span>Kỳ gần nhất: #{lastDraw.id} — {lastDraw.date}</span>
-            <span className="mx-2">|</span>
-            <div className="flex gap-1">
-              {lastDraw.result.slice(0, product.mainCount).map((n, i) => (
-                <NumberBall key={i} number={n} size="sm" />
-              ))}
-              {lastDraw.special !== undefined && (
-                <NumberBall number={lastDraw.special} variant="special" size="sm" />
-              )}
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+        <div className="flex-1">
+          <h1 className="text-3xl font-bold flex items-center gap-2">
+            {product.emoji} {product.nameVi}
+          </h1>
+          <p className="text-muted-foreground mt-1">{product.descriptionVi}</p>
+          {lastDraw && (
+            <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
+              <span>Kỳ gần nhất: #{lastDraw.id} — {lastDraw.date}</span>
+              <span className="hidden sm:inline mx-1">|</span>
+              <div className="flex gap-1">
+                {lastDraw.result.slice(0, product.mainCount).map((n, i) => (
+                  <NumberBall key={i} number={n} size="sm" />
+                ))}
+                {lastDraw.special !== undefined && (
+                  <NumberBall number={lastDraw.special} variant="special" size="sm" />
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+        <Link
+          href={`/suggest?p=${slug}`}
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow transition-all hover:shadow-lg hover:scale-[1.02] shrink-0"
+          style={{ backgroundColor: product.color }}
+        >
+          ✨ Gợi ý số
+        </Link>
       </div>
 
       {/* Main content */}

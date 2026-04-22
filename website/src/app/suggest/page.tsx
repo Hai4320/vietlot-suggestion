@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { Suspense, useEffect, useState, useCallback, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { PRODUCTS, MATRIX_PRODUCTS, THREE_D_PRODUCTS } from "@/lib/products-config";
 import { loadMatrixData, loadThreeDData } from "@/lib/data-loader";
 import { generateSuggestions } from "@/lib/suggest-matrix";
@@ -20,6 +21,10 @@ type ProductSlug = "power-655" | "power-645" | "power-535" | "max-3d" | "max-3d-
 
 const ALL_SLUGS: ProductSlug[] = ["power-655", "power-645", "power-535", "max-3d", "max-3d-pro"];
 
+function isValidSlug(s: string | null): s is ProductSlug {
+  return s !== null && (ALL_SLUGS as string[]).includes(s);
+}
+
 type DrawsCache = Record<string, { matrix?: MatrixDraw[]; threeD?: ThreeDDraw[] }>;
 
 // ── Module-level caches: survive across page navigations ──
@@ -29,10 +34,29 @@ let cachedLoadedSlugs = new Set<string>();
 let cachedMountedSlugs = new Set<string>();
 
 export default function SuggestPage() {
-  const [selectedSlug, setSelectedSlug] = useState<ProductSlug>(cachedSelectedSlug);
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>}>
+      <SuggestPageContent />
+    </Suspense>
+  );
+}
+
+function SuggestPageContent() {
+  const searchParams = useSearchParams();
+  const queryProduct = searchParams.get("p");
+  const initialSlug: ProductSlug = isValidSlug(queryProduct) ? queryProduct : cachedSelectedSlug;
+
+  const [selectedSlug, setSelectedSlug] = useState<ProductSlug>(initialSlug);
   const [drawsCache, setDrawsCache] = useState<DrawsCache>(cachedDraws);
   const [loadedSlugs, setLoadedSlugs] = useState<Set<string>>(cachedLoadedSlugs);
   const mountedSlugs = useRef<Set<string>>(cachedMountedSlugs);
+
+  // React to query param changes (e.g., navigation from product pages)
+  useEffect(() => {
+    if (isValidSlug(queryProduct) && queryProduct !== selectedSlug) {
+      setSelectedSlug(queryProduct);
+    }
+  }, [queryProduct, selectedSlug]);
 
   // Sync selected slug to module cache
   useEffect(() => { cachedSelectedSlug = selectedSlug; }, [selectedSlug]);

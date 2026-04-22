@@ -360,28 +360,11 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
   }, [results, props.type, props.slug, props.hasSpecial, strategy, selectedStrategy.label, prizeTiers]);
 
   return (
-    <div className="space-y-8">
-      {/* Hero banner */}
-      <div className="relative overflow-hidden rounded-2xl p-8 text-center"
-        style={{
-          background: `linear-gradient(135deg, ${props.color}15 0%, ${props.color}08 50%, ${props.color}15 100%)`,
-        }}
-      >
-        <div className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `radial-gradient(circle at 20% 50%, ${props.color} 1px, transparent 1px), radial-gradient(circle at 80% 20%, ${props.color} 1px, transparent 1px), radial-gradient(circle at 50% 80%, ${props.color} 1px, transparent 1px)`,
-            backgroundSize: "60px 60px, 80px 80px, 40px 40px",
-          }}
-        />
-        <div className="relative">
-          <div className="text-5xl mb-3">🎯</div>
-          <h2 className="text-2xl font-extrabold mb-2">
-            Bộ số may mắn của bạn
-          </h2>
-          <p className="text-muted-foreground max-w-md mx-auto text-sm">
-            Chọn chiến lược phân tích, hệ thống sẽ dựa trên dữ liệu lịch sử để gợi ý những bộ số tiềm năng nhất
-          </p>
-        </div>
+    <div className="space-y-5">
+      {/* Compact header — no banner bloat */}
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">🎯</span>
+        <h2 className="text-lg font-bold">Bộ số may mắn</h2>
       </div>
 
       {/* Research picks card — Chu kỳ 22: 3 profiles (winrate/roi/balanced) + collapse modes + null support */}
@@ -454,33 +437,94 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         );
       })()}
 
-      {/* Disclaimer — 1 liner, chi tiết sau collapse (close by default) */}
+      {/* Count + Generate (primary action, immediately after picks) */}
+      <div className="flex flex-wrap items-center gap-3 pt-1">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">Tạo</span>
+          <Input
+            type="number"
+            min={1}
+            max={200}
+            value={countInput}
+            onChange={(e) => handleCountChange(e.target.value)}
+            onBlur={() => {
+              const n = parseInt(countInput, 10);
+              if (isNaN(n) || n < 1) { setCount(1); setCountInput("1"); }
+              else if (n > 200) { setCount(200); setCountInput("200"); }
+            }}
+            className="w-[76px] text-center font-mono"
+          />
+          <span className="text-sm text-muted-foreground">bộ</span>
+          <div className="hidden sm:flex items-center gap-1 ml-1">
+            {[5, 10, 20, 50].map((n) => (
+              <button
+                key={n}
+                onClick={() => { setCount(n); setCountInput(String(n)); }}
+                className={`px-2 py-0.5 rounded text-xs font-mono transition-colors ${
+                  count === n ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80 text-muted-foreground"
+                }`}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
+        <Button
+          onClick={handleGenerate}
+          disabled={isRevealing}
+          size="lg"
+          className="ml-auto px-6 font-bold gap-2 shadow transition-all hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+          style={{ backgroundColor: props.color, color: "white" }}
+        >
+          {isRevealing ? (
+            <>
+              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              Đang tạo...
+            </>
+          ) : (
+            <>✨ Tạo gợi ý</>
+          )}
+        </Button>
+      </div>
+      {hybridWarning && (
+        <div className="text-[11px] text-yellow-600 dark:text-yellow-400 flex items-center gap-1.5 -mt-3">
+          <span>⚠️</span>
+          <span>Hybrid Parity cần <strong>N≥10</strong> vé để khai thác parity bias (tối ưu N=20).</span>
+        </div>
+      )}
+
+      {/* Disclaimer + advanced (collapse) */}
       <details className="group rounded-lg border border-yellow-600/30 bg-yellow-600/5 px-3 py-2">
         <summary className="cursor-pointer list-none flex items-center gap-2 text-xs text-muted-foreground">
           <span>ℹ️</span>
-          <span>22 chu kỳ · 69 chiến lược · 0 Accept — pick chỉ directional, không confirmed edge.</span>
+          <span>22 chu kỳ · 69 chiến lược · 0 Accept — pick chỉ directional.</span>
           <span className="ml-auto text-[10px] group-open:hidden">▼</span>
           <span className="ml-auto text-[10px] hidden group-open:inline">▲</span>
         </summary>
-        <div className="mt-2 pt-2 border-t border-yellow-600/20 text-[11px] text-muted-foreground leading-relaxed space-y-1">
-          <p>Picks = composite tournament winner theo 3 profiles (🎯 Trúng / 💰 Lỗ ít / ⚖ Cân bằng). KHÔNG đảm bảo beat Random. ROI luôn âm.</p>
+        <div className="mt-2 pt-2 border-t border-yellow-600/20 text-[11px] text-muted-foreground leading-relaxed">
+          <p>Picks = composite tournament winner. KHÔNG đảm bảo beat Random. ROI luôn âm.</p>
           <p className="flex gap-3 pt-1">
-            <a href="/research" className="underline">📊 Nghiên cứu chi tiết</a>
+            <a href="/research" className="underline">📊 Nghiên cứu</a>
             <a href="/glossary" className="underline">📚 Thuật ngữ</a>
             <a href="/algorithms" className="underline">🔬 13 thuật toán</a>
           </p>
         </div>
       </details>
 
-      {/* Strategy selector — sorted by backtest rank */}
-      <div>
-        <label className="text-sm font-semibold mb-3 block text-muted-foreground uppercase tracking-wider">
-          Chọn chiến lược{" "}
-          <span className="normal-case font-normal">
-            (xếp theo backtest — {props.slug.replace(/-/g, " ").replace(/^./, c => c.toUpperCase())})
+      {/* Advanced strategy selector — collapsed by default */}
+      <details className="group rounded-lg border px-3 py-2">
+        <summary className="cursor-pointer list-none flex items-center gap-2 text-sm font-semibold">
+          <span>🔧 Tuỳ chỉnh chiến lược</span>
+          <span className="text-xs font-normal text-muted-foreground">
+            (đang dùng: {selectedStrategy.emoji} {selectedStrategy.label})
           </span>
-        </label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <span className="ml-auto text-[10px] text-muted-foreground group-open:hidden">▼ mở</span>
+          <span className="ml-auto text-[10px] text-muted-foreground hidden group-open:inline">▲ thu gọn</span>
+        </summary>
+        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {sortedStrategies.map((s) => {
             const isWinratePick = s.key === productRank.picks.winrate?.strategy;
             const isRoiPick = s.key === productRank.picks.roi?.strategy;
@@ -546,73 +590,7 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
             );
           })}
         </div>
-      </div>
-
-      {/* Count + Generate */}
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">Tạo</span>
-          <Input
-            type="number"
-            min={1}
-            max={200}
-            value={countInput}
-            onChange={(e) => handleCountChange(e.target.value)}
-            onBlur={() => {
-              const n = parseInt(countInput, 10);
-              if (isNaN(n) || n < 1) { setCount(1); setCountInput("1"); }
-              else if (n > 200) { setCount(200); setCountInput("200"); }
-            }}
-            className="w-[80px] text-center font-mono"
-          />
-          <span className="text-sm text-muted-foreground">bộ số</span>
-          <div className="hidden sm:flex items-center gap-1 ml-2">
-            {[5, 10, 20, 50, 100].map((n) => (
-              <button
-                key={n}
-                onClick={() => { setCount(n); setCountInput(String(n)); }}
-                className={`px-2 py-1 rounded text-xs font-mono transition-colors ${
-                  count === n ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80 text-muted-foreground"
-                }`}
-              >
-                {n}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {hybridWarning && (
-          <div className="basis-full -mt-1 text-[11px] text-yellow-600 dark:text-yellow-400 flex items-center gap-1.5">
-            <span>⚠️</span>
-            <span>Hybrid Parity cần <strong>N≥10</strong> vé để khai thác parity bias (tối ưu ở N=20). Dưới 10 vé chỉ là tham khảo.</span>
-          </div>
-        )}
-
-        <Button
-          onClick={handleGenerate}
-          disabled={isRevealing}
-          size="lg"
-          className="relative overflow-hidden px-8 font-bold text-base gap-2 shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
-          style={{
-            backgroundColor: props.color,
-            color: "white",
-          }}
-        >
-          {isRevealing ? (
-            <>
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Đang tạo...
-            </>
-          ) : (
-            <>
-              ✨ Tạo gợi ý ngay
-            </>
-          )}
-        </Button>
-      </div>
+      </details>
 
       {/* Results */}
       {results.length > 0 && (

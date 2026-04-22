@@ -20,6 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 import { ResearchStateBanner } from "@/components/common/ResearchStateBanner";
 import type {
   ThreeDDraw,
@@ -69,11 +70,12 @@ export default function ThreeDProductPage({ slug }: Props) {
       <ResearchStateBanner variant="closed" size="sm" />
 
       {/* Product header */}
-      <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          {product.emoji} {product.nameVi}
-        </h1>
-        <p className="text-muted-foreground mt-1">{product.descriptionVi}</p>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+        <div className="flex-1">
+          <h1 className="text-3xl font-bold flex items-center gap-2">
+            {product.emoji} {product.nameVi}
+          </h1>
+          <p className="text-muted-foreground mt-1">{product.descriptionVi}</p>
         {lastDraw && (
           <div className="mt-3 text-sm text-muted-foreground">
             <span>
@@ -103,6 +105,14 @@ export default function ThreeDProductPage({ slug }: Props) {
             </div>
           </div>
         )}
+        </div>
+        <Link
+          href={`/suggest?p=${slug}`}
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow transition-all hover:shadow-lg hover:scale-[1.02] shrink-0"
+          style={{ backgroundColor: product.color }}
+        >
+          ✨ Gợi ý số
+        </Link>
       </div>
 
       {/* Main content */}
