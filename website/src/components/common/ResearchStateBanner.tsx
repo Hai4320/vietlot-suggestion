@@ -1,9 +1,9 @@
 /**
  * ResearchStateBanner — research transparency disclosure.
  *
- * Variants (per RESEARCH_TO_UI_PLAYBOOK §5 banner conventions):
- *   closed — research line closed (3D after Chu kỳ 13)
- *   active — research active, no confirmed Accept (current matrix state)
+ * Variants:
+ *   closed — breakthrough closed post Chu kỳ 18, Optimization shipped Chu kỳ 22
+ *   active — reserved for future reopen (currently unused)
  *   accept — strategy has Accept confirmed (currently none)
  *
  * Size "sm" (compact — for product pages) vs "md" (detailed — for /research, /algorithms).
@@ -23,17 +23,16 @@ const COPY: Record<ResearchVariant, { title: string; body: string; hint?: string
   closed: {
     title: "🔬 Research Mode — No confirmed edge",
     body:
-      "Sau 8 chu kỳ nghiên cứu + 28 chiến lược được test (probabilistic, copula, discriminative ML, cross-product pool), " +
-      "0 chiến lược đạt ngưỡng Accept/Suggestive qua 3-gate protocol. Các gợi ý chỉ là directional picks " +
-      "(hope, not confirmed edge). EV âm cố định.",
+      "Sau 22 chu kỳ + 69 chiến lược × 3-gate protocol, 0 Accept. Breakthrough research closed Chu kỳ 18. " +
+      "Chu kỳ 22 Optimization ship picks theo composite tournament — directional only, không confirmed edge. EV âm cố định.",
     hint: "Xem /research cho full story.",
     color: "orange",
   },
   active: {
-    title: "🔬 Research Mode — Active",
+    title: "🔬 Research Mode — Post-closure monitoring",
     body:
-      "Các chiến lược đã test full-sample + Bonferroni gating. Suggestive candidates chưa pass split-half replication — " +
-      "directional only. Current Chu kỳ 14 planned: Path #1 Online Bayesian Kalman. EV âm cố định.",
+      "Breakthrough closed Chu kỳ 18. Reopen chỉ khi đủ §9 triggers (N≥2000 per product, novel paradigm, null-reversal). " +
+      "Current activity: Optimization mode (UI rankings), không research mechanism mới.",
     hint: "Xem /research + /algorithms cho chi tiết methodology.",
     color: "orange",
   },

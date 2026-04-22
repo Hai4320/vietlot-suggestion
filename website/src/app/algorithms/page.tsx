@@ -320,9 +320,9 @@ const RECOMMENDATIONS_3D: Recommendation[] = [
     // CoverageOpt Pareto-dominates → no separate ROI pick
     reason:
       "Phủ sóng tối đa (CoverageOpt) Pareto-dominant: Win rate 2.22% (+0.52pp vs Random) + ROI −35.8% cả 2 best " +
-      "trong UI-available non-overfit strategies. JointBias Δ+0.305pp là mechanism anchor (Chu kỳ 13) nhưng bị dominated metric. " +
-      "28 chiến lược đã test qua 8 cycles, 0 Accept/Suggestive sau 3-gate protocol.",
-    special: "⚠️ Research line CLOSED Chu kỳ 13 — no algorithm beats Random significantly. Xem 3D Final Report.",
+      "trong UI-available non-overfit strategies. JointBias Δ+0.305pp là mechanism anchor nhưng bị dominated metric. " +
+      "69 chiến lược đã test qua 22 cycles, 0 Accept/Suggestive sau 3-gate protocol. Chu kỳ 22 Optimization ship PairExploiter/CoverageOpt cho 3D.",
+    special: "⚠️ Breakthrough research CLOSED Chu kỳ 18. Chu kỳ 22 Optimization ship composite picks — directional only.",
   },
   {
     product: "Max 3D Pro",
@@ -349,12 +349,12 @@ export default function AlgorithmsPage() {
           Thuật Toán Gợi Ý
         </h1>
         <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          10 thuật toán triển khai UI + 28+ chiến lược đã test qua 8 chu kỳ nghiên cứu.
+          13 thuật toán triển khai UI + 69 chiến lược đã test qua 22 chu kỳ nghiên cứu.
           Walk-forward backtest + 3-gate protocol (full + split-half + forward validation).
         </p>
         <div className="flex flex-wrap justify-center gap-6 md:gap-8 mt-6">
           <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">10</div>
+            <div className="text-3xl font-extrabold text-primary">13</div>
             <div className="text-xs text-muted-foreground mt-0.5">UI thuật toán</div>
           </div>
           <div className="h-10 w-px bg-border hidden md:block" />
@@ -554,7 +554,7 @@ export default function AlgorithmsPage() {
             <div className="flex gap-3">
               <span className="text-xl shrink-0">📐</span>
               <div className="space-y-2">
-                <h4 className="font-semibold text-sm">Phương pháp đánh giá (updated post-Chu kỳ 13)</h4>
+                <h4 className="font-semibold text-sm">Phương pháp đánh giá (updated Chu kỳ 22 Optimization mode)</h4>
                 <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
                   <li>
                     <strong>Walk-forward backtest</strong>: huấn luyện trên `draws[:i]`, dự đoán `draws[i]`, dịch cửa sổ lên. No look-ahead.
@@ -859,7 +859,7 @@ export default function AlgorithmsPage() {
           <div>
             <h2 className="text-xl font-bold">Research Picks — Max 3D / 3D Pro</h2>
             <p className="text-sm text-muted-foreground">
-              28 chiến lược đã test qua 8 cycles (2026-03 → 2026-04). <strong className="text-orange-600">Research line CLOSED Chu kỳ 13.</strong> Dưới đây chỉ là directional picks — no confirmed edge.
+              28 chiến lược đã test qua cycles 4-13 (2026-03 → 2026-04), plus Chu kỳ 17 HMM + Chu kỳ 22 Optimization. <strong className="text-orange-600">Breakthrough closed Chu kỳ 18.</strong> Chu kỳ 22 picks hiển thị dưới — directional only, no confirmed edge.
             </p>
           </div>
         </div>
@@ -1039,7 +1039,7 @@ export default function AlgorithmsPage() {
             {
               icon: "📊",
               title: "0 confirmed edge, ROI luôn âm",
-              desc: "Sau ~50 strategies × 5 products × 3-gate protocol: 0 Accept/Suggestive robust. ROI luôn âm (-26% đến -97%). Xổ số Vietlott là −EV system — không thuật toán nào đảm bảo trúng thưởng. Research picks shown chỉ là directional, không promise return.",
+              desc: "Sau 69 strategies × 5 products × 22 cycles × 3-gate protocol: 0 Accept/Suggestive robust. ROI luôn âm (-26% đến -97%). Xổ số Vietlott là −EV system — không thuật toán nào đảm bảo trúng thưởng. Research picks shown chỉ là directional (composite tournament winner), không promise return.",
             },
           ].map((insight) => (
             <Card key={insight.title}>
@@ -1069,15 +1069,15 @@ export default function AlgorithmsPage() {
               Nghiên cứu này thực hiện hoàn toàn vì mục đích học thuật và giải trí.
               Xổ số Vietlott là hệ thống negative-EV (kỳ vọng âm) —
               <strong> không có thuật toán nào có thể đảm bảo trúng thưởng</strong>.
-              Sau 8 chu kỳ nghiên cứu + ~50 chiến lược tested × 5 sản phẩm × 3-gate protocol:
+              Sau 22 chu kỳ + 69 chiến lược × 5 sản phẩm × 3-gate protocol:
               0 chiến lược Accept/Suggestive robust. Research picks hiển thị chỉ là directional pick
               (positive trend trong backtest nhưng không significant), không phải confirmed edge.
               Chơi có trách nhiệm, không chi nhiều hơn khả năng chịu mất.
             </p>
             <p className="text-[10px] text-muted-foreground/60">
-              Dữ liệu backtest: {(Object.values(BACKTEST_RESULTS).reduce((s, p) => s + p.totalDraws, 0) + Object.values(BACKTEST_RESULTS_3D).reduce((s, p) => s + p.totalDraws, 0)).toLocaleString()} kỳ quay (Chu kỳ 13 snapshot)
+              Dữ liệu backtest: {(Object.values(BACKTEST_RESULTS).reduce((s, p) => s + p.totalDraws, 0) + Object.values(BACKTEST_RESULTS_3D).reduce((s, p) => s + p.totalDraws, 0)).toLocaleString()} kỳ quay (Chu kỳ 22 snapshot 2026-04-22)
               • Methodology: Walk-forward + 3-gate protocol (full + split-half + forward_last_100), 5 runs, seed=42
-              • Codified principles: METHODOLOGY.md §3.5-3.9 (#11-#15)
+              • Codified principles: METHODOLOGY.md §3.5-3.11 (#11-#17)
               • Nguồn nghiên cứu: Dirichlet-Multinomial, Covering Designs (Gordon 1995), Maximum Entropy (Jaynes 1957), Gaussian/Empirical Copula, HistGradientBoosting + hand-crafted features
             </p>
           </div>

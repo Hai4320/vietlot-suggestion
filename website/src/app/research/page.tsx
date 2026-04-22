@@ -48,9 +48,9 @@ const DIGIT_BIAS_POS2_MAX3D = [
 // ============================================================
 
 const KEY_STATS = [
-  { label: "Chiến lược đã test", value: "~50", sub: "Matrix ~20 (Chu kỳ 1-6, 9) + 3D 28 (Chu kỳ 4-13)" },
-  { label: "Chu kỳ nghiên cứu", value: "13", sub: "Chu kỳ 1 (07/2025) → Chu kỳ 13 (04/2026). Chu kỳ 14 matrix pending." },
-  { label: "Dữ liệu draws", value: "~5,000", sub: "Matrix 3,175 (6/55+6/45+5/35) + 3D 1,776 (Max 3D + 3D Pro)" },
+  { label: "Chiến lược đã test", value: "69", sub: "Matrix + 3D × 22 cycles (07/2025 → 04/2026)" },
+  { label: "Chu kỳ nghiên cứu", value: "22", sub: "Breakthrough closed Chu kỳ 18, Optimization shipped Chu kỳ 22" },
+  { label: "Dữ liệu draws", value: "~5,000", sub: "Matrix 3,179 + 3D 1,776 (total 4,955 kỳ quay)" },
   { label: "Accept confirmed", value: "0", sub: "Toàn dự án: 0 Accept, 0 Suggestive verified qua 3-gate", alert: true },
 ];
 
@@ -130,11 +130,18 @@ const CHAPTERS = [
     cycle: "Chu kỳ 10-13",
   },
   {
-    icon: "🌱",
-    phase: "04/2026+ (pending)",
-    title: "Chương 6 — Matrix pivot (Chu kỳ 14)",
-    body: "Matrix research line vẫn ACTIVE. Chu kỳ 14 ready: Path #1 Online Bayesian Kalman với exponential forgetting (λ ∈ [0.01, 0.1]) thay batch refit. Hypothesis: nếu matrix bias drift theo thời gian (chưa verify), online update bắt được drift tốt hơn. Primary: Mega 6/45 (N=1302). Secondary: Lotto 5/35 (N=542). Effort dự kiến 1-2 ngày.",
-    cycle: "Chu kỳ 14 (pending)",
+    icon: "🧪",
+    phase: "04/2026",
+    title: "Chương 6 — Matrix exhausted + closure",
+    body: "Chu kỳ 14 Online Bayesian Kalman 6/6 Reject. Chu kỳ 15 Cross-product 5/6 Reject. Chu kỳ 16 Kelly Portfolio 9/9 Reject. Chu kỳ 17 HMM 6/6 Reject. Cả 4 paths falsify → Chu kỳ 18 Project Closure Report. Chu kỳ 19 post-closure 5 mini-cycles. Chu kỳ 20 methodology refinement (Principle #17 family elimination). Chu kỳ 21 Hierarchical Bayesian 9/9 Reject (Bayesian family broadly eliminated).",
+    cycle: "Chu kỳ 14-21",
+  },
+  {
+    icon: "🎯",
+    phase: "04/2026",
+    title: "Chương 7 — Optimization Mode shipped",
+    body: "Post-closure pivot: rank existing strategies cho UI thay vì tìm mechanism mới. Chu kỳ 22 ship 3 composite profiles (WinRate/ROI/Balanced) × 5 products + UI picks. 3/5 sản phẩm có valid picks, 2/5 null honest. 3 TS strategies mới ported (mindistance/coverageopt/pairexploiter). Chu kỳ 23 app-wide UX refactor (current).",
+    cycle: "Chu kỳ 22-23",
   },
 ];
 
@@ -385,16 +392,15 @@ export default function ResearchPage() {
           <div className="flex gap-3">
             <span className="text-red-500 shrink-0">✗</span>
             <p className="leading-relaxed">
-              <strong>0/~50 chiến lược đạt Accept</strong> qua quy trình 3-gate (full-sample + split-half
-              replication + forward validation). Last matrix Suggestive (ExpDecay_Cold 6/45) Reject Chu kỳ 9
-              do direction flip. Mọi &ldquo;chiến thắng&rdquo; backtest đều thất bại khi replicate.
+              <strong>0/69 chiến lược đạt Accept</strong> qua quy trình 3-gate (full-sample + split-half
+              replication + forward validation) sau 22 cycles. Last Suggestive eliminated Chu kỳ 9. 7 families
+              eliminated Chu kỳ 14-21 (Adaptive / Cross-product / Kelly / HMM / GBM / Hybrid / Bayesian).
             </p>
           </div>
           <div className="flex gap-3">
             <span className="text-blue-500 shrink-0">🎯</span>
             <p className="leading-relaxed">
-              <strong>3D đóng</strong> — revisit ~2027 khi có thêm data hoặc novel bias dimension.{" "}
-              <strong>Matrix active</strong> — Chu kỳ 14 Online Bayesian Kalman ready (Mega 6/45 primary).
+              <strong>Breakthrough closed Chu kỳ 18</strong>. <strong>Optimization shipped Chu kỳ 22</strong> — 3 composite profiles × 5 products, UI picks ship. Reopen breakthrough chỉ khi dữ liệu ≥2000 draws mỗi sản phẩm (~2027) hoặc novel paradigm.
             </p>
           </div>
         </CardContent>

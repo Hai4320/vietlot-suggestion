@@ -169,7 +169,7 @@ const SECTIONS: Section[] = [
         name: "Online Bayesian (Kalman-style)",
         vi: "Bayes trực tuyến",
         def: "Update posterior từng step thay vì batch refit. α_t = (1−λ)·α_{t−1} + obs_t với forgetting rate λ.",
-        example: "Chu kỳ 14 pending: Path #1 cho matrix, primary Mega 6/45.",
+        example: "Chu kỳ 14 Path #1 (Online Bayesian) — 6/6 Reject, falsify drift hypothesis.",
       },
       {
         name: "Ensemble",
@@ -287,7 +287,7 @@ const SECTIONS: Section[] = [
         name: "Research line state",
         vi: "Trạng thái dòng nghiên cứu",
         def: "CLOSED = mechanism space exhausted, không tiếp tục. ACTIVE = còn path untested.",
-        example: "3D CLOSED sau Chu kỳ 13 (28 strategies). Matrix ACTIVE (Chu kỳ 14 pending).",
+        example: "Breakthrough closed Chu kỳ 18. Optimization shipped Chu kỳ 22. Reopen ≥2027 nếu đủ data.",
       },
       {
         name: "Tournament ranking",
@@ -322,8 +322,8 @@ const SECTIONS: Section[] = [
       {
         name: "Best-of-Reject",
         vi: "Tốt nhất trong Reject",
-        def: "Khi 0/~50 strategy Accept, &ldquo;best&rdquo; chỉ là least-bad trong nhóm Reject. Framing &ldquo;pick&rdquo; dễ gây hiểu nhầm là có edge — thực tế chưa.",
-        example: "Mọi research pick hiện tại: directional positive nhưng vẫn Reject per 3-gate. Đợi Chu kỳ 14+ để có Accept thực sự.",
+        def: "Sau 22 cycles × 69 strategies, 0 Accept. &ldquo;Best&rdquo; chỉ là least-bad/composite-winner trong nhóm Reject. Framing &ldquo;pick&rdquo; dễ gây hiểu nhầm là có edge — thực tế chưa.",
+        example: "Chu kỳ 22 ship picks theo composite tournament (WinRate/ROI/Balanced profile) — directional only, không confirmed edge.",
       },
     ],
   },

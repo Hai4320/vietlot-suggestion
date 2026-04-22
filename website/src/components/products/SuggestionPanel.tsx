@@ -503,8 +503,8 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
           <div className="flex gap-2">
             <span className="text-red-500 shrink-0 font-mono">⚠</span>
             <p>
-              <strong className="text-foreground">Toàn bộ dự án: 0/~50 strategy đạt Accept</strong> qua 3-gate protocol (full + split-half + forward).
-              Mọi pick chỉ là best-of-Reject. Framework tìm kiếm vẫn đang chạy (Chu kỳ 14 matrix pending) — nếu pass thì sẽ update.
+              <strong className="text-foreground">22 chu kỳ · 69 chiến lược · 0 Accept</strong> qua 3-gate protocol (full + split-half + forward).
+              Breakthrough research closed Chu kỳ 18. Chu kỳ 22 Optimization ship picks theo composite tournament — directional only, không confirmed edge.
             </p>
           </div>
           <div className="flex gap-2">

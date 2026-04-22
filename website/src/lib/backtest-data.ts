@@ -1,12 +1,17 @@
 // ============================================================
-// Shared backtest results — used by /algorithms and /suggest
-// Refreshed 2026-04-21 post-Chu kỳ 13 (3D research closed, 28 strategies tested).
-// Updates from Chu kỳ 6 baseline:
-//   - Mega 6/45 ExpDecay_Cold: Suggestive → Reject (Chu kỳ 9 split-half direction flip)
-//   - Mega 6/45 Ensemble/Bayesian AI Suggestive: note "untested replication"
-//   - 3D: added Chu kỳ 11 Copula, Chu kỳ 12 GBM, Chu kỳ 13 Pool strategies
-//   - 3D all: Reject per 3-gate protocol (full + split-half + forward)
-// Significance: z-test vs Random, Wilson CI, decision per EVALUATION §6 + Principle #13.
+// Shared backtest results — used by /algorithms and product pages
+// Historical snapshot. Current Chu kỳ 22 rankings in: cycle22-data.ts.
+//
+// Timeline of updates:
+//   - Chu kỳ 1-6: baseline strategies + Bayesian/MaxEntropy/Adaptive/Pattern
+//   - Chu kỳ 7-9: split-half protocol; last Suggestive ExpDecay_Cold Reject (flip)
+//   - Chu kỳ 10-13: breakthrough pivot; 3D paradigms Copula/GBM/Pool all Reject
+//   - Chu kỳ 14-21: matrix paradigms Online Bayesian/Cross-product/Kelly/HMM/Bayesian all Reject
+//   - Chu kỳ 18: Project Closure Report — breakthrough CLOSED (0 Accept, 7 families eliminated)
+//   - Chu kỳ 22: Optimization mode shipped — 3 composite profiles × 5 products
+//
+// For current picks + Chu kỳ 22 ranks, see cycle22-data.ts (source of truth).
+// This file retained for /algorithms historical transparency.
 // ============================================================
 
 export type Decision = "Accept" | "Suggestive" | "Inconclusive" | "Reject" | "baseline";
@@ -107,7 +112,7 @@ export const BACKTEST_MATRIX: Record<string, MatrixBacktest> = {
   },
 };
 
-// ── 3D products (refreshed 2026-04-21 post-Chu kỳ 13, research line CLOSED) ──
+// ── 3D products (snapshot Chu kỳ 22 2026-04-22, breakthrough research CLOSED post Chu kỳ 18) ──
 // Baseline: Random. 3D mechanism space exhausted (28 strategies tested).
 // All 3D strategies Reject per 3-gate protocol (full + split-half + forward_last_100).
 // Chu kỳ 7: FreqWholeHot + EVMaximizer split-half Reject.
