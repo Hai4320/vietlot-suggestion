@@ -153,8 +153,8 @@ Bài học lớn nhất từ [Chu kỳ 5](RESEARCH_HISTORY.md#chu-kỳ-5): Phase
 **Quy trình**:
 1. Port TypeScript: `src/lib/suggest-{matrix,3d}.ts`
 2. Update website data: `src/lib/backtest-data.ts`, `src/app/algorithms/page.tsx`, `src/components/products/SuggestionPanel.tsx`
-3. Update canonical doc: [RESEARCH_DOCUMENTATION.md](RESEARCH_DOCUMENTATION.md)
-4. Update changelog: [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) — thêm cycle mới ở cuối
+3. Update cycle record: tạo [`history/cycleNN_<slug>.md`](history/) với pre-reg + results + verdict
+4. Update index: [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) summary table + Cycle Index
 5. Include **failure modes**: khi nào strategy này không nên dùng (e.g., N<10 cho HybridParityDiv)
 
 **Exit criteria**:
@@ -322,8 +322,8 @@ Phase 3 p-value < 0.05 sau Bonferroni?
 | [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) | Template + checklist copy-paste cho mỗi cycle |
 | [EVALUATION.md](EVALUATION.md) | Metric + significance test cho Phase 3 |
 | [TESTING.md](TESTING.md) | Test battery chi tiết cho Phase 1 |
-| [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | Nhật ký cycle (nơi ghi pre-registered hypothesis) |
-| [RESEARCH_DOCUMENTATION.md](RESEARCH_DOCUMENTATION.md) | Canonical results |
+| [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | Index + principles corpus (nơi ghi pre-reg hypothesis vào `history/cycleNN_<slug>.md`) |
+| [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) | Current decision anchor (8 hướng + 3 kịch bản, PAUSED 2026-04-22) |
 
 ---
 

@@ -1,5 +1,7 @@
 ## Chu Kỳ 17a — ROI Ranking for 3D Products (Max 3D + Max 3D Pro)
 
+> **⏸ TRẠNG THÁI (2026-04-22)**: **PAUSED** chờ quyết định 3 kịch bản từ [META_REVIEW_POST_CYCLE16.md](../META_REVIEW_POST_CYCLE16.md). Optimization mode (17a + 17b) là Hướng H trong meta-review; có thể resume sau khi user chọn kịch bản (Closure nhanh / 1-shot mới + closure / Full exhaustion).
+
 ### Mode shift: từ "breakthrough research" sang "optimization research"
 
 Chu kỳ 1-16 mục tiêu = **tìm mechanism mới** (Accept breakthrough). 16 cycles × ~60 strategies × 0 Accept → win-rate + ROI axes both exhausted. Chu kỳ 17 shift sang **"best of tested"**: ranking existing strategies bằng ROI primary + replication, để pick data-backed choices cho UI + budget feature.

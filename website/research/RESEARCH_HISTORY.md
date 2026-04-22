@@ -1,6 +1,6 @@
 # Lịch Sử Nghiên Cứu — Vietlott Algorithm R&D
 
-> **Mục đích**: Nhật ký chronological các chu kỳ nghiên cứu — mục tiêu, phương pháp, kết quả, bài học. Khác với [RESEARCH_DOCUMENTATION.md](RESEARCH_DOCUMENTATION.md) (tài liệu kỹ thuật canonical), file này tập trung vào **quá trình** và **ngữ cảnh** của mỗi quyết định.
+> **Mục đích**: Nhật ký chronological các chu kỳ nghiên cứu — mục tiêu, phương pháp, kết quả, bài học. File này là **index + corpus** cho 16 chu kỳ đã đóng; chi tiết mỗi cycle nằm trong [`history/cycleNN_<slug>.md`](history/) riêng.
 >
 > **Khi nào cập nhật**: Mỗi lần hoàn thành một research cycle — tạo file mới trong [history/](history/), thêm row vào summary table bên dưới, link vào phần "Cycle Index". Không sửa các file cycle cũ (immutable record).
 >
@@ -106,18 +106,22 @@ Guardrails bất biến (từ Chu kỳ 1+):
 
 **Chu kỳ 16 (closed, 2026-04-21, 9/9 Reject with Δ up to −28pp)**: Path #2 Kelly Portfolio. Kelly concentration fundamentally mismatches set-coverage lottery structure (RandomN diversification beats Kelly top-M pool). Both axes now null. See [cycle16_kelly_portfolio.md](history/cycle16_kelly_portfolio.md).
 
-**Chu Kỳ 17 = PROJECT-LEVEL DECISION POINT**. 3 options (user chooses):
+**Chu Kỳ 17 = PROJECT-LEVEL DECISION POINT (PAUSED 2026-04-22 chờ quyết định)**.
 
-- **Option X — Path #5 Copula matrix**: long-shot win-rate (very low probability Accept after 6 paths failed). Effort 4-6 ngày. Low recommended priority.
-- **Option Y — Formal project closure report**: consolidate 16 cycles + ~60 strategies + methodology corpus + null findings into `research/PROJECT_CLOSURE_REPORT.md`. Stop active research. Highest value-per-time.
-- **Option Z — Stop research, UI polish + wait for data**: focus website improvements, transparency, data crawler stability. Idle research until ~2027 when data horizon expands. Practical path.
+📄 **Decision anchor**: [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) — meta-analysis 16 chu kỳ + 8 hướng khuyến nghị + 3 kịch bản ghép.
 
-Hybrid Y+Z likely best: publish final report + UI polish + idle research state until data horizon expands.
+**3 kịch bản** (user chọn):
+
+- **Kịch bản 1 — Closure nhanh**: G Closure report (3d) → H Optimization 17a+17b (2w) → ship UI. Accept null hypothesis, deliver best-we-have. Total ~3 tuần.
+- **Kịch bản 2 — 1-shot mới + closure** (default đề xuất): Hướng A Retail Betting Pool Signal (6d) hoặc C HMM regime (7d) → G Closure (3d) → H optional. Total ~2-3 tuần. Cho 1 cơ hội breakthrough trước khi close.
+- **Kịch bản 3 — Full exhaustion**: A+B+C+D+G → H. Total ~5-6 tuần.
+
+**Optimization mode pre-reg** ([cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md)) **PAUSED** chờ quyết định kịch bản.
 
 Chu kỳ 12 GBM Max 3D Pro deprecated — không ship, không rank. Audit complete.
 
 ---
 
-*File restructured 2026-04-21: split into per-cycle files trong [history/](history/). Main file giờ là compact index (this file, ~180 lines vs trước 1499 lines).*
+*File restructured 2026-04-21: split into per-cycle files trong [history/](history/). Main file giờ là compact index.*
 
-*Cập nhật lần cuối: 2026-04-21 — Chu kỳ 16 closed (9/9 Reject, dramatic negative Δ). Both win-rate AND ROI axes exhausted. Chu Kỳ 17 = project-level decision pending user choice (Option X/Y/Z).*
+*Cập nhật lần cuối: 2026-04-22 — Meta-review post-Chu kỳ 16 hoàn thành. Optimization mode PAUSED chờ quyết định 3 kịch bản (xem META_REVIEW_POST_CYCLE16.md).*

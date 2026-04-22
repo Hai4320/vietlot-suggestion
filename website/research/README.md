@@ -2,6 +2,12 @@
 
 Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tích cho hệ thống gợi ý số Vietlott.
 
+## 🔎 Trạng thái hiện tại (2026-04-22)
+
+**Chu kỳ 16 đóng** (Kelly Portfolio 9/9 Reject, Δ tới −28pp). Cumulative: **~60 strategies × 5 products × 3-gate = 0 Accept/Suggestive**. Cả win-rate và ROI axes đều exhausted với mechanisms đã thử.
+
+**Chu kỳ 17 PAUSED** chờ quyết định kịch bản. Đọc [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) để biết 8 hướng khuyến nghị + 3 kịch bản ghép. Pre-reg Optimization mode ([proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md)) tạm hoãn.
+
 ## Mục tiêu (Chu kỳ 10+ — Breakthrough Mode, refined 2026-04-20)
 
 Sau Chu kỳ 9, project đã exhaust discovery mode (25+ strategies, 3/3 Suggestive candidates fail replication). **Pivot Chu kỳ 10** chuyển sang **breakthrough mode** với priority hierarchy rõ ràng:
@@ -53,44 +59,59 @@ research/
 ├── RESEARCH_PLAYBOOK.md            ← Template + checklist copy-paste (discovery + breakthrough)
 ├── BREAKTHROUGH_ROADMAP.md         ← Novel R&D paths (Chu kỳ 10+): online, Kelly portfolio, cross-product, neural…
 │
-│   ── Context & lịch sử ──
-├── RESEARCH_HISTORY.md             ← Nhật ký chu kỳ (mục tiêu, phương pháp, kết quả, bài học)
-├── RESEARCH_DOCUMENTATION.md       ← Tổng hợp chi tiết kỹ thuật
+│   ── Context, trạng thái & lịch sử ──
+├── META_REVIEW_POST_CYCLE16.md     ← 🧭 Decision anchor hiện tại (2026-04-22): 8 hướng + 3 kịch bản
+├── RESEARCH_HISTORY.md             ← Nhật ký 16 chu kỳ đã đóng (index + corpus)
 │
+│   ── Proposals (PAUSED / pre-registered chờ quyết định) ──
+├── proposals/
+│   └── cycle17a_roi_ranking_3d.md  ← Optimization mode pre-reg (PAUSED 2026-04-22)
+│
+│   ── Code + kết quả ──
 ├── matrix/                         ← Sản phẩm ma trận (Power 6/55, Mega 6/45, Lotto 5/35)
-│   ├── backtest.py                 ← Canonical backtest 16 thuật toán (walk-forward, cả 3 products)
-│   ├── backtest_results.json       ← Kết quả backtest đầy đủ
-│   ├── literature_review.md        ← Tổng quan lý thuyết (wheeling, Bayesian, max-entropy…)
-│   ├── power535/                   ← Lotto 5/35-specific (Chu kỳ 5 Phase-B)
-│   │   ├── deep_analysis.py        ← 🔬 14-test deep analysis (T11 Parity p=0.0012 ✓)
-│   │   ├── deep_analysis.json
-│   │   ├── parity_backtest.py      ← Phase 2a: single-ticket empirical parity (thất bại)
-│   │   ├── parity_backtest_results.json
-│   │   ├── wheeling_backtest.py    ← Phase 2b: multi-ticket wheeling (Reject sau correction)
-│   │   └── wheeling_backtest_results.json
-│   └── mega645/                    ← Mega 6/45-specific (Chu kỳ 9)
-│       ├── cycle9_replication.py   ← Split-half replication ExpDecay_Cold (direction-flip Reject)
-│       └── cycle9_replication_results.json
+│   ├── backtest.py / _results.json           ← Canonical 16 thuật toán walk-forward
+│   ├── online_bayesian.py                    ← Chu kỳ 14 shared module
+│   ├── kelly_portfolio.py                    ← Chu kỳ 16 shared module
+│   ├── cross_product_strategies.py           ← Chu kỳ 15 shared module
+│   ├── cycle14_online_bayesian_backtest.py + _results.json
+│   ├── cycle15_cross_product_backtest.py + _results.json
+│   ├── cycle16_kelly_portfolio_backtest.py + _results.json
+│   ├── literature_review.md                  ← Lý thuyết (wheeling, Bayesian, max-entropy…)
+│   ├── logs/                                 ← Runtime stdout (cycle14/15/16)
+│   ├── power535/                             ← Chu kỳ 5 Phase-B (deep_analysis + parity + wheeling)
+│   └── mega645/                              ← Chu kỳ 9 (cycle9_replication)
 │
 ├── 3d/                             ← Sản phẩm 3D (Max 3D, Max 3D Pro)
-│   ├── REPORT.md                   ← Báo cáo nghiên cứu 3D (13 tests, 21 thuật toán)
-│   ├── deep_analysis.py / .json    ← 13-test phân tích thống kê sâu (Chu kỳ 4)
-│   ├── backtest.py / _results.json ← 12 thuật toán cơ bản
-│   ├── advanced_backtest.py / _results.json ← 21 thuật toán nâng cao
-│   ├── cycle7_replication.py / _results.json ← Split-half replication (Reject 2/2)
-│   └── cycle8_drift_analysis.py / _results.json ← Drift verification (no drift → 3D paused)
+│   ├── 3D_FINAL_REPORT.md                    ← Synthesis 8 cycles × 28 strategies (CLOSED)
+│   ├── deep_analysis.py / .json              ← 13-test RNG Chu kỳ 4 (shared)
+│   ├── backtest.py / _results.json           ← 12 thuật toán cơ bản (shared)
+│   ├── advanced_backtest.py / _results.json  ← 21 thuật toán nâng cao (shared)
+│   ├── copula_strategies.py                  ← Chu kỳ 11 shared module
+│   ├── gbm_strategy.py                       ← Chu kỳ 12/12.5 shared module
+│   ├── pooled_strategies.py                  ← Chu kỳ 13 shared module
+│   ├── cycle7_replication.py + _results.json
+│   ├── cycle8_drift_analysis.py + _results.json
+│   ├── cycle11_copula_backtest.py + _results.json
+│   ├── cycle12_gbm_backtest.py + _results.json
+│   ├── cycle12_5_audit.py + _results.json
+│   ├── cycle13_pooled_backtest.py + _results.json
+│   └── logs/                                 ← Runtime stdout (cycle11/12/12.5/13)
+│
+├── history/                        ← 16 chu kỳ đã đóng (immutable records)
+│   └── cycleNN_<slug>.md           ← cycle01 .. cycle16
 │
 └── archive/                        ← File superseded (giữ để tham khảo)
-    ├── superseded_docs/            ← Root-level docs đã được thay thế
-    │   ├── RESEARCH_PLAN.md        ← 07/2025 5-phase plan → thay bằng METHODOLOGY + EVALUATION + TESTING
-    │   ├── RNG_ANALYSIS_REPORT.md  ← Snapshot 516 draws (04/2026-14) → thay bằng matrix/power535/deep_analysis
-    │   └── Random_Analysis_Agent.md ← Source system prompt → incorporated vào METHODOLOGY §1.1 R1-R3
-    ├── phase1_backtest*.py/.json   ← Phase 1 cũ → dùng matrix/backtest.py
-    ├── phase1_analysis_report.md   ← → dùng RESEARCH_DOCUMENTATION.md
-    ├── phase4_analysis_report.md   ← → dùng RESEARCH_DOCUMENTATION.md
-    ├── 3d_analysis_report.md       ← → dùng 3d/REPORT.md
-    ├── run_new_3d.py               ← Script one-off
-    └── *.log                       ← Run logs
+    ├── superseded_docs/            ← Docs đã được thay thế
+    │   ├── RESEARCH_DOCUMENTATION.md       ← Technical monolith stale sau Chu kỳ 6 (moved 2026-04-22)
+    │   ├── 3d_REPORT_cycle4_snapshot.md    ← 3D Chu kỳ 4 pre-replication (moved 2026-04-22)
+    │   ├── RESEARCH_PLAN.md                ← 07/2025 5-phase plan → thay bằng METHODOLOGY + EVALUATION + TESTING
+    │   ├── RNG_ANALYSIS_REPORT.md          ← Snapshot 516 draws → thay bằng matrix/power535/deep_analysis
+    │   └── Random_Analysis_Agent.md        ← Source system prompt → incorporated vào METHODOLOGY §1.1
+    ├── phase1_backtest*.py/.json           ← Phase 1 cũ → dùng matrix/backtest.py
+    ├── phase1_analysis_report.md
+    ├── phase4_analysis_report.md
+    ├── 3d_analysis_report.md
+    └── run_new_3d.py
 ```
 
 ## Tài liệu chính (nên đọc theo thứ tự)
@@ -105,15 +126,21 @@ research/
 | 4 | [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) | Template + checklist (discovery + breakthrough variants) | Khi implement |
 | 5 | [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) | 7 novel R&D paths với hypothesis + effort + priority | Chu kỳ 10+ exploration mode |
 
+### Trạng thái hiện tại & decision anchor
+
+| # | File | Mô tả | Khi nào đọc |
+|---|------|--------|-------------|
+| 0 | [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) | 🧭 Meta-analysis 16 chu kỳ + 8 hướng khuyến nghị + 3 kịch bản ghép (PAUSED decision) | Đọc ĐẦU TIÊN khi pick up project 2026-04-22+ |
+
 ### Context & lịch sử
 
 | # | File | Mô tả | Khi nào đọc |
 |---|------|--------|-------------|
-| 5 | [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | Nhật ký các chu kỳ nghiên cứu | Hiểu "tại sao" đằng sau quyết định |
-| 6 | [RESEARCH_DOCUMENTATION.md](RESEARCH_DOCUMENTATION.md) | Tổng hợp toàn bộ kết quả (1,300+ dòng) | Tham khảo chi tiết kỹ thuật |
-| 7 | [3d/REPORT.md](3d/REPORT.md) | Nghiên cứu chuyên sâu 3D | Khi làm việc với Max 3D/3D Pro |
-| 8 | [matrix/literature_review.md](matrix/literature_review.md) | Lý thuyết nền tảng (papers, algorithms) | Khi thiết kế thuật toán mới |
-| 9 | [archive/superseded_docs/](archive/superseded_docs/) | Historical docs đã thay thế (RESEARCH_PLAN, RNG_ANALYSIS_REPORT, Random_Analysis_Agent) | Historical context only |
+| 5 | [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | Index 16 chu kỳ + principles corpus + project-wide cumulative state | Hiểu "tại sao" đằng sau quyết định |
+| 6 | [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md) | Synthesis cuối cùng 3D research (28 strategies × 8 cycles, CLOSED) | Khi làm việc với Max 3D/3D Pro |
+| 7 | [matrix/literature_review.md](matrix/literature_review.md) | Lý thuyết nền tảng (papers, algorithms) | Khi thiết kế thuật toán mới |
+| 8 | [proposals/](proposals/) | PAUSED pre-regs chờ quyết định (cycle17a Optimization mode) | Khi resume breakthrough mode |
+| 9 | [archive/superseded_docs/](archive/superseded_docs/) | Historical docs đã thay thế (RESEARCH_DOCUMENTATION stale sau Chu kỳ 6, 3d/REPORT.md pre-replication, v.v.) | Historical context only |
 
 ## Cách chạy backtest
 
@@ -146,7 +173,7 @@ python3 matrix/backtest.py 2>&1 | tee matrix/output.log
 uv pip install scipy numpy pandas
 ```
 
-**Kết quả then chốt**: HybridParityDiv đạt P(any≥3) = 27.65% ở N=20 vé (+4.31pp vs Random, p=0.011). Xem §6.3.1 trong `RESEARCH_DOCUMENTATION.md`.
+**Kết quả then chốt** (đã bị REJECT sau Chu kỳ 5 correction): HybridParityDiv raw đạt P(any≥3) = 27.65% ở N=20 (+4.31pp vs Random, p=0.011) nhưng sau sample-size fix p=0.301. Xem [history/cycle05_lotto535_wheeling.md](history/cycle05_lotto535_wheeling.md).
 
 ### 3D (Max 3D, Max 3D Pro)
 
@@ -182,7 +209,7 @@ python3 3d/advanced_backtest.py 2>&1 | tee 3d/advanced_backtest_output.log
 
 ### Thêm thuật toán mới cho 3D
 
-1. **Đọc** `3d/REPORT.md` và `3d/deep_analysis.json` để hiểu dữ liệu
+1. **Đọc** [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md) và `3d/deep_analysis.json` để hiểu dữ liệu
 2. **Nếu thuật toán đơn giản**: thêm vào `3d/backtest.py`
 3. **Nếu thuật toán nâng cao** (cần scipy): thêm vào `3d/advanced_backtest.py`
 4. Cùng quy trình cập nhật website như trên

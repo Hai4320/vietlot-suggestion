@@ -232,7 +232,7 @@ Mọi backtest script phải emit JSON có cấu trúc này cho **mỗi** (strat
 
 ## 5. Reporting Checklist
 
-Khi viết section "Kết quả" vào [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) hoặc [RESEARCH_DOCUMENTATION.md](RESEARCH_DOCUMENTATION.md):
+Khi viết section "Kết quả" vào cycle record `history/cycleNN_<slug>.md` (và update index [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md)):
 
 - [ ] Bảng so sánh có cột: `metric`, `Δ`, `p-value`, `CI95`
 - [ ] Highlighted strategy có `significance.p_value < 0.05` (raw) **và** ghi rõ Bonferroni pass/fail
