@@ -67,6 +67,7 @@ Methodology principles phát sinh từ negative results:
 | 13 | **Forward gate mandatory** — 3-gate stacked (full + split-half + forward_last_100) | 7, 9, 11, 12, 13 (5× validated) | [METHODOLOGY §3.7](METHODOLOGY.md) |
 | 14 | **Magnitude sanity check** — auto-flag if \|Δ\| > 3× bias ceiling | 12, 12.5 | [METHODOLOGY §3.8](METHODOLOGY.md) |
 | 15 | **Prediction concentration check** (ML strategies) — n_unique/total ≥ 0.30 | 12.5 | [METHODOLOGY §3.9](METHODOLOGY.md) |
+| 16 | **Retry tree + optionality preservation** — pre-reg phải document Tầng 1 (cycle-level) + Tầng 2 (within-paradigm) alternatives với trigger conditions | 17 (meta-review 2026-04-22) | [METHODOLOGY §3.10](METHODOLOGY.md) |
 
 Guardrails bất biến (từ Chu kỳ 1+):
 - Walk-forward (no look-ahead)

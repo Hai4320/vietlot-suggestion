@@ -276,6 +276,36 @@ Strategies violating → auto-flag as **Reject** (overfit signature). Applies to
 
 **Rationale**: Lottery với 1000 candidates (3D) hoặc ≥35 candidates (matrix), uniform-like prediction diversity expected. High concentration = model hyper-converged to training-period favorites that don't generalize.
 
+### 3.10 Retry Tree + Optionality Preservation (Principle #16 — từ Chu kỳ 17)
+
+**Bối cảnh**: Meta-review [META_REVIEW_POST_CYCLE16.md](META_REVIEW_POST_CYCLE16.md) 2026-04-22 phát hiện: sau 16 cycles × ~60 strategies × 0 Accept, project dễ bị "locked in" vào 1 design choice mà không còn visibility vào alternatives đã cân nhắc. Nếu một cycle reject mà không có retry tree documented, user phải re-derive alternatives from scratch — lose institutional knowledge + risk proposing same variant lại.
+
+**Rule (binding for all pre-registrations cycle 17+)**: Mỗi pre-reg phải include 2 levels of alternatives:
+
+1. **Tầng 1 — Cycle-level alternatives** (nếu reject hoàn toàn paradigm này, đi đâu?)
+   - Link tới META_REVIEW (hoặc equivalent doc) § các hướng song song
+   - Effort + pass probability của mỗi hướng alternative
+   - Decision criteria để pick hướng kế tiếp
+
+2. **Tầng 2 — Within-paradigm retries** (nếu reject nhưng muốn thử variant trong cùng paradigm)
+   - Tối thiểu 3-5 variants chưa test (alt hyperparams, alt features, alt mapping)
+   - **Trigger condition** cho mỗi variant — evidence nào từ kết quả hiện tại cho thấy variant đó đáng thử
+   - Execution policy: không auto-retry; mỗi retry phải user-approve + pre-reg mới
+
+**Execution policy** (binding):
+- Không chạy retry automatic khi reject — phải explicit user approval
+- Mỗi retry là cycle mới (N.1, N.2, ...) với pre-reg riêng, không mở rộng cycle gốc post-hoc
+- Cap tối đa 3 retries / paradigm trước khi escalate paradigm-level rethink
+- Mỗi retry phải ghi rõ trigger evidence + drop các variants không còn relevant
+
+**Rationale**: Prevents two failure modes:
+1. **Sunk-cost lock-in** — "đã tốn thời gian paradigm này, cố thêm" → mở ra thêm variants không systematic
+2. **Reinvent-the-wheel** — sau cycle reject, forget alternatives đã brainstormed pre-experiment → duplicate work
+
+Preservation of optionality giữ user option value cao: nếu paradigm fail, đường kế tiếp đã sẵn. Nếu paradigm pass, retry tree làm baseline scope cho follow-up cycles.
+
+**Template**: Xem [RESEARCH_PLAYBOOK.md §Retry Tree Template](RESEARCH_PLAYBOOK.md#retry-tree-template). Ví dụ thực tế: [proposals/cycle17_hmm_regime.md §Retry Tree](proposals/cycle17_hmm_regime.md#retry-tree--within-hmm-paradigm-alternatives) (6 variants 17.1-17.6, each with trigger + rationale).
+
 ---
 
 ## 4. Anti-patterns (Đã Gặp)

@@ -574,7 +574,76 @@ Copy-paste vào `RESEARCH_HISTORY.md` **trước** khi implement:
 
 ---
 
-*Cập nhật lần cuối: 2026-04-20 (late) — (Chu kỳ 10 refined) Breakthrough template weights đổi thành 0.40/0.30/0.15/0.15 (win-rate primary, ROI cân bằng). Thêm Forward validation plan section. Category G (Kelly) demote ưu tiên.*
+## Retry Tree Template (Principle #16 — bắt buộc cho cycle 17+)
+
+**Bắt buộc theo [METHODOLOGY §3.10](METHODOLOGY.md).** Mỗi pre-reg phải include 2 tầng alternatives. Copy-paste template sau đây vào pre-reg, thay `<...>` phần specific.
+
+```markdown
+### Retry Tree — <Paradigm name> alternatives
+
+Pre-reg này fixed <core hyperparams>. Nếu reject, các variants CHƯA test trong cycle này (lưu để Chu kỳ N.x sau nếu muốn exhaust paradigm):
+
+#### N.1 — Alternative <primary hyperparameter>
+
+| Variant | Rationale | Điều kiện trigger retry |
+|---|---|---|
+| <variant 1> | <why this might work> | <evidence from current cycle that motivates this> |
+| <variant 2> | ... | ... |
+
+#### N.2 — Alternative <feature/input>
+
+| Variant | Rationale | Điều kiện trigger retry |
+|---|---|---|
+| ... | ... | ... |
+
+#### N.3 — Alternative <objective/mapping>
+
+| Variant | Rationale | Điều kiện trigger retry |
+|---|---|---|
+| ... | ... | ... |
+
+#### N.4 — Alternative <scope/products>
+
+| Variant | Rationale | Điều kiện trigger retry |
+|---|---|---|
+| ... | ... | ... |
+
+#### N.5 — Alternative <paradigm family> (escape hatch)
+
+Nếu N.1-N.4 all reject → paradigm-level rethink. Candidates:
+- <alternative paradigm 1>
+- <alternative paradigm 2>
+
+### Execution policy cho retries
+
+- KHÔNG chạy retry tự động khi reject. Mỗi retry phải user approve explicitly với evidence trigger.
+- Mỗi retry là cycle mới (N.1, N.2, ...) với pre-reg mới. Không mở rộng cycle hiện tại post-hoc.
+- Cap tối đa 3 retries / paradigm trước khi escalate paradigm-level rethink.
+```
+
+### Guidelines viết retry tree hiệu quả
+
+**MUST include**:
+- **Trigger condition cụ thể**: "Nếu X passes R1 + Y fails Z" (không vague "nếu reject")
+- **Rationale per variant**: 1-line why variant might work (giúp future-you judge value)
+- **Minimum 3-5 variants / tầng**: đủ để có optionality thật, không phải 1 variant token
+- **Link tới Tầng 1 META_REVIEW** cho cycle-level alternatives (paradigm swap)
+
+**MUST NOT include**:
+- Variants đã được prior cycles reject (e.g., đừng propose Kelly variants post Chu kỳ 16)
+- Variants không có trigger evidence path (làm lãng phí decision time sau này)
+- More than 7 variants / tầng (decision paralysis; cap 5-7)
+- Auto-retry logic (violates Principle #16 execution policy)
+
+### Ví dụ thực tế
+
+Xem [proposals/cycle17_hmm_regime.md §Retry Tree](proposals/cycle17_hmm_regime.md#retry-tree--within-hmm-paradigm-alternatives) — 6 variants (17.1 K values, 17.2 observations, 17.3 strategy mapping, 17.4 window size, 17.5 product scope, 17.6 paradigm family escape) với trigger conditions cụ thể.
+
+---
+
+*Cập nhật lần cuối: 2026-04-22 — Thêm Retry Tree Template (Principle #16, cycle 17+ binding).*
+
+*2026-04-20 (late) — (Chu kỳ 10 refined) Breakthrough template weights đổi thành 0.40/0.30/0.15/0.15 (win-rate primary, ROI cân bằng). Thêm Forward validation plan section. Category G (Kelly) demote ưu tiên.*
 
 *2026-04-20 — (Chu kỳ 10 pivot) thêm Breakthrough template + Strategy categories E/F/G.*
 
