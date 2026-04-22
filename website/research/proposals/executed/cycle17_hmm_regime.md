@@ -4,7 +4,7 @@
 
 ### Context
 
-[META_REVIEW_POST_CYCLE16.md](../archive/superseded_docs/META_REVIEW_POST_CYCLE16.md) confirmed ~60 strategies × 0 Accept, cả win-rate và ROI axes exhausted với mechanisms đã thử (1-16). Meta-review đề xuất Kịch bản 2: "1-shot mới + closure" — 1 breakthrough attempt trước khi đóng project. User chose **Hướng C (HMM Regime Detection)** sau data availability check xác nhận Hướng A (Retail Betting Pool) không feasible do Vietlott không expose per-number bet volume.
+[META_REVIEW_POST_CYCLE16.md](../../archive/superseded_docs/META_REVIEW_POST_CYCLE16.md) confirmed ~60 strategies × 0 Accept, cả win-rate và ROI axes exhausted với mechanisms đã thử (1-16). Meta-review đề xuất Kịch bản 2: "1-shot mới + closure" — 1 breakthrough attempt trước khi đóng project. User chose **Hướng C (HMM Regime Detection)** sau data availability check xác nhận Hướng A (Retail Betting Pool) không feasible do Vietlott không expose per-number bet volume.
 
 **Novel paradigm chưa test**: Lottery output có thể có **discrete latent regimes** (vd. "exploitable period" vs "noise period") thay vì smooth drift. Chu kỳ 8 drift chi² 3-window (low power slow drift) + Chu kỳ 14 Kalman online (smooth tracker, averages across regimes) không catch discrete regime switches. HMM với Viterbi decode có sensitivity profile khác.
 
@@ -190,7 +190,7 @@ State labeling (post-fit):
 
 ### Artifacts (planned)
 
-- **Pre-reg** (this file): `website/research/proposals/cycle17_hmm_regime.md` → move to `history/cycle17_hmm_regime.md` after completion
+- **Pre-reg** (this file): `website/research/proposals/executed/cycle17_hmm_regime.md` → move to `history/cycle17_hmm_regime.md` after completion
 - **Shared module**: `website/research/shared/hmm_regime.py` — HMM fit + Viterbi decode + strategy switcher (new `shared/` dir if needed, or place in `3d/` và `matrix/` duplicated)
 - **3D backtest**: `website/research/3d/cycle17_hmm_backtest.py` + `cycle17_hmm_results.json`
 - **Matrix backtest**: `website/research/matrix/cycle17_hmm_backtest.py` + `cycle17_hmm_results.json`
@@ -319,4 +319,4 @@ Nếu Gaussian HMM K=2 reject completely, alternatives hoàn toàn khác archite
 
 Nếu pre-reg này được approve → implementation bắt đầu ngay. Pre-reg **immutable sau approve** — adjustment nào cũng phải re-register (Principle #12 variance: power analysis, Principle #11 variance: gate structure) documented rõ + explicit user approval.
 
-**Alternatives stored**: Tầng 1 (cycle-level fallback) trong [META_REVIEW_POST_CYCLE16.md](../archive/superseded_docs/META_REVIEW_POST_CYCLE16.md) §5. Tầng 2 (within-HMM retries) trong §Retry Tree this document. Không lose optionality nếu lựa chọn hiện tại sai.
+**Alternatives stored**: Tầng 1 (cycle-level fallback) trong [META_REVIEW_POST_CYCLE16.md](../../archive/superseded_docs/META_REVIEW_POST_CYCLE16.md) §5. Tầng 2 (within-HMM retries) trong §Retry Tree this document. Không lose optionality nếu lựa chọn hiện tại sai.

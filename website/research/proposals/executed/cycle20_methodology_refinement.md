@@ -177,7 +177,7 @@ Chu kỳ 20 considered **successful** if:
 
 - **Pre-reg**: this file → move to history/cycle20_methodology_refinement.md after completion
 - **Reclassification script**: `post_closure/cycle20_power_reclassification.py` + `cycle20_reclassification_output.json`
-- **Result doc**: merge into [history/cycle20_methodology_refinement.md](../history/cycle20_methodology_refinement.md)
+- **Result doc**: merge into [history/cycle20_methodology_refinement.md](../../history/cycle20_methodology_refinement.md)
 - **Doc updates** (listed above)
 
 ### Exit conditions
