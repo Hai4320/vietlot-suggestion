@@ -6,7 +6,7 @@ LOGURU_LEVEL := INFO
 export
 
 all: lint test
-.PHONY: all requirements-dev test lint build pypi run-crawl run-missing website-install website-dev website-build website-data
+.PHONY: all requirements-dev test lint build pypi run-crawl run-missing website-install website-dev website-build website-data research-cycle22 research-cycle22-rebacktest
 
 .venv:
 	@echo "Initializing virtual environment..."
@@ -61,3 +61,18 @@ website-dev: website-data
 website-build: website-data
 	@echo "Building website for production..."
 	cd website && npm run build
+
+# ── Research data pipeline ──────────────────────────────────
+# Chu kỳ 22 Optimization rankings: JSON → UI auto-sync
+# UI reads research/optimization/cycle22_rankings.json directly qua TS import
+# (no codegen step). Re-run ranking script nếu cần refresh data.
+
+research-cycle22-rebacktest: .venv
+	@echo "Chu kỳ 22 — Re-running fresh split-half backtests (matrix + 3D)..."
+	$(VENV_DIR)/bin/python website/research/optimization/cycle22_rebacktest_matrix.py
+	$(VENV_DIR)/bin/python website/research/optimization/cycle22_rebacktest_3d.py
+
+research-cycle22: .venv
+	@echo "Chu kỳ 22 — Computing rankings từ existing backtest JSONs..."
+	$(VENV_DIR)/bin/python website/research/optimization/cycle22_ranking.py
+	@echo "✓ cycle22_rankings.json updated. Next 'make website-dev' hoặc 'make website-build' sẽ pick up tự động."

@@ -31,22 +31,41 @@ npx tsc --noEmit       # type check only
 | `src/components/ui/` | shadcn primitives (Badge, Card, Table, Tabs, Sheet) |
 | `src/lib/suggest-matrix.ts` | Matrix product strategies (Power 6/55, 6/45, 5/35) |
 | `src/lib/suggest-3d.ts` | 3D strategies (Max 3D, 3D Pro) |
-| `src/lib/backtest-data.ts` | **Hardcoded** backtest results consumed by BacktestCard + /algorithms (manual sync from research/) |
+| `src/lib/backtest-data.ts` | **Historical snapshot** (pre-C22). /algorithms dùng cho strategies không port vào Chu kỳ 22. |
+| `src/lib/cycle22-data.ts` | **Auto-synced** từ `research/optimization/cycle22_rankings.json` (direct JSON import, resolveJsonModule). Source of truth cho current picks. |
 | `src/lib/types.ts` | `SuggestionStrategy` union + shared types |
 | `src/lib/products-config.ts` | Product metadata (slug, color, data file) |
-| `public/data/*.json` | UI-consumed draw data (generated from `data/*.jsonl` by `scripts/build_data.py`) |
+| `public/data/*.json` | UI-consumed draw data (generated from `data/*.jsonl` by `scripts/build_data.py`, triggered via `make website-data`) |
 | `research/` | Research artifacts (Python backtest + markdown docs) — see [research/README.md](research/README.md) |
+
+## Data pipelines (auto-sync)
+
+Hai pipelines auto-sync vào UI:
+
+| Pipeline | Source | Destination | Trigger | Sync step |
+|---|---|---|---|---|
+| **Draw data** | `data/*.jsonl` (crawler output) | `public/data/*.json` (UI fetch) | `make website-dev` / `website-build` | Python script `build_data.py` via Makefile dep |
+| **Chu kỳ 22 rankings** | `website/research/optimization/cycle22_rankings.json` | `src/lib/cycle22-data.ts` (TS module) | Every Next.js build/hot-reload | **Direct JSON import** — no codegen step |
+
+**Re-run research rankings** khi backtest data thay đổi:
+```bash
+make research-cycle22              # Compute rankings từ existing backtest JSONs (fast, ~5s)
+make research-cycle22-rebacktest   # Fresh re-backtest (slow, ~40min matrix+3D)
+```
+
+UI sẽ pick up tự động trên next `make website-dev` / `website-build` (JSON imported trực tiếp, không cần regenerate TS file).
 
 ## Updating UI after a research cycle
 
 **When a research cycle completes (Chu kỳ N → N+1), follow [RESEARCH_TO_UI_PLAYBOOK.md](RESEARCH_TO_UI_PLAYBOOK.md).** Checklist covers:
 
-1. Update `backtest-data.ts` với new strategies + revised decisions
-2. Update `SuggestionPanel.tsx` `PRODUCT_RANKS` per decision matrix
-3. Update `/research`, `/algorithms` pages
-4. Update [ALGORITHM_MANAGEMENT.md](ALGORITHM_MANAGEMENT.md) Ma trận table
-5. Build + type check + curl smoke + visual check
-6. Commit per template
+1. Run `make research-cycleN` → regenerate `cycleN_rankings.json`
+2. For Chu kỳ 22+ Optimization mode: UI auto-picks up via JSON import (no manual TS edit needed)
+3. For breakthrough cycles với new strategies: update `backtest-data.ts` với new entries + decisions
+4. Update `SuggestionPanel.tsx` `PRODUCT_RANKS` nếu picks change
+5. Update `/research`, `/algorithms` page narrative nếu cần
+6. Build + type check + curl smoke + visual check
+7. Commit per template
 
 **Avoid UX lies**: any strategy shown in SuggestionPanel `picks.winrate` or `picks.roi` with claim contradicting latest cycle = critical bug. Historical cases (all fixed 2026-04-21):
 - Max 3D Pro rec1="evmax" (Rejected Chu kỳ 7 months earlier)
