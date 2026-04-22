@@ -127,23 +127,31 @@ See [PLAYBOOK.md](PLAYBOOK.md) for Optimization-specific methodology (lighter th
 3. **Family elimination (Principle #17)**: N/A for Optimization (no new mechanism). But strategies from eliminated families (Kelly, HMM, GBM) must NOT be promoted to UI — add exclusion list.
 4. **Immutability of past verdicts**: History files immutable. Reclassifications in closure report §7.1.1 only.
 
-### Exclusion list for UI promotion (post Chu kỳ 21)
+### Exclusion list for UI promotion
 
-Do NOT surface as `picks.winrate` or `picks.roi`:
+**Canonical source**: [MEASUREMENT.md §4](MEASUREMENT.md) — unified 2-tier exclusion.
 
-| Strategy | Reason |
-|---|---|
-| GBM Max 3D / Max 3D Pro (Chu kỳ 12) | Overfit confirmed Chu kỳ 12.5 |
-| Kelly variants (Chu kỳ 16) | Δ=-28pp vs Random, set-coverage ⊥ |
-| HMM_K2_W* (Chu kỳ 17) | Concentration collapse + 6/6 Reject |
-| Hybrid_1S_5R / Hybrid_3S_3R (Chu kỳ 19e) | Split-half direction flip |
-| HierarchicalEB_Sharp/Lazy (Chu kỳ 21) | Split-half direction flip Power 6/55 |
+Do NOT surface as `picks.winrate` / `picks.roi` / `picks.balanced`:
+
+**Tier 1 — Hard exclude** (direct evidence):
+- GBM Max 3D / Max 3D Pro — overfit (Chu kỳ 12/12.5)
+- Kelly variants — Δ=−28pp, set-coverage ⊥ concentration (Chu kỳ 16)
+- HMM_K2_W20/W40 — concentration collapse + 6/6 Reject (Chu kỳ 17)
+- Hybrid_1S_5R / Hybrid_3S_3R — split-half direction flip (Chu kỳ 19e)
+- HierarchicalEB_Sharp / HierarchicalEB_Lazy — split-half flip Power 6/55 (Chu kỳ 21)
+- Single_N6 — insignificant at all gates (Chu kỳ 19e)
+
+**Tier 2 — Family eliminated** (Principle #17 binding, Chu kỳ 20):
+- Matrix: AdaptiveWindowStrategy, OnlineBayes λ=0.01/0.03/0.10, BayesianDirichlet, Bayes_Sharp, HierarchicalEB T=1.0
+- **3D conservative extension** (2026-04-22): C1 BayesJoint_HL100 + HL150_S (Bayesian family), A3 AdaptBias_T0.9 + T0.7 (Adaptive family)
+- **KHÔNG exclude**: EnsembleBorda, C2 MultiSignal, UltimateComposite — ensemble family không broadly eliminated, chỉ 2 Hybrid configs bị config-specific binding.
 
 ---
 
 ## Artifacts
 
-- [PLAYBOOK.md](PLAYBOOK.md) — Optimization-specific methodology
+- [MEASUREMENT.md](MEASUREMENT.md) — **canonical** measurement methodology (composite profiles, picks, exclusion) + evaluation checklist
+- [PLAYBOOK.md](PLAYBOOK.md) — Optimization-specific process (3-phase pipeline)
 - Pre-regs → [../proposals/](../proposals/) (cycle22+ lives there)
 - Results + data → (as cycles run, will add `optimization/cycleNN_*` dirs)
 - UI updates → [website/src/components/products/SuggestionPanel.tsx](../../src/components/products/SuggestionPanel.tsx) per [RESEARCH_TO_UI_PLAYBOOK.md](../../RESEARCH_TO_UI_PLAYBOOK.md)

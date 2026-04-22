@@ -108,70 +108,118 @@ const ALL_STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; d
     label: "Kết hợp nóng–lạnh",
     description: "Ma trận: 50/50 nóng + lạnh. 3D: digit-by-digit random trọng số",
   },
+  // ─── Chu kỳ 22 Optimization mode (2026-04-22) — research-layer ports ───
+  {
+    key: "mindistance",
+    emoji: "📐",
+    label: "Khoảng cách đa dạng",
+    description: "Ma trận: Dirichlet sample + Jaccard-diverse greedy — tối đa hoá sự khác biệt giữa các vé. Chu kỳ 22 Power 6/55 winner (Δ+0.31pp, ROI +1.4pp vs Random; split-half verified)",
+    badge: "🧪 C22",
+  },
+  {
+    key: "coverageopt",
+    emoji: "🎪",
+    label: "Phủ không gian (3D)",
+    description: "3D: frequency score + digit-distance diversity — pick số phủ không gian digit tối đa. Chu kỳ 22 Max 3D ROI pick (Δ_roi +11.6pp)",
+    badge: "🧪 C22",
+  },
+  {
+    key: "pairexploiter",
+    emoji: "🔗",
+    label: "Khai thác cặp chữ số",
+    description: "3D: O/E synergy — khai thác non-independence giữa 3 cặp vị trí (0,1)(1,2)(0,2). Chu kỳ 22 Max 3D winrate pick (Δ+0.41pp, p=0.038)",
+    badge: "🧪 C22",
+  },
 ];
 
-// Per-product ranking + research picks split by metric (win rate vs ROI).
-// Rule (codified 2026-04-21): each product has 1-2 picks from UI-available strategies,
-// excluding Reject-vì-overfit/direction-flip. winrate = max winPct/exactPct. roi = max roi (ít lỗ nhất).
-// Nếu cùng strategy thắng cả 2 axes → chỉ 1 pick (roi field omitted). Source of truth: backtest-data.ts.
+// Per-product ranking + research picks (Chu kỳ 22 Optimization mode, 2026-04-22).
+// 3 composite profiles (WinRate / ROI / Balanced) → up to 3 picks per product.
+// Collapse rules: khi picks trùng strategy, UI gộp labels.
+// See website/research/optimization/MEASUREMENT.md §3 for semantics.
+// Null picks: Power 6/45 (baseline drift flip) + Max 3D Pro (regime split) — honest outcome.
 type ProductSlug = "power-655" | "power-645" | "power-535" | "max-3d" | "max-3d-pro";
 const MAX_STRATEGIES_SHOWN = 7;
 
 type ProductPick = { strategy: SuggestionStrategy; stat: string };
+type CollapseMode = "none" | "all_three" | "winrate_roi" | "winrate_balanced" | "roi_balanced";
 const PRODUCT_RANKS: Record<ProductSlug, {
   ranks: Record<SuggestionStrategy, number>;
   stats: Record<SuggestionStrategy, string>;
-  picks: { winrate: ProductPick; roi?: ProductPick };
+  picks: { winrate: ProductPick | null; roi: ProductPick | null; balanced: ProductPick | null };
+  collapse: CollapseMode;
+  // Fallback strategy for useState initializer when all picks are null
+  defaultStrategy: SuggestionStrategy;
   recReason: string;
 }> = {
   "power-655": {
-    ranks: { bayesian: 1, frequency: 2, pattern: 3, maxentropy: 4, adaptive: 5, mixed: 6, absence: 7, evmax: 8, jointbias: 9, hybridparity: 10 },
-    stats: { bayesian: "Δ+0.031, Win 1.65%, ROI −91.4% (best cả 2)", frequency: "Δ+0.024, Win 1.51%, ROI −93.3%", pattern: "Δ+0.003, ổn định #1 tổng hợp", maxentropy: "Win 1.54%, ROI −94.7%", adaptive: "Δ−0.014", mixed: "50/50 nóng+lạnh", absence: "Win 1.24%, Δ−0.015", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35" },
+    // Chu kỳ 22: MinDistance top all 3 profiles (composite +1.757/+1.334/+1.546), collapse all_three
+    ranks: { mindistance: 1, maxentropy: 2, frequency: 3, pattern: 4, bayesian: 5, absence: 6, mixed: 7, adaptive: 8, evmax: 9, jointbias: 10, hybridparity: 11, coverageopt: 12, pairexploiter: 13 },
+    stats: { mindistance: "Δ+0.308pp, ROI +1.36% vs Random, split-half verified (C22 pick)", maxentropy: "Δ+0.081pp, ROI +1.55%", frequency: "Δ−0.065pp, ROI +1.12%", pattern: "Δ−0.227pp, ROI +0.19%", bayesian: "🚫 Tier 2 excluded (Bayesian family eliminated Chu kỳ 21)", absence: "Δ−0.162pp, ROI +0.82%", mixed: "50/50 nóng+lạnh", adaptive: "🚫 Tier 2 excluded (Adaptive family eliminated Chu kỳ 14)", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35", coverageopt: "Chỉ cho 3D", pairexploiter: "Chỉ cho 3D" },
     picks: {
-      winrate: { strategy: "bayesian", stat: "Win 1.65%, Δ+0.031 avg" },
+      winrate: { strategy: "mindistance", stat: "Δ+0.308pp, composite +1.757 (rank 1)" },
+      roi: { strategy: "mindistance", stat: "Δ_ROI +1.36%, composite +1.334 (rank 1)" },
+      balanced: { strategy: "mindistance", stat: "composite +1.546 (rank 1)" },
     },
-    recReason: "Bayesian AI thắng cả 2 axes: Win rate 1.65% (cao nhất) + ROI −91.4% (ít lỗ nhất). Pool 55 số lớn → noise cao, không significance.",
+    collapse: "all_three",
+    defaultStrategy: "mindistance",
+    recReason: "Chu kỳ 22: MinDistance dominates cả 3 profiles (winrate/roi/balanced) — Δ+0.308pp win, ROI +1.36% vs Random. Split-half verified. Composite +1.757 cách biệt khá với #2 ExpDecay_Hot (+0.764).",
   },
   "power-645": {
-    ranks: { bayesian: 1, maxentropy: 2, pattern: 3, frequency: 4, mixed: 5, adaptive: 6, absence: 7, evmax: 8, jointbias: 9, hybridparity: 10 },
-    stats: { bayesian: "Sharp T=0.3, Win 3.14% (max Win)", maxentropy: "ROI −57.5% (max ROI), Δ+0.010 avg", pattern: "Δ+0.017, ổn định", frequency: "Δ+0.006, Win 2.78%", mixed: "50/50 nóng+lạnh", adaptive: "Win 1.94%", absence: "Win 2.78%, Δ−0.005", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35" },
-    picks: {
-      winrate: { strategy: "bayesian", stat: "Sharp T=0.3, Win 3.14%" },
-      roi: { strategy: "maxentropy", stat: "ROI −57.5% (ít lỗ nhất, 30pp tốt hơn Bayesian)" },
-    },
-    recReason: "Split axes: Bayesian Sharp max Win rate 3.14%. Phủ sóng tối đa min lỗ ROI −57.5%. ExpDecay_Cold Rejected Chu kỳ 9 (dramatic split-half flip).",
+    // Chu kỳ 22: all picks null — baseline drift between halves (+0.67pp shift) flips all top candidates
+    ranks: { mindistance: 1, frequency: 2, maxentropy: 3, pattern: 4, absence: 5, mixed: 6, bayesian: 7, adaptive: 8, evmax: 9, jointbias: 10, hybridparity: 11, coverageopt: 12, pairexploiter: 13 },
+    stats: { mindistance: "Δ+0.399pp, ROI +2.55% | ⚠ split-half flip (h1+, h2−)", frequency: "Δ+0.083pp, ROI +17.29% | ⚠ split-half flip", maxentropy: "Δ−0.283pp", pattern: "Δ−0.133pp", absence: "Δ−0.083pp", mixed: "50/50 nóng+lạnh", bayesian: "🚫 Tier 2 excluded", adaptive: "🚫 Tier 2 excluded", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", hybridparity: "Chỉ cho 5/35", coverageopt: "Chỉ cho 3D", pairexploiter: "Chỉ cho 3D" },
+    picks: { winrate: null, roi: null, balanced: null },
+    collapse: "none",
+    defaultStrategy: "mindistance",
+    recReason: "Chu kỳ 22: Không có pick đủ tin cậy cho Mega 6/45. Random baseline dịch +0.67pp giữa hai halves → mọi strategy top đều flip direction. Đây là honest null outcome — không phải bug. Vui lòng tham khảo bảng xếp hạng chi tiết để tự chọn.",
   },
   "power-535": {
-    ranks: { adaptive: 1, maxentropy: 2, pattern: 3, frequency: 4, hybridparity: 5, bayesian: 6, mixed: 7, absence: 8, evmax: 9, jointbias: 10 },
-    stats: { adaptive: "Win 1.90%, Δ+0.038 avg (max Win)", maxentropy: "Win 1.75%, ROI −84.4% (max ROI, tied)", pattern: "Δ+0.025 directional", frequency: "Win 1.37%, ROI −93%", hybridparity: "⚠️ Chu kỳ 5 correction: Reject (p=0.301 sau fix bug)", bayesian: "Win 1.75%, ROI −84.4% (tied)", mixed: "50/50 nóng+lạnh", absence: "Win 0.79%, Δ−0.008", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D" },
+    // Chu kỳ 22: Freq_Hot top all 3 profiles (collapse all_three). ⚠ Δ_win=-0.045 (negative) but composite wins via ROI+sharpe.
+    ranks: { frequency: 1, maxentropy: 2, absence: 3, pattern: 4, mindistance: 5, mixed: 6, hybridparity: 7, bayesian: 8, adaptive: 9, evmax: 10, jointbias: 11, coverageopt: 12, pairexploiter: 13 },
+    stats: { frequency: "Δ+1.80% ROI (best), Δ_win −0.045pp (≈ tie Random)", maxentropy: "Δ_win +0.000pp, ROI 0 (tied Random)", absence: "Δ−0.271pp", pattern: "Δ−0.452pp", mindistance: "Δ−0.135pp, ROI −0.68%", mixed: "50/50 nóng+lạnh", hybridparity: "⚠️ Chu kỳ 5 Reject (p=0.301)", bayesian: "🚫 Tier 2 excluded", adaptive: "🚫 Tier 2 excluded", evmax: "Chỉ cho 3D", jointbias: "Chỉ cho 3D", coverageopt: "Chỉ cho 3D", pairexploiter: "Chỉ cho 3D" },
     picks: {
-      winrate: { strategy: "adaptive", stat: "Win 1.90%, Δ+0.038 avg (cao nhất)" },
-      roi: { strategy: "maxentropy", stat: "ROI −84.4% (tied với Bayesian, avg cao hơn)" },
+      winrate: { strategy: "frequency", stat: "composite +0.814 (rank 1) — lưu ý: Δ_win −0.045pp (≈ tie Random)" },
+      roi: { strategy: "frequency", stat: "ROI +1.80% vs Random, composite +1.208" },
+      balanced: { strategy: "frequency", stat: "composite +1.012 (rank 1)" },
     },
-    recReason: "Split axes: Tự động tối ưu max Win rate 1.90%. Phủ sóng tối đa min lỗ ROI −84.4%. HybridParity Rejected sau Chu kỳ 5 sample-size bug fix.",
+    collapse: "all_three",
+    defaultStrategy: "frequency",
+    recReason: "Chu kỳ 22: Freq_Hot dominates cả 3 profiles. ⚠ Pick winrate có Δ_win NEGATIVE nhẹ (−0.045pp ≈ tie với Random) — được chọn vì composite winner (ROI +1.8% + least bad win). Xem /glossary để hiểu semantic 'pick = composite winner, không đảm bảo beat Random'.",
   },
   "max-3d": {
-    ranks: { maxentropy: 1, jointbias: 2, frequency: 3, bayesian: 4, pattern: 5, adaptive: 6, mixed: 7, evmax: 8, absence: 9, hybridparity: 10 },
-    stats: { maxentropy: "🎯 Phủ sóng Exact 2.22%, ROI −35.8% (best cả 2)", jointbias: "🧬 Δ+0.305pp mechanism anchor (Chu kỳ 13)", frequency: "Δ+0.158pp, ROI −46.7%", bayesian: "Exact 2.09%, 38× trúng Nhất", pattern: "Exact ~2.0%", adaptive: "Exact 1.94%", mixed: "digit-by-digit", evmax: "⚠️ Reject Chu kỳ 7 (3D Pro flip)", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
+    // Chu kỳ 22: 3 picks diverse. Winrate=PairExploiter (rank 1, +0.414pp, p=0.038), ROI=CoverageOpt (rank 2 after retry, +11.6pp ROI), Balanced=FreqWholeHot (rank 1, +12.9pp ROI)
+    ranks: { pairexploiter: 1, frequency: 2, coverageopt: 3, maxentropy: 4, jointbias: 5, pattern: 6, bayesian: 7, adaptive: 8, mixed: 9, evmax: 10, absence: 11, hybridparity: 12, mindistance: 13 },
+    stats: { pairexploiter: "Δ+0.414pp, ROI +10.35%, p=0.0379 (C22 winrate pick)", frequency: "Δ+0.374pp, ROI +12.93% (FreqWholeHot, C22 balanced pick)", coverageopt: "Δ+0.364pp, ROI +11.61% (C22 roi pick, retry #2)", maxentropy: "~ tương đương CoverageOpt (không tested C22, Freq 3D close)", jointbias: "Δ+0.118pp (A1 JointBias_T1.0 ranked)", pattern: "chưa có equivalent direct", bayesian: "🚫 Tier 2 excluded (BayesJoint)", adaptive: "🚫 Tier 2 excluded (AdaptBias)", mixed: "digit-by-digit", evmax: "D1 tested: Δ+0.020pp, ROI −9.48% (rank #17)", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35", mindistance: "Chỉ cho matrix" },
     picks: {
-      winrate: { strategy: "maxentropy", stat: "Phủ sóng Exact 2.22%, ROI −35.8% (cả 2 best)" },
+      winrate: { strategy: "pairexploiter", stat: "Δ+0.414pp, p=0.038, composite +1.603 (rank 1)" },
+      roi: { strategy: "coverageopt", stat: "Δ_ROI +11.61%, composite +1.465 (rank 2 after retry)" },
+      balanced: { strategy: "frequency", stat: "FreqWholeHot: Δ_ROI +12.93%, composite +1.586 (rank 1 balanced)" },
     },
-    recReason: "Phủ sóng tối đa (CoverageOpt) Pareto-dominant: Win rate 2.22% + ROI −35.8% cả 2 best. JointBias Δ+0.305pp mechanism anchor nhưng bị dominated metric. Toàn bộ 28 strategies Reject qua 3-gate.",
+    collapse: "none",
+    defaultStrategy: "pairexploiter",
+    recReason: "Chu kỳ 22: 3 picks diverse — PairExploiter winrate (p=0.038 best nominal sig của cycle), CoverageOpt ROI (+11.6pp), FreqWholeHot balanced. Tất cả split-half verified. Pick đa dạng theo user intent (max trúng / min lỗ / cân bằng).",
   },
   "max-3d-pro": {
-    ranks: { jointbias: 1, maxentropy: 2, frequency: 3, bayesian: 4, adaptive: 5, mixed: 6, pattern: 7, evmax: 8, absence: 9, hybridparity: 10 },
-    stats: { jointbias: "🧬 Exact 2.38%, ROI −31.5% (best cả 2)", maxentropy: "Phủ sóng 2.30%, ROI −35.1%", frequency: "Exact 1.94%, ROI −38.5%", bayesian: "Exact 2.07%", adaptive: "Exact 2.07%", mixed: "digit-by-digit", pattern: "Exact ~2.0%", evmax: "⚠️ REJECTED Chu kỳ 7 (split-half h1 p=0.0007 → h2 p=0.865 flip)", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35" },
-    picks: {
-      winrate: { strategy: "jointbias", stat: "Bias liên hợp Exact 2.38%, ROI −31.5% (cả 2 best)" },
-    },
-    recReason: "JointBias Pareto-dominant 3D Pro: Win rate 2.38% + ROI −31.5% cả 2 best (EVMax ROI tốt hơn nhưng Reject Chu kỳ 7 dramatic flip). Δ+0.378pp directional, within Principle #14 ceiling.",
+    // Chu kỳ 22: all picks null — regime split between halves. D1 top but h1→h2 flip from +1.15pp to -0.20pp.
+    ranks: { evmax: 1, frequency: 2, jointbias: 3, pairexploiter: 4, maxentropy: 5, coverageopt: 6, pattern: 7, bayesian: 8, adaptive: 9, mixed: 10, absence: 11, hybridparity: 12, mindistance: 13 },
+    stats: { evmax: "Δ+0.484pp, ROI +13.43% | ⚠ split-half flip (h1 +1.15pp → h2 −0.20pp)", frequency: "Δ+0.030pp, ROI −7.38% (FreqWholeHot in C22)", jointbias: "Δ+0.363pp (A1 JointBias_T1.0)", pairexploiter: "Δ+0.121pp, ROI −0.21%", maxentropy: "~ tương đương B1", coverageopt: "Δ−0.575pp, ROI −18.71% (rank #17 cuối bảng cho 3D Pro)", pattern: "chưa tested", bayesian: "🚫 Tier 2 excluded", adaptive: "🚫 Tier 2 excluded", mixed: "digit-by-digit", absence: "chưa backtest", hybridparity: "Chỉ cho 5/35", mindistance: "Chỉ cho matrix" },
+    picks: { winrate: null, roi: null, balanced: null },
+    collapse: "none",
+    defaultStrategy: "evmax",
+    recReason: "Chu kỳ 22: Không có pick đủ tin cậy cho Max 3D Pro. Regime split giữa hai halves: EVMaximizer top composite nhưng h1 +1.15pp → h2 −0.20pp (direction flip). ULTIMATE_v2_sharp opposite flip. Honest null outcome — tham khảo bảng xếp hạng chi tiết.",
   },
 };
 
 export function SuggestionPanel(props: SuggestionPanelProps) {
   const productRank = PRODUCT_RANKS[props.slug];
   const cached = panelStateCache.get(props.slug);
-  const [strategy, setStrategy] = useState<SuggestionStrategy>(cached?.strategy ?? productRank.picks.winrate.strategy);
+  // Default strategy: first valid pick (winrate → roi → balanced) else defaultStrategy fallback
+  const primaryPickStrategy =
+    productRank.picks.winrate?.strategy ??
+    productRank.picks.roi?.strategy ??
+    productRank.picks.balanced?.strategy ??
+    productRank.defaultStrategy;
+  const [strategy, setStrategy] = useState<SuggestionStrategy>(cached?.strategy ?? primaryPickStrategy);
   const [count, setCount] = useState(cached?.count ?? 5);
   const [countInput, setCountInput] = useState(cached?.countInput ?? "5");
   const [results, setResults] = useState<(SuggestionSet | ThreeDSuggestionSet)[]>(cached?.results ?? []);
@@ -345,49 +393,86 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         </div>
       </div>
 
-      {/* Research picks card — 1 or 2 picks split by metric (win rate vs ROI) */}
-      <div className="rounded-xl border-2 p-4" style={{ borderColor: `${props.color}40`, background: `${props.color}08` }}>
-        <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-lg">🔬</span>
-            <span className="text-sm font-bold">
-              {productRank.picks.roi ? "Research picks:" : "Research pick:"}
-            </span>
-            {/* Win rate pick */}
-            <div className="inline-flex items-center gap-1.5">
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-600/15 text-green-700 dark:text-green-400" title="Chiến lược có tỷ lệ trúng cao nhất trong các strategy đã test. KHÔNG confirmed edge — directional only.">
-                🎯 Tỷ lệ trúng cao nhất
-              </span>
-              <button onClick={() => handleSelectStrategy(productRank.picks.winrate.strategy)}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-bold text-white transition-transform hover:scale-105"
-                style={{ backgroundColor: props.color }}
-                title={productRank.picks.winrate.stat}>
-                {ALL_STRATEGIES.find(s => s.key === productRank.picks.winrate.strategy)?.emoji} {ALL_STRATEGIES.find(s => s.key === productRank.picks.winrate.strategy)?.label}
-              </button>
-            </div>
-            {/* ROI pick (only when different from win rate pick) */}
-            {productRank.picks.roi && (
-              <div className="inline-flex items-center gap-1.5">
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-yellow-600/15 text-yellow-700 dark:text-yellow-400" title="Chiến lược lỗ ít nhất (ROI âm ít nhất). KHÔNG có lãi — chỉ lỗ ít hơn các strategy khác.">
-                  💰 Lỗ ít nhất
-                </span>
-                <button onClick={() => handleSelectStrategy(productRank.picks.roi!.strategy)}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-medium border transition-transform hover:scale-105"
-                  style={{ borderColor: props.color, color: props.color }}
-                  title={productRank.picks.roi.stat}>
-                  {ALL_STRATEGIES.find(s => s.key === productRank.picks.roi!.strategy)?.emoji} {ALL_STRATEGIES.find(s => s.key === productRank.picks.roi!.strategy)?.label}
-                </button>
+      {/* Research picks card — Chu kỳ 22: 3 profiles (winrate/roi/balanced) + collapse modes + null support */}
+      {(() => {
+        const wrPick = productRank.picks.winrate;
+        const roiPick = productRank.picks.roi;
+        const balPick = productRank.picks.balanced;
+        const allNull = !wrPick && !roiPick && !balPick;
+        const collapse = productRank.collapse;
+
+        if (allNull) {
+          return (
+            <div className="rounded-xl border-2 p-4" style={{ borderColor: "#f59e0b40", background: "#f59e0b08" }}>
+              <div className="flex items-start gap-3">
+                <span className="text-lg shrink-0">⚠️</span>
+                <div className="flex-1">
+                  <div className="text-sm font-bold mb-1">Không có research pick đủ tin cậy cho sản phẩm này</div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{productRank.recReason}</p>
+                  <p className="text-[11px] text-muted-foreground/80 mt-2 italic">
+                    Chu kỳ 22 Optimization mode — null picks là honest outcome theo Principle #11 split-half replication. Xem <a href="/research/cycle22" className="underline">bảng xếp hạng chi tiết</a> để tự chọn.
+                  </p>
+                </div>
               </div>
+            </div>
+          );
+        }
+
+        // Build pick buttons based on collapse mode
+        type RenderedPick = { label: string; title: string; bgClass: string; pick: ProductPick; primary: boolean };
+        const rendered: RenderedPick[] = [];
+        if (collapse === "all_three" && wrPick) {
+          rendered.push({ label: "🎯💰⚖ Pick duy nhất", title: `Dominates cả 3 profiles — ${wrPick.stat}`, bgClass: "bg-emerald-600/20 text-emerald-700 dark:text-emerald-300", pick: wrPick, primary: true });
+        } else if (collapse === "winrate_roi" && wrPick) {
+          rendered.push({ label: "🎯💰 Trúng + Lỗ ít", title: `Winrate + ROI same pick — ${wrPick.stat}`, bgClass: "bg-emerald-600/20 text-emerald-700 dark:text-emerald-300", pick: wrPick, primary: true });
+          if (balPick) rendered.push({ label: "⚖ Cân bằng", title: balPick.stat, bgClass: "bg-slate-600/15 text-slate-700 dark:text-slate-300", pick: balPick, primary: false });
+        } else if (collapse === "winrate_balanced" && wrPick) {
+          rendered.push({ label: "🎯⚖ Trúng + Cân bằng", title: `WinRate + Balanced same — ${wrPick.stat}`, bgClass: "bg-green-600/20 text-green-700 dark:text-green-300", pick: wrPick, primary: true });
+          if (roiPick) rendered.push({ label: "💰 Lỗ ít nhất", title: roiPick.stat, bgClass: "bg-yellow-600/15 text-yellow-700 dark:text-yellow-400", pick: roiPick, primary: false });
+        } else if (collapse === "roi_balanced" && roiPick) {
+          if (wrPick) rendered.push({ label: "🎯 Trúng cao nhất", title: wrPick.stat, bgClass: "bg-green-600/15 text-green-700 dark:text-green-400", pick: wrPick, primary: true });
+          rendered.push({ label: "💰⚖ Lỗ ít + Cân bằng", title: `ROI + Balanced same — ${roiPick.stat}`, bgClass: "bg-yellow-600/20 text-yellow-700 dark:text-yellow-300", pick: roiPick, primary: false });
+        } else {
+          // collapse = "none" → up to 3 separate picks
+          if (wrPick) rendered.push({ label: "🎯 Trúng cao nhất", title: wrPick.stat, bgClass: "bg-green-600/15 text-green-700 dark:text-green-400", pick: wrPick, primary: true });
+          if (roiPick) rendered.push({ label: "💰 Lỗ ít nhất", title: roiPick.stat, bgClass: "bg-yellow-600/15 text-yellow-700 dark:text-yellow-400", pick: roiPick, primary: false });
+          if (balPick) rendered.push({ label: "⚖ Cân bằng", title: balPick.stat, bgClass: "bg-slate-600/15 text-slate-700 dark:text-slate-300", pick: balPick, primary: false });
+        }
+
+        return (
+          <div className="rounded-xl border-2 p-4" style={{ borderColor: `${props.color}40`, background: `${props.color}08` }}>
+            <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-lg">🔬</span>
+                <span className="text-sm font-bold">
+                  {rendered.length > 1 ? "Research picks (C22):" : "Research pick (C22):"}
+                </span>
+                {rendered.map((r, i) => (
+                  <div key={i} className="inline-flex items-center gap-1.5">
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${r.bgClass}`} title={r.title}>
+                      {r.label}
+                    </span>
+                    <button onClick={() => handleSelectStrategy(r.pick.strategy)}
+                      className={r.primary
+                        ? "inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-bold text-white transition-transform hover:scale-105"
+                        : "inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-sm font-medium border transition-transform hover:scale-105"}
+                      style={r.primary ? { backgroundColor: props.color } : { borderColor: props.color, color: props.color }}
+                      title={r.pick.stat}>
+                      {ALL_STRATEGIES.find(s => s.key === r.pick.strategy)?.emoji} {ALL_STRATEGIES.find(s => s.key === r.pick.strategy)?.label}
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed flex-1">{productRank.recReason}</p>
+            </div>
+            {collapse === "all_three" && (
+              <p className="text-[11px] text-muted-foreground/80 mt-2 italic">
+                Chiến lược này dominate cả 3 composite profiles (winrate / roi / balanced) — xem <a href="/research/cycle22" className="underline">bảng xếp hạng đầy đủ</a>.
+              </p>
             )}
           </div>
-          <p className="text-xs text-muted-foreground leading-relaxed flex-1">{productRank.recReason}</p>
-        </div>
-        {!productRank.picks.roi && (
-          <p className="text-[11px] text-muted-foreground/80 mt-2 italic">
-            Chiến lược này thắng cả 2 axes (tỷ lệ trúng + lỗ ít nhất) trong các strategy đã test.
-          </p>
-        )}
-      </div>
+        );
+      })()}
 
       {/* Honest-broker disclaimer about research picks — expanded by default for first-time users */}
       <details className="group rounded-lg border border-yellow-600/40 bg-yellow-600/5 px-3 py-2">
@@ -449,9 +534,10 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {sortedStrategies.map((s, idx) => {
             const bt = productRank.stats[s.key];
-            const isWinratePick = s.key === productRank.picks.winrate.strategy;
+            const isWinratePick = s.key === productRank.picks.winrate?.strategy;
             const isRoiPick = s.key === productRank.picks.roi?.strategy;
-            const isRec = isWinratePick || isRoiPick;
+            const isBalancedPick = s.key === productRank.picks.balanced?.strategy;
+            const isRec = isWinratePick || isRoiPick || isBalancedPick;
             return (
             <button
               key={s.key}
@@ -494,17 +580,25 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
               {isWinratePick && (
                 <span
                   className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-600 text-white"
-                  title={`🎯 Tỷ lệ trúng cao nhất (directional, KHÔNG confirmed) — ${productRank.picks.winrate.stat}`}
+                  title={`🎯 Trúng cao nhất (composite WinRate profile) — ${productRank.picks.winrate!.stat}`}
                 >
-                  🎯 Trúng cao nhất
+                  🎯 Trúng
                 </span>
               )}
               {isRoiPick && (
                 <span
                   className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-600 text-white"
-                  title={`💰 Lỗ ít nhất (ROI vẫn âm) — ${productRank.picks.roi!.stat}`}
+                  title={`💰 Lỗ ít nhất (composite ROI profile) — ${productRank.picks.roi!.stat}`}
                 >
-                  💰 Lỗ ít nhất
+                  💰 Lỗ ít
+                </span>
+              )}
+              {isBalancedPick && (
+                <span
+                  className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-600 text-white"
+                  title={`⚖ Cân bằng (composite Balanced profile) — ${productRank.picks.balanced!.stat}`}
+                >
+                  ⚖ Cân bằng
                 </span>
               )}
               </div>

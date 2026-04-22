@@ -333,14 +333,29 @@ export default function ResearchPage() {
           <h1 className="text-3xl font-bold tracking-tight">
             🔬 Nghiên Cứu Thuật Toán Vietlott
           </h1>
-          <Badge variant="destructive" className="text-xs">3D closed · 2026-04-21</Badge>
-          <Badge variant="default" className="text-xs">Matrix active · Chu kỳ 14 pending</Badge>
+          <Badge variant="destructive" className="text-xs">Breakthrough closed Chu kỳ 18</Badge>
+          <Badge variant="default" className="text-xs">Chu kỳ 22 Optimization shipped · 2026-04-22</Badge>
         </div>
         <p className="text-muted-foreground max-w-3xl">
-          Dự án này đã test ~50 chiến lược qua 13 chu kỳ nghiên cứu nghiêm ngặt trên 5 sản phẩm
-          Vietlott (Power 6/55, Mega 6/45, Lotto 5/35, Max 3D, Max 3D Pro). Dưới đây là kết quả
-          theo từng dòng nghiên cứu (3D đóng, Matrix đang hoạt động) và lý do không có thuật toán nào đảm bảo lợi nhuận.
+          Dự án đã test ~69 chiến lược qua 22 chu kỳ trên 5 sản phẩm Vietlott. 21 cycles breakthrough research (0 Accept), kết thúc với
+          PROJECT_CLOSURE_REPORT (Chu kỳ 18). Chu kỳ 22+ chuyển sang{" "}
+          <strong>Optimization mode</strong> — rank existing strategies cho UI picks.
         </p>
+        <div className="rounded-xl border-2 border-emerald-600/40 bg-emerald-600/5 p-4">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl shrink-0">🧪</span>
+            <div className="flex-1 space-y-1.5">
+              <div className="text-sm font-bold">Chu kỳ 22 Optimization Mode — Rankings mới nhất</div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                3 composite profiles (WinRate / ROI / Balanced) × 5 sản phẩm. Fresh re-backtest với split-half verification trên picks.
+                3/5 sản phẩm có picks valid, 2/5 null honest (Mega 6/45 baseline drift, Max 3D Pro regime split).
+              </p>
+              <a href="/research/cycle22" className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:underline">
+                📊 Xem bảng xếp hạng đầy đủ · 3 profiles × ranked strategies →
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* ================== TL;DR ================== */}

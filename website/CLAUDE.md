@@ -52,35 +52,45 @@ npx tsc --noEmit       # type check only
 - Max 3D Pro rec1="evmax" (Rejected Chu kỳ 7 months earlier)
 - Power 5/35 rec1="hybridparity" with "p=0.011 significant" claim (Chu kỳ 5 correction showed p=0.301 Reject)
 
-## Research pick schema (post 2026-04-21 refactor)
+## Research pick schema (post Chu kỳ 22 — 2026-04-22)
 
-`PRODUCT_RANKS[slug].picks` replaces old `rec1`/`rec2` fields. Each product has 1-2 picks split by metric:
+`PRODUCT_RANKS[slug].picks` replaces old `rec1`/`rec2` fields. Chu kỳ 22 refactored thành 3-pick structure driven by 3 composite profiles:
 
 ```ts
 picks: {
-  winrate: { strategy, stat };   // 🎯 Tỷ lệ trúng cao nhất — max winPct/exactPct
-  roi?:    { strategy, stat };   // 💰 Lỗ ít nhất — max roi (absent = Pareto-dominant)
-}
+  winrate:  { strategy, stat } | null;   // 🎯 Trúng cao nhất — argmax composite WinRate profile (0.60/0.20/0.10/0.10)
+  roi:      { strategy, stat } | null;   // 💰 Lỗ ít nhất    — argmax composite ROI profile (0.20/0.60/0.10/0.10)
+  balanced: { strategy, stat } | null;   // ⚖ Cân bằng     — argmax composite Balanced profile (0.40/0.40/0.10/0.10)
+};
+collapse: "none" | "all_three" | "winrate_roi" | "winrate_balanced" | "roi_balanced";
+defaultStrategy: SuggestionStrategy;  // Fallback useState khi tất cả picks = null
 ```
 
-**Pick selection rule** (codified 2026-04-21):
-1. Loại strategy có decision Reject vì overfit/direction-flip/Principle #14/#15 fail
-2. Max `winPct` (matrix) / `exactPct` (3D) → `picks.winrate`
-3. Max `roi` (least negative) → `picks.roi`
-4. Nếu cùng strategy thắng cả 2 axes → omit `picks.roi` (collapse to 1 pick)
+**Pick selection rule (Chu kỳ 22 Optimization mode)**: canonical trong [research/optimization/MEASUREMENT.md](research/optimization/MEASUREMENT.md) §3. Summary:
+1. Apply Tier 1 + Tier 2 exclusion (MEASUREMENT §4)
+2. Compute 3 composite scores per strategy (z-normalized within product)
+3. For each profile: argmax → pick candidate
+4. Split-half verify **on each pick candidate** (MEASUREMENT §3.3). Retry ≤ 3 lần nếu direction flip; hết retries → `null`
+5. Apply collapse rules (§3.2): 3 picks trùng strategy → 1 pick với combined label `🎯💰⚖`; 2 trùng → combined 2 picks
 
-Default-selected strategy in SuggestionPanel `useState` = `picks.winrate.strategy`.
+**Null picks** = honest outcome (Power 6/45 + Max 3D Pro hiện tại). UI hiển thị disclosure banner, KHÔNG fallback. Xem `/research/cycle22` cho full rankings + diagnostic.
 
-**Methodology caveat** (flag rõ ràng trong UI [/glossary "Pick selection rule"](src/app/glossary/page.tsx)): quy tắc này chưa áp replication cho CHÍNH quy tắc pick. Tie-breaking bằng `avg_matches` là ad-hoc. Cần cải thiện cycle sau.
+Default-selected strategy in SuggestionPanel `useState` = `picks.winrate ?? picks.roi ?? picks.balanced ?? defaultStrategy`.
+
+**Semantic clarification** (user decision 2026-04-22, Option C): Pick = composite winner, **không đảm bảo beat Random** trên primary metric. Power 5/35 Freq_Hot Δ_win = −0.045pp nhưng vẫn top composite. UI giữ label `🎯 Trúng cao nhất` + glossary giải thích rõ. Xem [/glossary "Chu kỳ 22"](src/app/glossary/page.tsx).
 
 ## Strategy tier + badge conventions
 
 See [ALGORITHM_MANAGEMENT.md §2](ALGORITHM_MANAGEMENT.md) for tier system (Built-in / Internet research / App research).
 
 See [RESEARCH_TO_UI_PLAYBOOK.md §5](RESEARCH_TO_UI_PLAYBOOK.md) for badge colors + language conventions:
-- `✓ Accept` (green) — 3-gate pass, confirmed edge
-- `🎯 Trúng cao nhất` (green) — winrate pick, directional only
-- `💰 Lỗ ít nhất` (yellow) — roi pick, ROI still negative
+- `✓ Accept` (green) — 3-gate pass, confirmed edge [breakthrough mode only]
+- `🎯 Trúng cao nhất` (green) — winrate pick (composite WinRate profile)
+- `💰 Lỗ ít nhất` (yellow) — roi pick (composite ROI profile)
+- `⚖ Cân bằng` (slate) — balanced pick (composite Balanced profile) [Chu kỳ 22+]
+- `🎯💰⚖` (emerald) — 1 pick duy nhất, collapse all_three [Chu kỳ 22+]
+- `🎯💰` / `🎯⚖` / `💰⚖` (emerald/green/yellow) — 2 picks combined, partial collapse [Chu kỳ 22+]
+- `🧪 C22` (colored) — strategy badge cho mindistance/coverageopt/pairexploiter (ported Chu kỳ 22)
 - `⚠ Ship-with-caveats` (yellow) — technical pass but scientific doubt
 - `Reject` (muted) — failed replication
 

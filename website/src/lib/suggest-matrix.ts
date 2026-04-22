@@ -275,6 +275,65 @@ export function generateSuggestions(
         pool = selected.sort((a, b) => a - b);
         break;
       }
+      case "mindistance": {
+        // Port of matrix/backtest.py MinDistanceStrategy (Chu kỳ 22 Power 6/55 winner).
+        // Sample Dirichlet(1 + freq) for number weights, generate N candidate tickets per iteration,
+        // pick the one with MAX-MIN Jaccard distance from previous tickets across this batch.
+        // Stateful across s-iterations (diversity across the N tickets user requested).
+        const nCandidates = 50;
+        const alpha = allNumbers.map((n) => 1.0 + (freq.get(n) || 0));
+        const prevSets: Set<number>[] = sets.map((p) => new Set(p.numbers));
+
+        const generate = (): number[] => {
+          const theta = sampleDirichlet(alpha);
+          const available = [...allNumbers];
+          const p = [...theta];
+          const sel: number[] = [];
+          for (let i = 0; i < mainCount; i++) {
+            const sum = p.reduce((a, v) => a + v, 0);
+            if (sum <= 0) break;
+            let r = Math.random() * sum;
+            let idx = available.length - 1;
+            for (let j = 0; j < available.length; j++) {
+              r -= p[j];
+              if (r <= 0) { idx = j; break; }
+            }
+            sel.push(available[idx]);
+            available.splice(idx, 1);
+            p.splice(idx, 1);
+          }
+          while (sel.length < mainCount) {
+            const remain = allNumbers.filter((n) => !sel.includes(n));
+            if (remain.length === 0) break;
+            sel.push(remain[Math.floor(Math.random() * remain.length)]);
+          }
+          return sel.sort((a, b) => a - b);
+        };
+
+        if (prevSets.length === 0) {
+          pool = generate();
+        } else {
+          let best: number[] | null = null;
+          let bestDist = -1;
+          for (let k = 0; k < nCandidates; k++) {
+            const cand = generate();
+            const candSet = new Set(cand);
+            let minDist = 1;
+            for (const prev of prevSets) {
+              const inter = [...candSet].filter((n) => prev.has(n)).length;
+              const uni = candSet.size + prev.size - inter;
+              const jaccard = uni > 0 ? 1 - inter / uni : 1;
+              if (jaccard < minDist) minDist = jaccard;
+            }
+            if (minDist > bestDist) {
+              bestDist = minDist;
+              best = cand;
+            }
+          }
+          pool = best ?? generate();
+        }
+        break;
+      }
       case "mixed":
       default: {
         // 50% from hot (high freq), 50% from cold (long absence)

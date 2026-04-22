@@ -2,19 +2,23 @@
 
 Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tích cho hệ thống gợi ý số Vietlott.
 
-## 🎯 Trạng thái hiện tại (2026-04-22) — Pivot to **Optimization Mode** (Chu Kỳ 22+)
+## 🎯 Trạng thái hiện tại (2026-04-22) — **Chu kỳ 22 Optimization shipped**
 
 ### Active focus: **[optimization/](optimization/)** → user-facing UI deliverables
 
-**Breakthrough research phase CLOSED** (Chu kỳ 1-21, 0 Accept). Project now prioritizes Optimization mode: rank existing strategies for UI `picks.winrate` + `picks.roi` + budget feature.
+**Breakthrough research phase CLOSED** (Chu kỳ 1-21, 0 Accept). **Chu kỳ 22 Optimization Mode hoàn thành** (Phase O-1 + O-2) 2026-04-22: 3 composite profiles × 5 products, UI shipped với `/research/cycle22` page + 3 new TS strategies.
 
 ### Primary entry points
 
 | Doc | Purpose |
 |---|---|
 | [**optimization/README.md**](optimization/README.md) | 🎯 Optimization mode overview + roadmap (Chu kỳ 22+) |
-| [optimization/PLAYBOOK.md](optimization/PLAYBOOK.md) | Optimization methodology (lighter than breakthrough) |
-| [proposals/cycle22_optimization_mode.md](proposals/cycle22_optimization_mode.md) | Active pre-reg (ready to execute) |
+| [**optimization/MEASUREMENT.md**](optimization/MEASUREMENT.md) | 🎯 Canonical measurement methodology (3 composite profiles + split-half on picks + unified 2-tier exclusion + checklist) |
+| [optimization/PLAYBOOK.md](optimization/PLAYBOOK.md) | Optimization process (lighter than breakthrough) |
+| [proposals/cycle22_optimization_mode.md](proposals/cycle22_optimization_mode.md) | Chu kỳ 22 pre-reg (APPROVED + frozen 2026-04-22) |
+| [optimization/cycle22_rankings.json](optimization/cycle22_rankings.json) | Canonical Chu kỳ 22 output (3 profiles × 5 products) |
+| [optimization/cycle22_review.md](optimization/cycle22_review.md) | Chu kỳ 22 diagnostic review |
+| [history/cycle22_optimization_mode.md](history/cycle22_optimization_mode.md) | Chu kỳ 22 closure record |
 | [proposals/README.md](proposals/README.md) | Proposals index + TODO list |
 
 ### Research archive (breakthrough phase terminal)
@@ -81,12 +85,18 @@ research/
 │
 │   ── 🎯 ACTIVE: Optimization Mode (Chu kỳ 22+) ──
 ├── optimization/
-│   ├── README.md                   ← Optimization overview + roadmap
-│   └── PLAYBOOK.md                 ← Optimization methodology (lighter than breakthrough)
+│   ├── README.md                         ← Optimization overview + roadmap
+│   ├── MEASUREMENT.md                    ← 🎯 Canonical methodology (3 profiles + checklist)
+│   ├── PLAYBOOK.md                       ← Optimization process (lighter than breakthrough)
+│   ├── cycle22_rebacktest_{matrix,3d}.py ← Chu kỳ 22 re-backtest scripts
+│   ├── cycle22_backtest_{matrix,3d}.json ← Fresh split-half backtest outputs
+│   ├── cycle22_ranking.py                ← 3-composite ranking script
+│   ├── cycle22_rankings.json             ← Canonical Chu kỳ 22 output (3 profiles × 5 products)
+│   └── cycle22_review.md                 ← Phase O-1 diagnostic review
 │
 │   ── Proposals (pre-regs) ──
 ├── proposals/                      ← Index: [proposals/README.md](proposals/README.md)
-│   ├── cycle22_optimization_mode.md ← 🎯 ACTIVE Chu kỳ 22 (unified 3D + matrix)
+│   ├── cycle22_optimization_mode.md ← APPROVED + frozen 2026-04-22 (Phase O-1+O-2 shipped)
 │   ├── cycle17a_roi_ranking_3d.md  ← Superseded by cycle22 (historical reference)
 │   └── executed/                   ← Frozen pre-regs của completed cycles
 │       ├── cycle17_hmm_regime.md

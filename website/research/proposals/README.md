@@ -2,9 +2,9 @@
 
 **Purpose**: Registry của pre-regs (frozen per Principle #16). `proposals/` root = active/pending/PAUSED. `proposals/executed/` = completed (frozen, cross-linked từ history/).
 
-**Last updated**: 2026-04-22 (post Chu kỳ 21, pivoting to Optimization mode)
+**Last updated**: 2026-04-22 (post Chu kỳ 22 Optimization shipped)
 
-**🎯 Current priority**: [optimization/README.md](../optimization/README.md) — Chu kỳ 22 Optimization Mode active pre-reg. Research phase closed.
+**🎯 Current priority**: Chu kỳ 23 budget-aware feature (UC2 "chọn bộ số với budget X VND") — pre-reg chưa viết, đợi user kickoff.
 
 ---
 
@@ -12,7 +12,8 @@
 
 | File | Status | Scope | Effort | Notes |
 |---|:---:|---|:---:|---|
-| [cycle22_optimization_mode.md](cycle22_optimization_mode.md) | 🎯 **ACTIVE** | Optimization mode unified 3D + matrix — UI picks + ranking | 5-6d | Primary forward work. See [optimization/](../optimization/) |
+| _(none)_ | — | Chu kỳ 23 budget feature pre-reg chưa viết | ~1 week | Đợi user kickoff |
+| [cycle22_optimization_mode.md](cycle22_optimization_mode.md) | ✅ **EXECUTED** (Phase O-1+O-2 shipped 2026-04-22) | Optimization mode unified 3D + matrix — 3 composite profiles × 5 products + UI ship | ~7 hours | Frozen per Principle #16. See [history/cycle22_optimization_mode.md](../history/cycle22_optimization_mode.md) |
 | [cycle17a_roi_ranking_3d.md](cycle17a_roi_ranking_3d.md) | ⚠ Superseded by cycle22 | (Historical reference only) | N/A | Content frozen Principle #16 |
 
 ---

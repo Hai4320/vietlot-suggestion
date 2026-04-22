@@ -28,16 +28,14 @@ User/business requirement for UI pick update OR new product/feature.
 ### Checklist
 
 - [ ] **Scope**: which products (3D only? Matrix only? All?)
-- [ ] **Metric priority**:
-  - `picks.winrate` → primary metric = win_rate_ge3 (matrix) / exact_match_rate (3D)
-  - `picks.roi` → primary metric = roi_pct (least-negative)
-  - Both may surface same or different strategy per product
-- [ ] **Exclusion list check** (per [README.md §Exclusion list](README.md)):
-  - GBM (overfit Chu kỳ 12/12.5)
-  - Kelly variants (Chu kỳ 16)
-  - HMM variants (Chu kỳ 17)
-  - Hybrid ensemble (Chu kỳ 19e)
-  - HierarchicalEB_Sharp/_Lazy (Chu kỳ 21)
+- [ ] **Pick axes**: 3 composite profiles → 3 picks ([MEASUREMENT.md §3](MEASUREMENT.md))
+  - `picks.winrate` → driven by WinRate-focused composite (w=0.60/0.20/0.10/0.10)
+  - `picks.roi` → driven by ROI-focused composite (w=0.20/0.60/0.10/0.10)
+  - `picks.balanced` → driven by Balanced composite (w=0.40/0.40/0.10/0.10)
+  - Collapse khi trùng: 3 cùng → 1 pick, 2 trùng → 2 picks (§3.2)
+- [ ] **Exclusion list check** — reference canonical [MEASUREMENT.md §4](MEASUREMENT.md) (2-tier):
+  - Tier 1 hard exclude: GBM (C12/12.5), Kelly (C16), HMM (C17), Hybrid (C19e), HierarchicalEB Sharp/Lazy (C21), Single_N6 (C19e)
+  - Tier 2 family eliminated (Principle #17): Adaptive (C14), OnlineBayes λ (C14), BayesianDirichlet + Bayes_Sharp (C21), HierarchicalEB default T=1.0 (C21)
 - [ ] **Phase 0 power classification** (Principle #12 BINDING inherited):
   - Declare "exploratory-only" — Optimization mode accepts this
   - No Accept claims, ranking only
@@ -63,29 +61,33 @@ Pre-reg approved.
 
 - [ ] **Load existing backtest data** — reuse results JSONs, no new backtest unless data stale
 - [ ] **Apply exclusion list** — remove blacklisted strategies from ranking pool
-- [ ] **Compute composite score** per strategy per product:
-  - `score = 0.40 × z(Δ_win) + 0.30 × z(Δ_roi) + 0.15 × z(sharpe) + 0.15 × z(-log10 p)`
-  - z-normalize within (product, segment) group
-  - Use full-segment data (most stable, largest n)
-- [ ] **Rank strategies by composite** — top-3 per product
-- [ ] **Verify top-2 with split-half** (Principle #11 light check):
-  - Split-half direction consistency required for UI promotion
-  - If top-1 direction-flips: demote to top-2
-  - If both top-1 + top-2 flip: pick next valid
-- [ ] **Pick selection** per [website/CLAUDE.md §Pick selection rule](../../CLAUDE.md):
-  1. Loại strategy có decision Reject vì overfit/direction-flip/Principle #14/#15
-  2. Max winPct/exactPct → `picks.winrate`
-  3. Max roi → `picks.roi`
-  4. Nếu cùng strategy → omit `picks.roi`
+- [ ] **Compute 3 composite profiles** per strategy per product (§2 [MEASUREMENT.md](MEASUREMENT.md)):
+  - **WinRate-focused**: `0.60·z(Δ_win) + 0.20·z(Δ_roi) + 0.10·z(sharpe) + 0.10·z(-log10 p)`
+  - **ROI-focused**: `0.20·z(Δ_win) + 0.60·z(Δ_roi) + 0.10·z(sharpe) + 0.10·z(-log10 p)`
+  - **Balanced**: `0.40·z(Δ_win) + 0.40·z(Δ_roi) + 0.10·z(sharpe) + 0.10·z(-log10 p)`
+  - z-normalize trong (product, non-excluded) group
+  - Dùng full-segment data (most stable, largest n)
+- [ ] **Rank strategies theo từng profile** — top-3 per product per profile
+- [ ] **Identify 3 pick candidates**: argmax của mỗi composite profile
+- [ ] **Split-half verify TRÊN PICKS** (Principle #11 light, §3.3 MEASUREMENT):
+  - Direction consistency: `sign(half1_Δ_primary) == sign(half2_Δ_primary)`
+  - Nếu flip: demote, chọn argmax kế tiếp của same profile. Retry ≤ 3 lần
+  - Nếu 3 lần đều flip: pick = `null`, UI "Không có pick đủ tin cậy"
+- [ ] **Collapse rules** khi picks trùng strategy (§3.2 MEASUREMENT):
+  - 3 trùng → 1 pick `🎯💰⚖`
+  - 2 trùng → 2 picks với combined label
+  - Khác nhau → 3 picks đầy đủ
 
-### Tournament metric set (inherited from Chu kỳ 10 + BINDING Chu kỳ 20)
+### Tournament metric set (4 metrics, §1 [MEASUREMENT.md](MEASUREMENT.md))
 
-| Metric | Weight | Notes |
-|---|:---:|---|
-| Δ win_rate_ge3 (matrix) / Δ exact_match_rate (3D) | 0.40 | primary |
-| Δ ROI_pct vs Random | 0.30 | secondary |
-| Sharpe ratio | 0.15 | risk-adjusted |
-| -log10(p-value) | 0.15 | significance guard |
+| Metric | Notes |
+|---|---|
+| Δ win_rate_ge3 (matrix) / Δ exact_match_rate (3D) | primary trục winrate |
+| Δ ROI_pct vs Random | primary trục roi |
+| Sharpe ratio | risk-adjusted guard |
+| -log10(p-value) | significance guard |
+
+**Weights khác EVALUATION §8** — Optimization dùng 3 profiles thay vì single composite. Xem §2.2 MEASUREMENT.md cho divergence rationale.
 
 ### Deliverables
 - Ranking table per product

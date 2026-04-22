@@ -327,6 +327,56 @@ const SECTIONS: Section[] = [
       },
     ],
   },
+  {
+    id: "cycle22",
+    icon: "🧪",
+    title: "Chu kỳ 22 — Optimization Mode",
+    blurb: "3 composite profiles + split-half on picks + null picks honest. Xem /research/cycle22 cho rankings đầy đủ.",
+    terms: [
+      {
+        name: "Optimization mode",
+        vi: "Chế độ tối ưu user-facing",
+        def: "Post-closure (Chu kỳ 22+): không tìm edge mới mà rank existing strategies cho UI. Không có Accept/Reject claims — descriptive-only. Lighter methodology so với breakthrough mode.",
+        example: "Chu kỳ 22 rank 12 matrix + 17 3D strategies theo 3 composite profiles, output picks vào PRODUCT_RANKS.",
+      },
+      {
+        name: "Composite profile",
+        vi: "Hồ sơ composite",
+        def: "Weighted combination của 4 z-normalized metrics: win delta, ROI delta, Sharpe, -log₁₀(p). Chu kỳ 22 có 3 profiles: WinRate-focused (0.60/0.20/0.10/0.10), ROI-focused (0.20/0.60/0.10/0.10), Balanced (0.40/0.40/0.10/0.10).",
+        example: "Max 3D WinRate profile: PairExploiter top. Max 3D ROI profile: CoverageOpt top (vì ROI weight 0.60 flip ranking).",
+      },
+      {
+        name: "Pick semantic (composite winner)",
+        vi: "Ngữ nghĩa pick",
+        def: "Pick = argmax composite score. KHÔNG đảm bảo beat Random trên primary metric. Có thể có Δ_win NEGATIVE (&ldquo;least-bad&rdquo;) nhưng vẫn được chọn vì ROI/sharpe kéo composite lên.",
+        example: "Power 5/35 picks.winrate = Freq_Hot có Δ_win = −0.045pp (tệ hơn Random nhẹ) nhưng composite +0.814 (rank 1) vì ROI +1.80%.",
+      },
+      {
+        name: "Null pick (honest outcome)",
+        vi: "Pick rỗng (kết quả trung thực)",
+        def: "Khi top-3 composite candidates đều flip direction trên split-half (Principle #11) → pick = null. UI label &ldquo;Không có pick đủ tin cậy&rdquo;. Đây là outcome trung thực theo methodology, KHÔNG phải bug.",
+        example: "Mega 6/45 all 3 picks null: Random baseline dịch +0.67pp giữa 2 halves → top candidates (MinDistance, Freq_Cold, Freq_Hot) đều flip. Max 3D Pro all null: regime split (D1 EVMaximizer h1 +1.15pp → h2 −0.20pp).",
+      },
+      {
+        name: "Split-half on picks",
+        vi: "Verify split-half trên picks",
+        def: "Chu kỳ 22 methodology fix: verify split-half direction trên các pick candidates (argmax mỗi profile), KHÔNG phải top-2 composite unconditional. Retry ≤ 3 lần nếu flip; hết retries → null.",
+        example: "Max 3D picks.roi retry #2: rank-1 D3 PairExploiter ROI direction flipped trên roi-primary check → demote → rank-2 CoverageOpt verified → chọn.",
+      },
+      {
+        name: "Collapse rules",
+        vi: "Gộp picks khi trùng strategy",
+        def: "Khi 2 hoặc 3 picks ra cùng strategy, UI gộp label: 3 cùng → 🎯💰⚖ 1 pick duy nhất; 2 cùng → combined label (🎯💰 / 🎯⚖ / 💰⚖) + pick thứ 3 riêng.",
+        example: "Power 6/55 collapse=all_three: MinDistance dominate 3 profiles → UI 1 pick 🎯💰⚖. Max 3D collapse=none: 3 picks khác nhau (PairExploiter / CoverageOpt / FreqWholeHot).",
+      },
+      {
+        name: "Tier 1 vs Tier 2 exclusion",
+        vi: "Hai tầng loại strategy",
+        def: "Tier 1 = hard exclude (direct evidence per cycle: GBM overfit, Kelly Δ=−28pp, HMM flip...). Tier 2 = family eliminated (Principle #17 binding: Adaptive/drift, Online Bayesian, Bayesian batch broadly, Hierarchical Bayesian). Không surface vào picks — nhưng ranked cho diagnostic.",
+        example: "Power 6/55 ranked 12 strategies sau exclusion. Bayesian (Tier 2) dù có Δ lịch sử cao cũng không được pick Chu kỳ 22.",
+      },
+    ],
+  },
 ];
 
 // ============================================================
@@ -341,7 +391,7 @@ export default function GlossaryPage() {
       <div className="space-y-3">
         <div className="flex items-center gap-3 flex-wrap">
           <h1 className="text-3xl font-bold tracking-tight">📚 Thuật ngữ khoa học</h1>
-          <Badge variant="outline" className="text-xs">{total} thuật ngữ · 5 nhóm</Badge>
+          <Badge variant="outline" className="text-xs">{total} thuật ngữ · {SECTIONS.length} nhóm</Badge>
         </div>
         <p className="text-muted-foreground max-w-3xl text-sm leading-relaxed">
           Từ điển nhanh cho các thuật ngữ thống kê, methodology và ML dùng xuyên suốt

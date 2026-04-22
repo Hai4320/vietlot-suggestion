@@ -465,9 +465,10 @@ Methodology principles #11-#17 distilled from failures, not wins. Each principle
 For users of this codebase:
 - **Maintain crawler + website**: continue, low maintenance.
 - **Ship UI changes**: use [RESEARCH_TO_UI_PLAYBOOK.md](../RESEARCH_TO_UI_PLAYBOOK.md).
-- **Chu kỳ 21 Optimization mode** (optional): resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) for ROI-backed UI picks. ~1-2 weeks effort. Not breakthrough-search; ranks existing strategies. Now benefits from Chu kỳ 20 composite-binding rule.
+- **Chu kỳ 22 Optimization mode SHIPPED 2026-04-22**: [history/cycle22_optimization_mode.md](history/cycle22_optimization_mode.md) — 3 composite profiles (WinRate/ROI/Balanced) × 5 products, `/research/cycle22` page live. Canonical methodology: [optimization/MEASUREMENT.md](optimization/MEASUREMENT.md). Superseded cycle17a scope.
+- **Chu kỳ 23+ Optimization continuation**: budget-aware feature (UC2 "chọn bộ số với budget X VND"), pre-reg khi user sẵn sàng. Chu kỳ 24 optional UI polish.
 - **Reopen breakthrough research**: only on §9 triggers. New cycles must comply với Principle #17 (family elimination) + binding Principle #12 (power gate).
 
 ---
 
-*Document frozen 2026-04-22 (initial Chu kỳ 18). Updated Chu kỳ 19 (post-closure) + Chu kỳ 20 (methodology refinement). See §11.2 exception list for all updates.*
+*Document frozen 2026-04-22 (initial Chu kỳ 18). Updated Chu kỳ 19 (post-closure) + Chu kỳ 20 (methodology refinement). §11.4 continuation pointers refreshed post-Chu kỳ 22 Optimization shipment. Per §11.2 exception list: Optimization cycles (22+) don't trigger core document updates — they update continuation pointer only, not methodology/closure narrative.*

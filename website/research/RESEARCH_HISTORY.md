@@ -34,6 +34,7 @@
 | 19 | 04/2026 | **Post-closure exploration** (5 mini-cycles: FDR, ROI rank, NIST, seasonality, ensemble) | 19a 0 resurrections | 19b 8 ROI divergences | 19c RNG uniform all 5 products | **19d seasonality falsified** | **19e ensemble Reject**. Closure strengthened, 2 new falsification rows §7.1. |
 | 20 | 04/2026 | **Methodology refinement** (doc-only, post-closure self-assessment) | 4 improvements codified across 5 docs. Principle #17 (family elimination) added. Principle #12 BINDING. Composite-binding §8. 8 Reject → Inconclusive-underpowered reclassified. Cumulative claim refined. |
 | 21 | 04/2026 | **Hierarchical Bayesian (Hướng B unblocked)** | **9/9 Reject**. 2 split-half direction flips Power 6/55 (power-independent reject). Forward +1.6pp noise signature. Bayesian broad family eliminated §7.5 closure update. |
+| **22** | **04/2026** | **Optimization Mode — Phase O-1 + O-2 shipped** | Post-closure Optimization: 3 composite profiles (WinRate/ROI/Balanced) × 5 products. Fresh re-backtest với split-half trên picks. 3/5 có valid picks (Power 6/55 MinDistance dominate, Power 5/35 Freq_Hot dominate, Max 3D diverse 3-pick: PairExploiter + CoverageOpt + FreqWholeHot). 2/5 null honest (Mega 6/45 baseline drift, Max 3D Pro regime split). UI shipped: 3 new TS strategies (mindistance/coverageopt/pairexploiter), `/research/cycle22` full-rankings page, glossary C22 section. |
 
 ---
 
@@ -63,6 +64,7 @@
 | 19 | [cycle19_post_closure_exploration.md](history/cycle19_post_closure_exploration.md) | **Post-closure exploration** (5 mini-cycles per user "chạy từng khuyến nghị"): 19a FDR re-analysis, 19b tier-weighted ROI rank, 19c NIST-style RNG battery, 19d seasonality, 19e single+multi ensemble. +2 new falsifications, methodology gaps §7.4 partially closed. |
 | 20 | [cycle20_methodology_refinement.md](history/cycle20_methodology_refinement.md) | **Methodology refinement** (doc-only post-closure self-assessment): 4 improvements codified (Principle #12 BINDING + #17 family elimination + composite-binding §8 + Phase 0 power gate). 8 verdicts Reject → Inconclusive-underpowered. Cumulative claim refined to 5-level scheme. |
 | 21 | [cycle21_hierarchical_bayesian.md](history/cycle21_hierarchical_bayesian.md) | **Hierarchical Bayesian** (Hướng B) — 9/9 Reject. 2 split-half direction flips Power 6/55 (Sharp + Lazy forward +1.6pp noise signature). Bayesian family broadly eliminated §7.5. Chu kỳ 20 methodology rules applied cleanly. |
+| **22** | [cycle22_optimization_mode.md](history/cycle22_optimization_mode.md) | **Optimization Mode Phase O-1 + O-2** — first cycle post-closure user-facing work. 3 composite profiles methodology codified ([optimization/MEASUREMENT.md](optimization/MEASUREMENT.md)). Fresh re-backtest 12 matrix + 17 3D strategies với split-half segments. UI shipped với 3 new TS strategies + `/research/cycle22` page + glossary C22 section. |
 
 ---
 
@@ -132,7 +134,9 @@ Guardrails bất biến (từ Chu kỳ 1+):
 
 **Chu kỳ 21 (closed, 2026-04-22)**: **Hierarchical Bayesian** (Hướng B unblocked). 9/9 Reject. 2 direction-flip split-half Power 6/55 (Sharp + Lazy). Bayesian family broadly eliminated (batch + online + hierarchical convergent null). Closure §7.5 updated. See [cycle21_hierarchical_bayesian.md](history/cycle21_hierarchical_bayesian.md).
 
-**Chu kỳ 22 OPTIONAL** (user-initiated only): Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) Optimization mode cho UI `PRODUCT_RANKS.picks.roi`. 1-2w effort. NOT breakthrough-search. Benefits from Chu kỳ 20 composite-binding rule.
+**Chu kỳ 22 (closed, 2026-04-22)**: **Optimization Mode Phase O-1 + O-2 shipped**. 3 composite profiles (WinRate / ROI / Balanced) × 5 products. Fresh re-backtest với split-half on picks. 3/5 products valid picks, 2/5 null honest. UI shipped: 3 new TS strategies + `/research/cycle22` full-rankings page + glossary C22 section + `PRODUCT_RANKS` 3-pick structure. Canonical methodology codified trong [optimization/MEASUREMENT.md](optimization/MEASUREMENT.md). See [cycle22_optimization_mode.md](history/cycle22_optimization_mode.md).
+
+**Next**: Chu kỳ 23 — budget-aware feature (UC2 "chọn bộ số với budget X VND"), pre-reg sẽ viết khi user sẵn sàng. Chu kỳ 24 optional UI polish.
 
 **Reopen breakthrough**: only on triggers in [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md) (data N≥2000, Vietlott discloses betting volume, novel paradigm paper, null-reversal finding).
 
@@ -142,4 +146,4 @@ Chu kỳ 12 GBM Max 3D Pro deprecated — không ship, không rank. Audit comple
 
 *File restructured 2026-04-21: split into per-cycle files trong [history/](history/). Main file giờ là compact index.*
 
-*Cập nhật lần cuối: 2026-04-22 — Meta-review post-Chu kỳ 16 hoàn thành. Optimization mode PAUSED chờ quyết định 3 kịch bản (xem META_REVIEW_POST_CYCLE16.md).*
+*Cập nhật lần cuối: 2026-04-22 — Chu kỳ 22 Optimization Mode shipped (Phase O-1 + O-2). 3 composite profiles methodology codified. UI layer updated với 3 new strategies + cycle22 route.*

@@ -6,6 +6,8 @@
 >
 > **Không phải**: Research methodology (xem [research/METHODOLOGY.md](research/METHODOLOGY.md)), algorithm code architecture (xem [ALGORITHM_MANAGEMENT.md](ALGORITHM_MANAGEMENT.md) §4-5).
 
+> 🧪 **Cập nhật 2026-04-22 Chu kỳ 22 Optimization Mode**: Structure mới `picks: { winrate, roi, balanced }` (3 picks từ 3 composite profiles, có collapse mode + null support). Khi Optimization cycle, apply [research/optimization/MEASUREMENT.md](research/optimization/MEASUREMENT.md) §3 (pick logic) + §6.3 (UI gates) thay vì bảng §2 bên dưới. Bảng §2 dưới đây valid cho **breakthrough cycles** (Accept/Suggestive/Reject) — Optimization không có Accept/Reject, là composite-winner descriptive. Null picks là honest outcome, không phải bug.
+
 ---
 
 ## 1. Overview — Research outputs vs UI surfaces

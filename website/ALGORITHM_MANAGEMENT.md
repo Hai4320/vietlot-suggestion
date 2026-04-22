@@ -5,6 +5,8 @@
 > ⚠️ **Cập nhật 2026-04-21 post-Chu kỳ 13**: 3D research line CLOSED. 28 chiến lược tested qua 8 cycles, 0 Accept/Suggestive. Research picks updated cho cả 5 products (xem §3 "Hiển thị mặc định"). Xem [research/3d/3D_FINAL_REPORT.md](research/3d/3D_FINAL_REPORT.md).
 >
 > ⚠️ **Cập nhật 2026-04-21 pick-by-metric refactor**: `PRODUCT_RANKS.rec1`/`rec2` → `picks: { winrate, roi? }`. Mỗi product có 1-2 picks split theo axis (🎯 Tỷ lệ trúng cao nhất + 💰 Lỗ ít nhất). Nếu cùng strategy Pareto-dominant cả 2 axes → 1 pick. Xem [RESEARCH_TO_UI_PLAYBOOK.md §2 Decision Matrix](RESEARCH_TO_UI_PLAYBOOK.md) cho rule đầy đủ + [/glossary "Pick selection rule"](src/app/glossary/page.tsx).
+>
+> 🧪 **Cập nhật 2026-04-22 Chu kỳ 22 Optimization Mode**: 3 new TS strategies ported (`mindistance`, `coverageopt`, `pairexploiter`). `PRODUCT_RANKS.picks` expanded thành `{ winrate, roi, balanced }` (3 picks từ 3 composite profiles, có collapse modes khi trùng strategy, có null support cho Power 6/45 + Max 3D Pro). Canonical: [research/optimization/MEASUREMENT.md](research/optimization/MEASUREMENT.md) §2-§3. Full rankings: [/research/cycle22](src/app/research/cycle22/page.tsx).
 
 ---
 
@@ -14,10 +16,10 @@
 
 | Tầng | Số lượng | Vai trò |
 |------|----------|---------|
-| **Gợi ý (UI)** | 9 | Chạy trên browser, người dùng chọn trực tiếp |
+| **Gợi ý (UI)** | **13** (10 cũ + 3 mới Chu kỳ 22) | Chạy trên browser, người dùng chọn trực tiếp |
 | **Backtest Python (CLI)** | 14 | Chạy offline, đánh giá strategies |
-| **Nghiên cứu Python** | 28+ | Chu kỳ 1-13 combined; 3D paradigms: probabilistic/copula/ML/pool |
-| **Website hiển thị** | 9 (có sẵn) + 19 (chỉ kết quả) | Trang /algorithms + /research |
+| **Nghiên cứu Python** | ~69 | Chu kỳ 1-22 combined; paradigms: probabilistic/copula/ML/pool/Kelly/HMM/Bayesian hierarchical/Optimization |
+| **Website hiển thị** | 13 có sẵn + rankings từ Chu kỳ 22 | Trang `/algorithms` + `/research` + `/research/cycle22` |
 
 ### Dòng chảy thuật toán
 
@@ -71,6 +73,23 @@ Thuật toán sinh ra từ quá trình phân tích thống kê sâu (13 bài tes
 | `evmax` | EV tối đa | Tier analysis: số phân bố không đều giữa các hạng giải. Kết hợp EV optimization + exponential decay | Chỉ 3D |
 
 **Đặc điểm**: Không tìm thấy thuật toán tương tự ở nguồn nào. Sinh ra hoàn toàn từ phân tích data Vietlott.
+
+---
+
+### 🧪 Chu kỳ 22 Optimization picks (2026-04-22) — 3 thuật toán mới
+
+Port từ research layer khi Chu kỳ 22 identify làm picks composite-top. Ported từ Python → TypeScript để UI có thể generate chính xác strategy được rank.
+
+| ID | Tên | Nguồn (research class) | Áp dụng | Chu kỳ 22 pick |
+|----|-----|------------------------|---------|---|
+| `mindistance` | Khoảng cách đa dạng | `MinDistanceStrategy` ([research/matrix/backtest.py:357](research/matrix/backtest.py)) | Ma trận | **Power 6/55 all 3 profiles** (dominate, composite +1.757) |
+| `coverageopt` | Phủ không gian (3D) | `MinimumCoverageSet` / B1 ([research/3d/advanced_backtest.py:361](research/3d/advanced_backtest.py)) | Chỉ 3D | **Max 3D ROI profile** (composite +1.465, retry #2) |
+| `pairexploiter` | Khai thác cặp chữ số | `DigitPairExploiter` / D3 ([research/3d/advanced_backtest.py:1009](research/3d/advanced_backtest.py)) | Chỉ 3D | **Max 3D WinRate profile** (composite +1.603, p=0.038 best nominal sig C22) |
+
+**Đặc điểm**:
+- Mechanism được research layer test trước (with split-half), sau đó port sang UI sau khi Chu kỳ 22 verify.
+- `mindistance` stateful cross-tickets (Jaccard-diverse greedy). `coverageopt` + `pairexploiter` stateless per-draw.
+- Badge UI: `🧪 C22` để distinguish với strategies cũ.
 
 ---
 

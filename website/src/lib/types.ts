@@ -123,7 +123,21 @@ export interface ThreeDNumberFrequency {
 // Suggestion types
 // ============================================================
 
-export type SuggestionStrategy = "frequency" | "absence" | "mixed" | "bayesian" | "maxentropy" | "adaptive" | "pattern" | "evmax" | "jointbias" | "hybridparity";
+export type SuggestionStrategy =
+  | "frequency"
+  | "absence"
+  | "mixed"
+  | "bayesian"
+  | "maxentropy"
+  | "adaptive"
+  | "pattern"
+  | "evmax"
+  | "jointbias"
+  | "hybridparity"
+  // Chu kỳ 22 Optimization mode additions (2026-04-22) — research-layer ported to UI
+  | "mindistance"    // Matrix: Dirichlet sample + Jaccard-diverse greedy (Power 6/55 winner)
+  | "coverageopt"    // 3D: frequency + digit-distance diversity (Max 3D ROI pick)
+  | "pairexploiter"; // 3D: O/E synergy of non-independent digit pairs (Max 3D winrate pick)
 
 export interface SuggestionSet {
   numbers: number[];

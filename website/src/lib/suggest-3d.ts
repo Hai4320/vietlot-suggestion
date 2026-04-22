@@ -482,6 +482,167 @@ export function generate3DSuggestions(
         while (numbers.length < 2) numbers.push(padNum(Math.floor(Math.random() * 1000)));
         break;
       }
+      case "coverageopt": {
+        // Port of 3d/advanced_backtest.py MinimumCoverageSet (B1 — Chu kỳ 22 Max 3D ROI pick).
+        // Score each 3-digit number by frequency in recent window; pick top-1 by score,
+        // then greedy next with (1-w)·normalized_freq + w·normalized_digit_distance.
+        const LB = 200;
+        const lookbackDraws = draws.slice(0, Math.min(LB, draws.length));
+        const freqCoverage = new Map<string, number>();
+        for (const draw of lookbackDraws) {
+          for (const values of Object.values(draw.result)) {
+            for (const num of values) {
+              const padded = num.padStart(3, "0");
+              freqCoverage.set(padded, (freqCoverage.get(padded) || 0) + 1);
+            }
+          }
+        }
+        const candidatePool = [...freqCoverage.entries()]
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, Math.min(200, freqCoverage.size))
+          .map(([n]) => n);
+
+        if (candidatePool.length === 0) {
+          numbers = [padNum(Math.floor(Math.random() * 1000)), padNum(Math.floor(Math.random() * 1000))];
+          break;
+        }
+
+        const maxScore = Math.max(...candidatePool.map((n) => freqCoverage.get(n)!));
+        const diversityWeight = 0.5;
+        const selected: string[] = [];
+
+        // First pick: highest frequency
+        selected.push(candidatePool[0]);
+
+        // Subsequent: combined score
+        while (selected.length < 2) {
+          let bestNum: string | null = null;
+          let bestCombined = -1;
+          for (const c of candidatePool) {
+            if (selected.includes(c)) continue;
+            const freqScore = (freqCoverage.get(c) || 0) / maxScore;
+            let minDist = Infinity;
+            for (const s of selected) {
+              const dist =
+                Math.abs(parseInt(c[0], 10) - parseInt(s[0], 10)) +
+                Math.abs(parseInt(c[1], 10) - parseInt(s[1], 10)) +
+                Math.abs(parseInt(c[2], 10) - parseInt(s[2], 10));
+              if (dist < minDist) minDist = dist;
+            }
+            const diversityScore = minDist / 27.0;
+            const combined = (1 - diversityWeight) * freqScore + diversityWeight * diversityScore;
+            if (combined > bestCombined) {
+              bestCombined = combined;
+              bestNum = c;
+            }
+          }
+          if (bestNum) selected.push(bestNum);
+          else break;
+        }
+
+        while (selected.length < 2) {
+          selected.push(padNum(Math.floor(Math.random() * 1000)));
+        }
+        numbers = selected;
+        break;
+      }
+      case "pairexploiter": {
+        // Port of 3d/advanced_backtest.py DigitPairExploiter (D3 — Chu kỳ 22 Max 3D winrate pick).
+        // Build 10×10 pair frequency matrices for positions (0,1), (1,2), (0,2) with Laplace smoothing.
+        // Compute O/E ratio per pair. Score each 3-digit number by synergy (product of 3 O/E ratios) ×
+        // geometric mean of marginal frequencies. Sample with temperature softmax.
+        const LB = 300;
+        const TEMP = 0.7;
+        const lookbackDraws = draws.slice(0, Math.min(LB, draws.length));
+
+        const pair01 = Array.from({ length: 10 }, () => new Array(10).fill(1));
+        const pair12 = Array.from({ length: 10 }, () => new Array(10).fill(1));
+        const pair02 = Array.from({ length: 10 }, () => new Array(10).fill(1));
+        const marg = [new Array(10).fill(1), new Array(10).fill(1), new Array(10).fill(1)];
+        let pairSum01 = 0, pairSum12 = 0, pairSum02 = 0;
+
+        for (const draw of lookbackDraws) {
+          for (const values of Object.values(draw.result)) {
+            for (const num of values) {
+              const padded = num.padStart(3, "0");
+              const d0 = parseInt(padded[0], 10);
+              const d1 = parseInt(padded[1], 10);
+              const d2 = parseInt(padded[2], 10);
+              pair01[d0][d1]++; pairSum01++;
+              pair12[d1][d2]++; pairSum12++;
+              pair02[d0][d2]++; pairSum02++;
+              marg[0][d0]++;
+              marg[1][d1]++;
+              marg[2][d2]++;
+            }
+          }
+        }
+        // Account for Laplace smoothing base in sums (added 100 per pair matrix)
+        pairSum01 += 100; pairSum12 += 100; pairSum02 += 100;
+        const mSum = marg.map((m) => m.reduce((a, v) => a + v, 0));
+
+        const oeRatio = (
+          pm: number[][],
+          margA: number[],
+          margB: number[],
+          mSumA: number,
+          mSumB: number,
+          pSum: number,
+        ): number[][] => {
+          const r = Array.from({ length: 10 }, () => new Array(10).fill(0));
+          for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+              const expected = (margA[i] / mSumA) * (margB[j] / mSumB) * pSum;
+              r[i][j] = expected > 0 ? pm[i][j] / expected : 0;
+            }
+          }
+          return r;
+        };
+
+        const oe01 = oeRatio(pair01, marg[0], marg[1], mSum[0], mSum[1], pairSum01);
+        const oe12 = oeRatio(pair12, marg[1], marg[2], mSum[1], mSum[2], pairSum12);
+        const oe02 = oeRatio(pair02, marg[0], marg[2], mSum[0], mSum[2], pairSum02);
+
+        const scores = new Array(1000).fill(0);
+        for (let i = 0; i < 1000; i++) {
+          const d0 = Math.floor(i / 100);
+          const d1 = Math.floor((i % 100) / 10);
+          const d2 = i % 10;
+          const synergy = oe01[d0][d1] * oe12[d1][d2] * oe02[d0][d2];
+          const freqPrior = Math.cbrt(marg[0][d0] * marg[1][d1] * marg[2][d2]);
+          scores[i] = synergy * freqPrior;
+        }
+
+        // Temperature softmax
+        const logScores = scores.map((s) => Math.log(s + 1e-10) / TEMP);
+        const maxLog = Math.max(...logScores);
+        const probs = logScores.map((ls) => Math.exp(ls - maxLog));
+        const probSum = probs.reduce((a, v) => a + v, 0);
+        const normProbs = probs.map((p) => p / probSum);
+
+        // Sample 2 without replacement
+        const picked = new Set<number>();
+        const p = [...normProbs];
+        while (picked.size < 2) {
+          const tot = p.reduce((a, v) => a + v, 0);
+          if (tot <= 0) {
+            let n = Math.floor(Math.random() * 1000);
+            while (picked.has(n)) n = (n + 1) % 1000;
+            picked.add(n);
+            continue;
+          }
+          let r = Math.random() * tot;
+          let idx = 999;
+          for (let i = 0; i < 1000; i++) {
+            r -= p[i];
+            if (r <= 0) { idx = i; break; }
+          }
+          picked.add(idx);
+          p[idx] = 0;
+        }
+        numbers = [...picked].map(padNum);
+        break;
+      }
       case "mixed":
       default: {
         // Compose digit by digit using weighted random
