@@ -2,23 +2,38 @@
 
 Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tích cho hệ thống gợi ý số Vietlott.
 
-## 🔎 Trạng thái hiện tại (2026-04-22) — PROJECT CLOSED + Chu kỳ 20 Methodology Refinement (DONE)
+## 🎯 Trạng thái hiện tại (2026-04-22) — Pivot to **Optimization Mode** (Chu Kỳ 22+)
 
-**Active breakthrough research ĐÓNG sau Chu kỳ 18**. Terminal artifact: [**PROJECT_CLOSURE_REPORT.md**](PROJECT_CLOSURE_REPORT.md) (updated Chu kỳ 19 + Chu kỳ 20).
+### Active focus: **[optimization/](optimization/)** → user-facing UI deliverables
 
-**Cumulative (post Chu kỳ 21)**: ~69 strategies × 5 products × refined 3-gate = **0 strong Accept / 0 Suggestive / 88 Reject (7 families eliminated với unbind triggers, adding Bayesian broad) / 8 Inconclusive-underpowered** (pending N≥2000-3000 per product, ~2027-2030).
+**Breakthrough research phase CLOSED** (Chu kỳ 1-21, 0 Accept). Project now prioritizes Optimization mode: rank existing strategies for UI `picks.winrate` + `picks.roi` + budget feature.
 
-**Cycles 16-21**:
-- Chu kỳ 16: Kelly Portfolio 9/9 Reject (ROI axis exhausted)
-- Chu kỳ 17: HMM Regime Detection 6/6 Reject (paradigm falsified; Principle #16 codified)
-- Chu kỳ 18: Closure report
-- Chu kỳ 19: 5 mini-cycles post-closure (FDR/ROI rank/NIST/seasonality/ensemble) → +2 falsifications, 3 methodology gaps closed
-- Chu kỳ 20: Methodology refinement — 4 improvements codified (Principle #12 BINDING + #17 + composite §8 + Phase 0)
-- **Chu kỳ 21**: Hierarchical Bayesian (Hướng B unblocked) — 9/9 Reject. Bayesian family broadly eliminated (batch + online + hierarchical convergent). See [history/cycle21_hierarchical_bayesian.md](history/cycle21_hierarchical_bayesian.md).
+### Primary entry points
 
-**Chu kỳ 22 OPTIONAL (Optimization mode)**: Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) cho UI `picks.roi`. 1-2w effort, user-initiated. Benefits from Chu kỳ 20 composite-binding.
+| Doc | Purpose |
+|---|---|
+| [**optimization/README.md**](optimization/README.md) | 🎯 Optimization mode overview + roadmap (Chu kỳ 22+) |
+| [optimization/PLAYBOOK.md](optimization/PLAYBOOK.md) | Optimization methodology (lighter than breakthrough) |
+| [proposals/cycle22_optimization_mode.md](proposals/cycle22_optimization_mode.md) | Active pre-reg (ready to execute) |
+| [proposals/README.md](proposals/README.md) | Proposals index + TODO list |
 
-**Reopen breakthrough**: chỉ khi đủ triggers — xem [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md).
+### Research archive (breakthrough phase terminal)
+
+| Doc | Purpose |
+|---|---|
+| [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | 🏁 Terminal closure artifact (updated Chu kỳ 19-21) |
+| [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | 21 cycles index |
+| [METHODOLOGY.md](METHODOLOGY.md), [EVALUATION.md](EVALUATION.md), [TESTING.md](TESTING.md), [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md), [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) | Canonical breakthrough methodology (reference for reopen triggers) |
+
+### Cumulative result (post Chu kỳ 21)
+
+~69 strategies × 5 products × refined 3-gate =
+- **0 strong Accept / 0 Suggestive** (breakthrough null)
+- **88 Reject** (7 families eliminated với unbind triggers)
+- **8 Inconclusive-underpowered** (pending N≥2000-3000 per product, ~2027-2030)
+- **1 Inconclusive** (Chu kỳ 15 matrix)
+
+**Reopen breakthrough research**: chỉ khi đủ triggers — xem [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md).
 
 ## Mục tiêu (Chu kỳ 10+ — Breakthrough Mode, refined 2026-04-20)
 
@@ -62,26 +77,33 @@ Breakthrough KHÔNG relax scientific rigor — chỉ expand scope + add forward-
 ```
 research/
 ├── README.md                       ← Bạn đang đọc file này
-├── _significance.py                ← Shared module: z-test, Wilson CI, decision rules (EVALUATION §3)
+├── _significance.py                ← Shared module: z-test, Wilson CI, decision rules
 │
-│   ── Canonical docs (đọc trước khi bắt đầu cycle mới) ──
-├── METHODOLOGY.md                  ← Phương pháp research canonical (5-phase + §7 Exploration Mode + §8 Multi-objective)
-├── EVALUATION.md                   ← Metrics + significance test + §8 Tournament Ranking
-├── TESTING.md                      ← Bias detection test battery (14 matrix / 13 digit)
-├── RESEARCH_PLAYBOOK.md            ← Template + checklist copy-paste (discovery + breakthrough)
-├── BREAKTHROUGH_ROADMAP.md         ← Novel R&D paths (Chu kỳ 10+): online, Kelly portfolio, cross-product, neural…
+│   ── 🎯 ACTIVE: Optimization Mode (Chu kỳ 22+) ──
+├── optimization/
+│   ├── README.md                   ← Optimization overview + roadmap
+│   └── PLAYBOOK.md                 ← Optimization methodology (lighter than breakthrough)
 │
-│   ── Context, trạng thái & lịch sử ──
-├── PROJECT_CLOSURE_REPORT.md       ← 🏁 Terminal closure artifact (post Chu kỳ 18/19)
-├── RESEARCH_HISTORY.md             ← Nhật ký 19 chu kỳ đã đóng (index + corpus)
-│
-│   ── Proposals (pre-registered / active / PAUSED) ──
+│   ── Proposals (pre-regs) ──
 ├── proposals/                      ← Index: [proposals/README.md](proposals/README.md)
-│   ├── cycle17a_roi_ranking_3d.md  ← PAUSED (resumable as Chu kỳ 21 Optimization mode)
+│   ├── cycle22_optimization_mode.md ← 🎯 ACTIVE Chu kỳ 22 (unified 3D + matrix)
+│   ├── cycle17a_roi_ranking_3d.md  ← Superseded by cycle22 (historical reference)
 │   └── executed/                   ← Frozen pre-regs của completed cycles
 │       ├── cycle17_hmm_regime.md
 │       ├── cycle20_methodology_refinement.md
-│       └── cycle20_evaluation_checklist.md
+│       ├── cycle20_evaluation_checklist.md
+│       └── cycle21_hierarchical_bayesian.md
+│
+│   ── 🏁 Research archive (breakthrough phase closed Chu kỳ 18) ──
+├── PROJECT_CLOSURE_REPORT.md       ← Terminal closure (updated Chu kỳ 19-21)
+├── RESEARCH_HISTORY.md             ← 21 cycles index
+│
+│   ── Canonical breakthrough methodology (reference) ──
+├── METHODOLOGY.md                  ← 5-phase pipeline + Principles #11-#17
+├── EVALUATION.md                   ← Metrics + §8 Composite-binding tournament
+├── TESTING.md                      ← Bias detection battery (14 matrix / 13 digit)
+├── RESEARCH_PLAYBOOK.md            ← Breakthrough template + checklists
+├── BREAKTHROUGH_ROADMAP.md         ← Novel R&D paths (mostly falsified)
 │
 │   ── Post-closure mini-cycle data ──
 ├── post_closure/                   ← Chu kỳ 19 experiment data (FDR/ROI/NIST/seasonality/ensemble)
@@ -137,15 +159,24 @@ research/
 
 ## Tài liệu chính (nên đọc theo thứ tự)
 
-### Canonical references (đọc trước khi bắt đầu cycle mới)
+### 🎯 Optimization mode (CURRENT FOCUS)
 
 | # | File | Mô tả | Khi nào đọc |
 |---|------|--------|-------------|
-| 1 | [METHODOLOGY.md](METHODOLOGY.md) | Pipeline 5-phase (discovery) + §7 Exploration Mode + §8 Multi-objective ranking | Trước khi khởi động cycle mới |
-| 2 | [TESTING.md](TESTING.md) | Bias detection battery — 14 matrix / 13 digit tests (discovery-mode only) | Phase 1 discovery cycle |
-| 3 | [EVALUATION.md](EVALUATION.md) | Metrics taxonomy 3 tầng + significance + §8 Tournament Ranking | Phase 3 của mỗi cycle |
-| 4 | [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) | Template + checklist (discovery + breakthrough variants) | Khi implement |
-| 5 | [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) | 7 novel R&D paths với hypothesis + effort + priority | Chu kỳ 10+ exploration mode |
+| 1 | [optimization/README.md](optimization/README.md) | Optimization overview + roadmap Chu kỳ 22-24 | Entry point for active work |
+| 2 | [optimization/PLAYBOOK.md](optimization/PLAYBOOK.md) | Optimization methodology (3-phase simplified) | Before running Optimization cycle |
+| 3 | [proposals/cycle22_optimization_mode.md](proposals/cycle22_optimization_mode.md) | Active pre-reg unified 3D + matrix | Chu kỳ 22 execution |
+| 4 | [proposals/README.md](proposals/README.md) | Proposals index + TODO | Navigation |
+
+### Canonical breakthrough references (research phase, for reference/reopen)
+
+| # | File | Mô tả | Khi nào đọc |
+|---|------|--------|-------------|
+| 5 | [METHODOLOGY.md](METHODOLOGY.md) | Pipeline 5-phase + Principles #11-#17 (binding) | Reopen breakthrough OR understand past cycles |
+| 6 | [TESTING.md](TESTING.md) | Bias detection battery — 14 matrix / 13 digit tests | Reopen Phase 1 discovery |
+| 7 | [EVALUATION.md](EVALUATION.md) | Metrics + §8 Composite-binding tournament | Inherited by Optimization |
+| 8 | [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md) | Breakthrough template + checklists | Breakthrough cycles only |
+| 9 | [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) | 7 novel R&D paths (6 falsified) | Historical roadmap reference |
 
 ### Trạng thái hiện tại & decision anchor
 

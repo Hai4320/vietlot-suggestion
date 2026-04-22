@@ -3,8 +3,8 @@
 **Status (2026-04-22)**: AWAITING user approval. Estimated 3-4 ngày effort.
 
 **Companion docs**:
-- [executed/cycle20_methodology_refinement.md](executed/cycle20_methodology_refinement.md) — Principle #12 BINDING + #17 family elimination + composite-binding §8
-- [README.md](README.md) — proposals index + Chu kỳ 21 decision rules
+- [cycle20_methodology_refinement.md](cycle20_methodology_refinement.md) — Principle #12 BINDING + #17 family elimination + composite-binding §8
+- [../README.md](../README.md) — proposals index + Chu kỳ 21 decision rules
 
 ### Context
 
@@ -67,7 +67,7 @@ Per Chu kỳ 20 upgrade:
 
 **Proposed mechanism family**: Bayesian
 
-**Family status in eliminated registry** ([PROJECT_CLOSURE_REPORT.md §7.5](../PROJECT_CLOSURE_REPORT.md)):
+**Family status in eliminated registry** ([PROJECT_CLOSURE_REPORT.md §7.5](../../PROJECT_CLOSURE_REPORT.md)):
 - **Adaptive/drift-based** ELIMINATED (Chu kỳ 14 online Kalman 6/6 R) — Hierarchical EB is **NOT adaptive**, uses fixed prior from empirical Bayes pre-computation. ✓ Distinct.
 - **Cross-product pooling** ELIMINATED (Chu kỳ 13 + 15) — Hierarchical EB **pools at PRIOR level only**, per-product posterior computation. Subtle but important distinction from cycle13/15 which pool RAW draws. ✓ Classified as distinct.
 

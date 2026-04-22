@@ -1,6 +1,10 @@
 ## Chu Kỳ 17a — ROI Ranking for 3D Products (Max 3D + Max 3D Pro)
 
-> **⏸ TRẠNG THÁI (2026-04-22)**: **PAUSED** — Kịch bản 2 chosen (Chu kỳ 17 HMM → Chu kỳ 18 closure → Chu kỳ 19 post-closure). Optimization mode resumable as **Chu kỳ 21** per user decision. See [PROJECT_CLOSURE_REPORT.md §11.4](../PROJECT_CLOSURE_REPORT.md) continuation notes. Original meta-review: [archive/superseded_docs/META_REVIEW_POST_CYCLE16.md](../archive/superseded_docs/META_REVIEW_POST_CYCLE16.md).
+> **⚠ SUPERSEDED (2026-04-22)**: Replaced by [cycle22_optimization_mode.md](cycle22_optimization_mode.md) — expanded scope (3D + matrix unified, not 3D-only) + incorporates Chu kỳ 20 methodology (composite-binding, Phase 0 classification, Principle #17 exclusion list) + Chu kỳ 21 Bayesian family elimination.
+>
+> **Content below frozen per Principle #16** (pre-reg immutability). Historical reference only.
+>
+> **Previous status**: PAUSED pending Kịch bản 2 flow (Chu kỳ 17 HMM → 18 closure → 19 post-closure → 20 methodology refinement → 21 Bayesian → **22 Optimization** (this scope expanded)).
 
 ### Mode shift: từ "breakthrough research" sang "optimization research"
 

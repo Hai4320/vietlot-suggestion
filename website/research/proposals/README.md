@@ -2,15 +2,18 @@
 
 **Purpose**: Registry của pre-regs (frozen per Principle #16). `proposals/` root = active/pending/PAUSED. `proposals/executed/` = completed (frozen, cross-linked từ history/).
 
-**Last updated**: 2026-04-22 (post Chu kỳ 20)
+**Last updated**: 2026-04-22 (post Chu kỳ 21, pivoting to Optimization mode)
+
+**🎯 Current priority**: [optimization/README.md](../optimization/README.md) — Chu kỳ 22 Optimization Mode active pre-reg. Research phase closed.
 
 ---
 
-## Active / Pending / PAUSED
+## Active / Pending
 
-| File | Status | Scope | Effort | Resume trigger |
+| File | Status | Scope | Effort | Notes |
 |---|:---:|---|:---:|---|
-| [cycle17a_roi_ranking_3d.md](cycle17a_roi_ranking_3d.md) | ⏸ **PAUSED** | Optimization mode — ROI rank 10 existing 3D strategies cho UI `picks.roi` | 4-5d | User decides Chu kỳ 21 resume |
+| [cycle22_optimization_mode.md](cycle22_optimization_mode.md) | 🎯 **ACTIVE** | Optimization mode unified 3D + matrix — UI picks + ranking | 5-6d | Primary forward work. See [optimization/](../optimization/) |
+| [cycle17a_roi_ranking_3d.md](cycle17a_roi_ranking_3d.md) | ⚠ Superseded by cycle22 | (Historical reference only) | N/A | Content frozen Principle #16 |
 
 ---
 
@@ -27,32 +30,23 @@
 
 ## TODO — What hasn't been run
 
-### Tier 1: Actively pending (pre-reg exists, ready to run)
+### Tier 1: Active / primary
 
-#### 1. **Chu kỳ 21 Optimization mode — 3D** (PAUSED, ready)
+#### 1. **Chu kỳ 22 Optimization Mode (unified 3D + matrix)** — ACTIVE
 
-- **File**: [cycle17a_roi_ranking_3d.md](cycle17a_roi_ranking_3d.md)
-- **Scope**: Rank 10 existing 3D strategies by ROI + split-half replication gate cho Max 3D + Max 3D Pro
-- **Effort**: 4-5 ngày
-- **Trigger**: user decision to resume
-- **Benefits (post Chu kỳ 20)**: 
-  - Uses composite-binding rule (not single-metric bias)
-  - Classified "exploratory-only" under Phase 0 power gate → descriptive, no Accept/Reject claims
-  - Output: UI `PRODUCT_RANKS.picks.roi` update cho 2 products
-- **Output artifact**: `history/cycle21_optimization_3d.md` + UI ship
+- **File**: [cycle22_optimization_mode.md](cycle22_optimization_mode.md)
+- **Scope**: Rank all non-excluded strategies across 5 products. Assign `picks.winrate` + `picks.roi`. Ship UI.
+- **Effort**: 5-6 ngày
+- **Mode**: Optimization (lighter than breakthrough) — see [optimization/README.md](../optimization/README.md)
+- **Benefits (post Chu kỳ 20/21)**: 
+  - Composite-binding decision (removes hidden single-metric bias)
+  - Exclusion list applied (GBM, Kelly, HMM, Hybrid, HierarchicalEB_Sharp/Lazy)
+  - Exploratory-only classification → honest UI labels (no Accept claims)
+  - Output: UI `PRODUCT_RANKS.picks.winrate` + `picks.roi` update cho 5 products
+- **Output artifact**: `history/cycle22_optimization_mode.md` + UI ship
 - **NOT breakthrough search** — ranking only
 
-### Tier 2: Referenced but pre-reg không có (need write)
-
-#### 2. **Chu kỳ 21b Optimization mode — Matrix** (no pre-reg yet)
-
-- **Referenced only** in cycle17a §"Effort estimate" paragraph
-- **Scope**: Rank 16+ matrix strategies (Power 6/55, Mega 6/45, Lotto 5/35) by ROI
-- **Effort**: ~1 tuần
-- **Need**: write separate pre-reg before running
-- **Caveat**: Lotto 5/35 (N=543) auto-flagged exploratory-only by Phase 0 power gate
-
-### Tier 3: Untested hướng từ META_REVIEW (archived)
+### Tier 2: Untested hướng từ META_REVIEW (archived)
 
 From [archive/superseded_docs/META_REVIEW_POST_CYCLE16.md §5](../archive/superseded_docs/META_REVIEW_POST_CYCLE16.md):
 
@@ -65,9 +59,9 @@ From [archive/superseded_docs/META_REVIEW_POST_CYCLE16.md §5](../archive/supers
 | E Seasonality | ✓ Done (Chu kỳ 19d) | — | Falsified |
 | **F Anomaly Detection** | ❓ Untested | Low priority, overlaps "cold number" strategies đã reject | N/A — paradigm similarity flag |
 | G Closure report | ✓ Done (Chu kỳ 18) | — | — |
-| H Optimization | ⏸ PAUSED (= cycle17a) | Pending Chu kỳ 21 | User decision |
+| H Optimization | 🎯 ACTIVE (cycle22) | User pivot focus 2026-04-22 | In progress |
 
-### Tier 4: Retry tree items đã triggered nhưng chưa chạy
+### Tier 3: Retry tree items đã triggered nhưng chưa chạy
 
 From Chu kỳ 17 pre-reg §Retry Tree:
 
@@ -82,7 +76,7 @@ From Chu kỳ 17 pre-reg §Retry Tree:
 
 **17.2 note**: Triggered by data but Chu kỳ 17 verdict record explicitly recommends NOT executing. Sunk-cost avoidance per Principle #17.
 
-### Tier 5: Untested meta-methodology items
+### Tier 4: Untested meta-methodology items
 
 From META_REVIEW §2c meta-questions:
 
@@ -96,25 +90,26 @@ From META_REVIEW §2c meta-questions:
 
 ## Decision rules cho next cycle
 
-### Chu kỳ 21 = User-initiated Optimization mode
+### Chu kỳ 22+ = Optimization Mode (primary focus)
 
-**If user says "run Chu kỳ 21"**:
-1. Resume [cycle17a_roi_ranking_3d.md](cycle17a_roi_ranking_3d.md) — update with Chu kỳ 20 binding rules (composite-primary, Phase 0 power gate = exploratory-only)
-2. Execute per pre-reg
-3. Optional: write cycle21b matrix counterpart + run
+**User pivot 2026-04-22**: shift from breakthrough research to user-facing Optimization. See [optimization/README.md](../optimization/README.md) roadmap.
 
-**If user says "run Hướng B Hierarchical Bayesian"**:
-- Check Principle #17 family elimination: Bayesian family has 23 rejects Chu kỳ 14 (online variants). Hierarchical variant untested. Classify: NEW paradigm within family, not eliminated.
-- Require: Phase 0 power gate classification + pre-reg with Principle #16 retry tree
-- Effort: 3-4d
-- Expected pass: 8-12% per META_REVIEW
+**If user says "run Chu kỳ 22"**:
+1. Execute [cycle22_optimization_mode.md](cycle22_optimization_mode.md) per [optimization/PLAYBOOK.md](../optimization/PLAYBOOK.md)
+2. Apply exclusion list (GBM/Kelly/HMM/Hybrid/HierarchicalEB_Sharp-Lazy)
+3. Composite-binding ranking
+4. Ship UI
 
-**If user says "run 17.2 alt observations"**:
-- Principle #17 blocks — HMM regime family eliminated post Chu kỳ 17
-- Must cite unbind trigger: "Regime structure detected via other method first"
-- Evidence not available → SKIP recommended
+**If user says "run Chu kỳ 23"**:
+- Budget-aware feature (roadmap Phase 2 trong [optimization/README.md](../optimization/README.md))
+- Conditional on Chu kỳ 22 ship
 
-### Reopen breakthrough (§9 closure report triggers)
+**If user says "run breakthrough Hướng F Anomaly"**:
+- Post-closure breakthrough — would need §9 reopen trigger justification
+- Recommend SKIP unless external evidence emerges
+- Low priority per META_REVIEW (5-10% pass, overlaps "cold number" eliminated)
+
+### Reopen breakthrough research (§9 closure report triggers)
 
 Any NEW breakthrough cycle MUST:
 - Pass Phase 0 power gate (Principle #12 binding) — currently all 5 products exploratory-only
