@@ -1,0 +1,335 @@
+{
+  "meta": {
+    "cycle": "19c",
+    "method": "NIST-style integer sequence battery: chi\u00b2 uniformity, digit uniformity (3D), serial corr lag-1, runs parity, runs median, monobit binary",
+    "alpha": 0.05,
+    "correction": "Bonferroni per product",
+    "products_tested": [
+      "max_3d",
+      "max_3d_pro",
+      "power_655",
+      "power_645",
+      "power_535"
+    ],
+    "total_tests": 27,
+    "failures": 16,
+    "pass_rate_pct": 40.7
+  },
+  "per_product": {
+    "max_3d": {
+      "n_total_numbers": 21300,
+      "tests": [
+        {
+          "test": "uniformity_chi2",
+          "chi2": 1030.3286384976525,
+          "dof": 999,
+          "p": 0.2392983102366565,
+          "n": 21300,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "digit_uniformity_chi2",
+          "chi2": 76.32582159624413,
+          "dof": 29,
+          "p": 3.942662827438603e-06,
+          "n": 63900,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "serial_correlation_lag1",
+          "r": -0.0035262155835699095,
+          "z": -0.5145880297432371,
+          "p": 0.6068409315666001,
+          "n": 21299,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "runs_parity",
+          "runs": 10632,
+          "expected": 10650.428732394366,
+          "z": -0.25256266432747837,
+          "p": 0.8006061843241112,
+          "n": 21300,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "runs_median",
+          "runs": 10771,
+          "expected": 10637.995393438,
+          "z": 1.8238221970174635,
+          "p": 0.06817895698067256,
+          "n": 21274,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "monobit_binary",
+          "ones": 105103,
+          "zeros": 107897,
+          "n_bits": 213000,
+          "z": -6.053918918543629,
+          "p": 1.41363787342641e-09,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": false
+        }
+      ],
+      "alpha_strict": 0.008333333333333333
+    },
+    "max_3d_pro": {
+      "n_total_numbers": 14220,
+      "tests": [
+        {
+          "test": "uniformity_chi2",
+          "chi2": 993.5021097046413,
+          "dof": 999,
+          "p": 0.5431220485423578,
+          "n": 14220,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "digit_uniformity_chi2",
+          "chi2": 67.17158931082982,
+          "dof": 29,
+          "p": 7.31651382669396e-05,
+          "n": 42660,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "serial_correlation_lag1",
+          "r": 0.011010045751980111,
+          "z": 1.3127903647647563,
+          "p": 0.1892535976579368,
+          "n": 14219,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "runs_parity",
+          "runs": 7146,
+          "expected": 7110.6623066104075,
+          "z": 0.592726435125432,
+          "p": 0.5533642470537365,
+          "n": 14220,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "runs_median",
+          "runs": 7027,
+          "expected": 7104.495741535862,
+          "z": -1.300385715531426,
+          "p": 0.1934688032581542,
+          "n": 14207,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "monobit_binary",
+          "ones": 69884,
+          "zeros": 72316,
+          "n_bits": 142200,
+          "z": -6.449317717051252,
+          "p": 1.1235479213667077e-10,
+          "bonferroni_k": 6,
+          "alpha_strict": 0.00833,
+          "passes_bonferroni": false
+        }
+      ],
+      "alpha_strict": 0.008333333333333333
+    },
+    "power_655": {
+      "n_total_numbers": 9337,
+      "tests": [
+        {
+          "test": "uniformity_chi2",
+          "chi2": 55.55917318196424,
+          "dof": 54,
+          "p": 0.4157940438783523,
+          "n": 9337,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "serial_correlation_lag1",
+          "r": 0.4508217083631109,
+          "z": 46.92524565782443,
+          "p": 0.0,
+          "n": 9336,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "runs_parity",
+          "runs": 4886,
+          "expected": 4666.691763949877,
+          "z": 4.542195948184091,
+          "p": 5.56712576305074e-06,
+          "n": 9337,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "runs_median",
+          "runs": 2629,
+          "expected": 4576.867380380162,
+          "z": -40.73006911044275,
+          "p": 0.0,
+          "n": 9154,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "monobit_binary",
+          "ones": 26552,
+          "zeros": 29470,
+          "n_bits": 56022,
+          "z": -12.3283791683745,
+          "p": 0.0,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        }
+      ],
+      "alpha_strict": 0.01
+    },
+    "power_645": {
+      "n_total_numbers": 7812,
+      "tests": [
+        {
+          "test": "uniformity_chi2",
+          "chi2": 35.10829493087557,
+          "dof": 44,
+          "p": 0.8284532852051814,
+          "n": 7812,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "serial_correlation_lag1",
+          "r": 0.25596387642217583,
+          "z": 23.13203444340606,
+          "p": 0.0,
+          "n": 7811,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "runs_parity",
+          "runs": 4060,
+          "expected": 3905.9513568868406,
+          "z": 3.4869938643306018,
+          "p": 0.0004884825641189305,
+          "n": 7812,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "runs_median",
+          "runs": 2546,
+          "expected": 3817.4286650072054,
+          "z": -29.107904124013405,
+          "p": 0.0,
+          "n": 7633,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "monobit_binary",
+          "ones": 20738,
+          "zeros": 26134,
+          "n_bits": 46872,
+          "z": -24.923853996467074,
+          "p": 0.0,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        }
+      ],
+      "alpha_strict": 0.01
+    },
+    "power_535": {
+      "n_total_numbers": 2715,
+      "tests": [
+        {
+          "test": "uniformity_chi2",
+          "chi2": 31.4622467771639,
+          "dof": 34,
+          "p": 0.5926194502184781,
+          "n": 2715,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": true
+        },
+        {
+          "test": "serial_correlation_lag1",
+          "r": 0.1762355121868384,
+          "z": 9.272911620466902,
+          "p": 0.0,
+          "n": 2714,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "runs_parity",
+          "runs": 1433,
+          "expected": 1358.190423572744,
+          "z": 2.8726412167452953,
+          "p": 0.004070561086531921,
+          "n": 2715,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "runs_median",
+          "runs": 1034,
+          "expected": 1315.8442249240122,
+          "z": -10.999184188323174,
+          "p": 0.0,
+          "n": 2632,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        },
+        {
+          "test": "monobit_binary",
+          "ones": 6909,
+          "zeros": 9381,
+          "n_bits": 16290,
+          "z": -19.36814038255746,
+          "p": 0.0,
+          "bonferroni_k": 5,
+          "alpha_strict": 0.01,
+          "passes_bonferroni": false
+        }
+      ],
+      "alpha_strict": 0.01
+    }
+  }
+}

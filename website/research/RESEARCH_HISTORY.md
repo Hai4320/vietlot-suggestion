@@ -31,6 +31,7 @@
 | 16 | 04/2026 | Kelly-optimal Multi-ticket Portfolio (Path #2, ROI-axis) | **9/9 Reject** với Δ dramatic NEGATIVE (-3.57 to -28.05pp). Kelly concentration ⊥ set-coverage lottery. Both win-rate + ROI axes exhausted |
 | 17 | 04/2026 | HMM Regime Detection (Hướng C, Kịch bản 2 1-shot) | **6/6 Reject**. 4/6 Principle #15 collapse (single-state degenerate); 2/6 passed concentration fail split-half + forward. Discrete latent regime hypothesis falsified. **Principle #16 Retry Tree codified** (first cycle using it). |
 | 18 | 04/2026 | **Project Closure Report** (Hướng G, Kịch bản 2 Stage 2) | Terminal cycle. `PROJECT_CLOSURE_REPORT.md` consolidate 17 cycles + ~66 strategies + Principles #11-#16 + reopen criteria. Active breakthrough research CLOSED. |
+| 19 | 04/2026 | **Post-closure exploration** (5 mini-cycles: FDR, ROI rank, NIST, seasonality, ensemble) | 19a 0 resurrections | 19b 8 ROI divergences | 19c RNG uniform all 5 products | **19d seasonality falsified** | **19e ensemble Reject**. Closure strengthened, 2 new falsification rows §7.1. |
 
 ---
 
@@ -57,6 +58,7 @@
 | 16 | [cycle16_kelly_portfolio.md](history/cycle16_kelly_portfolio.md) | Kelly Portfolio (Path #2) — 9/9 Reject with dramatic negative Δ. Kelly concentration ⊥ set-coverage lottery. Both axes exhausted |
 | 17 | [cycle17_hmm_regime.md](history/cycle17_hmm_regime.md) | HMM Regime Detection (Hướng C Kịch bản 2) — 6/6 Reject. Principle #15 fired on 4/6 (state collapse); 2/6 concentration-pass fail split-half + forward. Principle #16 Retry Tree codified & applied. Paradigm falsified. |
 | 18 | [cycle18_closure.md](history/cycle18_closure.md) | **Project Closure Report** (Hướng G Kịch bản 2 Stage 2) — [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) terminal artifact. Active breakthrough research closed. Chu kỳ 19 Optimization optional. |
+| 19 | [cycle19_post_closure_exploration.md](history/cycle19_post_closure_exploration.md) | **Post-closure exploration** (5 mini-cycles per user "chạy từng khuyến nghị"): 19a FDR re-analysis, 19b tier-weighted ROI rank, 19c NIST-style RNG battery, 19d seasonality, 19e single+multi ensemble. +2 new falsifications, methodology gaps §7.4 partially closed. |
 
 ---
 
@@ -115,7 +117,9 @@ Guardrails bất biến (từ Chu kỳ 1+):
 
 **Chu kỳ 18 (closed, 2026-04-22)**: **PROJECT CLOSURE**. Terminal artifact: [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md). Active breakthrough research closed. See [cycle18_closure.md](history/cycle18_closure.md).
 
-**Chu kỳ 19 (optional)**: Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) Optimization mode cho UI `PRODUCT_RANKS.picks.roi` update. 1-2w effort. NOT breakthrough-search — ranking existing strategies. User-initiated only.
+**Chu kỳ 19 (closed, 2026-04-22)**: **Post-closure exploration** — 5 mini-cycles (19a FDR / 19b ROI rank / 19c NIST / 19d seasonality / 19e ensemble). +2 new falsifications (seasonality, single+multi ensemble). Methodology gaps §7.4 closed. Closure strengthened. See [cycle19_post_closure_exploration.md](history/cycle19_post_closure_exploration.md).
+
+**Chu kỳ 20 (optional)**: Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) Optimization mode cho UI `PRODUCT_RANKS.picks.roi` update. 1-2w effort. NOT breakthrough-search — ranking existing strategies. User-initiated only.
 
 **Reopen breakthrough**: only on triggers in [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md) (data N≥2000, Vietlott discloses betting volume, novel paradigm paper, null-reversal finding).
 

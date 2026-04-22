@@ -251,14 +251,17 @@ What the project definitively ruled out or left unresolved, in one table for fut
 | Discrete latent regime structure | Chu kỳ 8, 14, 17 convergent | **FALSIFIED** |
 | Copula joint-digit beats heuristic | Chu kỳ 11 (3/4 R + 1 Inc) | **FALSIFIED** |
 | GBM discriminative at current features | Chu kỳ 12/12.5 | **FALSIFIED** (overfit) |
+| Weekday / month seasonality | Chu kỳ 19d (10/10 tests PASS) | **FALSIFIED** (2026-04-22) |
+| Single+Multi ensemble offsets coverage loss | Chu kỳ 19e (Hybrid_1S_5R / _3S_3R Reject split-half) | **FALSIFIED** (same geometry ⊥ as Kelly) |
 
 ### 7.2 Confirmed present but not exploitable
 
 | Finding | Origin | Status |
 |---|---|---|
-| Digit-level bias ±11% on 3D | Chu kỳ 4 | **REAL** but insufficient magnitude |
+| Digit-level bias ±11% on 3D | Chu kỳ 4, 19c | **REAL** but insufficient magnitude (replicated via NIST digit uniformity chi² p<0.0001) |
 | T11 parity bias p=0.0012 on Lotto 5/35 | Chu kỳ 5 | **REAL** but algebraically null on single-ticket, wheeling fails after sample-size fix |
 | Position dependency 3D (pos_1_2 chi²=157) | Chu kỳ 4 | **REAL** but JointDigitBias fails 3-gate |
+| RNG uniformity at number level (all 5 products) | Chu kỳ 19c NIST-style battery | **CONFIRMED NULL** — passes uniformity χ², per-number serial corr, per-number runs |
 
 ### 7.3 Untested (potential future paths if reopened)
 
@@ -277,9 +280,10 @@ From META_REVIEW §2b "paradigm shifts chưa try":
 
 - **Power analysis**: most gates <30% power. "No-pass" = inconclusive not falsifying in strict sense. Acceptable given project scope but documented limitation.
 - **Cycles 1-6 pre-registration**: not formal; some hyperparameter cherry-picking possible. Cycles 7+ binding pre-reg; issue closed forward.
-- **Formal RNG audit battery (NIST STS, Diehard)**: not run. Estimated 2-3d effort; would strengthen closure evidence but not change practical verdict.
-- **Stratified split-half**: only time-ordered tested. Stratified might expose recency-dependent behavior.
-- **Seasonality test per weekday / lunar calendar**: not formally run. Low-probability (5-10% pass) per META_REVIEW estimate.
+- ~~**Formal RNG audit battery**: not run~~ → **CLOSED 2026-04-22 Chu kỳ 19c**: NIST-style battery (integer-sequence adaptation) confirms number-level uniformity for all 5 products; 3D digit bias replicated. Methodology gap resolved.
+- **Stratified split-half**: only time-ordered tested. Stratified might expose recency-dependent behavior. *(Untested; low priority given convergent null.)*
+- ~~**Seasonality test per weekday / lunar calendar**: not formally run~~ → **CLOSED 2026-04-22 Chu kỳ 19d**: chi² contingency tests on weekday × month × holiday for all 5 products; 10/10 tests pass. Seasonality hypothesis falsified.
+- **Multiple-comparison correction choice (Bonferroni vs FDR)**: potential over-conservatism. Chu kỳ 19a applied BH-FDR re-analysis to 37 gate-1 candidates; 0 resurrections. Confirms 3-gate stacking (Principles #11 + #13) — not Bonferroni — is the binding filter. Gap resolved.
 
 ---
 

@@ -1,0 +1,65 @@
+{
+  "method": "per-number indicator sequences (correct)",
+  "results": {
+    "power_655": {
+      "N_draws": 1334,
+      "max_val": 55,
+      "freq_chi2_uniformity": {
+        "chi2": 55.55333047761833,
+        "p": 0.41600900235606564
+      },
+      "per_number_serial": {
+        "min_p": 0.02041510318889328,
+        "alpha_strict": 0.0009090909090909091,
+        "n_fail": 0,
+        "expected_fail_by_chance": 0.05
+      },
+      "per_number_runs": {
+        "min_p": 0.015598970513224675,
+        "alpha_strict": 0.0009090909090909091,
+        "n_fail": 0,
+        "expected_fail_by_chance": 0.05
+      }
+    },
+    "power_645": {
+      "N_draws": 1302,
+      "max_val": 45,
+      "freq_chi2_uniformity": {
+        "chi2": 35.10829493087557,
+        "p": 0.8284532852051814
+      },
+      "per_number_serial": {
+        "min_p": 0.023075571407712214,
+        "alpha_strict": 0.0011111111111111111,
+        "n_fail": 0,
+        "expected_fail_by_chance": 0.05
+      },
+      "per_number_runs": {
+        "min_p": 0.02314884713447274,
+        "alpha_strict": 0.0011111111111111111,
+        "n_fail": 0,
+        "expected_fail_by_chance": 0.05
+      }
+    },
+    "power_535": {
+      "N_draws": 543,
+      "max_val": 35,
+      "freq_chi2_uniformity": {
+        "chi2": 31.4622467771639,
+        "p": 0.5926194502184781
+      },
+      "per_number_serial": {
+        "min_p": 0.039136703482270274,
+        "alpha_strict": 0.0014285714285714286,
+        "n_fail": 0,
+        "expected_fail_by_chance": 0.05
+      },
+      "per_number_runs": {
+        "min_p": 0.03917441819635381,
+        "alpha_strict": 0.0014285714285714286,
+        "n_fail": 0,
+        "expected_fail_by_chance": 0.05
+      }
+    }
+  }
+}

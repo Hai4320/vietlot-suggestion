@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "cycle": "19d",
+    "method": "Chi\u00b2 contingency across temporal groupings (weekday/month/holiday) \u00d7 digit/number counts",
+    "alpha_per_product": "0.05/k where k = tests per product",
+    "holidays_list_size": 58
+  },
+  "results": {
+    "max_3d": {
+      "metric": "digit_counts (3\u00d710)",
+      "n_draws": 1065,
+      "alpha_strict_per_grouping": 0.025,
+      "tests": {
+        "weekday": {
+          "chi2": 62.982892101801625,
+          "dof": 58,
+          "p": 0.3044842357516176,
+          "n_groups": 3,
+          "n_bins": 30,
+          "alpha_strict": 0.025,
+          "passes_bonferroni": true
+        },
+        "month": {
+          "chi2": 317.44210553128283,
+          "dof": 319,
+          "p": 0.5141076532264175,
+          "n_groups": 12,
+          "n_bins": 30,
+          "alpha_strict": 0.025,
+          "passes_bonferroni": true
+        }
+      }
+    },
+    "max_3d_pro": {
+      "metric": "digit_counts (3\u00d710)",
+      "n_draws": 711,
+      "alpha_strict_per_grouping": 0.025,
+      "tests": {
+        "weekday": {
+          "chi2": 53.58284598601569,
+          "dof": 58,
+          "p": 0.6400799394225164,
+          "n_groups": 3,
+          "n_bins": 30,
+          "alpha_strict": 0.025,
+          "passes_bonferroni": true
+        },
+        "month": {
+          "chi2": 309.0124490584732,
+          "dof": 319,
+          "p": 0.6454806867831965,
+          "n_groups": 12,
+          "n_bins": 30,
+          "alpha_strict": 0.025,
+          "passes_bonferroni": true
+        }
+      }
+    },
+    "power_655": {
+      "metric": "number_counts (1-55)",
+      "n_draws": 1334,
+      "alpha_strict_per_grouping": 0.025,
+      "tests": {
+        "weekday": {
+          "chi2": 81.08996674375281,
+          "dof": 108,
+          "p": 0.9752064045832797,
+          "n_groups": 3,
+          "n_bins": 55,
+          "alpha_strict": 0.025,
+          "passes_bonferroni": true
+        },
+        "month": {
+          "chi2": 505.3171224501971,
+          "dof": 594,
+          "p": 0.9964684951855037,
+          "n_groups": 12,
+          "n_bins": 55,
+          "alpha_strict": 0.025,
+          "passes_bonferroni": true
+        }
+      }
+    },
+    "power_645": {
+      "metric": "number_counts (1-45)",
+      "n_draws": 1302,
+      "alpha_strict_per_grouping": 0.025,
+      "tests": {
+        "weekday": {
+          "chi2": 90.13940202419224,
+          "dof": 88,
+          "p": 0.4167740641624054,
+          "n_groups": 3,
+          "n_bins": 45,
+          "alpha_strict": 0.025,
+          "passes_bonferroni": true
+        },
+        "month": {
+          "chi2": 438.6709757618273,
+          "dof": 484,
+          "p": 0.9310252325406873,
+          "n_groups": 12,
+          "n_bins": 45,
+          "alpha_strict": 0.025,
+          "passes_bonferroni": true
+        }
+      }
+    },
+    "power_535": {
+      "metric": "number_counts (1-35)",
+      "n_draws": 543,
+      "alpha_strict_per_grouping": 0.025,
+      "tests": {
+        "weekday": {
+          "chi2": 178.29869469023612,
+          "dof": 204,
+          "p": 0.9026455398385945,
+          "n_groups": 7,
+          "n_bins": 35,
+          "alpha_strict": 0.025,
+          "passes_bonferroni": true
+        },
+        "month": {
+          "chi2": 261.0545471369848,
+          "dof": 306,
+          "p": 0.9704173833682754,
+          "n_groups": 10,
+          "n_bins": 35,
+          "alpha_strict": 0.025,
+          "passes_bonferroni": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,959 @@
+{
+  "meta": {
+    "cycle": "19b",
+    "method": "Tier-weighted ROI ranking surface + compare with win_rate ranking (full segment, cycles 7-17)",
+    "n_strategy_results": 90
+  },
+  "divergence_cases": [
+    {
+      "cycle": "cycle11_3d",
+      "product": "max_3d",
+      "win_top": "EmpiricalCopula",
+      "roi_top": "GaussianCopulaEmpMargins"
+    },
+    {
+      "cycle": "cycle17_3d",
+      "product": "max_3d",
+      "win_top": "HMM_K2_W40(FreqWholeHot/Random)",
+      "roi_top": "FreqWholeHot"
+    },
+    {
+      "cycle": "cycle17_3d",
+      "product": "max_3d_pro",
+      "win_top": "HMM_K2_W40(FreqWholeHot/Random)",
+      "roi_top": "Random"
+    },
+    {
+      "cycle": "cycle14_matrix",
+      "product": "power_645",
+      "win_top": "Bayesian",
+      "roi_top": "Freq_Hot"
+    },
+    {
+      "cycle": "cycle14_matrix",
+      "product": "power_535",
+      "win_top": "Adaptive",
+      "roi_top": "OnlineBayes_\u03bb0.01"
+    },
+    {
+      "cycle": "cycle15_matrix",
+      "product": "power_645",
+      "win_top": "Bayesian",
+      "roi_top": "Freq_Hot"
+    },
+    {
+      "cycle": "cycle15_matrix",
+      "product": "power_535",
+      "win_top": "Adaptive",
+      "roi_top": "OnlineBayes_\u03bb0.01"
+    },
+    {
+      "cycle": "cycle17_matrix",
+      "product": "power_655",
+      "win_top": "Random",
+      "roi_top": "HMM_K2_W40(FreqHot/Random)"
+    }
+  ],
+  "full_data": [
+    {
+      "path": "products/max_3d/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -51.87,
+      "win_rate": 1.7044,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle11_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/JointDigitBias",
+      "segment": "full",
+      "strategy": "JointDigitBias",
+      "roi_pct": -52.52,
+      "win_rate": 2.0099,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle11_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/FreqWholeHot",
+      "segment": "full",
+      "strategy": "FreqWholeHot",
+      "roi_pct": -46.67,
+      "win_rate": 1.8621,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle11_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/GaussianCopulaEmpMargins",
+      "segment": "full",
+      "strategy": "GaussianCopulaEmpMargins",
+      "roi_pct": -41.53,
+      "win_rate": 1.9409,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle11_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/EmpiricalCopula",
+      "segment": "full",
+      "strategy": "EmpiricalCopula",
+      "roi_pct": -44.29,
+      "win_rate": 2.1182,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle11_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -45.4,
+      "win_rate": 1.997,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle11_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/JointDigitBias",
+      "segment": "full",
+      "strategy": "JointDigitBias",
+      "roi_pct": -31.53,
+      "win_rate": 2.3752,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle11_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/FreqWholeHot",
+      "segment": "full",
+      "strategy": "FreqWholeHot",
+      "roi_pct": -38.47,
+      "win_rate": 1.9365,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle11_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/GaussianCopulaEmpMargins",
+      "segment": "full",
+      "strategy": "GaussianCopulaEmpMargins",
+      "roi_pct": -39.43,
+      "win_rate": 1.997,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle11_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/EmpiricalCopula",
+      "segment": "full",
+      "strategy": "EmpiricalCopula",
+      "roi_pct": -50.03,
+      "win_rate": 1.9365,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle11_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -51.87,
+      "win_rate": 1.7044,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle12_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/JointDigitBias",
+      "segment": "full",
+      "strategy": "JointDigitBias",
+      "roi_pct": -52.52,
+      "win_rate": 2.0099,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle12_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/FreqWholeHot",
+      "segment": "full",
+      "strategy": "FreqWholeHot",
+      "roi_pct": -46.67,
+      "win_rate": 1.8621,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle12_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/GBMDigitClassifier",
+      "segment": "full",
+      "strategy": "GBMDigitClassifier",
+      "roi_pct": 37.29,
+      "win_rate": 5.3103,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle12_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -45.4,
+      "win_rate": 1.997,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle12_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/JointDigitBias",
+      "segment": "full",
+      "strategy": "JointDigitBias",
+      "roi_pct": -31.53,
+      "win_rate": 2.3752,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle12_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/FreqWholeHot",
+      "segment": "full",
+      "strategy": "FreqWholeHot",
+      "roi_pct": -38.47,
+      "win_rate": 1.9365,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle12_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/GBMDigitClassifier",
+      "segment": "full",
+      "strategy": "GBMDigitClassifier",
+      "roi_pct": 59.38,
+      "win_rate": 5.0681,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle12_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -51.87,
+      "win_rate": 1.7044,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle13_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/JointDigitBias",
+      "segment": "full",
+      "strategy": "JointDigitBias",
+      "roi_pct": -52.52,
+      "win_rate": 2.0099,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle13_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/FreqWholeHot",
+      "segment": "full",
+      "strategy": "FreqWholeHot",
+      "roi_pct": -46.67,
+      "win_rate": 1.8621,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle13_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/PooledDigitBias",
+      "segment": "full",
+      "strategy": "PooledDigitBias",
+      "roi_pct": -45.69,
+      "win_rate": 2.0493,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle13_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/HierarchicalBayesDigit",
+      "segment": "full",
+      "strategy": "HierarchicalBayesDigit",
+      "roi_pct": -39.83,
+      "win_rate": 2.197,
+      "n_trials": 10150,
+      "metric_type": "exact_match",
+      "cycle": "cycle13_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -45.4,
+      "win_rate": 1.997,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle13_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/JointDigitBias",
+      "segment": "full",
+      "strategy": "JointDigitBias",
+      "roi_pct": -31.53,
+      "win_rate": 2.3752,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle13_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/FreqWholeHot",
+      "segment": "full",
+      "strategy": "FreqWholeHot",
+      "roi_pct": -38.47,
+      "win_rate": 1.9365,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle13_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/PooledDigitBias",
+      "segment": "full",
+      "strategy": "PooledDigitBias",
+      "roi_pct": -51.23,
+      "win_rate": 1.7398,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle13_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/HierarchicalBayesDigit",
+      "segment": "full",
+      "strategy": "HierarchicalBayesDigit",
+      "roi_pct": -50.0,
+      "win_rate": 1.8759,
+      "n_trials": 6610,
+      "metric_type": "exact_match",
+      "cycle": "cycle13_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -52.46,
+      "win_rate": 1.8266,
+      "n_trials": 8650,
+      "metric_type": "exact_match",
+      "cycle": "cycle17_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/FreqWholeHot",
+      "segment": "full",
+      "strategy": "FreqWholeHot",
+      "roi_pct": -44.13,
+      "win_rate": 1.9075,
+      "n_trials": 8650,
+      "metric_type": "exact_match",
+      "cycle": "cycle17_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/HMM_K2_W20(FreqWholeHot/Random)",
+      "segment": "full",
+      "strategy": "HMM_K2_W20(FreqWholeHot/Random)",
+      "roi_pct": -46.46,
+      "win_rate": 1.9422,
+      "n_trials": 8650,
+      "metric_type": "exact_match",
+      "cycle": "cycle17_3d"
+    },
+    {
+      "path": "products/max_3d/segments/full/HMM_K2_W40(FreqWholeHot/Random)",
+      "segment": "full",
+      "strategy": "HMM_K2_W40(FreqWholeHot/Random)",
+      "roi_pct": -47.72,
+      "win_rate": 1.9884,
+      "n_trials": 8650,
+      "metric_type": "exact_match",
+      "cycle": "cycle17_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -39.61,
+      "win_rate": 2.1918,
+      "n_trials": 5110,
+      "metric_type": "exact_match",
+      "cycle": "cycle17_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/FreqWholeHot",
+      "segment": "full",
+      "strategy": "FreqWholeHot",
+      "roi_pct": -54.68,
+      "win_rate": 1.7808,
+      "n_trials": 5110,
+      "metric_type": "exact_match",
+      "cycle": "cycle17_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/HMM_K2_W20(FreqWholeHot/Random)",
+      "segment": "full",
+      "strategy": "HMM_K2_W20(FreqWholeHot/Random)",
+      "roi_pct": -54.68,
+      "win_rate": 1.7808,
+      "n_trials": 5110,
+      "metric_type": "exact_match",
+      "cycle": "cycle17_3d"
+    },
+    {
+      "path": "products/max_3d_pro/segments/full/HMM_K2_W40(FreqWholeHot/Random)",
+      "segment": "full",
+      "strategy": "HMM_K2_W40(FreqWholeHot/Random)",
+      "roi_pct": -40.67,
+      "win_rate": 2.2309,
+      "n_trials": 5110,
+      "metric_type": "exact_match",
+      "cycle": "cycle17_3d"
+    },
+    {
+      "path": "products/power_645/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -89.32,
+      "win_rate": 2.3627,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Freq_Hot",
+      "segment": "full",
+      "strategy": "Freq_Hot",
+      "roi_pct": -72.03,
+      "win_rate": 2.4459,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Pattern",
+      "segment": "full",
+      "strategy": "Pattern",
+      "roi_pct": -89.27,
+      "win_rate": 2.2296,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Bayesian",
+      "segment": "full",
+      "strategy": "Bayesian",
+      "roi_pct": -88.77,
+      "win_rate": 2.6955,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Bayes_Sharp",
+      "segment": "full",
+      "strategy": "Bayes_Sharp",
+      "roi_pct": -87.97,
+      "win_rate": 2.5125,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/MaxEntropy",
+      "segment": "full",
+      "strategy": "MaxEntropy",
+      "roi_pct": -87.92,
+      "win_rate": 2.0799,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Adaptive",
+      "segment": "full",
+      "strategy": "Adaptive",
+      "roi_pct": -91.26,
+      "win_rate": 2.1631,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/OnlineBayes_\u03bb0.01",
+      "segment": "full",
+      "strategy": "OnlineBayes_\u03bb0.01",
+      "roi_pct": -87.52,
+      "win_rate": 2.6622,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/OnlineBayes_\u03bb0.03",
+      "segment": "full",
+      "strategy": "OnlineBayes_\u03bb0.03",
+      "roi_pct": -90.77,
+      "win_rate": 2.03,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/OnlineBayes_\u03bb0.10",
+      "segment": "full",
+      "strategy": "OnlineBayes_\u03bb0.10",
+      "roi_pct": -90.62,
+      "win_rate": 2.5291,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -89.84,
+      "win_rate": 1.6253,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Freq_Hot",
+      "segment": "full",
+      "strategy": "Freq_Hot",
+      "roi_pct": -88.04,
+      "win_rate": 1.5801,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Pattern",
+      "segment": "full",
+      "strategy": "Pattern",
+      "roi_pct": -90.07,
+      "win_rate": 1.1738,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Bayesian",
+      "segment": "full",
+      "strategy": "Bayesian",
+      "roi_pct": -90.07,
+      "win_rate": 1.5801,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Bayes_Sharp",
+      "segment": "full",
+      "strategy": "Bayes_Sharp",
+      "roi_pct": -90.29,
+      "win_rate": 1.1287,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/MaxEntropy",
+      "segment": "full",
+      "strategy": "MaxEntropy",
+      "roi_pct": -89.84,
+      "win_rate": 1.6253,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Adaptive",
+      "segment": "full",
+      "strategy": "Adaptive",
+      "roi_pct": -88.71,
+      "win_rate": 1.851,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/OnlineBayes_\u03bb0.01",
+      "segment": "full",
+      "strategy": "OnlineBayes_\u03bb0.01",
+      "roi_pct": -86.68,
+      "win_rate": 1.851,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/OnlineBayes_\u03bb0.03",
+      "segment": "full",
+      "strategy": "OnlineBayes_\u03bb0.03",
+      "roi_pct": -90.97,
+      "win_rate": 1.8059,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/OnlineBayes_\u03bb0.10",
+      "segment": "full",
+      "strategy": "OnlineBayes_\u03bb0.10",
+      "roi_pct": -90.07,
+      "win_rate": 1.5801,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle14_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -89.32,
+      "win_rate": 2.3627,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Freq_Hot",
+      "segment": "full",
+      "strategy": "Freq_Hot",
+      "roi_pct": -72.03,
+      "win_rate": 2.4459,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Pattern",
+      "segment": "full",
+      "strategy": "Pattern",
+      "roi_pct": -89.27,
+      "win_rate": 2.2296,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Bayesian",
+      "segment": "full",
+      "strategy": "Bayesian",
+      "roi_pct": -88.77,
+      "win_rate": 2.6955,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Bayes_Sharp",
+      "segment": "full",
+      "strategy": "Bayes_Sharp",
+      "roi_pct": -87.97,
+      "win_rate": 2.5125,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/MaxEntropy",
+      "segment": "full",
+      "strategy": "MaxEntropy",
+      "roi_pct": -87.92,
+      "win_rate": 2.0799,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/Adaptive",
+      "segment": "full",
+      "strategy": "Adaptive",
+      "roi_pct": -91.26,
+      "win_rate": 2.1631,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/OnlineBayes_\u03bb0.01",
+      "segment": "full",
+      "strategy": "OnlineBayes_\u03bb0.01",
+      "roi_pct": -87.52,
+      "win_rate": 2.6622,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/PooledMatrixBias",
+      "segment": "full",
+      "strategy": "PooledMatrixBias",
+      "roi_pct": -89.67,
+      "win_rate": 2.2463,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_645/segments/full/HierarchicalBayesMatrix_w0.50",
+      "segment": "full",
+      "strategy": "HierarchicalBayesMatrix_w0.50",
+      "roi_pct": -90.22,
+      "win_rate": 2.0632,
+      "n_trials": 6010,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -95.33,
+      "win_rate": 1.2642,
+      "n_trials": 6170,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/Freq_Hot",
+      "segment": "full",
+      "strategy": "Freq_Hot",
+      "roi_pct": -94.21,
+      "win_rate": 1.1994,
+      "n_trials": 6170,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/Pattern",
+      "segment": "full",
+      "strategy": "Pattern",
+      "roi_pct": -95.14,
+      "win_rate": 1.0373,
+      "n_trials": 6170,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/Bayesian",
+      "segment": "full",
+      "strategy": "Bayesian",
+      "roi_pct": -93.29,
+      "win_rate": 1.3614,
+      "n_trials": 6170,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/Bayes_Sharp",
+      "segment": "full",
+      "strategy": "Bayes_Sharp",
+      "roi_pct": -95.38,
+      "win_rate": 1.1021,
+      "n_trials": 6170,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/MaxEntropy",
+      "segment": "full",
+      "strategy": "MaxEntropy",
+      "roi_pct": -95.38,
+      "win_rate": 1.1021,
+      "n_trials": 6170,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/Adaptive",
+      "segment": "full",
+      "strategy": "Adaptive",
+      "roi_pct": -94.55,
+      "win_rate": 1.2318,
+      "n_trials": 6170,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/OnlineBayes_\u03bb0.01",
+      "segment": "full",
+      "strategy": "OnlineBayes_\u03bb0.01",
+      "roi_pct": -95.14,
+      "win_rate": 1.1831,
+      "n_trials": 6170,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/PooledMatrixBias",
+      "segment": "full",
+      "strategy": "PooledMatrixBias",
+      "roi_pct": -94.36,
+      "win_rate": 1.2966,
+      "n_trials": 6170,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/HierarchicalBayesMatrix_w0.50",
+      "segment": "full",
+      "strategy": "HierarchicalBayesMatrix_w0.50",
+      "roi_pct": -94.36,
+      "win_rate": 1.2966,
+      "n_trials": 6170,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -89.84,
+      "win_rate": 1.6253,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Freq_Hot",
+      "segment": "full",
+      "strategy": "Freq_Hot",
+      "roi_pct": -88.04,
+      "win_rate": 1.5801,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Pattern",
+      "segment": "full",
+      "strategy": "Pattern",
+      "roi_pct": -90.07,
+      "win_rate": 1.1738,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Bayesian",
+      "segment": "full",
+      "strategy": "Bayesian",
+      "roi_pct": -90.07,
+      "win_rate": 1.5801,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Bayes_Sharp",
+      "segment": "full",
+      "strategy": "Bayes_Sharp",
+      "roi_pct": -90.29,
+      "win_rate": 1.1287,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/MaxEntropy",
+      "segment": "full",
+      "strategy": "MaxEntropy",
+      "roi_pct": -89.84,
+      "win_rate": 1.6253,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/Adaptive",
+      "segment": "full",
+      "strategy": "Adaptive",
+      "roi_pct": -88.71,
+      "win_rate": 1.851,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/OnlineBayes_\u03bb0.01",
+      "segment": "full",
+      "strategy": "OnlineBayes_\u03bb0.01",
+      "roi_pct": -86.68,
+      "win_rate": 1.851,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/PooledMatrixBias",
+      "segment": "full",
+      "strategy": "PooledMatrixBias",
+      "roi_pct": -95.26,
+      "win_rate": 0.9481,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_535/segments/full/HierarchicalBayesMatrix_w0.50",
+      "segment": "full",
+      "strategy": "HierarchicalBayesMatrix_w0.50",
+      "roi_pct": -93.23,
+      "win_rate": 0.9481,
+      "n_trials": 2215,
+      "metric_type": "win_rate",
+      "cycle": "cycle15_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/Random",
+      "segment": "full",
+      "strategy": "Random",
+      "roi_pct": -93.39,
+      "win_rate": 1.5697,
+      "n_trials": 5670,
+      "metric_type": "win_rate",
+      "cycle": "cycle17_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/Freq_Hot",
+      "segment": "full",
+      "strategy": "Freq_Hot",
+      "roi_pct": -94.55,
+      "win_rate": 1.1817,
+      "n_trials": 5670,
+      "metric_type": "win_rate",
+      "cycle": "cycle17_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/HMM_K2_W20(FreqHot/Random)",
+      "segment": "full",
+      "strategy": "HMM_K2_W20(FreqHot/Random)",
+      "roi_pct": -94.55,
+      "win_rate": 1.1817,
+      "n_trials": 5670,
+      "metric_type": "win_rate",
+      "cycle": "cycle17_matrix"
+    },
+    {
+      "path": "products/power_655/segments/full/HMM_K2_W40(FreqHot/Random)",
+      "segment": "full",
+      "strategy": "HMM_K2_W40(FreqHot/Random)",
+      "roi_pct": -91.9,
+      "win_rate": 1.2698,
+      "n_trials": 5670,
+      "metric_type": "win_rate",
+      "cycle": "cycle17_matrix"
+    }
+  ]
+}
