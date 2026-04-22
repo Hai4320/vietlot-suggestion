@@ -322,6 +322,7 @@ From META_REVIEW §2b "paradigm shifts chưa try":
 | Family | Origin cycles | Convergent evidence | Mean Δ observed | **Unbind trigger** |
 |---|---|---|:---:|---|
 | Adaptive / drift-based | 8 (3D no drift), 14 (matrix online Kalman 6/6 R) | 2 cycles + 11 strategies | +0.004pp | Novel non-stationary hypothesis + evidence drift emerged post-observation period |
+| **Bayesian broadly (batch + online + hierarchical)** | 2 (batch replication R), 14 (online Kalman 6/6 R), 21 (hierarchical 9/9 R) | 3 cycles + 29 strategies across 3 mechanisms | +0.008pp | N ≥ 2 × current per product (~2028+) AND Hierarchical EB close-call N=62,231 revisit for Power 6/45 Inconclusive-UP Bayesian batch |
 | Cross-product pooling | 13 (3D 4/4 R), 15 (matrix 5/6 R + 1 Inc) | 2 cycles + 9 strategies | -0.135pp | Vietlott confirms shared-RNG infrastructure between products |
 | Kelly concentration multi-ticket | 16 (9/9 R Δ up to −28pp), 19e (Hybrid reject) | 2 cycles + 12 strategies | -13.694pp (Kelly proper) | Geometric proof of exception to set-coverage ⊥ concentration |
 | HMM regime detection | 17 (6/6 R), convergent với 8 (no drift) + 14 (Kalman) | 3 cycles convergent | -0.130pp | Discrete regime structure detected via non-HMM method first |

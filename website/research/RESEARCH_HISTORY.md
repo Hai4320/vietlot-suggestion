@@ -33,6 +33,7 @@
 | 18 | 04/2026 | **Project Closure Report** (Hướng G, Kịch bản 2 Stage 2) | Terminal cycle. `PROJECT_CLOSURE_REPORT.md` consolidate 17 cycles + ~66 strategies + Principles #11-#16 + reopen criteria. Active breakthrough research CLOSED. |
 | 19 | 04/2026 | **Post-closure exploration** (5 mini-cycles: FDR, ROI rank, NIST, seasonality, ensemble) | 19a 0 resurrections | 19b 8 ROI divergences | 19c RNG uniform all 5 products | **19d seasonality falsified** | **19e ensemble Reject**. Closure strengthened, 2 new falsification rows §7.1. |
 | 20 | 04/2026 | **Methodology refinement** (doc-only, post-closure self-assessment) | 4 improvements codified across 5 docs. Principle #17 (family elimination) added. Principle #12 BINDING. Composite-binding §8. 8 Reject → Inconclusive-underpowered reclassified. Cumulative claim refined. |
+| 21 | 04/2026 | **Hierarchical Bayesian (Hướng B unblocked)** | **9/9 Reject**. 2 split-half direction flips Power 6/55 (power-independent reject). Forward +1.6pp noise signature. Bayesian broad family eliminated §7.5 closure update. |
 
 ---
 
@@ -61,6 +62,7 @@
 | 18 | [cycle18_closure.md](history/cycle18_closure.md) | **Project Closure Report** (Hướng G Kịch bản 2 Stage 2) — [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) terminal artifact. Active breakthrough research closed. Chu kỳ 19 Optimization optional. |
 | 19 | [cycle19_post_closure_exploration.md](history/cycle19_post_closure_exploration.md) | **Post-closure exploration** (5 mini-cycles per user "chạy từng khuyến nghị"): 19a FDR re-analysis, 19b tier-weighted ROI rank, 19c NIST-style RNG battery, 19d seasonality, 19e single+multi ensemble. +2 new falsifications, methodology gaps §7.4 partially closed. |
 | 20 | [cycle20_methodology_refinement.md](history/cycle20_methodology_refinement.md) | **Methodology refinement** (doc-only post-closure self-assessment): 4 improvements codified (Principle #12 BINDING + #17 family elimination + composite-binding §8 + Phase 0 power gate). 8 verdicts Reject → Inconclusive-underpowered. Cumulative claim refined to 5-level scheme. |
+| 21 | [cycle21_hierarchical_bayesian.md](history/cycle21_hierarchical_bayesian.md) | **Hierarchical Bayesian** (Hướng B) — 9/9 Reject. 2 split-half direction flips Power 6/55 (Sharp + Lazy forward +1.6pp noise signature). Bayesian family broadly eliminated §7.5. Chu kỳ 20 methodology rules applied cleanly. |
 
 ---
 
@@ -128,7 +130,9 @@ Guardrails bất biến (từ Chu kỳ 1+):
 
 **Chu kỳ 20 (closed, 2026-04-22)**: **Methodology refinement** — 4 improvements codified across 5 canonical docs. 8 Reject verdicts reclassified to Inconclusive-underpowered. Principle #17 (family elimination binding) added. Principle #12 upgraded BINDING. EVALUATION §8 composite-binding. See [cycle20_methodology_refinement.md](history/cycle20_methodology_refinement.md).
 
-**Chu kỳ 21 OPTIONAL** (user-initiated only): Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) Optimization mode cho UI `PRODUCT_RANKS.picks.roi`. 1-2w effort. NOT breakthrough-search. Benefits from Chu kỳ 20 composite-binding rule.
+**Chu kỳ 21 (closed, 2026-04-22)**: **Hierarchical Bayesian** (Hướng B unblocked). 9/9 Reject. 2 direction-flip split-half Power 6/55 (Sharp + Lazy). Bayesian family broadly eliminated (batch + online + hierarchical convergent null). Closure §7.5 updated. See [cycle21_hierarchical_bayesian.md](history/cycle21_hierarchical_bayesian.md).
+
+**Chu kỳ 22 OPTIONAL** (user-initiated only): Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) Optimization mode cho UI `PRODUCT_RANKS.picks.roi`. 1-2w effort. NOT breakthrough-search. Benefits from Chu kỳ 20 composite-binding rule.
 
 **Reopen breakthrough**: only on triggers in [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md) (data N≥2000, Vietlott discloses betting volume, novel paradigm paper, null-reversal finding).
 

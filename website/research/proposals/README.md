@@ -21,6 +21,7 @@
 | [executed/cycle17_hmm_regime.md](executed/cycle17_hmm_regime.md) | 17 | 6/6 Reject — HMM paradigm falsified | [history/cycle17_hmm_regime.md](../history/cycle17_hmm_regime.md) |
 | [executed/cycle20_methodology_refinement.md](executed/cycle20_methodology_refinement.md) | 20 | 4 improvements codified | [history/cycle20_methodology_refinement.md](../history/cycle20_methodology_refinement.md) |
 | [executed/cycle20_evaluation_checklist.md](executed/cycle20_evaluation_checklist.md) | 20 | Checklist B-F pass | Companion to cycle20 history record |
+| [executed/cycle21_hierarchical_bayesian.md](executed/cycle21_hierarchical_bayesian.md) | 21 | 9/9 Reject — Bayesian family broadly eliminated | [history/cycle21_hierarchical_bayesian.md](../history/cycle21_hierarchical_bayesian.md) |
 
 ---
 
@@ -58,7 +59,7 @@ From [archive/superseded_docs/META_REVIEW_POST_CYCLE16.md §5](../archive/supers
 | Hướng | Status | Why not run | Unbind/trigger |
 |---|:---:|---|---|
 | A Retail Betting Pool | ✗ Infeasible | Vietlott không expose per-number volume (confirmed Chu kỳ 17 data check) | Vietlott publishes bet volume API |
-| **B Hierarchical Bayesian** | ❓ Untested | Lower priority sau Chu kỳ 14 online Bayes reject; but Chu kỳ 20 Inconclusive-UP has Bayesian batch 2× → variant có thể surface | Inconclusive-UP revisit at N ≥ 62,231 |
+| ~~B Hierarchical Bayesian~~ | ✓ Done (Chu kỳ 21) | 9/9 Reject — Bayesian broad family eliminated. See [history/cycle21](../history/cycle21_hierarchical_bayesian.md) | N ≥ 2×current (~2028+) AND Inconclusive-UP revisit criteria |
 | C HMM regime | ✓ Done (Chu kỳ 17) | — | Reject confirmed |
 | D NIST battery | ✓ Done (Chu kỳ 19c) | — | All products pass |
 | E Seasonality | ✓ Done (Chu kỳ 19d) | — | Falsified |

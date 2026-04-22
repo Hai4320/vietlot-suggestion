@@ -6,16 +6,17 @@ Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tíc
 
 **Active breakthrough research ĐÓNG sau Chu kỳ 18**. Terminal artifact: [**PROJECT_CLOSURE_REPORT.md**](PROJECT_CLOSURE_REPORT.md) (updated Chu kỳ 19 + Chu kỳ 20).
 
-**Cumulative (post Chu kỳ 20)**: 66 strategies × 5 products × refined 3-gate = **0 strong Accept / 0 Suggestive / 79 Reject (6 families eliminated với unbind triggers) / 8 Inconclusive-underpowered** (pending N≥2000-3000 per product, ~2027-2030).
+**Cumulative (post Chu kỳ 21)**: ~69 strategies × 5 products × refined 3-gate = **0 strong Accept / 0 Suggestive / 88 Reject (7 families eliminated với unbind triggers, adding Bayesian broad) / 8 Inconclusive-underpowered** (pending N≥2000-3000 per product, ~2027-2030).
 
-**Cycles 16-20**:
+**Cycles 16-21**:
 - Chu kỳ 16: Kelly Portfolio 9/9 Reject (ROI axis exhausted)
 - Chu kỳ 17: HMM Regime Detection 6/6 Reject (paradigm falsified; Principle #16 codified)
 - Chu kỳ 18: Closure report
 - Chu kỳ 19: 5 mini-cycles post-closure (FDR/ROI rank/NIST/seasonality/ensemble) → +2 falsifications, 3 methodology gaps closed
-- **Chu kỳ 20**: Methodology refinement — 4 improvements codified. Principle #12 BINDING (power gate) + Principle #17 (family elimination) + composite-binding §8 + Phase 0 power check. 8 Reject → Inconclusive-underpowered. See [history/cycle20_methodology_refinement.md](history/cycle20_methodology_refinement.md).
+- Chu kỳ 20: Methodology refinement — 4 improvements codified (Principle #12 BINDING + #17 + composite §8 + Phase 0)
+- **Chu kỳ 21**: Hierarchical Bayesian (Hướng B unblocked) — 9/9 Reject. Bayesian family broadly eliminated (batch + online + hierarchical convergent). See [history/cycle21_hierarchical_bayesian.md](history/cycle21_hierarchical_bayesian.md).
 
-**Chu kỳ 21 OPTIONAL (Optimization mode)**: Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) cho UI `picks.roi`. 1-2w effort, user-initiated. Benefits from Chu kỳ 20 composite-binding.
+**Chu kỳ 22 OPTIONAL (Optimization mode)**: Resume [proposals/cycle17a_roi_ranking_3d.md](proposals/cycle17a_roi_ranking_3d.md) cho UI `picks.roi`. 1-2w effort, user-initiated. Benefits from Chu kỳ 20 composite-binding.
 
 **Reopen breakthrough**: chỉ khi đủ triggers — xem [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md).
 
