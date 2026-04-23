@@ -44,88 +44,9 @@ type SuggestionPanelProps = MatrixSuggestionPanelProps | ThreeDSuggestionPanelPr
 
 const PAGE_SIZE = 20;
 
-// Strategy metadata — descriptions condensed, badges removed (see pick badges only).
-// Chi tiết research đầy đủ: /algorithms + /research + /glossary.
-const ALL_STRATEGIES: { key: SuggestionStrategy; emoji: string; label: string; description: string }[] = [
-  {
-    key: "mindistance",
-    emoji: "📐",
-    label: "Khoảng cách đa dạng",
-    description: "Ma trận: Dirichlet sample + Jaccard diversity — vé khác biệt tối đa",
-  },
-  {
-    key: "pairexploiter",
-    emoji: "🔗",
-    label: "Khai thác cặp chữ số",
-    description: "3D: O/E synergy 3 cặp vị trí — khai thác non-independence",
-  },
-  {
-    key: "coverageopt",
-    emoji: "🎪",
-    label: "Phủ không gian (3D)",
-    description: "3D: frequency + digit-distance diversity",
-  },
-  {
-    key: "pattern",
-    emoji: "🔮",
-    label: "Mẫu cấu trúc",
-    description: "Phân tích spacing + phân bố vùng số",
-  },
-  {
-    key: "maxentropy",
-    emoji: "🎯",
-    label: "Phủ sóng tối đa",
-    description: "Ma trận: chia vùng phủ đều. 3D: lọc digit-sum",
-  },
-  {
-    key: "frequency",
-    emoji: "📊",
-    label: "Tần suất cao",
-    description: "Ưu tiên số xuất hiện nhiều nhất trong lịch sử",
-  },
-  {
-    key: "absence",
-    emoji: "⏳",
-    label: "Số vắng lâu",
-    description: "Ưu tiên số lâu không xuất hiện",
-  },
-  {
-    key: "bayesian",
-    emoji: "🧠",
-    label: "Bayesian AI",
-    description: "Dirichlet posterior sampling — auto tune theo pool",
-  },
-  {
-    key: "adaptive",
-    emoji: "⚡",
-    label: "Tự động tối ưu",
-    description: "Tự tìm cửa sổ phân tích từ dữ liệu gần nhất",
-  },
-  {
-    key: "jointbias",
-    emoji: "🧬",
-    label: "Bias liên hợp",
-    description: "3D: phân bố đồng thời 3 chữ số",
-  },
-  {
-    key: "mixed",
-    emoji: "🎲",
-    label: "Kết hợp nóng–lạnh",
-    description: "Ma trận: 50/50. 3D: digit-by-digit weighted",
-  },
-  {
-    key: "evmax",
-    emoji: "💰",
-    label: "EV tối đa",
-    description: "3D: kỳ vọng giải thưởng × exponential decay",
-  },
-  {
-    key: "hybridparity",
-    emoji: "🎰",
-    label: "Hybrid Parity (5/35)",
-    description: "Power 5/35: wheeling đa vé parity + Hamming diversity",
-  },
-];
+// Strategy metadata moved to lib/strategies-metadata — shared source of
+// truth for SuggestionPanel (here) + QuickGenerate (/check-rate).
+import { STRATEGIES as ALL_STRATEGIES } from "@/lib/strategies-metadata";
 
 // Per-product ranking + research picks (Chu kỳ 22 Optimization mode, 2026-04-22).
 // 3 composite profiles (WinRate / ROI / Balanced) → up to 3 picks per product.

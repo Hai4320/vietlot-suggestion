@@ -6,41 +6,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { loadDraws, registeredGames } from "@/lib/check-rate";
 import { MATRIX_PRODUCTS, PRODUCTS, THREE_D_PRODUCTS } from "@/lib/products-config";
+import { strategiesFor, type StrategyGroup } from "@/lib/strategies-metadata";
 import { generate3DSuggestions } from "@/lib/suggest-3d";
 import { generateSuggestions } from "@/lib/suggest-matrix";
 import type { MatrixDraw, SuggestionStrategy, ThreeDDraw } from "@/lib/types";
 
-type ProductGroup = "matrix" | "3d";
-
-interface StrategyMeta {
-  key: SuggestionStrategy;
-  label: string;
-  for: ProductGroup | "both";
-  note?: string;
-  limit?: string; // product-slug restriction, e.g. hybridparity is 5/35 only
-}
-
-const STRATEGIES: StrategyMeta[] = [
-  { key: "pattern", label: "Pattern — structural spacing", for: "both", note: "top-ranked" },
-  { key: "mindistance", label: "Min-distance diversity", for: "matrix", note: "Chu kỳ 22" },
-  { key: "coverageopt", label: "Coverage opt", for: "3d", note: "3D ROI pick" },
-  { key: "pairexploiter", label: "Pair exploiter", for: "3d", note: "3D winrate pick" },
-  { key: "frequency", label: "Frequency (hot)", for: "both" },
-  { key: "absence", label: "Absence (cold)", for: "both" },
-  { key: "mixed", label: "Mixed hot+cold", for: "both" },
-  { key: "bayesian", label: "Bayesian / Dirichlet", for: "both" },
-  { key: "maxentropy", label: "Max entropy", for: "both" },
-  { key: "adaptive", label: "Adaptive window", for: "matrix" },
-  { key: "hybridparity", label: "Hybrid parity (5/35 only)", for: "matrix", limit: "power_535" },
-];
+type ProductGroup = Exclude<StrategyGroup, "both">;
 
 interface Props {
   onAppend: (csvRows: string) => void;
 }
 
-function firstStrategyFor(group: ProductGroup): SuggestionStrategy {
-  const match = STRATEGIES.find((s) => s.for === group || s.for === "both");
-  return match?.key ?? "frequency";
+function firstStrategyFor(group: ProductGroup, productKey?: string): SuggestionStrategy {
+  const available = strategiesFor(group, productKey);
+  return available[0]?.key ?? "frequency";
 }
 
 export function QuickGenerate({ onAppend }: Props) {
@@ -51,29 +30,26 @@ export function QuickGenerate({ onAppend }: Props) {
   });
   const product = PRODUCTS.find((p) => p.key === game);
   const group: ProductGroup = product?.group === "3d" ? "3d" : "matrix";
-  const [strategy, setStrategy] = useState<SuggestionStrategy>(() => firstStrategyFor(group));
+  const availableStrategies = strategiesFor(group, game);
+  const [strategy, setStrategy] = useState<SuggestionStrategy>(() => firstStrategyFor(group, game));
   const [count, setCount] = useState(10);
   const [label, setLabel] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const availableStrategies = STRATEGIES.filter((s) => s.for === group || s.for === "both");
   const isSupported = supported.has(game);
 
   // Reset strategy if user switches to a product group the current strategy doesn't fit
   useEffect(() => {
-    const current = STRATEGIES.find((s) => s.key === strategy);
-    if (!current) return;
-    const fits = current.for === group || current.for === "both";
-    const limitOk = !current.limit || current.limit === game;
-    if (!fits || !limitOk) setStrategy(firstStrategyFor(group));
-  }, [game, group, strategy]);
+    const stillAvailable = availableStrategies.some((s) => s.key === strategy);
+    if (!stillAvailable) setStrategy(firstStrategyFor(group, game));
+  }, [game, group, strategy, availableStrategies]);
 
   async function handleGenerate() {
     if (!product) return;
-    const meta = STRATEGIES.find((s) => s.key === strategy);
-    if (meta?.limit && meta.limit !== game) {
-      setError(`${meta.key} chỉ hỗ trợ ${meta.limit}.`);
+    const meta = availableStrategies.find((s) => s.key === strategy);
+    if (!meta) {
+      setError(`${strategy} không áp dụng cho ${game}.`);
       return;
     }
     setBusy(true);
@@ -182,8 +158,7 @@ export function QuickGenerate({ onAppend }: Props) {
           >
             {availableStrategies.map((s) => (
               <option key={s.key} value={s.key}>
-                {s.label}
-                {s.note ? ` — ${s.note}` : ""}
+                {s.emoji} {s.label}
               </option>
             ))}
           </select>
