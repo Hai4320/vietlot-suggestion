@@ -69,6 +69,16 @@ export function Sidebar() {
           <span>Gợi ý số</span>
         </Link>
         <Link
+          href="/check-rate"
+          className={cn(
+            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
+            pathname === "/check-rate" && "bg-accent text-accent-foreground font-medium"
+          )}
+        >
+          <span>🎯</span>
+          <span>Check-rate</span>
+        </Link>
+        <Link
           href="/algorithms"
           className={cn(
             "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",

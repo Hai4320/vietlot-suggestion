@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CsvInput } from "@/components/check-rate/CsvInput";
+import { QuickGenerate } from "@/components/check-rate/QuickGenerate";
 import { ResultCard } from "@/components/check-rate/ResultCard";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -122,6 +123,19 @@ export default function CheckRatePage() {
           ))}
         </p>
       </header>
+
+      <QuickGenerate
+        onAppend={(csvRows) => {
+          // If existing textarea is empty or only whitespace, replace. Otherwise
+          // append as new block — drop the duplicate header line.
+          setCsv((prev) => {
+            const trimmed = prev.trim();
+            if (!trimmed) return csvRows;
+            const [, ...rest] = csvRows.split("\n");
+            return trimmed + "\n" + rest.join("\n");
+          });
+        }}
+      />
 
       <section className="space-y-3 rounded-lg border p-4">
         <CsvInput

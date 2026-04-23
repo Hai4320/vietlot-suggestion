@@ -67,6 +67,9 @@ export function Navbar() {
               <Link href="/suggest" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/suggest" && "bg-accent font-medium")}>
                 <span>✨</span><span>Gợi ý số</span>
               </Link>
+              <Link href="/check-rate" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/check-rate" && "bg-accent font-medium")}>
+                <span>🎯</span><span>Check-rate</span>
+              </Link>
               <Link href="/algorithms" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/algorithms" && "bg-accent font-medium")}>
                 <span>🔬</span><span>Thuật toán</span>
               </Link>
@@ -124,6 +127,15 @@ export function Navbar() {
             )}
           >
             ✨ Gợi ý
+          </Link>
+          <Link
+            href="/check-rate"
+            className={cn(
+              "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
+              pathname === "/check-rate" && "bg-accent font-medium text-primary"
+            )}
+          >
+            🎯 Check-rate
           </Link>
           <Link
             href="/algorithms"
