@@ -83,16 +83,18 @@ export function QuickGenerate({ onAppend }: Props) {
         // the public JSON has, which for 3D is a tier dict. Go via unknown to
         // bypass the narrow Draw type.
         const draws = (await loadDraws(game)) as unknown as ThreeDDraw[];
-        // 3D generator returns sets of multiple 3-digit numbers per "set".
-        // For 3d: each number = one ticket; for 3d_pro: pair adjacent (A, B).
+        // 3D generator returns sets, each typically containing 2 three-digit
+        // numbers. For 3d: each number = one ticket; for 3d_pro: pair adjacent.
+        // Request enough sets to cover totalNumbersNeeded; generator handles
+        // de-dup internally so over-requesting is safe.
         const numbersPerTicket = game === "3d_pro" ? 2 : 1;
         const totalNumbersNeeded = count * numbersPerTicket;
-        const setsCountHint = Math.max(1, Math.ceil(totalNumbersNeeded / 6));
+        const setsCountHint = Math.max(1, totalNumbersNeeded);
         const sets = generate3DSuggestions(draws, strategy, setsCountHint);
         const allNumbers = sets.flatMap((s) => s.numbers);
         if (allNumbers.length < totalNumbersNeeded) {
           throw new Error(
-            `Generator chỉ trả về ${allNumbers.length} số, cần ${totalNumbersNeeded}.`,
+            `Generator chỉ trả về ${allNumbers.length} số, cần ${totalNumbersNeeded}. Thử strategy khác hoặc giảm số vé.`,
           );
         }
         if (game === "3d_pro") {
