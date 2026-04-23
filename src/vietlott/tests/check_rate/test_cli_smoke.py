@@ -1,4 +1,6 @@
-"""Phase 0 — CLI smoke test: no evaluators registered → graceful 'unsupported' report."""
+"""CLI smoke tests: invalid input, product filter, and the graceful
+'unsupported' report for games without a registered evaluator.
+"""
 
 from __future__ import annotations
 
@@ -7,22 +9,20 @@ from click.testing import CliRunner
 from vietlott.cli.check_rate import check_rate
 
 
-def test_cli_unsupported_games_reports_cleanly(tmp_path):
+def test_cli_unsupported_game_reports_cleanly(tmp_path):
+    """Unregistered game names should not crash — report 'no evaluator' and keep going."""
     csv_path = tmp_path / "tickets.csv"
+    # '3d' has no evaluator yet (Phase 4) — use it to exercise the unsupported path
     csv_path.write_text(
-        "game,algorithm,ticket_no,numbers,special\n"
-        "power_535,diversity_v1,1,7 9 10 16 19,3\n"
-        "power_535,diversity_v1,2,2 4 11 20 28,8\n"
-        "power_655,diversity_v1,1,5 10 14 23 24 38,\n",
+        "game,algorithm,ticket_no,numbers,special\n3d,manual,1,015,\n3d,manual,2,123,\n",
         encoding="utf-8",
     )
     runner = CliRunner()
     result = runner.invoke(check_rate, [str(csv_path)])
     assert result.exit_code == 0, result.output
     assert "VIETLOTT CHECK-RATE" in result.output
-    assert "3 tickets" in result.output
-    assert "2 (game × algorithm) groups" in result.output
-    assert "no evaluator" in result.output or "Phase 0" in result.output
+    assert "2 tickets" in result.output
+    assert "no evaluator" in result.output
 
 
 def test_cli_invalid_csv_exits_nonzero(tmp_path):
