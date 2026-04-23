@@ -1,6 +1,6 @@
 ## Chu Kỳ 22 — Optimization Mode (Closed 2026-04-22)
 
-**Pre-reg** (frozen, APPROVED 2026-04-22): [`proposals/cycle22_optimization_mode.md`](../proposals/cycle22_optimization_mode.md)
+**Pre-reg** (frozen, APPROVED 2026-04-22, moved to `executed/` 2026-04-23): [`proposals/executed/cycle22_optimization_mode.md`](../proposals/executed/cycle22_optimization_mode.md)
 
 **Methodology**: [`optimization/MEASUREMENT.md`](../optimization/MEASUREMENT.md) §2-§6 (3 composite profiles, split-half on picks, 2-tier exclusion)
 

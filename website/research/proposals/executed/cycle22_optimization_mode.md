@@ -1,8 +1,8 @@
 ## Chu Kỳ 22 — Pre-Registration: Optimization Mode (3D + Matrix Unified)
 
-**Status**: ✅ **APPROVED 2026-04-22** by user. Frozen per Principle #16. Supersedes [cycle17a_roi_ranking_3d.md](cycle17a_roi_ranking_3d.md) (3D-only scope).
+**Status**: ✅ **EXECUTED 2026-04-22** (Phase O-1 + O-2 shipped). Moved to `executed/` 2026-04-23. Frozen per Principle #16. Supersedes [../cycle17a_roi_ranking_3d.md](../cycle17a_roi_ranking_3d.md) (3D-only scope). Verdict record: [history/cycle22_optimization_mode.md](../../history/cycle22_optimization_mode.md).
 
-**Mode**: Optimization (not breakthrough). See [optimization/README.md](../optimization/README.md) + [optimization/PLAYBOOK.md](../optimization/PLAYBOOK.md).
+**Mode**: Optimization (not breakthrough). See [optimization/README.md](../../optimization/README.md) + [optimization/PLAYBOOK.md](../../optimization/PLAYBOOK.md).
 
 **Estimated effort**: 1-2 tuần.
 

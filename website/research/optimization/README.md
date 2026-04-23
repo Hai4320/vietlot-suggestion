@@ -2,7 +2,7 @@
 
 > **Purpose**: Post-closure user-facing deliverable work. Rank existing strategies by ROI + win-rate cho UI `PRODUCT_RANKS.picks` + budget feature. NOT breakthrough research.
 
-**Current focus** (2026-04-22+): Delivering actionable picks to users given null breakthrough findings across 21 cycles.
+**Current focus** (2026-04-23+): Chu kỳ 22 Optimization + Chu kỳ 23 UX Refactor both SHIPPED. Next cycle: Chu kỳ 24 budget-aware feature (pre-reg pending).
 
 ---
 
@@ -38,6 +38,10 @@
 ---
 
 ## Current state
+
+**Chu kỳ 23 closed (2026-04-22)**: App-wide UX Refactor shipped. `/research/cycle22` route removed (inline merged vào `/research`). Badge taxonomy reset. `/suggest` flow reorder.
+
+**Chu kỳ 22 closed (2026-04-22)**: Optimization Mode Phase O-1 + O-2 shipped. 3 composite profiles × 5 products, UI updated với 3 new TS strategies (mindistance/coverageopt/pairexploiter), `PRODUCT_RANKS` 3-pick structure, glossary C22 section. See [history/cycle22_optimization_mode.md](../history/cycle22_optimization_mode.md) + [cycle22_review.md](cycle22_review.md).
 
 **Chu kỳ 21 closed (2026-04-22)**: Bayesian family broadly eliminated. 7 families total eliminated.
 
@@ -75,44 +79,51 @@ From [3d/advanced_backtest.py](../3d/advanced_backtest.py):
 
 ## Roadmap
 
-### Phase 1: Chu kỳ 22 — Unified Optimization Mode (pending)
+### ✅ Phase 1: Chu kỳ 22 — Unified Optimization Mode (SHIPPED 2026-04-22)
 
-**Pre-reg**: [proposals/cycle22_optimization_mode.md](../proposals/cycle22_optimization_mode.md) (replaces cycle17a scope)
+**Pre-reg** (executed): [proposals/executed/cycle22_optimization_mode.md](../proposals/executed/cycle22_optimization_mode.md)
+**Verdict**: [history/cycle22_optimization_mode.md](../history/cycle22_optimization_mode.md)
 
-**Scope**:
-- Rank all 3D strategies by composite score (primary metric = ROI since all rejected on win-rate)
-- Rank all matrix strategies similarly
-- Apply split-half replication gate to top-2 per product (Principle #11)
-- Output per product:
-  - `picks.winrate`: best win-rate strategy (directional, honest caveat)
-  - `picks.roi`: best ROI strategy (least-negative)
-  - If same strategy tops both → single pick
+**Output**:
+- Composite ranking 3 profiles (WinRate / ROI / Balanced) × 5 products
+- 3/5 products valid picks (Power 6/55 MinDistance collapse_all_three, Power 5/35 Freq_Hot collapse_all_three, Max 3D 3-pick diverse)
+- 2/5 null honest (Mega 6/45 baseline drift, Max 3D Pro regime split)
+- UI shipped: 3 new TS strategies (mindistance/coverageopt/pairexploiter), `PRODUCT_RANKS` 3-pick + collapse, glossary C22 section, `/research/cycle22` page (later merged inline Chu kỳ 23)
 
-**Effort**: 1-2 tuần
+### ✅ Phase 2: Chu kỳ 23 — App-wide UX Refactor (SHIPPED 2026-04-22)
 
-**Deliverable**: UI update `website/src/components/products/SuggestionPanel.tsx` — `PRODUCT_RANKS`
+**Pre-reg** (executed): [proposals/executed/cycle23_app_refactor.md](../proposals/executed/cycle23_app_refactor.md)
+**Verdict**: [history/cycle23_app_refactor.md](../history/cycle23_app_refactor.md)
 
-### Phase 2: Chu kỳ 23 — Budget-aware feature (conditional on Phase 1)
+**Note**: Original Phase 2 plan was budget-aware feature. User pivot sau Chu kỳ 22 shipment → UX cleanup ưu tiên hơn. Budget đẩy sang Phase 3.
+
+**Output**:
+- 4 phases (23.1-23.4): stale string audit, badge reset, `/research` rewrite 867→250 lines, `/suggest` compact header + Generate up-front
+- `/research/cycle22` route deleted, inlined vào `/research` (data module `cycle22-data.ts` retained)
+- Badge taxonomy reset: max 3 pick badges (🎯 / 💰 / ⚖), removed #rank/★/🔬/🧪
+- Time-to-first-suggestion ~20s → ~8s
+
+### ⏳ Phase 3: Chu kỳ 24 — Budget-aware feature (PENDING pre-reg)
 
 **Scope**:
 - User specifies budget (VND) → system suggests ticket portfolio maximizing E[payout]
 - Based on `picks.roi` (N=1 single-ticket) or `picks.winrate` (N≥20 multi-ticket diversification)
 - Coverage-optimized wheeling for large N (not Kelly — falsified Chu kỳ 16)
 
-**Effort**: 1 tuần
+**Effort**: ~1 tuần
 
 **Deliverable**: UI budget widget + backend computation
 
-### Phase 3: Chu kỳ 24 — UI transparency polish (conditional)
+**Blockers**: Pre-reg chưa viết. Wheeling design + exclusion policy (family-eliminated strategies out)
 
-**Scope**:
-- Disclosure banners updated with Chu kỳ 20 honest claim
-- Expand glossary page với Principle #17 family elimination explanation
-- Reopen criteria banner (when to expect research restart)
+### ⚪ Phase 4: Chu kỳ 25+ — UI transparency polish (optional)
 
-**Effort**: 3-4 ngày
+**Scope** (if needed post-Chu kỳ 24):
+- Additional glossary / disclosure refinements
+- Data refresh cadence review
+- Reopen criteria surfacing
 
-**Deliverable**: Full UX polish for post-research state
+**Status**: Phần lớn scope gốc đã subsumed bởi Chu kỳ 23 UX refactor.
 
 ---
 
@@ -152,8 +163,8 @@ Do NOT surface as `picks.winrate` / `picks.roi` / `picks.balanced`:
 
 - [MEASUREMENT.md](MEASUREMENT.md) — **canonical** measurement methodology (composite profiles, picks, exclusion) + evaluation checklist
 - [PLAYBOOK.md](PLAYBOOK.md) — Optimization-specific process (3-phase pipeline)
-- Pre-regs → [../proposals/](../proposals/) (cycle22+ lives there)
-- Results + data → (as cycles run, will add `optimization/cycleNN_*` dirs)
+- Pre-regs active → [../proposals/](../proposals/); executed → [../proposals/executed/](../proposals/executed/) (cycle22 + cycle23 live there)
+- Chu kỳ 22 results → [cycle22_rankings.json](cycle22_rankings.json), [cycle22_backtest_matrix.json](cycle22_backtest_matrix.json), [cycle22_backtest_3d.json](cycle22_backtest_3d.json), [cycle22_review.md](cycle22_review.md), [cycle22_page_archive.md](cycle22_page_archive.md) (archive của route bị xoá Chu kỳ 23)
 - UI updates → [website/src/components/products/SuggestionPanel.tsx](../../src/components/products/SuggestionPanel.tsx) per [RESEARCH_TO_UI_PLAYBOOK.md](../../RESEARCH_TO_UI_PLAYBOOK.md)
 
 ## Not in scope
@@ -168,6 +179,6 @@ Do NOT surface as `picks.winrate` / `picks.roi` / `picks.balanced`:
 
 - **Parent**: [research/README.md](../README.md) — full project overview
 - **Closure**: [research/PROJECT_CLOSURE_REPORT.md](../PROJECT_CLOSURE_REPORT.md) — research phase terminal artifact
-- **History**: [research/RESEARCH_HISTORY.md](../RESEARCH_HISTORY.md) — 21 cycles index
+- **History**: [research/RESEARCH_HISTORY.md](../RESEARCH_HISTORY.md) — 23 cycles index (21 breakthrough + 2 optimization)
 - **Methodology corpus** (research era): [research/METHODOLOGY.md](../METHODOLOGY.md), [research/EVALUATION.md](../EVALUATION.md), [research/TESTING.md](../TESTING.md), [research/RESEARCH_PLAYBOOK.md](../RESEARCH_PLAYBOOK.md)
 - **Reopen research**: only on [§9 triggers](../PROJECT_CLOSURE_REPORT.md)

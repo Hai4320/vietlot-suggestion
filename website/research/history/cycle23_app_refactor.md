@@ -1,6 +1,6 @@
 ## Chu Kỳ 23 — App-wide UX Refactor (Closed 2026-04-22)
 
-**Pre-reg** (frozen): [`proposals/cycle23_app_refactor.md`](../proposals/cycle23_app_refactor.md)
+**Pre-reg** (frozen, moved to `executed/` 2026-04-23): [`proposals/executed/cycle23_app_refactor.md`](../proposals/executed/cycle23_app_refactor.md)
 **Mode**: Optimization (UI-only, no new research mechanism)
 
 ### Scope

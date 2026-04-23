@@ -1,7 +1,7 @@
 # Chu Kỳ 22 — Phase O-1 Review (Diagnostic)
 
 **Date**: 2026-04-22
-**Pre-reg**: [proposals/cycle22_optimization_mode.md](../proposals/cycle22_optimization_mode.md)
+**Pre-reg**: [proposals/executed/cycle22_optimization_mode.md](../proposals/executed/cycle22_optimization_mode.md)
 **Methodology**: [MEASUREMENT.md](MEASUREMENT.md)
 **Input**: `cycle22_backtest_matrix.json` (+ `_3d.json`) — fresh re-backtest với split-half segments
 **Output**: `cycle22_rankings.json` (canonical) — 3 composite profiles × 5 products

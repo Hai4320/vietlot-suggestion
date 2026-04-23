@@ -2,9 +2,9 @@
 
 **Purpose**: Registry của pre-regs (frozen per Principle #16). `proposals/` root = active/pending/PAUSED. `proposals/executed/` = completed (frozen, cross-linked từ history/).
 
-**Last updated**: 2026-04-22 (post Chu kỳ 22 Optimization shipped)
+**Last updated**: 2026-04-23 (post Chu kỳ 23 UX Refactor shipped)
 
-**🎯 Current priority**: Chu kỳ 23 budget-aware feature (UC2 "chọn bộ số với budget X VND") — pre-reg chưa viết, đợi user kickoff.
+**🎯 Current priority**: Chu kỳ 24 budget-aware feature (UC2 "chọn bộ số với budget X VND") — pre-reg chưa viết, đợi user kickoff. Chu kỳ 23 UX Refactor (shipped 2026-04-22) đã đẩy scope budget từ Chu kỳ 23 → 24.
 
 ---
 
@@ -12,8 +12,7 @@
 
 | File | Status | Scope | Effort | Notes |
 |---|:---:|---|:---:|---|
-| _(none)_ | — | Chu kỳ 23 budget feature pre-reg chưa viết | ~1 week | Đợi user kickoff |
-| [cycle22_optimization_mode.md](cycle22_optimization_mode.md) | ✅ **EXECUTED** (Phase O-1+O-2 shipped 2026-04-22) | Optimization mode unified 3D + matrix — 3 composite profiles × 5 products + UI ship | ~7 hours | Frozen per Principle #16. See [history/cycle22_optimization_mode.md](../history/cycle22_optimization_mode.md) |
+| _(none)_ | — | Chu kỳ 24 budget feature pre-reg chưa viết | ~1 week | Đợi user kickoff |
 | [cycle17a_roi_ranking_3d.md](cycle17a_roi_ranking_3d.md) | ⚠ Superseded by cycle22 | (Historical reference only) | N/A | Content frozen Principle #16 |
 
 ---
@@ -26,6 +25,8 @@
 | [executed/cycle20_methodology_refinement.md](executed/cycle20_methodology_refinement.md) | 20 | 4 improvements codified | [history/cycle20_methodology_refinement.md](../history/cycle20_methodology_refinement.md) |
 | [executed/cycle20_evaluation_checklist.md](executed/cycle20_evaluation_checklist.md) | 20 | Checklist B-F pass | Companion to cycle20 history record |
 | [executed/cycle21_hierarchical_bayesian.md](executed/cycle21_hierarchical_bayesian.md) | 21 | 9/9 Reject — Bayesian family broadly eliminated | [history/cycle21_hierarchical_bayesian.md](../history/cycle21_hierarchical_bayesian.md) |
+| [executed/cycle22_optimization_mode.md](executed/cycle22_optimization_mode.md) | 22 | Optimization shipped — 3 composite profiles × 5 products, UI 3 new TS strategies | [history/cycle22_optimization_mode.md](../history/cycle22_optimization_mode.md) |
+| [executed/cycle23_app_refactor.md](executed/cycle23_app_refactor.md) | 23 | App-wide UX refactor — 4 phases (stale strings, badges, `/research` rewrite, `/suggest` flow) | [history/cycle23_app_refactor.md](../history/cycle23_app_refactor.md) |
 
 ---
 
@@ -33,19 +34,18 @@
 
 ### Tier 1: Active / primary
 
-#### 1. **Chu kỳ 22 Optimization Mode (unified 3D + matrix)** — ACTIVE
+#### 1. **Chu kỳ 24 Budget-aware feature** — PENDING (pre-reg chưa viết)
 
-- **File**: [cycle22_optimization_mode.md](cycle22_optimization_mode.md)
-- **Scope**: Rank all non-excluded strategies across 5 products. Assign `picks.winrate` + `picks.roi`. Ship UI.
-- **Effort**: 5-6 ngày
-- **Mode**: Optimization (lighter than breakthrough) — see [optimization/README.md](../optimization/README.md)
-- **Benefits (post Chu kỳ 20/21)**: 
-  - Composite-binding decision (removes hidden single-metric bias)
-  - Exclusion list applied (GBM, Kelly, HMM, Hybrid, HierarchicalEB_Sharp/Lazy)
-  - Exploratory-only classification → honest UI labels (no Accept claims)
-  - Output: UI `PRODUCT_RANKS.picks.winrate` + `picks.roi` update cho 5 products
-- **Output artifact**: `history/cycle22_optimization_mode.md` + UI ship
-- **NOT breakthrough search** — ranking only
+- **File**: (chưa có — sẽ tạo `cycle24_budget_aware.md` khi user kickoff)
+- **Scope**: Given user budget X VND → suggest ticket portfolio maximizing E[payout]. Dựa trên `picks.*` output của Chu kỳ 22 (Max 3D, Power 6/55, Power 5/35 có picks valid; Mega 6/45 + Max 3D Pro null).
+- **Effort**: ~1 tuần
+- **Mode**: Optimization extension (no new research mechanism)
+- **Blockers**: Wheeling/coverage design (không Kelly vì falsified Chu kỳ 16)
+- **Context**: Chu kỳ 23 original plan là budget-aware, nhưng user pivot sang UX refactor sau Chu kỳ 22 feedback → budget pushed to Chu kỳ 24
+
+#### Done (archival)
+- **Chu kỳ 22 Optimization Mode** — executed 2026-04-22, see [executed/cycle22_optimization_mode.md](executed/cycle22_optimization_mode.md) + [history/cycle22_optimization_mode.md](../history/cycle22_optimization_mode.md)
+- **Chu kỳ 23 UX Refactor** — executed 2026-04-22, see [executed/cycle23_app_refactor.md](executed/cycle23_app_refactor.md) + [history/cycle23_app_refactor.md](../history/cycle23_app_refactor.md)
 
 ### Tier 2: Untested hướng từ META_REVIEW (archived)
 
@@ -95,15 +95,10 @@ From META_REVIEW §2c meta-questions:
 
 **User pivot 2026-04-22**: shift from breakthrough research to user-facing Optimization. See [optimization/README.md](../optimization/README.md) roadmap.
 
-**If user says "run Chu kỳ 22"**:
-1. Execute [cycle22_optimization_mode.md](cycle22_optimization_mode.md) per [optimization/PLAYBOOK.md](../optimization/PLAYBOOK.md)
-2. Apply exclusion list (GBM/Kelly/HMM/Hybrid/HierarchicalEB_Sharp-Lazy)
-3. Composite-binding ranking
-4. Ship UI
-
-**If user says "run Chu kỳ 23"**:
-- Budget-aware feature (roadmap Phase 2 trong [optimization/README.md](../optimization/README.md))
-- Conditional on Chu kỳ 22 ship
+**If user says "run Chu kỳ 24"**:
+- Budget-aware feature (UC2). Pre-reg cần được viết trước — template § Pre-reg writing checklist bên dưới.
+- Dependencies: Chu kỳ 22 `picks.*` output + Chu kỳ 23 UI surfaces sẵn sàng hook budget widget
+- Không dùng Kelly (falsified Chu kỳ 16). Wheeling + coverage-optimized portfolio
 
 **If user says "run breakthrough Hướng F Anomaly"**:
 - Post-closure breakthrough — would need §9 reopen trigger justification

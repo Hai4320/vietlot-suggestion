@@ -2,11 +2,14 @@
 
 Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tích cho hệ thống gợi ý số Vietlott.
 
-## 🎯 Trạng thái hiện tại (2026-04-22) — **Chu kỳ 22 Optimization shipped**
+## 🎯 Trạng thái hiện tại (2026-04-23) — **Chu kỳ 22 + 23 shipped, Chu kỳ 24 pending**
 
 ### Active focus: **[optimization/](optimization/)** → user-facing UI deliverables
 
-**Breakthrough research phase CLOSED** (Chu kỳ 1-21, 0 Accept). **Chu kỳ 22 Optimization Mode hoàn thành** (Phase O-1 + O-2) 2026-04-22: 3 composite profiles × 5 products, UI shipped với `/research/cycle22` page + 3 new TS strategies.
+**Breakthrough research phase CLOSED** (Chu kỳ 1-21, 0 Accept). **Optimization phase active**:
+- **Chu kỳ 22** (2026-04-22): Optimization Mode Phase O-1 + O-2 shipped — 3 composite profiles × 5 products + UI 3 new TS strategies + `PRODUCT_RANKS` 3-pick structure.
+- **Chu kỳ 23** (2026-04-22): App-wide UX Refactor shipped — 4 phases, badge taxonomy reset, `/research/cycle22` route removed (inline vào `/research`), time-to-first-suggestion 20s→8s.
+- **Chu kỳ 24** (pending): budget-aware feature (UC2), pre-reg chưa viết.
 
 ### Primary entry points
 
@@ -15,66 +18,62 @@ Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tíc
 | [**optimization/README.md**](optimization/README.md) | 🎯 Optimization mode overview + roadmap (Chu kỳ 22+) |
 | [**optimization/MEASUREMENT.md**](optimization/MEASUREMENT.md) | 🎯 Canonical measurement methodology (3 composite profiles + split-half on picks + unified 2-tier exclusion + checklist) |
 | [optimization/PLAYBOOK.md](optimization/PLAYBOOK.md) | Optimization process (lighter than breakthrough) |
-| [proposals/cycle22_optimization_mode.md](proposals/cycle22_optimization_mode.md) | Chu kỳ 22 pre-reg (APPROVED + frozen 2026-04-22) |
 | [optimization/cycle22_rankings.json](optimization/cycle22_rankings.json) | Canonical Chu kỳ 22 output (3 profiles × 5 products) |
 | [optimization/cycle22_review.md](optimization/cycle22_review.md) | Chu kỳ 22 diagnostic review |
 | [history/cycle22_optimization_mode.md](history/cycle22_optimization_mode.md) | Chu kỳ 22 closure record |
-| [proposals/README.md](proposals/README.md) | Proposals index + TODO list |
+| [history/cycle23_app_refactor.md](history/cycle23_app_refactor.md) | Chu kỳ 23 UX refactor closure record |
+| [proposals/README.md](proposals/README.md) | Proposals index + TODO list (Chu kỳ 24 pending) |
+| [proposals/executed/](proposals/executed/) | Frozen pre-regs của cycles đã execute (17, 20, 21, 22, 23) |
 
 ### Research archive (breakthrough phase terminal)
 
 | Doc | Purpose |
 |---|---|
 | [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | 🏁 Terminal closure artifact (updated Chu kỳ 19-21) |
-| [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | 21 cycles index |
+| [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | 23 cycles index (21 breakthrough + 2 optimization) |
 | [METHODOLOGY.md](METHODOLOGY.md), [EVALUATION.md](EVALUATION.md), [TESTING.md](TESTING.md), [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md), [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) | Canonical breakthrough methodology (reference for reopen triggers) |
 
-### Cumulative result (post Chu kỳ 21)
+### Cumulative result (post Chu kỳ 23)
 
-~69 strategies × 5 products × refined 3-gate =
-- **0 strong Accept / 0 Suggestive** (breakthrough null)
-- **88 Reject** (7 families eliminated với unbind triggers)
-- **8 Inconclusive-underpowered** (pending N≥2000-3000 per product, ~2027-2030)
-- **1 Inconclusive** (Chu kỳ 15 matrix)
+~66 strategies × 5 products × refined 3-gate =
+- **0 strong Accept / 0 Suggestive** (breakthrough null after 21 cycles)
+- **79 Reject** / **8 Inconclusive-underpowered** (pending N≥2000-3000 per product, ~2027-2030) / **1 Inconclusive** (Chu kỳ 15 matrix)
+- **7 eliminated families** với unbind triggers (Principle #17)
+
+**Optimization output (Chu kỳ 22)**: 3/5 products có valid UI picks (Power 6/55, Power 5/35, Max 3D), 2/5 honest null (Mega 6/45 baseline drift, Max 3D Pro regime split).
 
 **Reopen breakthrough research**: chỉ khi đủ triggers — xem [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md).
 
-## Mục tiêu (Chu kỳ 10+ — Breakthrough Mode, refined 2026-04-20)
+## Mục tiêu (historical — Breakthrough Mode, Chu kỳ 10-21)
 
-Sau Chu kỳ 9, project đã exhaust discovery mode (25+ strategies, 3/3 Suggestive candidates fail replication). **Pivot Chu kỳ 10** chuyển sang **breakthrough mode** với priority hierarchy rõ ràng:
+> **Trạng thái**: Breakthrough phase CLOSED (Chu kỳ 18). Section này giữ cho historical reference + khi re-evaluate reopen criteria. Active focus hiện tại → [Optimization mode](#optimization-mode-active-chu-kỳ-22).
 
-### Priority hierarchy
+Sau Chu kỳ 9, project đã exhaust discovery mode (25+ strategies, 3/3 Suggestive candidates fail replication). **Pivot Chu kỳ 10** chuyển sang breakthrough mode với priority hierarchy:
 
-1. **🎯 PRIMARY — Tối đa hoá tỷ lệ trúng giải trong tương lai (future win rate)**
-   - Matrix: P(≥3 match) trên forward-validation (rolling-window last-100 draws)
-   - 3D: exact match rate trên forward-validation
-   - Tournament weight 0.40 (trọng số cao nhất)
+1. **PRIMARY** — future win rate (tournament weight 0.40)
+2. **SECONDARY** — ROI least-negative (weight 0.30)
+3. **GUARDS** — Sharpe + p-value (weights 0.15 + 0.15)
 
-2. **📊 SECONDARY — Hiệu suất đầu tư (ROI) balanced meaningful**
-   - Δ_ROI vs Random — least-negative ROI (lottery luôn âm)
-   - Tournament weight 0.30 (win-rate : ROI = 4:3, ưu tiên win-rate nhưng ROI vẫn drive decision)
+**Approach codified** (Chu kỳ 10-21): Tournament ranking + Forward validation + 7 novel paradigms (Online Bayesian, Cross-product, Copula, Kelly, GBM, HMM, Hierarchical Bayesian) — all tested, all falsified or family-eliminated.
 
-3. **🛡️ GUARDS — Risk + significance**
-   - Sharpe ratio (weight 0.15) — risk-adjusted check
-   - −log₁₀(p-value) (weight 0.15) — chống lucky-noise winner
+**Guardrails** (non-negotiable, inherited by Optimization): Principles #11 split-half + #12 power + pre-reg + walk-forward + Random baseline.
 
-### Approach
+**Chu kỳ 20 refinement binding**: composite-binding (EVALUATION §8), Principle #17 family elimination, Phase 0 power gate. See [history/cycle20_methodology_refinement.md](history/cycle20_methodology_refinement.md).
 
-- **Tournament ranking** ([METHODOLOGY §8](METHODOLOGY.md) + [EVALUATION §8](EVALUATION.md)) — 4 metrics, weights `0.40/0.30/0.15/0.15`, pre-registered immutable.
-- **Forward validation** ([EVALUATION §9](EVALUATION.md)) — rolling-window last-20/100/300 draws. **Primary deployment signal**, có veto power trong decision gate (§9.5).
-- **Novel paradigms** ([BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md)): Online Bayesian (Path #1 — recommended Chu kỳ 14 matrix, defer 3 chu kỳ chờ 3D exhaust), Cross-product joint matrix (Path #3 — Chu kỳ 15 candidate), Copula matrix (Path #5), Kelly portfolio (Path #2 — demoted, ROI-focused, Chu kỳ 16+).
+> **Lưu ý**: EV âm disclaimer vẫn applies. Reopen breakthrough — xem [§9 triggers](PROJECT_CLOSURE_REPORT.md).
 
-### Guardrails giữ nguyên (non-negotiable)
+## Optimization Mode (active, Chu kỳ 22+)
 
-- Principle #11 — Split-half replication mandatory cho Accept
-- Principle #12 — Variable-baseline power analysis bắt buộc
-- Pre-registration hypothesis trước implement
-- Walk-forward, no look-ahead
-- Random baseline mandatory
+**User pivot 2026-04-22**: shift from breakthrough → user-facing Optimization. Deliverables:
 
-Breakthrough KHÔNG relax scientific rigor — chỉ expand scope + add forward-validation gate.
+| Cycle | Status | Scope |
+|:-:|:-:|---|
+| 22 | ✅ Shipped 2026-04-22 | 3 composite profiles × 5 products ranking + UI picks shipped |
+| 23 | ✅ Shipped 2026-04-22 | App-wide UX refactor (4 phases), `/research/cycle22` route removed |
+| 24 | ⏳ Pending pre-reg | Budget-aware feature (UC2: "chọn bộ số với budget X VND") |
+| 25+ | ⚪ Optional | UI polish hoặc data refresh |
 
-> **Lưu ý**: EV âm disclaimer vẫn applies. "Best algorithm" = highest future win rate với least-negative ROI, không phải profitable.
+Canonical methodology: [optimization/MEASUREMENT.md](optimization/MEASUREMENT.md). Roadmap: [optimization/README.md](optimization/README.md).
 
 ## Cấu trúc thư mục
 
@@ -96,17 +95,18 @@ research/
 │
 │   ── Proposals (pre-regs) ──
 ├── proposals/                      ← Index: [proposals/README.md](proposals/README.md)
-│   ├── cycle22_optimization_mode.md ← APPROVED + frozen 2026-04-22 (Phase O-1+O-2 shipped)
 │   ├── cycle17a_roi_ranking_3d.md  ← Superseded by cycle22 (historical reference)
 │   └── executed/                   ← Frozen pre-regs của completed cycles
 │       ├── cycle17_hmm_regime.md
 │       ├── cycle20_methodology_refinement.md
 │       ├── cycle20_evaluation_checklist.md
-│       └── cycle21_hierarchical_bayesian.md
+│       ├── cycle21_hierarchical_bayesian.md
+│       ├── cycle22_optimization_mode.md    ← moved 2026-04-23 after shipment
+│       └── cycle23_app_refactor.md         ← moved 2026-04-23 after shipment
 │
 │   ── 🏁 Research archive (breakthrough phase closed Chu kỳ 18) ──
 ├── PROJECT_CLOSURE_REPORT.md       ← Terminal closure (updated Chu kỳ 19-21)
-├── RESEARCH_HISTORY.md             ← 21 cycles index
+├── RESEARCH_HISTORY.md             ← 23 cycles index (21 breakthrough + 2 optimization)
 │
 │   ── Canonical breakthrough methodology (reference) ──
 ├── METHODOLOGY.md                  ← 5-phase pipeline + Principles #11-#17
@@ -149,8 +149,8 @@ research/
 │   ├── cycle13_pooled_backtest.py + _results.json
 │   └── logs/                                 ← Runtime stdout (cycle11/12/12.5/13)
 │
-├── history/                        ← 16 chu kỳ đã đóng (immutable records)
-│   └── cycleNN_<slug>.md           ← cycle01 .. cycle16
+├── history/                        ← 23 chu kỳ đã đóng (immutable records)
+│   └── cycleNN_<slug>.md           ← cycle01 .. cycle23
 │
 └── archive/                        ← File superseded (giữ để tham khảo)
     ├── superseded_docs/            ← Docs đã được thay thế
@@ -173,10 +173,12 @@ research/
 
 | # | File | Mô tả | Khi nào đọc |
 |---|------|--------|-------------|
-| 1 | [optimization/README.md](optimization/README.md) | Optimization overview + roadmap Chu kỳ 22-24 | Entry point for active work |
-| 2 | [optimization/PLAYBOOK.md](optimization/PLAYBOOK.md) | Optimization methodology (3-phase simplified) | Before running Optimization cycle |
-| 3 | [proposals/cycle22_optimization_mode.md](proposals/cycle22_optimization_mode.md) | Active pre-reg unified 3D + matrix | Chu kỳ 22 execution |
-| 4 | [proposals/README.md](proposals/README.md) | Proposals index + TODO | Navigation |
+| 1 | [optimization/README.md](optimization/README.md) | Optimization overview + roadmap Chu kỳ 22-24+ | Entry point for active work |
+| 2 | [optimization/MEASUREMENT.md](optimization/MEASUREMENT.md) | Canonical methodology (3 composite profiles + split-half on picks + 2-tier exclusion + checklist) | Before running Optimization cycle |
+| 3 | [optimization/PLAYBOOK.md](optimization/PLAYBOOK.md) | Optimization process (lighter 3-phase) | Before running Optimization cycle |
+| 4 | [proposals/README.md](proposals/README.md) | Proposals index + TODO (Chu kỳ 24 pending) | Navigation |
+| 5 | [proposals/executed/cycle22_optimization_mode.md](proposals/executed/cycle22_optimization_mode.md) | Chu kỳ 22 frozen pre-reg | Historical reference |
+| 6 | [proposals/executed/cycle23_app_refactor.md](proposals/executed/cycle23_app_refactor.md) | Chu kỳ 23 frozen pre-reg | Historical reference |
 
 ### Canonical breakthrough references (research phase, for reference/reopen)
 
@@ -192,20 +194,21 @@ research/
 
 | # | File | Mô tả | Khi nào đọc |
 |---|------|--------|-------------|
-| 0 | [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | 🏁 **Terminal closure artifact** (2026-04-22, updated Chu kỳ 19) — 17 cycles consolidated, null findings catalog, reopen criteria, utility statement | Đọc ĐẦU TIÊN khi pick up project |
+| 0 | [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | 🏁 **Terminal closure artifact** (2026-04-22, updated Chu kỳ 19-21) — 21 breakthrough cycles consolidated, null findings catalog, reopen criteria, utility statement | Đọc ĐẦU TIÊN khi pick up project |
 | 0b | [history/cycle20_methodology_refinement.md](history/cycle20_methodology_refinement.md) | ✓ Chu kỳ 20 DONE — post-closure methodology refinement (4 improvements codified) | Khi cần biết rule changes post-Chu kỳ 20 |
-| 0c | [proposals/README.md](proposals/README.md) | 📋 Proposals index + TODO list (what's pending, what's done) | Khi planning Chu kỳ 21+ |
-| 0c | [archive/superseded_docs/META_REVIEW_POST_CYCLE16.md](archive/superseded_docs/META_REVIEW_POST_CYCLE16.md) | Historical meta-analysis pre-Chu kỳ 17 (role superseded) | Khi trace tại sao chọn Kịch bản 2 / Hướng C |
+| 0c | [history/cycle22_optimization_mode.md](history/cycle22_optimization_mode.md) | ✓ Chu kỳ 22 DONE — Optimization Phase O-1 + O-2 shipped | Current picks state |
+| 0d | [history/cycle23_app_refactor.md](history/cycle23_app_refactor.md) | ✓ Chu kỳ 23 DONE — App UX refactor | Current UI state |
+| 0e | [proposals/README.md](proposals/README.md) | 📋 Proposals index + TODO list (Chu kỳ 24 pending) | Khi planning next cycle |
 
 ### Context & lịch sử
 
 | # | File | Mô tả | Khi nào đọc |
 |---|------|--------|-------------|
-| 5 | [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | Index 16 chu kỳ + principles corpus + project-wide cumulative state | Hiểu "tại sao" đằng sau quyết định |
+| 5 | [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | Index 23 chu kỳ + principles corpus + project-wide cumulative state | Hiểu "tại sao" đằng sau quyết định |
 | 6 | [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md) | Synthesis cuối cùng 3D research (28 strategies × 8 cycles, CLOSED) | Khi làm việc với Max 3D/3D Pro |
 | 7 | [matrix/literature_review.md](matrix/literature_review.md) | Lý thuyết nền tảng (papers, algorithms) | Khi thiết kế thuật toán mới |
-| 8 | [proposals/](proposals/) | PAUSED pre-regs chờ quyết định (cycle17a Optimization mode) | Khi resume breakthrough mode |
-| 9 | [archive/superseded_docs/](archive/superseded_docs/) | Historical docs đã thay thế (RESEARCH_DOCUMENTATION stale sau Chu kỳ 6, 3d/REPORT.md pre-replication, v.v.) | Historical context only |
+| 8 | [proposals/](proposals/) | Active pre-regs (Chu kỳ 24 pending); [executed/](proposals/executed/) chứa cycles 17/20/21/22/23 | Khi planning next cycle |
+| 9 | [archive/superseded_docs/](archive/superseded_docs/) | Historical docs đã thay thế (META_REVIEW_POST_CYCLE16, RESEARCH_DOCUMENTATION, v.v.) | Historical context only |
 
 ## Cách chạy backtest
 
@@ -372,18 +375,31 @@ Nghiên cứu xong → Chạy backtest → Cập nhật 3 file website:
 
 **Tất cả 3D strategies Reject sau replication + drift verification.**
 
-### Project-level status (sau Chu kỳ 13, 2026-04-21)
+### Project-level status (post Chu kỳ 23, 2026-04-23)
 
-**Discovery mode exhaust + 3D breakthrough exhaust.** Với ~50 strategies đã test × 5 products × 3-gate protocol (full-sample + split-half + forward_last_100), **0 scientifically robust Accept/Suggestive** trong toàn bộ lịch sử dự án. 3D research line CLOSED (28 strategies × 5 paradigms → 0 edge). Matrix research line ACTIVE — Paths #1/#3/#5 chưa test cho matrix.
+**Breakthrough phase CLOSED (Chu kỳ 18) + Optimization phase ACTIVE (Chu kỳ 22+).**
 
-### Breakthrough status (Chu kỳ 10+)
+- ~66 strategies × 5 products × 3-gate protocol → **0 Accept / 0 Suggestive** across 21 breakthrough cycles
+- **79 Reject / 8 Inconclusive-underpowered / 1 Inconclusive** (5-level scheme, post Chu kỳ 20)
+- **7 eliminated families** (Principle #17 binding): adaptive/drift, cross-product pool, Kelly concentration, Bayesian (batch+online+hierarchical), HMM regime, GBM@current-features, Hybrid 1S_5R/3S_3R
+- **3D line CLOSED** (Chu kỳ 13), **Matrix line EXHAUSTED** (post Chu kỳ 21, both win-rate + ROI axes)
 
-**Chu kỳ 10 (2026-04-20)**: Pivot decision documented. Project chuyển sang breakthrough mode với tournament ranking + multi-objective (Δ_win, Δ_ROI, Sharpe, p-value).
+### Optimization output (Chu kỳ 22 shipped 2026-04-22)
 
-**Chu kỳ 11/12/12.5/13 (04/2026)**: 3D breakthrough paths. Copula (Path A) Reject, GBM (Path E) Reject + overfit audit, Cross-product pool (Path B) 4/4 Reject. 3D line CLOSED. Xem [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md).
+3 composite profiles (WinRate / ROI / Balanced) × 5 products. UI picks:
 
-**Chu kỳ 14 (proposed, ready)**: **Path #1 — Online Bayesian với Kalman-style posterior updates** trên Mega 6/45 (primary) + Lotto 5/35 (secondary). Win-rate relevance ▲▲▲ DIRECT (mechanism trực tiếp estimate P(number_i)). Forward validation last-100 làm primary gate. Principle #14 auto-flag threshold |Δ| > +0.9pp (3× matrix ceiling). Xem [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) cho detail. Chu kỳ 15 = Path #3 matrix fallback. Kelly (Path #2) defer Chu kỳ 16+.
+| Sản phẩm | picks.winrate | picks.roi | picks.balanced | Collapse | Note |
+|---|---|---|---|---|---|
+| Power 6/55 | MinDistance | MinDistance | MinDistance | all_three | N=1334 |
+| Power 5/35 | Freq_Hot | Freq_Hot | Freq_Hot | all_three | N=543, Δ_win −0.045pp (composite winner) |
+| Max 3D | PairExploiter | CoverageOpt | FreqWholeHot | none | Diverse 3-pick |
+| Mega 6/45 | — | — | — | — | null (baseline drift) |
+| Max 3D Pro | — | — | — | — | null (regime split) |
 
-**Chu kỳ 8 finding**: Digit bias stable qua 3 time windows (0/30 tuples fail Bonferroni homogeneity). EVMaximizer's half-1 p=0.0007 xuất phát từ **base-rate variance** (Random half-1 = 1.77% vs half-2 = 2.02%), **không** phải distribution shift. Với bias ổn định nhưng không exploitable + không drift để adapt → **3D research paused** (formally CLOSED sau Chu kỳ 13). Full details: [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) + [history/cycle08_drift_verification.md](history/cycle08_drift_verification.md).
+Semantic (Option C): pick = composite winner, **không đảm bảo beat Random**. Glossary disclosure required. See [history/cycle22_optimization_mode.md](history/cycle22_optimization_mode.md).
+
+### UX state (Chu kỳ 23 shipped 2026-04-22)
+
+Badge taxonomy reset (max 3 pick badges), `/research` rewrite, `/suggest` Generate-first flow, `/research/cycle22` route removed (inline). See [history/cycle23_app_refactor.md](history/cycle23_app_refactor.md).
 
 > **Lưu ý**: Xổ số là hoàn toàn ngẫu nhiên. Không thuật toán nào đảm bảo lợi nhuận. ROI luôn âm.

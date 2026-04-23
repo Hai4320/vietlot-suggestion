@@ -35,6 +35,7 @@
 | 20 | 04/2026 | **Methodology refinement** (doc-only, post-closure self-assessment) | 4 improvements codified across 5 docs. Principle #17 (family elimination) added. Principle #12 BINDING. Composite-binding §8. 8 Reject → Inconclusive-underpowered reclassified. Cumulative claim refined. |
 | 21 | 04/2026 | **Hierarchical Bayesian (Hướng B unblocked)** | **9/9 Reject**. 2 split-half direction flips Power 6/55 (power-independent reject). Forward +1.6pp noise signature. Bayesian broad family eliminated §7.5 closure update. |
 | **22** | **04/2026** | **Optimization Mode — Phase O-1 + O-2 shipped** | Post-closure Optimization: 3 composite profiles (WinRate/ROI/Balanced) × 5 products. Fresh re-backtest với split-half trên picks. 3/5 có valid picks (Power 6/55 MinDistance dominate, Power 5/35 Freq_Hot dominate, Max 3D diverse 3-pick: PairExploiter + CoverageOpt + FreqWholeHot). 2/5 null honest (Mega 6/45 baseline drift, Max 3D Pro regime split). UI shipped: 3 new TS strategies (mindistance/coverageopt/pairexploiter), `/research/cycle22` full-rankings page, glossary C22 section. |
+| **23** | **04/2026** | **App-wide UX Refactor** | 4-phase UX cleanup (Optimization mode extension, UI-only): 23.1 stale string audit (7 files), 23.2 badge taxonomy reset (max 3 pick badges: 🎯/💰/⚖), 23.3 `/research` rewrite 867→250 lines + `/research/cycle22` route deleted (inline vào `/research`), 23.4 `/suggest` compact header + Generate up-front + product pages "✨ Gợi ý số" CTA với `?p=` query param. Time-to-first-suggestion ~20s → ~8s. No new research mechanism. |
 
 ---
 
@@ -65,6 +66,7 @@
 | 20 | [cycle20_methodology_refinement.md](history/cycle20_methodology_refinement.md) | **Methodology refinement** (doc-only post-closure self-assessment): 4 improvements codified (Principle #12 BINDING + #17 family elimination + composite-binding §8 + Phase 0 power gate). 8 verdicts Reject → Inconclusive-underpowered. Cumulative claim refined to 5-level scheme. |
 | 21 | [cycle21_hierarchical_bayesian.md](history/cycle21_hierarchical_bayesian.md) | **Hierarchical Bayesian** (Hướng B) — 9/9 Reject. 2 split-half direction flips Power 6/55 (Sharp + Lazy forward +1.6pp noise signature). Bayesian family broadly eliminated §7.5. Chu kỳ 20 methodology rules applied cleanly. |
 | **22** | [cycle22_optimization_mode.md](history/cycle22_optimization_mode.md) | **Optimization Mode Phase O-1 + O-2** — first cycle post-closure user-facing work. 3 composite profiles methodology codified ([optimization/MEASUREMENT.md](optimization/MEASUREMENT.md)). Fresh re-backtest 12 matrix + 17 3D strategies với split-half segments. UI shipped với 3 new TS strategies + `/research/cycle22` page + glossary C22 section. |
+| **23** | [cycle23_app_refactor.md](history/cycle23_app_refactor.md) | **App-wide UX Refactor** — 4 phases shipped 2026-04-22 theo 7 user feedback issues. Badge taxonomy reset (3 pick badges only). `/research/cycle22` route removed → inline vào `/research`. Data module `cycle22-data.ts` retained. Time-to-first-suggestion 20s→8s. No research mechanism change. |
 
 ---
 
@@ -94,17 +96,25 @@ Guardrails bất biến (từ Chu kỳ 1+):
 
 ---
 
-## Project-Wide Cumulative State (post-Chu kỳ 13)
+## Project-Wide Cumulative State (post-Chu kỳ 23)
 
 ### Strategies tested
-- **Matrix (Power 6/55, Mega 6/45, Lotto 5/35)**: ~28 strategies across cycles 1-6, 9, 14, 15, 16 (single-ticket + multi-ticket)
+- **Matrix (Power 6/55, Mega 6/45, Lotto 5/35)**: ~34 strategies across cycles 1-6, 9, 14, 15, 16, 19e, 21 (single-ticket + multi-ticket + hierarchical Bayesian)
 - **3D (Max 3D, Max 3D Pro)**: **28 strategies** across cycles 4, 6, 7, 8, 11, 12, 13
-- **Total**: ~60 strategies × 5 products × 3-gate protocol (cycles 7+)
+- **Total**: ~66 strategies × 5 products × 3-gate protocol (cycles 7+)
 
-### Accept / Suggestive tally
-- **0** scientifically robust Accept across entire project history (post Chu kỳ 16)
+### Accept / Suggestive tally (breakthrough phase closed)
+- **0** scientifically robust Accept across 21 breakthrough cycles (closure formalized Chu kỳ 18)
 - **0** current Suggestive (last candidate ExpDecay_Cold eliminated Chu kỳ 9)
 - **0** Ship-with-caveats standing (Chu kỳ 12 GBM Max 3D Pro deprecated Chu kỳ 12.5)
+- **79 Reject** / **8 Inconclusive-underpowered** / **1 Inconclusive** (5-level scheme post Chu kỳ 20)
+- **7 eliminated families** with unbind triggers (Principle #17)
+
+### Optimization phase output (Chu kỳ 22)
+- **3 composite profiles** × 5 products ranked (MEASUREMENT §2)
+- **3/5 products** valid UI picks (Power 6/55 MinDistance, Power 5/35 Freq_Hot, Max 3D 3-pick diverse)
+- **2/5 products** honest null (Mega 6/45 baseline drift, Max 3D Pro regime split)
+- **Semantic**: pick = composite winner, không đảm bảo beat Random (Option C, glossary disclosure)
 
 ### 3D research line
 **DEFINITIVELY CLOSED** sau Chu kỳ 13. Bias real + stable (Chu kỳ 8) nhưng không exploitable bằng bất kỳ paradigm nào đã test (probabilistic, copula, discriminative, pooled). Retry criteria: >500 additional draws (~2027) OR novel bias dimension discovery OR Vietlott RNG methodology audit.
@@ -112,7 +122,7 @@ Guardrails bất biến (từ Chu kỳ 1+):
 📄 **Full synthesis**: [3d/3D_FINAL_REPORT.md](3d/3D_FINAL_REPORT.md) — 28 strategies × 8 cycles tổng hợp, mechanism analysis, methodology corpus, revisit criteria.
 
 ### Matrix research line
-**BOTH axes EXHAUSTED (post Chu kỳ 16)** — Win-rate: Path #1 drift falsified (14), Path #3 shared-RNG falsified (15). ROI: Path #2 Kelly concentration ⊥ set-coverage lottery (16, 9/9 Reject Δ up to −28pp). Eliminated families: adaptive/drift, cross-product pool, per-product Bayesian, Kelly concentration. **No remaining high-probability paths** at current data horizon.
+**BOTH axes EXHAUSTED (post Chu kỳ 21)** — Win-rate: Path #1 drift falsified (14), Path #3 shared-RNG falsified (15). ROI: Path #2 Kelly concentration ⊥ set-coverage lottery (16, 9/9 Reject Δ up to −28pp). Hierarchical Bayesian (Hướng B, Chu kỳ 21) 9/9 Reject — Bayesian family broadly eliminated. Eliminated families: adaptive/drift, cross-product pool, Kelly concentration, Bayesian (batch + online + hierarchical), HMM regime, GBM@current-features, Hybrid 1S_5R/3S_3R. **No remaining high-probability paths** at current data horizon.
 
 ---
 
@@ -136,7 +146,9 @@ Guardrails bất biến (từ Chu kỳ 1+):
 
 **Chu kỳ 22 (closed, 2026-04-22)**: **Optimization Mode Phase O-1 + O-2 shipped**. 3 composite profiles (WinRate / ROI / Balanced) × 5 products. Fresh re-backtest với split-half on picks. 3/5 products valid picks, 2/5 null honest. UI shipped: 3 new TS strategies + `/research/cycle22` full-rankings page + glossary C22 section + `PRODUCT_RANKS` 3-pick structure. Canonical methodology codified trong [optimization/MEASUREMENT.md](optimization/MEASUREMENT.md). See [cycle22_optimization_mode.md](history/cycle22_optimization_mode.md).
 
-**Next**: Chu kỳ 23 — budget-aware feature (UC2 "chọn bộ số với budget X VND"), pre-reg sẽ viết khi user sẵn sàng. Chu kỳ 24 optional UI polish.
+**Chu kỳ 23 (closed, 2026-04-22)**: **App-wide UX Refactor**. 4 phases theo 7 user feedback issues. Badge taxonomy reset (max 3 pick badges), `/research` rewrite 867→250 lines, `/research/cycle22` route deleted (merged inline vào `/research`), `/suggest` compact header + Generate up-front. Time-to-first-suggestion 20s→8s. Original Chu kỳ 23 budget-aware plan pushed to Chu kỳ 24. No new research mechanism. See [cycle23_app_refactor.md](history/cycle23_app_refactor.md).
+
+**Next**: Chu kỳ 24 — budget-aware feature (UC2 "chọn bộ số với budget X VND"), pre-reg chưa viết, đợi user kickoff. Chu kỳ 25+ optional UI polish hoặc data refresh.
 
 **Reopen breakthrough**: only on triggers in [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md) (data N≥2000, Vietlott discloses betting volume, novel paradigm paper, null-reversal finding).
 
@@ -146,4 +158,4 @@ Chu kỳ 12 GBM Max 3D Pro deprecated — không ship, không rank. Audit comple
 
 *File restructured 2026-04-21: split into per-cycle files trong [history/](history/). Main file giờ là compact index.*
 
-*Cập nhật lần cuối: 2026-04-22 — Chu kỳ 22 Optimization Mode shipped (Phase O-1 + O-2). 3 composite profiles methodology codified. UI layer updated với 3 new strategies + cycle22 route.*
+*Cập nhật lần cuối: 2026-04-23 — Chu kỳ 23 UX Refactor closure row added. `/research/cycle22` route note documented as removed. Cumulative state refreshed tới post Chu kỳ 23 (66 strategies, 79 Reject / 8 Inconclusive-UP / 1 Inconclusive, 7 eliminated families).*

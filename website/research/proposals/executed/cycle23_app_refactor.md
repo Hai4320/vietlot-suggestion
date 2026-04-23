@@ -1,6 +1,6 @@
 ## Chu Kỳ 23 — Pre-Registration: App-wide UX Refactor
 
-**Status**: ✅ **APPROVED 2026-04-22** (user: "Thôi bắt đầu đi"). Frozen per Principle #16.
+**Status**: ✅ **EXECUTED 2026-04-22** (all 4 phases 23.1-23.4 shipped). Moved to `executed/` 2026-04-23. Frozen per Principle #16. Verdict record: [history/cycle23_app_refactor.md](../../history/cycle23_app_refactor.md).
 
 **Mode**: Optimization mode extension (UI-only, no new research mechanism).
 
