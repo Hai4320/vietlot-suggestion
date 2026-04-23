@@ -56,7 +56,7 @@ export function Sidebar() {
         ))}
 
         <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Công cụ & Nghiên cứu
+          Công cụ
         </div>
         <Link
           href="/suggest"
@@ -78,6 +78,10 @@ export function Sidebar() {
           <span>🎯</span>
           <span>Check-rate</span>
         </Link>
+
+        <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Nghiên cứu
+        </div>
         <Link
           href="/algorithms"
           className={cn(
