@@ -1,0 +1,38 @@
+{
+  "groups": [
+    {
+      "game": "power_535",
+      "algorithm": "test_v1",
+      "n_tickets": 3,
+      "n_draws": 5,
+      "match_dist": {"0": 7, "1": 1, "3": 3, "4": 2, "5": 2},
+      "prize_counter": {"Jackpot": 2, "3rd": 2, "5th": 1, "Encourage": 2},
+      "prize_winnings": {"Jackpot": 12000000000, "3rd": 1000000, "5th": 30000, "Encourage": 20000},
+      "total_cost": 150000,
+      "total_winnings": 12001050000
+    }
+  ],
+  "history": [
+    {
+      "ticket_no": 1,
+      "numbers_display": "[1 2 3 4 5] sp=1",
+      "total_hits": 1,
+      "by_tier": {"main_exact": 1},
+      "occurrences": [["2024-01-01", "00001", "main_exact"]]
+    },
+    {
+      "ticket_no": 2,
+      "numbers_display": "[10 15 20 25 30] sp=5",
+      "total_hits": 1,
+      "by_tier": {"main_exact": 1},
+      "occurrences": [["2024-01-05", "00005", "main_exact"]]
+    },
+    {
+      "ticket_no": 3,
+      "numbers_display": "[1 2 3 6 7] sp=1",
+      "total_hits": 0,
+      "by_tier": {"main_exact": 0},
+      "occurrences": []
+    }
+  ]
+}

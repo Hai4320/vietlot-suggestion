@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { NumberBall } from "./NumberBall";
+import { CopyAsCheckRateCsv } from "@/components/check-rate/CopyAsCheckRateCsv";
 import { AlgorithmComparisonTable } from "./AlgorithmComparisonTable";
 import { AlgorithmLiftSummary } from "./AlgorithmLiftSummary";
 import type { SuggestionStrategy, SuggestionSet, ThreeDSuggestionSet } from "@/lib/types";
@@ -673,6 +674,20 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
               >
                 📊 .csv
               </button>
+              {props.type === "matrix" && (
+                <CopyAsCheckRateCsv
+                  game={props.slug.replace("-", "_")}
+                  algorithm={strategy}
+                  tickets={results.map((set) => {
+                    const ms = set as SuggestionSet;
+                    return {
+                      numbers: ms.numbers,
+                      special: props.slug === "power-535" ? ms.special ?? null : null,
+                    };
+                  })}
+                  label="🎯 Check-rate"
+                />
+              )}
             </div>
           </div>
 

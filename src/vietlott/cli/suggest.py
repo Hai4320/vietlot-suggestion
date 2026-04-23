@@ -14,12 +14,16 @@ import random
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from itertools import combinations
+from pathlib import Path
 
 import click
 import polars as pl
 from loguru import logger
 from tabulate import tabulate
 
+from vietlott.check_rate.io import write_tickets as write_checkrate_csv
+from vietlott.check_rate.models import Ticket as CheckRateTicket
+from vietlott.config.prize_tables import resolve_power_535
 from vietlott.config.products import ProductConfig, get_config, product_config_map
 
 # ---------------------------------------------------------------------------
@@ -286,17 +290,9 @@ def backtest_tickets(stats: Stats, tickets: list[dict], n_draws: int) -> dict:
     if not test_records:
         return {}
 
-    # Prize table for power_535
-    # 5 main + sp = Jackpot, 5 main = 2nd, 4+sp = 3rd, 4 = 4th, 3+sp = 5th, else encourage
-    prize_table = {
-        (5, True): ("Jackpot", 6_000_000_000),
-        (5, False): ("2nd", 5_000_000),
-        (4, True): ("3rd", 500_000),
-        (4, False): ("4th", 100_000),
-        (3, True): ("5th", 30_000),
-    }
-    encourage_conditions = lambda m, sp: ((m == 3 and not sp) or (m == 2 and sp) or (m == 1 and sp) or (m == 0 and sp))
-
+    # Prize resolution delegated to centralized prize_tables. Currently only
+    # Power 535 is scored correctly during suggest's in-flight backtest —
+    # other products fall through to None until Phases 2/3 wire their resolvers.
     match_dist = Counter()  # best main match per draw
     prize_counter = Counter()
     total_winnings = 0
@@ -320,14 +316,9 @@ def backtest_tickets(stats: Stats, tickets: list[dict], n_draws: int) -> dict:
 
         match_dist[best_main] += 1
 
-        prize_name = None
-        prize_amt = 0
-        key = (best_main, best_sp)
-        if key in prize_table:
-            prize_name, prize_amt = prize_table[key]
-        elif encourage_conditions(best_main, best_sp):
-            prize_name = "Encourage"
-            prize_amt = 10_000
+        rule = resolve_power_535(best_main, best_sp) if n == 5 and stats.sp_max > 0 else None
+        prize_name = rule.name if rule else None
+        prize_amt = rule.amount if rule else 0
 
         if prize_name:
             prize_counter[prize_name] += 1
@@ -469,7 +460,18 @@ def format_backtest(bt: dict) -> str:
 @click.option("--tickets", "-n", default=10, type=int, help="Number of tickets to suggest")
 @click.option("--backtest-draws", "-b", default=50, type=int, help="Number of recent draws to backtest against")
 @click.option("--seed", "-s", default=None, type=int, help="Random seed for reproducibility")
-def suggest(ctx, product, tickets, backtest_draws, seed):
+@click.option(
+    "--export-csv",
+    type=click.Path(dir_okay=False),
+    default=None,
+    help="Append suggested tickets to this CSV in check-rate schema (creates if missing)",
+)
+@click.option(
+    "--algorithm",
+    default="diversity_v1",
+    help="Algorithm label written to exported CSV (for grouping in check-rate)",
+)
+def suggest(ctx, product, tickets, backtest_draws, seed, export_csv, algorithm):
     """
     Suggest lottery numbers and evaluate historical performance.
 
@@ -527,6 +529,27 @@ def suggest(ctx, product, tickets, backtest_draws, seed):
     click.echo("-" * 60)
     click.echo(format_backtest(bt))
     click.echo("")
+
+    if export_csv:
+        out_path = Path(export_csv)
+        rows = _tickets_to_checkrate_rows(product, algorithm, ticket_list)
+        write_checkrate_csv(out_path, rows, append=out_path.exists())
+        click.echo(f"Exported {len(rows)} tickets to {out_path} (algorithm={algorithm})")
+
+
+def _tickets_to_checkrate_rows(product: str, algorithm: str, tickets: list[dict]) -> list[CheckRateTicket]:
+    rows: list[CheckRateTicket] = []
+    for i, tk in enumerate(tickets, 1):
+        rows.append(
+            CheckRateTicket(
+                game=product,
+                algorithm=algorithm,
+                ticket_no=i,
+                numbers_raw=" ".join(str(n) for n in tk["main"]),
+                special=tk["special"] if tk["special"] else None,
+            )
+        )
+    return rows
 
 
 if __name__ == "__main__":

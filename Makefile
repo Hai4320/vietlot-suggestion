@@ -6,7 +6,7 @@ LOGURU_LEVEL := INFO
 export
 
 all: lint test
-.PHONY: all requirements-dev test lint build pypi run-crawl run-missing run-check-rate website-install website-dev website-build website-data research-cycle22 research-cycle22-rebacktest
+.PHONY: all requirements-dev test lint build pypi run-crawl run-missing run-check-rate check-rate-parity website-install website-dev website-build website-data research-cycle22 research-cycle22-rebacktest
 
 .venv:
 	@echo "Initializing virtual environment..."
@@ -49,6 +49,12 @@ run-check-rate: .venv
 	@echo "Usage: make run-check-rate CSV=path/to/tickets.csv [ARGS='--backtest-draws 100']"
 	@test -n "$(CSV)" || (echo "CSV= required" && exit 1)
 	LOGURU_LEVEL=$(LOGURU_LEVEL) PYTHONPATH=src $(UV) run python src/vietlott/cli/check_rate.py $(CSV) $(ARGS)
+
+check-rate-parity: .venv
+	@echo "Python golden tests..."
+	PYTHONPATH=src $(UV) run pytest src/vietlott/tests/check_rate -q
+	@echo "TS parity vs same fixtures..."
+	cd website && npx tsx scripts/verify_check_rate_parity.ts
 
 # ── Website ──────────────────────────────────────────────────
 website-install:

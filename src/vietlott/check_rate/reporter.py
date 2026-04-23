@@ -9,18 +9,22 @@ from vietlott.check_rate.models import EvalResult, HistoryMatch
 
 def format_eval(result: EvalResult) -> str:
     lines: list[str] = []
-    lines.append(f"--- {result.game} / {result.algorithm}  ({result.n_tickets} tickets, {result.n_draws} draws) ---")
+    n_plays = result.n_tickets * result.n_draws
+    lines.append(
+        f"--- {result.game} / {result.algorithm}  "
+        f"({result.n_tickets} tickets × {result.n_draws} draws = {n_plays} plays) ---"
+    )
     lines.append("")
 
-    # Prize-tier table
+    # Prize-tier table (% of plays, not draws — each ticket-draw pair is one play)
     if result.prize_counter:
         rows = []
         for prize, count in sorted(result.prize_counter.items(), key=lambda x: -result.prize_winnings.get(x[0], 0)):
-            pct = count / result.n_draws * 100 if result.n_draws else 0.0
+            pct = count / n_plays * 100 if n_plays else 0.0
             total = result.prize_winnings.get(prize, 0)
             rows.append([prize, count, f"{pct:.2f}%", f"{total:>15,}"])
         lines.append("Prize tiers:")
-        lines.append(tabulate(rows, headers=["Prize", "Count", "% of draws", "Total VND"], tablefmt="simple"))
+        lines.append(tabulate(rows, headers=["Prize", "Count", "% of plays", "Total VND"], tablefmt="simple"))
     else:
         lines.append("Prize tiers: (none)")
     lines.append("")
@@ -30,10 +34,10 @@ def format_eval(result: EvalResult) -> str:
         rows = []
         for k in sorted(result.match_dist, key=lambda x: (isinstance(x, str), -x if isinstance(x, int) else 0)):
             v = result.match_dist[k]
-            pct = v / result.n_draws * 100 if result.n_draws else 0.0
+            pct = v / n_plays * 100 if n_plays else 0.0
             rows.append([str(k), v, f"{pct:.2f}%"])
         lines.append("Match distribution:")
-        lines.append(tabulate(rows, headers=["Match", "Draws", "%"], tablefmt="simple"))
+        lines.append(tabulate(rows, headers=["Match", "Plays", "%"], tablefmt="simple"))
         lines.append("")
 
     # ROI block

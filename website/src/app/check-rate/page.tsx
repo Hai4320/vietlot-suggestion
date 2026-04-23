@@ -1,0 +1,179 @@
+"use client";
+
+import { useState } from "react";
+import { CsvInput } from "@/components/check-rate/CsvInput";
+import { ResultCard } from "@/components/check-rate/ResultCard";
+import { Badge } from "@/components/ui/badge";
+import {
+  CsvFormatError,
+  type EvalResult,
+  type HistoryMatch,
+  type Ticket,
+  getEvaluator,
+  groupTickets,
+  loadDraws,
+  parseCsv,
+  registeredGames,
+} from "@/lib/check-rate";
+
+interface GroupReport {
+  key: string;
+  result: EvalResult;
+  histories: HistoryMatch[];
+  unsupported?: false;
+}
+
+interface UnsupportedReport {
+  key: string;
+  game: string;
+  algorithm: string;
+  nTickets: number;
+  unsupported: true;
+}
+
+type Report = GroupReport | UnsupportedReport;
+
+export default function CheckRatePage() {
+  const [csv, setCsv] = useState("");
+  const [reports, setReports] = useState<Report[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [backtestDraws, setBacktestDraws] = useState(100);
+
+  async function evaluate() {
+    setBusy(true);
+    setError(null);
+    setReports(null);
+    try {
+      const tickets = parseCsv(csv);
+      if (tickets.length === 0) {
+        setError("CSV không chứa vé nào.");
+        return;
+      }
+      const groups = groupTickets(tickets);
+      const gameSet = new Set<string>();
+      for (const t of tickets) gameSet.add(t.game);
+
+      // Fetch draws per game (parallel)
+      const drawsByGame = new Map<string, Awaited<ReturnType<typeof loadDraws>>>();
+      await Promise.all(
+        Array.from(gameSet).map(async (game) => {
+          if (!getEvaluator(game)) return;
+          try {
+            drawsByGame.set(game, await loadDraws(game));
+          } catch (e) {
+            console.warn(`Failed to load draws for ${game}`, e);
+          }
+        }),
+      );
+
+      const out: Report[] = [];
+      for (const [key, groupTicketsList] of groups) {
+        const [game, algorithm] = key.split("|");
+        const ev = getEvaluator(game);
+        if (!ev) {
+          out.push({ key, game, algorithm, nTickets: groupTicketsList.length, unsupported: true });
+          continue;
+        }
+        const draws = drawsByGame.get(game);
+        if (!draws) {
+          out.push({ key, game, algorithm, nTickets: groupTicketsList.length, unsupported: true });
+          continue;
+        }
+        const window = backtestDraws > 0 && draws.length > backtestDraws ? draws.slice(-backtestDraws) : draws;
+        let parseError: string | null = null;
+        try {
+          // parseNumbers may throw for invalid ticket — validate up front
+          for (const t of groupTicketsList) ev.parseNumbers(t);
+        } catch (e) {
+          parseError = e instanceof Error ? e.message : String(e);
+        }
+        if (parseError) {
+          setError(parseError);
+          return;
+        }
+        const result = ev.evaluate(groupTicketsList, window);
+        const histories = groupTicketsList.map((t: Ticket) => ev.historyMatch(t, draws));
+        out.push({ key, result, histories });
+      }
+      setReports(out);
+    } catch (e) {
+      if (e instanceof CsvFormatError) setError(`CSV lỗi: ${e.message}`);
+      else setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <main className="container mx-auto max-w-5xl p-4 md:p-6 space-y-6">
+      <header className="space-y-2">
+        <h1 className="text-2xl md:text-3xl font-bold">Check-rate</h1>
+        <p className="text-sm text-muted-foreground">
+          Dán CSV bộ số (xuất từ <code className="bg-muted px-1 rounded">vietlott-suggest --export-csv</code>{" "}
+          hoặc tự nhập) → xem tỷ lệ trúng theo từng giải, theo từng trò, theo từng thuật toán.
+        </p>
+        <p className="text-xs text-muted-foreground">
+          Phase 1 — đang hỗ trợ:{" "}
+          {registeredGames().map((g) => (
+            <Badge key={g} variant="secondary" className="mr-1">
+              {g}
+            </Badge>
+          ))}
+        </p>
+      </header>
+
+      <section className="space-y-3 rounded-lg border p-4">
+        <CsvInput
+          value={csv}
+          onChange={setCsv}
+          onEvaluate={evaluate}
+          onClear={() => {
+            setCsv("");
+            setReports(null);
+            setError(null);
+          }}
+          busy={busy}
+        />
+        <div className="flex items-center gap-3 text-sm">
+          <label htmlFor="backtest-draws" className="text-muted-foreground">
+            Cửa sổ backtest (kỳ gần nhất):
+          </label>
+          <input
+            id="backtest-draws"
+            type="number"
+            min={0}
+            max={5000}
+            className="w-24 rounded-md border bg-background px-2 py-1 text-sm"
+            value={backtestDraws}
+            onChange={(e) => setBacktestDraws(Math.max(0, Number(e.target.value) || 0))}
+          />
+          <span className="text-muted-foreground">0 = toàn bộ lịch sử</span>
+        </div>
+        {error && (
+          <div className="rounded-md border border-red-300 bg-red-50 dark:bg-red-950/30 px-3 py-2 text-sm text-red-800 dark:text-red-200">
+            {error}
+          </div>
+        )}
+      </section>
+
+      {reports && (
+        <section className="space-y-4">
+          {reports.map((r) =>
+            r.unsupported ? (
+              <div
+                key={r.key}
+                className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground"
+              >
+                <Badge variant="outline">{r.game}</Badge> / {r.algorithm} ({r.nTickets} vé) —{" "}
+                chưa hỗ trợ (Phase 2–5).
+              </div>
+            ) : (
+              <ResultCard key={r.key} result={r.result} histories={r.histories} />
+            ),
+          )}
+        </section>
+      )}
+    </main>
+  );
+}
