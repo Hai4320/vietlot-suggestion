@@ -1,0 +1,68 @@
+{
+  "groups": [
+    {
+      "game": "3d",
+      "algorithm": "test_v1",
+      "n_tickets": 3,
+      "n_draws": 5,
+      "match_dist": {
+        "Giải Đặc biệt": 2,
+        "Giải Nhất": 2,
+        "Giải Nhì": 1,
+        "Giải ba": 2,
+        "KK 2 số cuối": 2,
+        "Không trúng": 6
+      },
+      "prize_counter": {
+        "Giải Đặc biệt": 2,
+        "Giải Nhất": 2,
+        "Giải Nhì": 2,
+        "Giải ba": 2,
+        "KK 2 số cuối": 2
+      },
+      "prize_winnings": {
+        "Giải Đặc biệt": 2000000,
+        "Giải Nhất": 700000,
+        "Giải Nhì": 420000,
+        "Giải ba": 200000,
+        "KK 2 số cuối": 200000
+      },
+      "total_cost": 150000,
+      "total_winnings": 3520000
+    }
+  ],
+  "history": [
+    {
+      "ticket_no": 1,
+      "numbers_display": "015",
+      "total_hits": 4,
+      "by_tier": {"Giải Đặc biệt": 1, "Giải Nhất": 2, "Giải Nhì": 1, "Giải ba": 0},
+      "occurrences": [
+        ["2024-01-01", "00001", "Giải Đặc biệt"],
+        ["2024-01-03", "00003", "Giải Nhất"],
+        ["2024-01-05", "00005", "Giải Nhất"],
+        ["2024-01-05", "00005", "Giải Nhì"]
+      ]
+    },
+    {
+      "ticket_no": 2,
+      "numbers_display": "999",
+      "total_hits": 2,
+      "by_tier": {"Giải Đặc biệt": 1, "Giải Nhất": 0, "Giải Nhì": 1, "Giải ba": 0},
+      "occurrences": [
+        ["2024-01-01", "00001", "Giải Đặc biệt"],
+        ["2024-01-05", "00005", "Giải Nhì"]
+      ]
+    },
+    {
+      "ticket_no": 3,
+      "numbers_display": "123",
+      "total_hits": 2,
+      "by_tier": {"Giải Đặc biệt": 0, "Giải Nhất": 0, "Giải Nhì": 0, "Giải ba": 2},
+      "occurrences": [
+        ["2024-01-03", "00003", "Giải ba"],
+        ["2024-01-05", "00005", "Giải ba"]
+      ]
+    }
+  ]
+}

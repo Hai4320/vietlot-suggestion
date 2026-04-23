@@ -2,6 +2,7 @@
 
 from vietlott.check_rate.evaluators import (
     base,  # noqa: F401
+    p3d,  # noqa: F401  # Phase 4
     power535,  # noqa: F401  # Phase 1
     power645,  # noqa: F401  # Phase 2
     power655,  # noqa: F401  # Phase 3

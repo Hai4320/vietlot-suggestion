@@ -6,6 +6,24 @@ from tabulate import tabulate
 
 from vietlott.check_rate.models import EvalResult, HistoryMatch
 
+# Tier display order for 3D match_dist (highest prize first)
+_TIER_ORDER = {
+    "Giải Đặc biệt": 0,
+    "Giải Nhất": 1,
+    "Giải Nhì": 2,
+    "Giải ba": 3,
+    "KK 2 số cuối": 4,
+    "Không trúng": 5,
+}
+
+
+def _match_dist_sort_key(k):
+    # Power: int match count → descending
+    if isinstance(k, int):
+        return (0, -k)
+    # 3D: tier name → tier order (known tiers first, unknown last)
+    return (1, _TIER_ORDER.get(k, 99), k)
+
 
 def format_eval(result: EvalResult) -> str:
     lines: list[str] = []
@@ -29,10 +47,10 @@ def format_eval(result: EvalResult) -> str:
         lines.append("Prize tiers: (none)")
     lines.append("")
 
-    # Match distribution
+    # Match distribution — sort key handles both int (Power) and tier-name str (3D)
     if result.match_dist:
         rows = []
-        for k in sorted(result.match_dist, key=lambda x: (isinstance(x, str), -x if isinstance(x, int) else 0)):
+        for k in sorted(result.match_dist, key=_match_dist_sort_key):
             v = result.match_dist[k]
             pct = v / n_plays * 100 if n_plays else 0.0
             rows.append([str(k), v, f"{pct:.2f}%"])

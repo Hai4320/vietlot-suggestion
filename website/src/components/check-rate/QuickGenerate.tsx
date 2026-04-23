@@ -1,72 +1,126 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { loadDraws, registeredGames } from "@/lib/check-rate";
-import { MATRIX_PRODUCTS } from "@/lib/products-config";
+import { MATRIX_PRODUCTS, PRODUCTS, THREE_D_PRODUCTS } from "@/lib/products-config";
+import { generate3DSuggestions } from "@/lib/suggest-3d";
 import { generateSuggestions } from "@/lib/suggest-matrix";
-import type { MatrixDraw, SuggestionStrategy } from "@/lib/types";
+import type { MatrixDraw, SuggestionStrategy, ThreeDDraw } from "@/lib/types";
 
-const MATRIX_STRATEGIES: { key: SuggestionStrategy; label: string; note?: string }[] = [
-  { key: "pattern", label: "Pattern — structural spacing", note: "top-ranked" },
-  { key: "mindistance", label: "Min-distance diversity", note: "Chu kỳ 22" },
-  { key: "frequency", label: "Frequency (hot)" },
-  { key: "absence", label: "Absence (cold)" },
-  { key: "mixed", label: "Mixed hot+cold" },
-  { key: "bayesian", label: "Bayesian / Dirichlet" },
-  { key: "maxentropy", label: "Max entropy — stratified bands" },
-  { key: "adaptive", label: "Adaptive window" },
-  { key: "hybridparity", label: "Hybrid parity (5/35 only)" },
+type ProductGroup = "matrix" | "3d";
+
+interface StrategyMeta {
+  key: SuggestionStrategy;
+  label: string;
+  for: ProductGroup | "both";
+  note?: string;
+  limit?: string; // product-slug restriction, e.g. hybridparity is 5/35 only
+}
+
+const STRATEGIES: StrategyMeta[] = [
+  { key: "pattern", label: "Pattern — structural spacing", for: "both", note: "top-ranked" },
+  { key: "mindistance", label: "Min-distance diversity", for: "matrix", note: "Chu kỳ 22" },
+  { key: "coverageopt", label: "Coverage opt", for: "3d", note: "3D ROI pick" },
+  { key: "pairexploiter", label: "Pair exploiter", for: "3d", note: "3D winrate pick" },
+  { key: "frequency", label: "Frequency (hot)", for: "both" },
+  { key: "absence", label: "Absence (cold)", for: "both" },
+  { key: "mixed", label: "Mixed hot+cold", for: "both" },
+  { key: "bayesian", label: "Bayesian / Dirichlet", for: "both" },
+  { key: "maxentropy", label: "Max entropy", for: "both" },
+  { key: "adaptive", label: "Adaptive window", for: "matrix" },
+  { key: "hybridparity", label: "Hybrid parity (5/35 only)", for: "matrix", limit: "power_535" },
 ];
 
 interface Props {
   onAppend: (csvRows: string) => void;
 }
 
+function firstStrategyFor(group: ProductGroup): SuggestionStrategy {
+  const match = STRATEGIES.find((s) => s.for === group || s.for === "both");
+  return match?.key ?? "frequency";
+}
+
 export function QuickGenerate({ onAppend }: Props) {
   const supported = new Set(registeredGames());
-  const [game, setGame] = useState<string>(() => MATRIX_PRODUCTS.find((p) => supported.has(p.key))?.key ?? MATRIX_PRODUCTS[0].key);
-  const [strategy, setStrategy] = useState<SuggestionStrategy>("pattern");
+  const [game, setGame] = useState<string>(() => {
+    const firstSupported = PRODUCTS.find((p) => supported.has(p.key));
+    return firstSupported?.key ?? PRODUCTS[0].key;
+  });
+  const product = PRODUCTS.find((p) => p.key === game);
+  const group: ProductGroup = product?.group === "3d" ? "3d" : "matrix";
+  const [strategy, setStrategy] = useState<SuggestionStrategy>(() => firstStrategyFor(group));
   const [count, setCount] = useState(10);
   const [label, setLabel] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const product = MATRIX_PRODUCTS.find((p) => p.key === game);
+  const availableStrategies = STRATEGIES.filter((s) => s.for === group || s.for === "both");
   const isSupported = supported.has(game);
+
+  // Reset strategy if user switches to a product group the current strategy doesn't fit
+  useEffect(() => {
+    const current = STRATEGIES.find((s) => s.key === strategy);
+    if (!current) return;
+    const fits = current.for === group || current.for === "both";
+    const limitOk = !current.limit || current.limit === game;
+    if (!fits || !limitOk) setStrategy(firstStrategyFor(group));
+  }, [game, group, strategy]);
 
   async function handleGenerate() {
     if (!product) return;
-    if (strategy === "hybridparity" && game !== "power_535") {
-      setError("hybridparity chỉ hỗ trợ power_535.");
+    const meta = STRATEGIES.find((s) => s.key === strategy);
+    if (meta?.limit && meta.limit !== game) {
+      setError(`${meta.key} chỉ hỗ trợ ${meta.limit}.`);
       return;
     }
     setBusy(true);
     setError(null);
     try {
-      const draws = (await loadDraws(game)) as MatrixDraw[];
-      const sets = generateSuggestions(
-        draws,
-        product.mainCount,
-        product.minNumber,
-        product.maxNumber,
-        product.hasSpecial,
-        12,
-        strategy,
-        count,
-      );
       const algoLabel = (label.trim() || strategy).replace(/[^A-Za-z0-9_-]+/g, "_");
       const header = "game,algorithm,ticket_no,numbers,special\n";
-      const rows = sets
-        .map((s, i) => {
-          const nums = s.numbers.join(" ");
-          const sp = game === "power_535" && s.special !== undefined ? s.special : "";
-          return `${game},${algoLabel},${i + 1},${nums},${sp}`;
-        })
-        .join("\n");
-      onAppend(header + rows + "\n");
+      let body: string;
+
+      if (group === "matrix" && product.group === "matrix") {
+        const draws = (await loadDraws(game)) as MatrixDraw[];
+        const sets = generateSuggestions(
+          draws,
+          product.mainCount,
+          product.minNumber,
+          product.maxNumber,
+          product.hasSpecial,
+          12,
+          strategy,
+          count,
+        );
+        body = sets
+          .map((s, i) => {
+            const nums = s.numbers.join(" ");
+            const sp = game === "power_535" && s.special !== undefined ? s.special : "";
+            return `${game},${algoLabel},${i + 1},${nums},${sp}`;
+          })
+          .join("\n");
+      } else {
+        // loadDraws is typed for matrix — at runtime it returns whatever shape
+        // the public JSON has, which for 3D is a tier dict. Go via unknown to
+        // bypass the narrow Draw type.
+        const draws = (await loadDraws(game)) as unknown as ThreeDDraw[];
+        // 3D generator returns sets of multiple 3-digit numbers per "set".
+        // For check-rate each number = one ticket, so flatten and truncate.
+        const setsCountHint = Math.max(1, Math.ceil(count / 6));
+        const sets = generate3DSuggestions(draws, strategy, setsCountHint);
+        const allNumbers = sets.flatMap((s) => s.numbers);
+        if (allNumbers.length === 0) {
+          throw new Error("Generator không trả về số nào.");
+        }
+        const picked = allNumbers.slice(0, count);
+        body = picked
+          .map((num, i) => `${game},${algoLabel},${i + 1},${num},`)
+          .join("\n");
+      }
+      onAppend(header + body + "\n");
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -89,11 +143,20 @@ export function QuickGenerate({ onAppend }: Props) {
             value={game}
             onChange={(e) => setGame(e.target.value)}
           >
-            {MATRIX_PRODUCTS.map((p) => (
-              <option key={p.key} value={p.key}>
-                {p.emoji} {p.name} {supported.has(p.key) ? "" : "(chưa hỗ trợ)"}
-              </option>
-            ))}
+            <optgroup label="Matrix">
+              {MATRIX_PRODUCTS.map((p) => (
+                <option key={p.key} value={p.key}>
+                  {p.emoji} {p.name} {supported.has(p.key) ? "" : "(chưa hỗ trợ)"}
+                </option>
+              ))}
+            </optgroup>
+            <optgroup label="3D">
+              {THREE_D_PRODUCTS.map((p) => (
+                <option key={p.key} value={p.key}>
+                  {p.emoji} {p.name} {supported.has(p.key) ? "" : "(chưa hỗ trợ)"}
+                </option>
+              ))}
+            </optgroup>
           </select>
         </label>
 
@@ -104,7 +167,7 @@ export function QuickGenerate({ onAppend }: Props) {
             value={strategy}
             onChange={(e) => setStrategy(e.target.value as SuggestionStrategy)}
           >
-            {MATRIX_STRATEGIES.map((s) => (
+            {availableStrategies.map((s) => (
               <option key={s.key} value={s.key}>
                 {s.label}
                 {s.note ? ` — ${s.note}` : ""}
@@ -142,7 +205,7 @@ export function QuickGenerate({ onAppend }: Props) {
       {!isSupported && (
         <div className="text-xs text-muted-foreground">
           <Badge variant="outline">{game}</Badge> chưa có evaluator — bạn vẫn có thể sinh tickets,
-          nhưng kết quả check-rate sẽ báo &ldquo;chưa hỗ trợ&rdquo;. Đợi Phase 2–5.
+          nhưng kết quả check-rate sẽ báo &ldquo;chưa hỗ trợ&rdquo;. Đợi các phase sau.
         </div>
       )}
 
