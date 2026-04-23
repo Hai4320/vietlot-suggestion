@@ -8,6 +8,28 @@ Tính năng mới: đọc CSV chứa các bộ số (xuất từ `suggest` hoặ
 
 ---
 
+## ✅ Execution status — shipped 2026-04-23
+
+Toàn bộ 6 phase đã merge vào `main`.
+
+| Phase | Commit | Files | LOC | Tests |
+|---|---|---|---|---|
+| 0 — Foundation | `490cffb` | 17 | +1,367 | +22 |
+| W0 + 1 — Power 5/35 + website MVP | `6824b8d` | 27 | +2,147 | +22 |
+| 1.5 — Nav + QuickGenerate | `d5d31df` | 4 | +192 | — |
+| 2 — Power 6/45 | `d5e9a51` | 9 | +465 | +15 |
+| 3 — Power 6/55 (bonus ball) | `0e7378f` | 10 | +537 | +17 |
+| 4 — Max 3D (tier + KK) | `ea2befd` | 12 | +887 | +19 |
+| 5 — Max 3D Pro (8 tier + A=B) | `283a80c` | 15 | +1,160 | +29 |
+
+**Totals:** 147 pytest · 5/5 TS parity fixtures · `make website-build` clean · 5 products supported end-to-end.
+
+**Key realities vs plan:**
+- Phase 5 turned out **significantly bigger than estimated** (~6 → ~15 files) because Max 3D Pro is structurally different from Max 3D: 2 ordered numbers per ticket + 8-tier hierarchy + A=B doubling rule. Plan originally said "reuse p3d logic, just swap prize amounts"; actual required a new evaluator. See § 3.5 (updated) + § 11.
+- Unblocked post-Phase-5 audit: existing `/max-3d-pro` suggest rankings may use wrong reward model. Full scope in [max3d_pro_backtest_audit.md](max3d_pro_backtest_audit.md).
+
+---
+
 ## 0. Quyết định kiến trúc
 
 **Client-side TypeScript evaluator trên website** (không gọi Python từ API route).
@@ -103,8 +125,29 @@ Jackpot dùng mức **min công bố** (6B/12B/30B/3B) — mục đích so sánh
 | Giải ba | 100,000 | |
 | KK 2 số cuối | 100,000 | trùng 2 digit cuối của Đặc biệt |
 
-### 3.5 Max 3D Pro — **placeholder**, verify trước Phase 5
-Schema tier giống 3D, amounts tạm dùng placeholder. Cần tra cứu quy chế Vietlott chính thức khi tới Phase 5.
+### 3.5 Max 3D Pro — **verified Vietlott 2026-04-23**
+
+**Ticket ≠ 3D**: vé = **2 bộ 3-digit (A, B) có thứ tự**. Prize theo 8-tier mutually-exclusive hierarchy; position-sensitive cho Đặc biệt/Phụ Đặc biệt; A=B có quy tắc doubling riêng.
+
+| # | Tier | Điều kiện (A≠B) | VND |
+|---|---|---|---|
+| 1 | Giải Đặc biệt | `A=DB[0] AND B=DB[1]` (đúng thứ tự) | 2,000,000,000 |
+| 2 | Giải Phụ Đặc biệt | `A=DB[1] AND B=DB[0]` (ngược thứ tự) | 400,000,000 |
+| 3 | Giải Nhất | `{A, B} ⊆ Nhất` (4 số) | 30,000,000 |
+| 4 | Giải Nhì | `{A, B} ⊆ Nhì` (6 số) | 10,000,000 |
+| 5 | Giải Ba | `{A, B} ⊆ Ba` (8 số) | 4,000,000 |
+| 6 | Giải Tư | Cả A và B trong 20 số, không đủ tier cao hơn | 1,000,000 |
+| 7 | Giải Năm | Đúng 1 trong (A, B) trùng Đặc biệt, số kia miss 20 | 100,000 |
+| 8 | Giải Sáu | Đúng 1 trong (A, B) trùng Nhất/Nhì/Ba, số kia miss 20 | 40,000 |
+
+**A=B doubling rule:**
+- Đặc biệt khi `DB=(X,X)` (2 số Đặc biệt bằng nhau): Đặc biệt + Phụ Đặc biệt **gộp** thành **2,400,000,000**.
+- Nhất–Sáu: **amount × 2** (user đặt 2 "slot" cùng 1 số).
+- Năm/Sáu unreachable với A=B (X trong 20 ⇒ Tư triggers; X ngoài 20 ⇒ no prize).
+
+Sources: [vietlott.vn official](https://vietlott.vn/vi/choi/max3dpro/gioi-thieu-san-pham-max3dpro), [onbit.vn cross-ref](https://onbit.vn/bai-viet/xem/max-3d-pro-vietlottcach-choi-va-co-cau-giai-thuong).
+
+**CSV schema:** `numbers = "015 017"` (2 space-separated zero-padded 3-digit strings). Backward-compat với 3D (`numbers = "015"`).
 
 ---
 
@@ -121,17 +164,17 @@ src/vietlott/
 │   ├── models.py                  # [P0 ✓] Ticket, EvalResult, HistoryMatch, PerDrawHit
 │   ├── io.py                      # [P0 ✓] read/write CSV
 │   ├── loader.py                  # [P0 ✓] load JSONL → normalized list[dict]
-│   ├── reporter.py                # [P0 ✓] tabulate formatter
+│   ├── reporter.py                # [P0 ✓] tabulate formatter (tier-aware sort P4)
 │   └── evaluators/
 │       ├── base.py                # [P0 ✓] BaseEvaluator + registry
-│       ├── power535.py            # [P1]
-│       ├── power645.py            # [P2]
-│       ├── power655.py            # [P3]
-│       ├── p3d.py                 # [P4]
-│       └── p3d_pro.py             # [P5]
+│       ├── power535.py            # [P1 ✓]
+│       ├── power645.py            # [P2 ✓]
+│       ├── power655.py            # [P3 ✓]
+│       ├── p3d.py                 # [P4 ✓]
+│       └── p3d_pro.py             # [P5 ✓]
 ├── config/
-│   └── prize_tables.py            # [P0 ✓]
-└── tests/check_rate/              # [P0 ✓] 22 tests đang chạy
+│   └── prize_tables.py            # [P0 ✓ / P5 ✓ real 3D Pro values]
+└── tests/check_rate/              # 147 tests (22 → 44 → 66 → 81 → 98 → 117 → 147)
 ```
 
 ### 4.2 Website (TypeScript)
@@ -140,55 +183,55 @@ src/vietlott/
 website/src/
 ├── app/
 │   └── check-rate/
-│       └── page.tsx               # [W0+P1] route /check-rate
+│       └── page.tsx               # [W0+P1 ✓] route /check-rate
 ├── components/check-rate/
-│   ├── CsvInput.tsx               # [W0+P1] textarea + file upload
-│   ├── ResultCard.tsx             # [W0+P1] 1 card per (game, algorithm)
-│   ├── PrizeTable.tsx             # [W0+P1]
-│   ├── MatchDistChart.tsx         # [W0+P1] recharts bar
-│   ├── HistoryList.tsx            # [W0+P1]
-│   └── CopyAsCsvButton.tsx        # [W0+P1] trên /suggest, /power-535, etc.
+│   ├── CsvInput.tsx               # [W0+P1 ✓] textarea + file upload
+│   ├── ResultCard.tsx             # [W0+P1 ✓] 1 card per (game, algorithm) — prize table + match dist + ROI + history inline
+│   ├── CopyAsCheckRateCsv.tsx     # [W0+P1 ✓] clipboard bridge, used on SuggestionPanel
+│   └── QuickGenerate.tsx          # [1.5 ✓] in-page generator, pairs for 3d_pro (P5)
 └── lib/check-rate/
-    ├── types.ts                   # [W0] Ticket, EvalResult (mirror Python models)
-    ├── io.ts                      # [W0] parse CSV string → Ticket[]
-    ├── loader.ts                  # [W0] fetch public/data/<game>.json
-    ├── prize_tables.ts            # [W0] mirror of Python prize_tables
-    ├── reporter.ts                # [W0] format EvalResult for display
-    ├── registry.ts                # [W0] EVALUATORS registry + dispatch
+    ├── types.ts                   # [W0 ✓] Ticket, EvalResult (mirror Python models)
+    ├── io.ts                      # [W0 ✓] parse CSV string → Ticket[]
+    ├── loader.ts                  # [W0 ✓] fetch public/data/<game>.json
+    ├── prize_tables.ts            # [W0 ✓ / P5 ✓] mirror of Python prize_tables
+    ├── reporter.ts                # [W0 ✓] format helpers + parity serializer
+    ├── registry.ts                # [W0 ✓] EVALUATORS registry + dispatch
+    ├── index.ts                   # [W0 ✓] public re-exports + evaluator auto-import
     └── evaluators/
-        ├── power535.ts            # [P1]
-        ├── power645.ts            # [P2]
-        ├── power655.ts            # [P3]
-        ├── p3d.ts                 # [P4]
-        └── p3d_pro.ts             # [P5]
+        ├── index.ts               # [W0 ✓] trigger registration
+        ├── power535.ts            # [P1 ✓]
+        ├── power645.ts            # [P2 ✓]
+        ├── power655.ts            # [P3 ✓]
+        ├── p3d.ts                 # [P4 ✓]
+        └── p3d_pro.ts             # [P5 ✓]
+
+PrizeTable / MatchDistChart / HistoryList were simplified into inline sections inside ResultCard — separate components not needed for MVP scope.
 ```
 
 ### 4.3 Golden fixtures (dùng chung)
 
 ```
 tests/fixtures/check_rate/
-├── power_535_sample.csv
-├── power_535_sample.expected.json     # output EvalResult + HistoryMatch[]
-├── power_535_draws.json               # minimal synthetic draws for determinism
-├── power_645_sample.csv / expected / draws
-├── power_655_sample.csv / expected / draws
-├── p3d_sample.csv / expected / draws
-└── p3d_pro_sample.csv / expected / draws
+├── power_535_{sample.csv, draws.json, sample.expected.json}  # ✅ Phase 1
+├── power_645_{sample.csv, draws.json, sample.expected.json}  # ✅ Phase 2
+├── power_655_{sample.csv, draws.json, sample.expected.json}  # ✅ Phase 3
+├── max_3d_{sample.csv, draws.json, sample.expected.json}     # ✅ Phase 4
+└── max_3d_pro_{sample.csv, draws.json, sample.expected.json} # ✅ Phase 5
 ```
 
-Pytest load fixture → chạy Python evaluator → `assert result == expected`. Node script (`scripts/verify_check_rate_parity.mjs`) load cùng fixture → chạy TS evaluator → diff `expected.json`. CI chạy cả 2.
+Pytest load fixture → chạy Python evaluator → `assert result == expected`. Node script `website/scripts/verify_check_rate_parity.ts` (run via `npx tsx`) load cùng fixture → chạy TS evaluator → serialize camelCase → snake_case → deep-equal với `expected.json`. `make check-rate-parity` chạy cả 2 harnesses.
 
 ---
 
 ## 5. Phase chi tiết
 
-### Phase 0 — Python Foundation ✅ DONE
+### Phase 0 — Python Foundation ✅ DONE (commit `490cffb`)
 
 Tóm tắt: `config/prize_tables.py` + `check_rate/` package + CLI skeleton + 22 unit tests. Registry sẵn sàng cho evaluators plug vào. CLI chạy end-to-end với dummy output "no evaluator registered".
 
 ---
 
-### Phase W0 + Phase 1 — Website infra + Power 5/35 end-to-end (**PR lớn nhất**)
+### Phase W0 + Phase 1 — Website infra + Power 5/35 end-to-end ✅ DONE (commit `6824b8d`)
 
 **Mục tiêu:** user vào `/check-rate`, paste CSV Power 535, xem kết quả ngay. Ship MVP website.
 
@@ -234,14 +277,18 @@ Tóm tắt: `config/prize_tables.py` + `check_rate/` package + CLI skeleton + 22
 
 Verify `public/data/power535.json` schema có đủ `date + id + result[]`. Nếu thiếu (e.g. chỉ có recent 50), extend `scripts/build_data.py` để xuất toàn bộ lịch sử vào riêng `public/data/check-rate/power535.json` hoặc thêm field.
 
-**Risk:**
-- Python ↔ TS drift → mitigate bằng golden fixture (CI block nếu lệch).
-- Refactor suggest có thể phá test hiện có → giữ output text cũ, chỉ thêm CSV branch.
-- UI polish dễ tốn thời gian — MVP chấp nhận table thô, chart đơn giản.
+**Risk mitigation outcomes:**
+- Python ↔ TS drift: golden fixture harness chặn thành công — TS parity pass ngay lần đầu.
+- Refactor suggest: không phá test hiện có, thêm `--export-csv` + `--algorithm` flags không đụng output text cũ.
+- UI polish: MVP dùng shadcn Card/Table/Badge — đủ scannable, skip recharts (match dist dùng inline bar-div).
+
+**Bug fix during Phase 1:** `reporter.py` match_dist và prize % phải chia `n_plays = n_tickets × n_draws`, không phải `n_draws` (lỗi ban đầu cho % > 100% khi multi-ticket).
+
+**Post-Phase-1 addon** (commit `d5d31df`): nav-bar link `/check-rate` + `QuickGenerate` component (in-page strategy generator) + tách "Công cụ" / "Nghiên cứu" sections (commit `8747c77`).
 
 ---
 
-### Phase 2 — Power 6/45 (Python + TS + golden)
+### Phase 2 — Power 6/45 ✅ DONE (commit `d5e9a51`)
 
 **Scope thu hẹp so với Phase 1** vì infra đã xong.
 
@@ -251,11 +298,11 @@ Verify `public/data/power535.json` schema có đủ `date + id + result[]`. Nế
 4. Unit tests + parity test
 5. UI tự support (registry dispatch). Nếu cần color/icon khác → thêm vào `products-config.ts`.
 
-**Risk:** thấp. Pattern đã có.
+**Outcome:** Đúng kế hoạch — 9 files, 13 unit tests, golden pass.
 
 ---
 
-### Phase 3 — Power 6/55 (Python + TS + golden)
+### Phase 3 — Power 6/55 ✅ DONE (commit `0e7378f`)
 
 **Điểm khó nhất: bonus ball semantic.** User ticket KHÔNG chứa bonus ball (khác 535 có special).
 
@@ -267,11 +314,11 @@ Verify `public/data/power535.json` schema có đủ `date + id + result[]`. Nế
 3. Fixture phải có 2 case phân biệt: (5 main, bonus trong ticket) vs (5 main, bonus không trong ticket)
 4. Unit + parity tests
 
-**Risk:** dễ nhầm bonus với special → test 2 case 5-main là bắt buộc.
+**Risk mitigation outcome:** 2 case 5-main được test explicitly — `test_jackpot2_5_main_bonus_in_ticket` (Jackpot 2) và `test_first_prize_5_main_bonus_not_in_ticket` (1st prize). Bonus-no-main test (`test_bonus_match_without_enough_main_is_not_prize`) chống nhầm upgrade.
 
 ---
 
-### Phase 4 — Max 3D (Python + TS + golden)
+### Phase 4 — Max 3D ✅ DONE (commit `ea2befd`)
 
 **Thay đổi semantic:** tier-based, không phải subset match.
 
@@ -284,21 +331,36 @@ Verify `public/data/power535.json` schema có đủ `date + id + result[]`. Nế
 4. TS mirror `evaluators/p3d.ts` — lưu ý xử lý unicode tier names "Giải Đặc biệt" (UTF-8 phải đúng)
 5. UI: `MatchDistChart` handle tier key string thay vì int
 
-**Risk:** evaluator hoàn toàn khác Power — không được dùng chung base class helper. Unicode tier name trên TS có thể nghịch khi compare string.
+**Risk outcome:** evaluator hoàn toàn tách khỏi Power — không mở rộng base class. Unicode tier names hoạt động đúng ở cả Python và TS (UTF-8 literal trong code).
 
-**Cần confirm trong Phase 4:** KK 2 số cuối so với Đặc biệt[0] hay cả 2 số? (Đề xuất mặc định: so với cả 2, cộng dồn.)
+**Phase 4 decision log:**
+- **KK 2 số cuối so với cả 2 số Đặc biệt, cộng dồn** (chốt khi implement). Vé "215" vs Đặc biệt `["015","415"]` → 2 KK prizes. Logic: mỗi số Đặc biệt được check độc lập, cộng dồn khi match.
+- Reporter thêm tier-aware sort cho match_dist (Đặc biệt → Nhất → Nhì → Ba → KK → Không trúng) — cosmetic fix không phá tests.
+- QuickGenerate mở rộng cho 3D: strategies filter theo product group, flatten sets thành individual tickets.
 
 ---
 
-### Phase 5 — Max 3D Pro (Python + TS + golden)
+### Phase 5 — Max 3D Pro ✅ DONE (commit `283a80c`)
 
-1. Verify prize amounts thực tế theo quy chế Vietlott 3D Pro (thay placeholder trong `prize_tables.py`)
-2. `evaluators/p3d_pro.py` — tái dùng logic p3d, chỉ đổi bảng prize
-3. `evaluators/p3d_pro.ts` — tương tự
-4. Fixtures + parity
-5. Doc update: so sánh song song prize 3D vs 3D Pro
+**Risk đã xảy ra:** 3D Pro KHÔNG phải "reuse p3d logic, swap prize table". Quy chế Vietlott tra được khác 3D hoàn toàn:
+- Vé = **2 bộ 3-digit có thứ tự (A, B)** — không phải 1
+- **8 tier** mutually-exclusive (không phải 4 + KK)
+- Đặc biệt **order-sensitive** (A=DB[0] AND B=DB[1])
+- Phụ Đặc biệt = reverse order (không tồn tại ở 3D)
+- A=B doubling rule cho tiers Nhất–Sáu
+- Combined Đặc biệt (2.4B) khi A=B=X và DB=(X,X)
 
-**Risk:** nếu 3D Pro có tier mới (ví dụ thêm Khuyến khích khác) → cần mở rộng base, không chỉ đổi bảng.
+Scope thực tế ~15 files (gần bằng Phase 1), không phải ~6 files như plan.
+
+**Implementation:**
+1. `config/prize_tables.py` — replace placeholder với 8 verified tiers (2B / 400M / 30M / 10M / 4M / 1M / 100K / 40K) + `MAX_3D_PRO_DB_COMBINED = 2.4B` const
+2. `evaluators/p3d_pro.py` — `resolve_3d_pro(a, b, specials, firsts, seconds, thirds)` function encapsulates 8-tier priority hierarchy + A=B doubling + combined DB edge case
+3. `evaluators/p3d_pro.ts` — same semantic mirrored
+4. `components/check-rate/QuickGenerate.tsx` — cho 3d_pro, pair adjacent numbers từ generator: `[n1,n2,n3,n4,...] → "n1 n2", "n3 n4", ...`
+5. 27 Python unit tests + 2 golden tests — cover mọi 8 tier + A=B paths + order discrimination
+6. Golden fixture (6 tickets × 4 draws = 24 plays) kích hoạt: Đặc biệt, Phụ Đặc biệt, Nhất (normal + doubled), Nhì, Ba, Tư (5 cases), Sáu, Combined Đặc biệt via A=B=100 + DB=(100,100) ở Draw 2
+
+**Post-Phase-5 discovery:** existing `/max-3d-pro` SuggestionPanel + research backtests (`cycle22_rankings.json`) có thể đang dùng reward model của 3D thay vì 3D Pro 8-tier. Check-rate evaluator là source of truth mới — audit riêng trong [max3d_pro_backtest_audit.md](max3d_pro_backtest_audit.md).
 
 ---
 
@@ -369,14 +431,14 @@ Script Python chạy evaluator trên `<name>.csv` + `<name>_draws.json` → ghi 
 
 ## 7. Ma trận testing
 
-| Phase | Python unit | TS smoke (manual browser) | Golden parity | CI check |
+| Phase | Python unit | TS smoke | Golden parity | Status |
 |---|---|---|---|---|
-| 0 ✅ | io / registry / prize_tables | — | — | pytest |
-| W0+1 | 535 eval + suggest export | `/check-rate` paste + upload | `power_535_golden` | pytest + node parity + `npm run build` |
-| 2 | 645 eval | card render 645 | `power_645_golden` | pytest + node parity |
-| 3 | 655 eval (2 case 5-main) | card render 655 | `power_655_golden` | pytest + node parity |
-| 4 | 3D eval (tier + KK) | card render 3D | `p3d_golden` | pytest + node parity |
-| 5 | 3D Pro eval | card render 3D Pro | `p3d_pro_golden` | pytest + node parity |
+| 0 ✅ | 22 (io / registry / prize_tables × 5) | — | — | pytest ✅ |
+| W0+1 ✅ | 20 + 2 golden (535) | `/check-rate` paste+upload OK | `power_535` | pytest + TS parity ✅ |
+| 2 ✅ | 13 + 2 golden (645) | Card render 645 OK | `power_645` | pytest + TS parity ✅ |
+| 3 ✅ | 15 + 2 golden (655, 2-case 5-main discriminated) | Card render 655 OK | `power_655` | pytest + TS parity ✅ |
+| 4 ✅ | 17 + 2 golden (3D: 4 tiers + KK + cộng dồn) | Card render 3D OK | `max_3d` | pytest + TS parity ✅ |
+| 5 ✅ | 27 + 2 golden (3D Pro: 8 tiers + A=B + combined ĐB) | Card render 3D Pro OK | `max_3d_pro` | pytest + TS parity ✅ |
 
 ---
 
@@ -445,26 +507,57 @@ Các điểm tôi nghĩ có thể gây debate, đã chốt hoặc pending:
 | 9 | CSV input UX: textarea paste + file upload (2 ways) | ✅ chốt |
 | 10 | "Copy picks as CSV" bridge trên product pages | ✅ chốt |
 | 11 | Route = `/check-rate` | ✅ chốt |
-| 12 | **KK 2 số cuối 3D**: so với Đặc biệt[0] hay cả 2 số? | ⏳ pending Phase 4 |
-| 13 | **Max 3D Pro prize amounts**: cần verify quy chế | ⏳ pending Phase 5 |
-| 14 | Public data JSON: `public/data/<game>.json` có đủ history? | 🔍 kiểm khi vào Phase W0+1 |
-| 15 | Jackpot/bonus display: UI có highlight khi "tham chiếu" không? | 💬 UX detail, chốt khi implement |
+| 12 | **KK 2 số cuối 3D**: so với cả 2 số Đặc biệt, cộng dồn | ✅ chốt Phase 4 |
+| 13 | **Max 3D Pro**: 8 tier + A=B doubling + combined ĐB (khác 3D hoàn toàn) | ✅ chốt Phase 5 (tra cứu vietlott.vn + onbit.vn) |
+| 14 | Public data JSON có đủ history (`totalDraws: 546` Power 535 / `1335` Power 655 / `1066` 3D / `712` 3D Pro) | ✅ xác nhận Phase 1 |
+| 15 | ROI label "ROI (tham chiếu)" trong ResultCard — không dùng jackpot cộng dồn thực tế | ✅ chốt Phase 1 |
+| 16 | **[NEW post-P5]** Existing `/max-3d-pro` suggest rankings có thể dùng wrong reward model | 🔴 follow-up: [max3d_pro_backtest_audit.md](max3d_pro_backtest_audit.md) |
 
 ---
 
-## 10. PR / merge order
+## 10. Merge history (as-shipped)
 
-| PR | Phase | Nội dung | Dự kiến file mới |
+User chose direct `main` commits instead of PRs.
+
+| # | Commit | Phase | Files (plan → actual) | LOC |
+|---|---|---|---|---|
+| 1 | `490cffb` ✅ | 0 | 12 → 17 | +1,367 |
+| 2 | `6824b8d` ✅ | W0 + 1 | ~22 → 27 | +2,147 |
+| 2a | `d5d31df` ✅ | 1.5 (nav + QuickGenerate) | — → 4 | +192 |
+| 2b | `8747c77` ✅ | 1.6 (nav section split) | — → 2 | +7 |
+| 3 | `d5e9a51` ✅ | 2 | ~6 → 9 | +465 |
+| 4 | `0e7378f` ✅ | 3 | ~6 → 10 | +537 |
+| 5 | `ea2befd` ✅ | 4 | ~6 → 12 | +887 |
+| 6 | `283a80c` ✅ | 5 | ~6 → 15 | +1,160 |
+
+**Total:** 96 files changed, ~6,762 LOC added.
+
+Mỗi commit pass:
+- `make test` (pytest Python) ✅
+- `make check-rate-parity` (pytest + node parity) ✅
+- `make website-build` (Next.js type check + build) ✅
+- `uv run ruff check && uv run ruff format` ✅
+
+---
+
+## 11. Post-Phase-5 follow-ups
+
+Feature shipped; không có việc bắt buộc còn lại. Các item sau là **opportunistic** cho research cycle tiếp theo:
+
+| # | Item | Priority | Ref |
 |---|---|---|---|
-| #1 ✅ | 0 | Python foundation | 12 files |
-| #2 | W0 + 1 | Website infra + Power 535 Python/TS/UI + suggest export | ~22 files |
-| #3 | 2 | Power 645 Python + TS + golden | ~6 files |
-| #4 | 3 | Power 655 Python + TS + golden (bonus ball) | ~6 files |
-| #5 | 4 | Max 3D Python + TS + golden (tier-based) | ~6 files |
-| #6 | 5 | Max 3D Pro Python + TS + golden | ~6 files |
+| 1 | Audit `/max-3d-pro` backtest scoring — suspect existing rankings dùng wrong reward model | 🔴 high (UX lie risk) | [max3d_pro_backtest_audit.md](max3d_pro_backtest_audit.md) |
+| 2 | UI `/max-3d-pro`: hiển thị suggestions dạng pair (A, B) với ghi chú order-sensitive | 🟡 medium | audit §4 Tier 2 |
+| 3 | Strategy 3D-Pro-native (forward+reverse hedge, A=B duplicate exploit) | 🟢 low (research) | audit §4 Tier 3 |
+| 4 | `CopyAsCheckRateCsv` bridge trên `/max-3d` / `/max-3d-pro` (hiện chỉ matrix) | 🟢 low | — |
+| 5 | Recharts cho MatchDist thay vì inline bar-div | 🟢 low (polish) | — |
 
-Mỗi PR phải pass:
-- `make test` (pytest Python)
-- `make check-rate-parity` (pytest + node parity)
-- `make website-build` (Next.js type check + build)
-- `uv run ruff check && uv run ruff format`
+---
+
+## 12. Lessons learned
+
+- **Tra quy chế ngoại biên trước khi estimate scope.** Phase 5 estimate sai 2.5× vì "Max 3D Pro" giả định là Max 3D với prize khác — tra quy chế ra ticket structure hoàn toàn khác. Quy luật: nếu product name có suffix ("Pro", "Plus", etc.), check xem có phải chỉ là variant cosmetic hay là luật chơi khác.
+- **Golden fixture catch drift hiệu quả.** TS parity pass từ lần đầu trên mọi phase — không có bug Python↔TS suốt 5 evaluators. Effort upfront (setup harness Phase 0) trả gấp 5 qua các phase sau.
+- **Client-side TS choice đúng.** Không phải dùng Python runtime, deploy Next.js tiếp tục static-ish, CSV riêng tư trên máy user. Tradeoff duplicate logic là chấp nhận được với golden harness.
+- **Phase 1 scope-gộp hợp lý.** W0 + Power 535 + UI + suggest export + bridge nên để chung commit để user thấy end-to-end MVP ngay, không shipping "infra chỉ".
+- **Discovery mid-feature có thể sinh follow-up work chuyên sâu** (Phase 5 → audit doc). Không scope creep vào feature chính — capture bằng planning doc riêng để execute sau cycle.
