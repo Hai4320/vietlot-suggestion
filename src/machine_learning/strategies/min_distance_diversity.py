@@ -106,10 +106,7 @@ class MinDistanceDiversityStrategy(PredictModel):
             candidate_set = set(candidate)
 
             # Minimum distance to all existing tickets
-            min_dist = min(
-                self.jaccard_distance(candidate_set, existing)
-                for existing in self._existing_tickets
-            )
+            min_dist = min(self.jaccard_distance(candidate_set, existing) for existing in self._existing_tickets)
 
             if min_dist > best_min_dist:
                 best_min_dist = min_dist

@@ -22,10 +22,10 @@ from tabulate import tabulate
 
 from vietlott.config.products import ProductConfig, get_config, product_config_map
 
-
 # ---------------------------------------------------------------------------
 # Data helpers
 # ---------------------------------------------------------------------------
+
 
 def load_data(cfg: ProductConfig) -> pl.DataFrame:
     """Load and normalise the NDJSON data file for a product."""
@@ -66,6 +66,7 @@ def detect_game_shape(cfg: ProductConfig, df: pl.DataFrame):
 # ---------------------------------------------------------------------------
 # Statistics engine
 # ---------------------------------------------------------------------------
+
 
 class Stats:
     """Pre-compute all statistics needed by the generator."""
@@ -173,6 +174,7 @@ class Stats:
 # Ticket generator  (diversity-first, score-seeded)
 # ---------------------------------------------------------------------------
 
+
 def generate_tickets(stats: Stats, n_tickets: int, seed: int | None = None) -> list[dict]:
     """
     Generate *n_tickets* tickets with maximum coverage.
@@ -199,8 +201,8 @@ def generate_tickets(stats: Stats, n_tickets: int, seed: int | None = None) -> l
     # Split numbers into tiers
     tier_size = math.ceil(num_count / 3)
     tier_hot = set(ranked[:tier_size])
-    tier_mid = set(ranked[tier_size: 2 * tier_size])
-    tier_cold = set(ranked[2 * tier_size:])
+    tier_mid = set(ranked[tier_size : 2 * tier_size])
+    tier_cold = set(ranked[2 * tier_size :])
 
     for i in range(n_tickets):
         available = [v for v in nums if usage[v] < max_repeat]
@@ -271,6 +273,7 @@ def generate_tickets(stats: Stats, n_tickets: int, seed: int | None = None) -> l
 # Backtest engine
 # ---------------------------------------------------------------------------
 
+
 def backtest_tickets(stats: Stats, tickets: list[dict], n_draws: int) -> dict:
     """
     Simulate the given tickets against the last *n_draws* historical draws.
@@ -292,12 +295,7 @@ def backtest_tickets(stats: Stats, tickets: list[dict], n_draws: int) -> dict:
         (4, False): ("4th", 100_000),
         (3, True): ("5th", 30_000),
     }
-    encourage_conditions = lambda m, sp: (
-        (m == 3 and not sp)
-        or (m == 2 and sp)
-        or (m == 1 and sp)
-        or (m == 0 and sp)
-    )
+    encourage_conditions = lambda m, sp: ((m == 3 and not sp) or (m == 2 and sp) or (m == 1 and sp) or (m == 0 and sp))
 
     match_dist = Counter()  # best main match per draw
     prize_counter = Counter()
@@ -335,15 +333,17 @@ def backtest_tickets(stats: Stats, tickets: list[dict], n_draws: int) -> dict:
             prize_counter[prize_name] += 1
             total_winnings += prize_amt
 
-        per_draw.append({
-            "date": str(rec["date"]),
-            "id": rec["id"],
-            "draw": rec["result"][:n],
-            "best_match": best_main,
-            "sp_match": best_sp,
-            "prize": prize_name,
-            "amount": prize_amt,
-        })
+        per_draw.append(
+            {
+                "date": str(rec["date"]),
+                "id": rec["id"],
+                "draw": rec["result"][:n],
+                "best_match": best_main,
+                "sp_match": best_sp,
+                "prize": prize_name,
+                "amount": prize_amt,
+            }
+        )
 
     n_tickets = len(tickets)
     total_cost = n_draws * n_tickets * 10_000
@@ -364,6 +364,7 @@ def backtest_tickets(stats: Stats, tickets: list[dict], n_draws: int) -> dict:
 # ---------------------------------------------------------------------------
 # Formatters
 # ---------------------------------------------------------------------------
+
 
 def format_tickets_table(tickets: list[dict], stats: Stats) -> str:
     """Render a human-readable table of suggested tickets."""
@@ -408,9 +409,7 @@ def format_coverage(tickets: list[dict], stats: Stats) -> str:
     ]
     if stats.sp_max:
         lines.append(f"Special numbers covered: {unique_sp}/{total_sp} ({unique_sp / total_sp * 100:.0f}%)")
-    lines.append(
-        f"3-number subsets covered: {len(three_subs)}/{total_3} ({len(three_subs) / total_3 * 100:.2f}%)"
-    )
+    lines.append(f"3-number subsets covered: {len(three_subs)}/{total_3} ({len(three_subs) / total_3 * 100:.2f}%)")
     max_repeat = max(all_main.values())
     lines.append(f"Max repeats per number: {max_repeat}")
     return "\n".join(lines)
@@ -463,6 +462,7 @@ def format_backtest(bt: dict) -> str:
 # CLI
 # ---------------------------------------------------------------------------
 
+
 @click.command()
 @click.pass_context
 @click.argument("product")
@@ -507,7 +507,9 @@ def suggest(ctx, product, tickets, backtest_draws, seed):
     click.echo(f"  VIETLOTT {product.upper()} — {tickets} SUGGESTED TICKETS")
     click.echo(f"{'=' * 60}")
     click.echo(f"  Data: {len(stats.records)} draws ({stats.records[0]['date']} to {stats.records[-1]['date']})")
-    click.echo(f"  Game: {main_size} main from {num_min}-{num_max}" + (f", 1 special from 1-{sp_max}" if sp_max else ""))
+    click.echo(
+        f"  Game: {main_size} main from {num_min}-{num_max}" + (f", 1 special from 1-{sp_max}" if sp_max else "")
+    )
     click.echo(f"  Seed: {seed}")
     click.echo("")
 

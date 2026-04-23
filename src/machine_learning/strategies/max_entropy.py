@@ -102,4 +102,4 @@ class MaxEntropyStrategy(PredictModel):
                 break
             selected.append(random.choice(remaining))
 
-        return sorted(selected[:self.number_predict])
+        return sorted(selected[: self.number_predict])

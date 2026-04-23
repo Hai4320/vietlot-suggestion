@@ -65,7 +65,7 @@ class AdaptiveWindowStrategy(PredictModel):
 
         for _, row in recent_draws.iterrows():
             draw_date = row["date"]
-            actual = set(row["result"][:self.number_predict])
+            actual = set(row["result"][: self.number_predict])
 
             # Get frequency data for this window
             cutoff = draw_date - timedelta(days=window_days)
@@ -83,11 +83,11 @@ class AdaptiveWindowStrategy(PredictModel):
             elif self.strategy_type == "cold":
                 sorted_nums = sorted(all_nums, key=lambda x: freq.get(x, 0))
             else:  # balanced
-                hot = sorted(all_nums, key=lambda x: freq.get(x, 0), reverse=True)[:self.number_predict]
-                cold = sorted(all_nums, key=lambda x: freq.get(x, 0))[:self.number_predict]
+                hot = sorted(all_nums, key=lambda x: freq.get(x, 0), reverse=True)[: self.number_predict]
+                cold = sorted(all_nums, key=lambda x: freq.get(x, 0))[: self.number_predict]
                 sorted_nums = list(set(hot + cold))
 
-            predicted = set(sorted_nums[:self.number_predict])
+            predicted = set(sorted_nums[: self.number_predict])
             matches.append(len(predicted & actual))
 
         return np.mean(matches) if matches else 0.0
@@ -109,7 +109,7 @@ class AdaptiveWindowStrategy(PredictModel):
             # Not enough history — default to 180 days
             return 180
 
-        eval_dates = all_dates[max(0, target_idx - self.eval_draws):target_idx]
+        eval_dates = all_dates[max(0, target_idx - self.eval_draws) : target_idx]
         recent_draws = self.df[self.df["date"].isin(eval_dates)]
 
         # Evaluate each window
@@ -149,7 +149,7 @@ class AdaptiveWindowStrategy(PredictModel):
             sorted_nums = hot[:hot_pick] + cold[:cold_pick]
 
         # Add randomization to top picks
-        top_pool = sorted_nums[:self.number_predict * 2]
+        top_pool = sorted_nums[: self.number_predict * 2]
         selected = []
 
         for n in top_pool:
@@ -172,4 +172,4 @@ class AdaptiveWindowStrategy(PredictModel):
             else:
                 break
 
-        return sorted(selected[:self.number_predict])
+        return sorted(selected[: self.number_predict])

@@ -108,7 +108,7 @@ class EnsembleStrategy(PredictModel):
             try:
                 ranking = self._get_strategy_ranking(cls, params, target_date)
                 for rank_pos, num in enumerate(ranking):
-                    borda_scores[num] += (v - rank_pos)  # Higher score for better rank
+                    borda_scores[num] += v - rank_pos  # Higher score for better rank
             except Exception:
                 continue
 
@@ -130,4 +130,4 @@ class EnsembleStrategy(PredictModel):
                         selected.append(n)
                         break
 
-        return sorted(selected[:self.number_predict])
+        return sorted(selected[: self.number_predict])

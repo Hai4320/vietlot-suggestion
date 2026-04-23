@@ -50,14 +50,9 @@ class WheelGenerator:
         max_tickets: int = 200,
     ):
         if len(player_numbers) <= pick_size:
-            raise ValueError(
-                f"Need more player numbers ({len(player_numbers)}) "
-                f"than pick size ({pick_size})"
-            )
+            raise ValueError(f"Need more player numbers ({len(player_numbers)}) than pick size ({pick_size})")
         if guarantee > pick_size:
-            raise ValueError(
-                f"Guarantee ({guarantee}) cannot exceed pick size ({pick_size})"
-            )
+            raise ValueError(f"Guarantee ({guarantee}) cannot exceed pick size ({pick_size})")
 
         self.player_numbers = sorted(player_numbers)
         self.pick_size = pick_size
@@ -78,9 +73,7 @@ class WheelGenerator:
         t = self.guarantee
 
         # All t-subsets that need to be covered
-        t_subsets_to_cover: Set[Tuple[int, ...]] = set(
-            combinations(range(v), t)
-        )
+        t_subsets_to_cover: Set[Tuple[int, ...]] = set(combinations(range(v), t))
 
         # All possible k-subsets (tickets) — using indices into player_numbers
         all_k_subsets = list(combinations(range(v), k))
@@ -141,6 +134,7 @@ class WheelGenerator:
 
         # Schönheim bound
         from math import ceil
+
         bound = self._schonheim_bound(v, k, t)
 
         return {
@@ -155,6 +149,7 @@ class WheelGenerator:
     def _schonheim_bound(v: int, k: int, t: int) -> int:
         """Compute Schönheim lower bound C(v,k,t) ≥ ⌈v/k ⌈(v-1)/(k-1) ...⌉⌉."""
         from math import ceil
+
         result = 1
         for i in range(t - 1, -1, -1):
             result = ceil((v - i) / (k - i) * result)
