@@ -6,7 +6,7 @@ LOGURU_LEVEL := INFO
 export
 
 all: lint test
-.PHONY: all requirements-dev test lint build pypi run-crawl run-missing website-install website-dev website-build website-data research-cycle22 research-cycle22-rebacktest
+.PHONY: all requirements-dev test lint build pypi run-crawl run-missing run-check-rate website-install website-dev website-build website-data research-cycle22 research-cycle22-rebacktest
 
 .venv:
 	@echo "Initializing virtual environment..."
@@ -44,6 +44,11 @@ run-missing: .venv
 	@echo "Running missing scripts..."
 	LOGURU_LEVEL=$(LOGURU_LEVEL) PYTHONPATH=src $(UV) run python src/vietlott/cli/missing.py keno
 	LOGURU_LEVEL=$(LOGURU_LEVEL) PYTHONPATH=src $(UV) run python src/vietlott/cli/missing.py power_535
+
+run-check-rate: .venv
+	@echo "Usage: make run-check-rate CSV=path/to/tickets.csv [ARGS='--backtest-draws 100']"
+	@test -n "$(CSV)" || (echo "CSV= required" && exit 1)
+	LOGURU_LEVEL=$(LOGURU_LEVEL) PYTHONPATH=src $(UV) run python src/vietlott/cli/check_rate.py $(CSV) $(ARGS)
 
 # ── Website ──────────────────────────────────────────────────
 website-install:
