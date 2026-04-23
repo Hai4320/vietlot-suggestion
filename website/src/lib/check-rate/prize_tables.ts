@@ -63,9 +63,22 @@ export const MAX_3D_TIERS: Record<string, PrizeRule> = {
 
 export const MAX_3D_LAST2_PRIZE: PrizeRule = { name: "KK 2 số cuối", amount: 100_000 };
 
+// Max 3D Pro — verified per quy chế Vietlott 2026-04-23. Ticket = (A, B);
+// prize resolution = 8-tier mutually-exclusive hierarchy + A=B doubling
+// (evaluator responsibility). Standard (A≠B) amounts below.
 export const MAX_3D_PRO_TIERS: Record<string, PrizeRule> = {
-  "Giải Đặc biệt": { name: "Giải Đặc biệt", amount: 2_000_000 },
-  "Giải Nhất": { name: "Giải Nhất", amount: 500_000 },
-  "Giải Nhì": { name: "Giải Nhì", amount: 300_000 },
-  "Giải ba": { name: "Giải ba", amount: 200_000 },
+  "Giải Đặc biệt": { name: "Giải Đặc biệt", amount: 2_000_000_000 },
+  "Giải Phụ Đặc biệt": { name: "Giải Phụ Đặc biệt", amount: 400_000_000 },
+  "Giải Nhất": { name: "Giải Nhất", amount: 30_000_000 },
+  "Giải Nhì": { name: "Giải Nhì", amount: 10_000_000 },
+  "Giải Ba": { name: "Giải Ba", amount: 4_000_000 },
+  "Giải Tư": { name: "Giải Tư", amount: 1_000_000 },
+  "Giải Năm": { name: "Giải Năm", amount: 100_000 },
+  "Giải Sáu": { name: "Giải Sáu", amount: 40_000 },
+};
+
+// Edge case: A=B=X AND Đặc biệt draw = (X, X) → combined ĐB + Phụ ĐB.
+export const MAX_3D_PRO_DB_COMBINED: PrizeRule = {
+  name: "Giải Đặc biệt",
+  amount: 2_400_000_000,
 };

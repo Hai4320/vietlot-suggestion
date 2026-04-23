@@ -108,17 +108,30 @@ export function QuickGenerate({ onAppend }: Props) {
         // bypass the narrow Draw type.
         const draws = (await loadDraws(game)) as unknown as ThreeDDraw[];
         // 3D generator returns sets of multiple 3-digit numbers per "set".
-        // For check-rate each number = one ticket, so flatten and truncate.
-        const setsCountHint = Math.max(1, Math.ceil(count / 6));
+        // For 3d: each number = one ticket; for 3d_pro: pair adjacent (A, B).
+        const numbersPerTicket = game === "3d_pro" ? 2 : 1;
+        const totalNumbersNeeded = count * numbersPerTicket;
+        const setsCountHint = Math.max(1, Math.ceil(totalNumbersNeeded / 6));
         const sets = generate3DSuggestions(draws, strategy, setsCountHint);
         const allNumbers = sets.flatMap((s) => s.numbers);
-        if (allNumbers.length === 0) {
-          throw new Error("Generator không trả về số nào.");
+        if (allNumbers.length < totalNumbersNeeded) {
+          throw new Error(
+            `Generator chỉ trả về ${allNumbers.length} số, cần ${totalNumbersNeeded}.`,
+          );
         }
-        const picked = allNumbers.slice(0, count);
-        body = picked
-          .map((num, i) => `${game},${algoLabel},${i + 1},${num},`)
-          .join("\n");
+        if (game === "3d_pro") {
+          // Pair adjacent numbers: [n1, n2, n3, n4, ...] → (n1,n2), (n3,n4), ...
+          const rows: string[] = [];
+          for (let i = 0; i < count; i++) {
+            const a = allNumbers[i * 2];
+            const b = allNumbers[i * 2 + 1];
+            rows.push(`${game},${algoLabel},${i + 1},${a} ${b},`);
+          }
+          body = rows.join("\n");
+        } else {
+          const picked = allNumbers.slice(0, count);
+          body = picked.map((num, i) => `${game},${algoLabel},${i + 1},${num},`).join("\n");
+        }
       }
       onAppend(header + body + "\n");
     } catch (e) {

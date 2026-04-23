@@ -12,10 +12,10 @@ from vietlott.cli.check_rate import check_rate
 def test_cli_unsupported_game_reports_cleanly(tmp_path):
     """Unregistered game names should not crash — report 'no evaluator' and keep going."""
     csv_path = tmp_path / "tickets.csv"
-    # '3d_pro' has no evaluator yet (Phase 5) — exercises the unsupported path.
-    # When Phase 5 lands, swap to any still-unregistered game name.
+    # Use a clearly fake game name to exercise the unsupported path now that
+    # all 5 Vietlott products have registered evaluators (post-Phase 5).
     csv_path.write_text(
-        "game,algorithm,ticket_no,numbers,special\n3d_pro,manual,1,015,\n3d_pro,manual,2,123,\n",
+        "game,algorithm,ticket_no,numbers,special\nfake_game,manual,1,1 2 3 4 5,\nfake_game,manual,2,6 7 8 9 10,\n",
         encoding="utf-8",
     )
     runner = CliRunner()

@@ -80,10 +80,24 @@ MAX_3D_LAST2_PRIZE = PrizeRule("KK 2 số cuối", 100_000)
 
 
 # ── Max 3D Pro ─────────────────────────────────────────────────────────────
-# Placeholder amounts — verify against quy chế Vietlott before Phase 5 merge.
+# Verified against quy chế Vietlott 2026-04-23 (vietlott.vn + onbit.vn +
+# thanhnien.vn cross-check). Semantically very different from Max 3D:
+# a 3D Pro ticket = 2 ordered 3-digit numbers (A, B), prize resolution =
+# mutually-exclusive 8-tier hierarchy + A=B doubling rule.
+#
+# These constants hold the standard (A≠B) amounts. The evaluator applies
+# the A=B doubling logic for tiers 1–6 (see p3d_pro.py `resolve_3d_pro`).
 MAX_3D_PRO_TIERS: dict[str, PrizeRule] = {
-    "Giải Đặc biệt": PrizeRule("Giải Đặc biệt", 2_000_000),
-    "Giải Nhất": PrizeRule("Giải Nhất", 500_000),
-    "Giải Nhì": PrizeRule("Giải Nhì", 300_000),
-    "Giải ba": PrizeRule("Giải ba", 200_000),
+    "Giải Đặc biệt": PrizeRule("Giải Đặc biệt", 2_000_000_000),
+    "Giải Phụ Đặc biệt": PrizeRule("Giải Phụ Đặc biệt", 400_000_000),
+    "Giải Nhất": PrizeRule("Giải Nhất", 30_000_000),
+    "Giải Nhì": PrizeRule("Giải Nhì", 10_000_000),
+    "Giải Ba": PrizeRule("Giải Ba", 4_000_000),
+    "Giải Tư": PrizeRule("Giải Tư", 1_000_000),
+    "Giải Năm": PrizeRule("Giải Năm", 100_000),
+    "Giải Sáu": PrizeRule("Giải Sáu", 40_000),
 }
+
+# Edge case: A=B=X AND Đặc biệt draw = (X, X). Per quy chế, the single
+# prize awarded = Đặc biệt + Phụ Đặc biệt combined (not 2 separate prizes).
+MAX_3D_PRO_DB_COMBINED = PrizeRule("Giải Đặc biệt", 2_400_000_000)

@@ -119,4 +119,25 @@ def test_3d_tiers_present():
 
 
 def test_3d_pro_tiers_present():
-    assert set(MAX_3D_PRO_TIERS) == {"Giải Đặc biệt", "Giải Nhất", "Giải Nhì", "Giải ba"}
+    expected = {
+        "Giải Đặc biệt",
+        "Giải Phụ Đặc biệt",
+        "Giải Nhất",
+        "Giải Nhì",
+        "Giải Ba",
+        "Giải Tư",
+        "Giải Năm",
+        "Giải Sáu",
+    }
+    assert set(MAX_3D_PRO_TIERS) == expected
+
+
+def test_3d_pro_prize_amounts():
+    assert MAX_3D_PRO_TIERS["Giải Đặc biệt"].amount == 2_000_000_000
+    assert MAX_3D_PRO_TIERS["Giải Phụ Đặc biệt"].amount == 400_000_000
+    assert MAX_3D_PRO_TIERS["Giải Nhất"].amount == 30_000_000
+    assert MAX_3D_PRO_TIERS["Giải Nhì"].amount == 10_000_000
+    assert MAX_3D_PRO_TIERS["Giải Ba"].amount == 4_000_000
+    assert MAX_3D_PRO_TIERS["Giải Tư"].amount == 1_000_000
+    assert MAX_3D_PRO_TIERS["Giải Năm"].amount == 100_000
+    assert MAX_3D_PRO_TIERS["Giải Sáu"].amount == 40_000

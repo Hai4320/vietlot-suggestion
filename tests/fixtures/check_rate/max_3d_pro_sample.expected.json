@@ -1,0 +1,121 @@
+{
+  "groups": [
+    {
+      "game": "3d_pro",
+      "algorithm": "test_v1",
+      "n_tickets": 6,
+      "n_draws": 4,
+      "match_dist": {
+        "Giải Đặc biệt": 2,
+        "Giải Phụ Đặc biệt": 1,
+        "Giải Nhất": 2,
+        "Giải Nhì": 1,
+        "Giải Ba": 1,
+        "Giải Tư": 5,
+        "Giải Sáu": 1,
+        "Không trúng": 11
+      },
+      "prize_counter": {
+        "Giải Đặc biệt": 2,
+        "Giải Phụ Đặc biệt": 1,
+        "Giải Nhất": 2,
+        "Giải Nhì": 1,
+        "Giải Ba": 1,
+        "Giải Tư": 5,
+        "Giải Sáu": 1
+      },
+      "prize_winnings": {
+        "Giải Đặc biệt": 4400000000,
+        "Giải Phụ Đặc biệt": 400000000,
+        "Giải Nhất": 90000000,
+        "Giải Nhì": 20000000,
+        "Giải Ba": 8000000,
+        "Giải Tư": 6000000,
+        "Giải Sáu": 40000
+      },
+      "total_cost": 240000,
+      "total_winnings": 4924040000
+    }
+  ],
+  "history": [
+    {
+      "ticket_no": 1,
+      "numbers_display": "015 017",
+      "total_hits": 2,
+      "by_tier": {
+        "Giải Đặc biệt": 1, "Giải Phụ Đặc biệt": 0, "Giải Nhất": 0, "Giải Nhì": 0,
+        "Giải Ba": 0, "Giải Tư": 1, "Giải Năm": 0, "Giải Sáu": 0
+      },
+      "occurrences": [
+        ["2024-01-01", "00001", "Giải Đặc biệt"],
+        ["2024-01-03", "00003", "Giải Tư"]
+      ]
+    },
+    {
+      "ticket_no": 2,
+      "numbers_display": "017 015",
+      "total_hits": 2,
+      "by_tier": {
+        "Giải Đặc biệt": 0, "Giải Phụ Đặc biệt": 1, "Giải Nhất": 0, "Giải Nhì": 0,
+        "Giải Ba": 0, "Giải Tư": 1, "Giải Năm": 0, "Giải Sáu": 0
+      },
+      "occurrences": [
+        ["2024-01-01", "00001", "Giải Phụ Đặc biệt"],
+        ["2024-01-03", "00003", "Giải Tư"]
+      ]
+    },
+    {
+      "ticket_no": 3,
+      "numbers_display": "100 200",
+      "total_hits": 3,
+      "by_tier": {
+        "Giải Đặc biệt": 0, "Giải Phụ Đặc biệt": 0, "Giải Nhất": 1, "Giải Nhì": 0,
+        "Giải Ba": 0, "Giải Tư": 2, "Giải Năm": 0, "Giải Sáu": 0
+      },
+      "occurrences": [
+        ["2024-01-01", "00001", "Giải Nhất"],
+        ["2024-01-02", "00002", "Giải Tư"],
+        ["2024-01-03", "00003", "Giải Tư"]
+      ]
+    },
+    {
+      "ticket_no": 4,
+      "numbers_display": "015 015 (A=B)",
+      "total_hits": 2,
+      "by_tier": {
+        "Giải Đặc biệt": 0, "Giải Phụ Đặc biệt": 0, "Giải Nhất": 0, "Giải Nhì": 1,
+        "Giải Ba": 0, "Giải Tư": 1, "Giải Năm": 0, "Giải Sáu": 0
+      },
+      "occurrences": [
+        ["2024-01-01", "00001", "Giải Tư"],
+        ["2024-01-03", "00003", "Giải Nhì"]
+      ]
+    },
+    {
+      "ticket_no": 5,
+      "numbers_display": "100 100 (A=B)",
+      "total_hits": 3,
+      "by_tier": {
+        "Giải Đặc biệt": 1, "Giải Phụ Đặc biệt": 0, "Giải Nhất": 1, "Giải Nhì": 0,
+        "Giải Ba": 1, "Giải Tư": 0, "Giải Năm": 0, "Giải Sáu": 0
+      },
+      "occurrences": [
+        ["2024-01-01", "00001", "Giải Nhất"],
+        ["2024-01-02", "00002", "Giải Đặc biệt"],
+        ["2024-01-03", "00003", "Giải Ba"]
+      ]
+    },
+    {
+      "ticket_no": 6,
+      "numbers_display": "888 999",
+      "total_hits": 1,
+      "by_tier": {
+        "Giải Đặc biệt": 0, "Giải Phụ Đặc biệt": 0, "Giải Nhất": 0, "Giải Nhì": 0,
+        "Giải Ba": 0, "Giải Tư": 0, "Giải Năm": 0, "Giải Sáu": 1
+      },
+      "occurrences": [
+        ["2024-01-03", "00003", "Giải Sáu"]
+      ]
+    }
+  ]
+}
