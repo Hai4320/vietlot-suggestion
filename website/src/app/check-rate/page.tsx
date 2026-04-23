@@ -34,12 +34,19 @@ interface UnsupportedReport {
 
 type Report = GroupReport | UnsupportedReport;
 
+function clampBacktestDraws(raw: string): number {
+  const n = Number(raw);
+  if (!Number.isFinite(n) || n < 0) return 0;
+  return Math.min(5000, Math.floor(n));
+}
+
 export default function CheckRatePage() {
   const [csv, setCsv] = useState("");
   const [reports, setReports] = useState<Report[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [backtestDraws, setBacktestDraws] = useState(100);
+  const [backtestDrawsInput, setBacktestDrawsInput] = useState("100");
+  const backtestDraws = clampBacktestDraws(backtestDrawsInput);
 
   async function evaluate() {
     setBusy(true);
@@ -159,8 +166,9 @@ export default function CheckRatePage() {
             min={0}
             max={5000}
             className="w-24 rounded-md border bg-background px-2 py-1 text-sm"
-            value={backtestDraws}
-            onChange={(e) => setBacktestDraws(Math.max(0, Number(e.target.value) || 0))}
+            value={backtestDrawsInput}
+            onChange={(e) => setBacktestDrawsInput(e.target.value)}
+            onBlur={() => setBacktestDrawsInput(String(backtestDraws))}
           />
           <span className="text-muted-foreground">0 = toàn bộ lịch sử</span>
         </div>

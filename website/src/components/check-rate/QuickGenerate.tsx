@@ -22,6 +22,12 @@ function firstStrategyFor(group: ProductGroup, productKey?: string): SuggestionS
   return available[0]?.key ?? "frequency";
 }
 
+function clampCount(raw: string): number {
+  const n = Number(raw);
+  if (!Number.isFinite(n) || n <= 0) return 10;
+  return Math.min(100, Math.floor(n));
+}
+
 export function QuickGenerate({ onAppend }: Props) {
   const supported = new Set(registeredGames());
   const [game, setGame] = useState<string>(() => {
@@ -32,7 +38,9 @@ export function QuickGenerate({ onAppend }: Props) {
   const group: ProductGroup = product?.group === "3d" ? "3d" : "matrix";
   const availableStrategies = strategiesFor(group, game);
   const [strategy, setStrategy] = useState<SuggestionStrategy>(() => firstStrategyFor(group, game));
-  const [count, setCount] = useState(10);
+  // Raw string to let the user type/clear freely; clamp only when generating.
+  const [countInput, setCountInput] = useState("10");
+  const count = clampCount(countInput);
   const [label, setLabel] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -167,13 +175,14 @@ export function QuickGenerate({ onAppend }: Props) {
         </label>
 
         <label className="flex flex-col gap-1 text-sm">
-          <span className="text-xs text-muted-foreground">Số vé</span>
+          <span className="text-xs text-muted-foreground">Số vé (1–100)</span>
           <Input
             type="number"
             min={1}
             max={100}
-            value={count}
-            onChange={(e) => setCount(Math.max(1, Math.min(100, Number(e.target.value) || 10)))}
+            value={countInput}
+            onChange={(e) => setCountInput(e.target.value)}
+            onBlur={() => setCountInput(String(count))}
           />
         </label>
       </div>
