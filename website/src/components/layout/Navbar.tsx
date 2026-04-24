@@ -71,6 +71,9 @@ export function Navbar() {
                 <span>🎯</span><span>Check-rate</span>
               </Link>
               <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Nghiên cứu</div>
+              <Link href="/methods" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/methods" && "bg-accent font-medium")}>
+                <span>📋</span><span>Methods (73)</span>
+              </Link>
               <Link href="/algorithms" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/algorithms" && "bg-accent font-medium")}>
                 <span>🔬</span><span>Thuật toán</span>
               </Link>
@@ -137,6 +140,15 @@ export function Navbar() {
             )}
           >
             🎯 Check-rate
+          </Link>
+          <Link
+            href="/methods"
+            className={cn(
+              "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
+              pathname === "/methods" && "bg-accent font-medium text-primary"
+            )}
+          >
+            📋 Methods
           </Link>
           <Link
             href="/algorithms"

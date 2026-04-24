@@ -83,6 +83,16 @@ export function Sidebar() {
           Nghiên cứu
         </div>
         <Link
+          href="/methods"
+          className={cn(
+            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
+            pathname === "/methods" && "bg-accent text-accent-foreground font-medium"
+          )}
+        >
+          <span>📋</span>
+          <span>Methods (73)</span>
+        </Link>
+        <Link
           href="/algorithms"
           className={cn(
             "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
