@@ -377,6 +377,9 @@ class RunState:
     cap_hits: int = 0                 # times multiplier hit the cap
     last_was_hit: Optional[bool] = None  # for martingale / anti-martingale decisions
     last_near_miss: bool = False      # for near-miss escalation
+    # Chu kỳ 29 — additional state for F5 jackpot-only stop + G4 progression
+    jackpot_hits: int = 0             # hits at top-tier for stop_condition=jackpot_only
+    progression_idx: int = 0          # current position in 1-3-2-6 sequence
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -463,6 +466,19 @@ def _resolve_ticket_raw(spec_selection: dict, adapter: ProductAdapter,
             {**spec_selection, "type": "fixed_persistent"},
             adapter, history, target_idx, persistent_cache,
         )
+
+    if sel_type == "persistent_with_reset":
+        # Chu kỳ 29 — same as fixed_persistent but cache may be cleared
+        # externally by simulate_run when cold streak reaches reset threshold.
+        # _resolve_ticket_raw just needs to re-pick if cache empty.
+        if "ticket" not in persistent_cache:
+            algo = spec_selection.get("algorithm", "Random")
+            params = spec_selection.get("params", {})
+            if algo == "Random":
+                persistent_cache["ticket"] = adapter.random_ticket(history, target_idx)
+            else:
+                persistent_cache["ticket"] = adapter.select_via_strategy(algo, params, history, target_idx)
+        return persistent_cache["ticket"]
 
     if sel_type == "algorithm_fresh":
         algo = spec_selection.get("algorithm", "Random")
@@ -689,6 +705,18 @@ def _compute_bet_multiplier(spec_compound: dict, state: RunState) -> int:
             return new_mult
         return 1
 
+    if ctype == "progression_1326":
+        # Chu kỳ 29 — 1-3-2-6 positive progression: advance on win, reset on loss
+        sequence = [1, 3, 2, 6]
+        if state.last_was_hit is None:
+            state.progression_idx = 0
+            return 1
+        if state.last_was_hit:
+            state.progression_idx = (state.progression_idx + 1) % len(sequence)
+        else:
+            state.progression_idx = 0
+        return sequence[state.progression_idx]
+
     return 1
 
 
@@ -712,6 +740,9 @@ def _should_stop(spec_stop: dict, state: RunState, spec_duration: dict) -> bool:
         if stype == "k_draws_escape":
             k = spec_stop.get("k", 50)
             return state.draws_played >= k and state.hits_this_run == 0
+        if stype == "jackpot_only":
+            # Chu kỳ 29 — stop only if highest-tier hit (tracked via state.jackpot_hits)
+            return getattr(state, "jackpot_hits", 0) >= spec_stop.get("n", 1)
         if stype == "combined":
             # Combined stop: stop on any_tier_hit OR budget_cap OR k_draws_escape
             if state.hits_this_run >= 1:
@@ -771,6 +802,7 @@ def simulate_run(spec: dict, adapter: ProductAdapter, history, start_idx: int,
         cost = n_tickets * adapter.ticket_price() * state.bet_multiplier
         draw_payout = 0
         any_hit = False
+        any_jackpot = False  # Chu kỳ 29 — top-tier hit for jackpot_only stop
         near_miss_this_draw = False
         for t in tickets:
             try:
@@ -781,6 +813,15 @@ def simulate_run(spec: dict, adapter: ProductAdapter, history, start_idx: int,
             draw_payout += r.prize_vnd * state.bet_multiplier
             if r.hit:
                 any_hit = True
+                # Track jackpot-tier hits for F5 stop condition
+                # Matrix: match_N where N = num_count (6 for 6/55, 5 for 5/35). 3D: "Giải Đặc biệt".
+                if r.tier_name:
+                    is_jackpot = (
+                        r.tier_name == "Giải Đặc biệt"
+                        or r.tier_name == f"match_{adapter.cfg.get('num_count', 0)}"
+                    )
+                    if is_jackpot:
+                        any_jackpot = True
             # Near-miss detection for matrix: 3-match when 5-need (5/35) or 4-match when 6-need
             if isinstance(adapter, MatrixAdapter) and not r.hit:
                 row = history.iloc[i]
@@ -803,6 +844,15 @@ def simulate_run(spec: dict, adapter: ProductAdapter, history, start_idx: int,
         state.cumulative_losses.append(state.total_cost_vnd - state.total_payout_vnd)
         state.last_was_hit = any_hit
         state.last_near_miss = near_miss_this_draw
+        if any_jackpot:
+            state.jackpot_hits += 1
+
+        # Chu kỳ 29 — persistent_with_reset: invalidate cache after K cold
+        sel_type = spec.get("selection", {}).get("type")
+        if sel_type == "persistent_with_reset":
+            reset_k = spec["selection"].get("reset_after_cold", 30)
+            if state.current_cold_streak >= reset_k:
+                persistent_cache.clear()  # next draw picks fresh
 
         if any_hit:
             state.hits_this_run += 1

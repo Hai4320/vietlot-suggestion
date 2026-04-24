@@ -1,6 +1,6 @@
 ## Chu Kỳ 29 — Pre-Registration: Gap Coverage (Remaining Easy Methods)
 
-**Status**: ✅ **APPROVED 2026-04-24** (user chose Option 1 gap coverage). Frozen per Principle #16.
+**Status**: ✅ **EXECUTED 2026-04-24** (same-day framework + 6 methods shipped, all null). Moved to `executed/` on close. Frozen per Principle #16. Verdict record: [history/cycle29_gap_coverage.md](../../history/cycle29_gap_coverage.md).
 
 **Mode**: Optimization extension — fill catalog gap for methods testable with framework extensions (~30 min each).
 

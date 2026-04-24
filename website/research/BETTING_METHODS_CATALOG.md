@@ -70,7 +70,7 @@ Universal across 5 products:
 | C4 | **KK 2 số cuối focused** | Tập trung giải KK (Max 3D) hoặc Tư/Năm (3D Pro) | Deferred Chu kỳ 27 (tier-targeting adapter) |
 | C5 | **Forward + reverse hedge (3D Pro)** | Mua (A,B) + (B,A) → hit cả ĐB + Phụ ĐB | ✓ **Chu kỳ 26** — full +34.5pp nhưng forward-gate FAIL, Inconclusive |
 | C6 | **Same-digit A=B exploit (3D Pro)** | Tập trung tickets A=B để double Nhất-Sáu prizes | ✓ **Chu kỳ 27-28 — 🚨 SUGGESTIVE-CONFIRMED: N=200 ROI +3864% full, all 4 segments +3752% to +4372% consistent. Negative control 5/35 = Random (no artifact). Theoretical EV +4180% matches observed. Hybrid N=5/N=10 scale linearly. PENDING external validation (user ticket trial) before Accept.** |
-| C7 | **Digit-sum targeting** | Chọn số có digit-sum ∈ [hot range] (e.g., 10-20) | Subsumed — similar to MaxEntropy SumRange |
+| C7 | **Digit-sum targeting** | Chọn số có digit-sum ∈ [hot range] (e.g., 10-20) | ✓ **Chu kỳ 29** (matrix sum-range filter) — confirmed noise, consistent with B5/B10/B11 |
 | C8 | **Mirror-paired (số đối)** | Mua 123 + 876 cùng lúc | ✓ **Chu kỳ 26** — within variance |
 | C9 | **Digit-position Bayesian** | Per-position independent posterior | ✓ Chu kỳ 4, 11 (Reject) |
 | C10 | **Joint-digit bias exploit** | Non-independence per pair | ✓ Chu kỳ 4 (Reject) |
@@ -106,11 +106,11 @@ Universal across 5 products:
 | F2 | **Hot number persistence** | Mirror — mua 1 bộ hot, persist | ✓ **Chu kỳ 25** — worse than Random matrix |
 | F3 | **Algorithm-chosen persistence** | Pick via algo 1 lần, persist cho đến hit | ✓ **Chu kỳ 25** — mixed (F3 Power 5/35 = -83.5%, best of matrix persistence) |
 | F4 | **Stop at first ANY tier** | Stop persistence sau khi hit bất kỳ tier (kể cả Giải ba) | ✓ Chu kỳ 25 (stop_condition.type=any_tier_hit) |
-| F5 | **Stop at jackpot only** | Chỉ dừng khi hit jackpot (tier 1) — rất costly | Chưa — overlaps F4 variants |
+| F5 | **Stop at jackpot only** | Chỉ dừng khi hit jackpot (tier 1) — rất costly | ✓ **Chu kỳ 29** — near-Random (expected, very rare stop). F5b × 3D Pro A=B reproduces C6 finding. |
 | F6 | **Budget-capped persistence** | F1-F5 + "stop nếu budget exhausted" escape valve | ✓ **Chu kỳ 25** — slight lift vs F3 |
 | F7 | **Max-K-draws escape valve** | F1-F5 + "stop sau K kỳ không hit" | ✓ **Chu kỳ 25** — F7 × Power 5/35 = -80.1% Inconclusive |
-| F8 | **Reset after N cold streak** | Change selection sau N kỳ không hit | Chưa |
-| F9 | **N-hit stop** | Stop sau K lần trúng (không chỉ 1st) | Chưa |
+| F8 | **Reset after N cold streak** | Change selection sau N kỳ không hit | ✓ **Chu kỳ 29** — +6.6pp vs F3 persistence nhưng still near-Random, no edge |
+| F9 | **N-hit stop** | Stop sau K lần trúng (không chỉ 1st) | ✓ **Chu kỳ 29** — near-Random |
 
 ## G. Compounding methods (D6 varies) — bet size thay đổi theo outcome
 
@@ -119,7 +119,7 @@ Universal across 5 products:
 | G1 | **Flat betting** | Bet size cố định mọi kỳ | ✓ default |
 | G2 | **Martingale** | Double-up sau mỗi lần thua | ✓ **Chu kỳ 27** — 100% bankruptcy at B=1M, forward-fail confirms no edge (CAUTIONARY) |
 | G3 | **Anti-Martingale (Paroli)** | Double-up sau mỗi lần thắng | ✓ **Chu kỳ 27** — no edge, within variance |
-| G4 | **1-3-2-6 progression** | Fixed sequence theo streak | Skipped — trivial variant of G1 |
+| G4 | **1-3-2-6 progression** | Fixed sequence theo streak | ✓ **Chu kỳ 29** — null confirmed (compounding không giúp EV âm) |
 | G5 | **Near-miss escalation** | Tăng bet sau kỳ almost-hit (4/6 match) | ✓ **Chu kỳ 27** — low trigger rate, no edge |
 | G6 | **Win-reset** | Sau khi thắng, reset về bet base | Subsumed by flat (trivial) |
 | G7 | **Kelly criterion** (POS banned — falsified Chu kỳ 16) | Optimal log-utility sizing | ❌ Eliminated Chu kỳ 16 |

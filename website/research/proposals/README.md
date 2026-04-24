@@ -2,9 +2,9 @@
 
 **Purpose**: Registry của pre-regs (frozen per Principle #16). `proposals/` root = active/pending/PAUSED. `proposals/executed/` = completed (frozen, cross-linked từ history/).
 
-**Last updated**: 2026-04-24 (Chu kỳ 28 SHIPPED — 🚨 C6 VALIDATED at N=200, all Inconclusives demoted, pending external user validation)
+**Last updated**: 2026-04-24 (Chu kỳ 29 Gap Coverage SHIPPED; framework frozen; C6 ACCEPT shipped to `/max-3d-pro`)
 
-**🎯 Current priority**: **USER ACTION** — complete C6 A=B external validation per [cycle28_meta_analysis.md §5](../optimization/cycle28_meta_analysis.md). 4 steps: Vietlott UI feasibility check + real ticket purchase + payout verification + rule stability monitoring. If validated → UPGRADE to Accept (potentially first in project history).
+**🎯 Current priority**: Plan 3 `/methods` page build — see [plans/methods_page.md](../../plans/methods_page.md). Catalog 53/73 tested (73%), ready for consumption. OR optional: close research phase, future adapter work (B8/B9/C4).
 
 ---
 
@@ -31,7 +31,8 @@
 | [executed/cycle25_method_evaluation_framework.md](executed/cycle25_method_evaluation_framework.md) | 25 | Method Evaluation Framework + Tier-1 — 13 methods × 5 products. Gambler's fallacy refalsified. | [history/cycle25_method_evaluation_framework.md](../history/cycle25_method_evaluation_framework.md) |
 | [executed/cycle26_tier2_wheeling_3d_permutations.md](executed/cycle26_tier2_wheeling_3d_permutations.md) | 26 | Tier-2 Wheeling + 3D Permutations — 12 methods. Wheeling P(hit) ↑ but ROI tied; C5 3D Pro forward-gate fail. | [history/cycle26_tier2_wheeling_3d_permutations.md](../history/cycle26_tier2_wheeling_3d_permutations.md) |
 | [executed/cycle27_tier3_compounding_calendar.md](executed/cycle27_tier3_compounding_calendar.md) | 27 | 🚨 Tier-3 Compounding + Calendar + **C6 A=B SUGGESTIVE +4758% ROI** (first positive-EV in 27 cycles, exploits quy chế). Compounding G forward-fail. | [history/cycle27_tier3_compounding_calendar.md](../history/cycle27_tier3_compounding_calendar.md) |
-| [executed/cycle28_c6_validation_meta_analysis.md](executed/cycle28_c6_validation_meta_analysis.md) | 28 | 🚨 **C6 VALIDATED at N_RUNS=200** (+3752 to +4372% 4 segments consistent). H1/H5 hybrids confirm linear scaling. All prior Inconclusives demoted. Meta-analysis: 47/73 methods tested. | [history/cycle28_c6_validation_meta_analysis.md](../history/cycle28_c6_validation_meta_analysis.md) |
+| [executed/cycle28_c6_validation_meta_analysis.md](executed/cycle28_c6_validation_meta_analysis.md) | 28 | 🏆 **C6 ACCEPT granted** post user validation. Shipped to `/max-3d-pro`. First Accept in 28-cycle history. | [history/cycle28_c6_validation_meta_analysis.md](../history/cycle28_c6_validation_meta_analysis.md) |
+| [executed/cycle29_gap_coverage.md](executed/cycle29_gap_coverage.md) | 29 | Gap coverage (6 specs all null). Catalog 53/73 tested, framework FROZEN. Ready cho Plan 3. | [history/cycle29_gap_coverage.md](../history/cycle29_gap_coverage.md) |
 
 ---
 
@@ -61,7 +62,8 @@ See [cycle28_meta_analysis.md §5](../optimization/cycle28_meta_analysis.md).
 - **Chu kỳ 25 Method Evaluation Framework** — executed 2026-04-24, see [executed/cycle25_method_evaluation_framework.md](executed/cycle25_method_evaluation_framework.md) + [history/cycle25_method_evaluation_framework.md](../history/cycle25_method_evaluation_framework.md)
 - **Chu kỳ 26 Tier-2 Wheeling + 3D Permutations** — executed 2026-04-24, see [executed/cycle26_tier2_wheeling_3d_permutations.md](executed/cycle26_tier2_wheeling_3d_permutations.md) + [history/cycle26_tier2_wheeling_3d_permutations.md](../history/cycle26_tier2_wheeling_3d_permutations.md)
 - **Chu kỳ 27 🚨 Tier-3 Compounding + C6 A=B SUGGESTIVE** — executed 2026-04-24, see [executed/cycle27_tier3_compounding_calendar.md](executed/cycle27_tier3_compounding_calendar.md) + [history/cycle27_tier3_compounding_calendar.md](../history/cycle27_tier3_compounding_calendar.md)
-- **Chu kỳ 28 🚨 C6 Validation + Meta-Analysis** — executed 2026-04-24, see [executed/cycle28_c6_validation_meta_analysis.md](executed/cycle28_c6_validation_meta_analysis.md) + [history/cycle28_c6_validation_meta_analysis.md](../history/cycle28_c6_validation_meta_analysis.md) — **Pending user external validation step**
+- **Chu kỳ 28 🏆 C6 ACCEPT** — executed 2026-04-24, user validation passed, shipped to `/max-3d-pro`. See [executed/cycle28_c6_validation_meta_analysis.md](executed/cycle28_c6_validation_meta_analysis.md) + [history/cycle28_c6_validation_meta_analysis.md](../history/cycle28_c6_validation_meta_analysis.md)
+- **Chu kỳ 29 Gap Coverage** — executed 2026-04-24, 6 specs all null, framework FROZEN. See [executed/cycle29_gap_coverage.md](executed/cycle29_gap_coverage.md) + [history/cycle29_gap_coverage.md](../history/cycle29_gap_coverage.md)
 
 ### Tier 2: Untested hướng từ META_REVIEW (archived)
 

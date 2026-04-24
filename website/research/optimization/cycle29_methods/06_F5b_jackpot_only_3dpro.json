@@ -1,0 +1,12 @@
+{
+  "method_id": "F5b_jackpot_only_3dpro_ab",
+  "description": "F5b — 3D Pro A=B persistence stopping only on Đặc biệt hit. Very rare stop (P ~ 0.0002%/kỳ) — high variance, cautionary.",
+  "category": "F",
+  "applicable_products": ["max_3d_pro"],
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "a_equal_b"},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "until_condition"},
+  "stop_condition": {"type": "jackpot_only", "n": 1},
+  "compounding": {"type": "flat"}
+}

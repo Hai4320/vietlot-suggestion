@@ -1,0 +1,16 @@
+{
+  "method_id": "C7_digit_sum_filter_matrix",
+  "description": "C7 — Random matrix ticket filtered to digit-sum ∈ historical hot range [60, 130]. Cultural heuristic 'avoid extremes'. Tested on Power 6/55 primarily.",
+  "category": "C",
+  "applicable_products": ["power_655", "power_645"],
+  "selection": {
+    "type": "random_fresh",
+    "filter": {"type": "sum_range", "min": 60, "max": 130}
+  },
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"},
+  "note": "C7 originally listed cho 3D digit-sum targeting. This spec tests matrix digit-sum filter variant since we already had sum-range filter. 3D digit-sum can be added later if needed."
+}

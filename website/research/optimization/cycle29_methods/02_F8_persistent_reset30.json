@@ -1,0 +1,17 @@
+{
+  "method_id": "F8_persistent_reset30",
+  "description": "F8 — Algorithm persistence với reset cache sau 30 kỳ cold streak. Attempts to escape cold number trap.",
+  "category": "F",
+  "applicable_products": ["power_655", "power_645", "power_535"],
+  "selection": {
+    "type": "persistent_with_reset",
+    "algorithm": "MinDistance",
+    "params": {"lookback_days": 365, "n_candidates": 30},
+    "reset_after_cold": 30
+  },
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}
