@@ -2,9 +2,9 @@
 
 **Purpose**: Registry của pre-regs (frozen per Principle #16). `proposals/` root = active/pending/PAUSED. `proposals/executed/` = completed (frozen, cross-linked từ history/).
 
-**Last updated**: 2026-04-23 (post Chu kỳ 23 UX Refactor shipped)
+**Last updated**: 2026-04-24 (Chu kỳ 24 pre-reg APPROVED; Phase A 3D Pro audit shipped)
 
-**🎯 Current priority**: Chu kỳ 24 budget-aware feature (UC2 "chọn bộ số với budget X VND") — pre-reg chưa viết, đợi user kickoff. Chu kỳ 23 UX Refactor (shipped 2026-04-22) đã đẩy scope budget từ Chu kỳ 23 → 24.
+**🎯 Current priority**: Chu kỳ 24 budget-aware feature **APPROVED 2026-04-24** — ready to execute. Scope frozen: B=50K fixed, all 5 products incl. null-pick policy for Mega 6/45 + Max 3D Pro.
 
 ---
 
@@ -12,7 +12,7 @@
 
 | File | Status | Scope | Effort | Notes |
 |---|:---:|---|:---:|---|
-| _(none)_ | — | Chu kỳ 24 budget feature pre-reg chưa viết | ~1 week | Đợi user kickoff |
+| [cycle24_budget_aware.md](cycle24_budget_aware.md) | ✅ **APPROVED 2026-04-24** (frozen pending execution) | Budget-aware portfolio @ B=50K × 5 products (incl. null-pick disclosure policy) | ~3-4 ngày | Allocator + CLI + UI widget. Moves → executed/ on ship. |
 | [cycle17a_roi_ranking_3d.md](cycle17a_roi_ranking_3d.md) | ⚠ Superseded by cycle22 | (Historical reference only) | N/A | Content frozen Principle #16 |
 
 ---
@@ -34,14 +34,14 @@
 
 ### Tier 1: Active / primary
 
-#### 1. **Chu kỳ 24 Budget-aware feature** — PENDING (pre-reg chưa viết)
+#### 1. **Chu kỳ 24 Budget-aware feature** — ✅ APPROVED 2026-04-24 (ready to execute)
 
-- **File**: (chưa có — sẽ tạo `cycle24_budget_aware.md` khi user kickoff)
-- **Scope**: Given user budget X VND → suggest ticket portfolio maximizing E[payout]. Dựa trên `picks.*` output của Chu kỳ 22 (Max 3D, Power 6/55, Power 5/35 có picks valid; Mega 6/45 + Max 3D Pro null).
-- **Effort**: ~1 tuần
+- **File**: [cycle24_budget_aware.md](cycle24_budget_aware.md) (frozen per Principle #16)
+- **Scope**: Portfolio @ B = 50K VND (5 tickets) × 5 products. All 5 products included — valid-pick (Power 6/55, Power 5/35, Max 3D) use pick strategies directly; null-pick (Mega 6/45, Max 3D Pro) use top-composite Balanced profile với disclosure banner.
+- **Effort**: ~3-4 ngày (smaller than initial 1-week estimate after scope fixed to single budget)
 - **Mode**: Optimization extension (no new research mechanism)
-- **Blockers**: Wheeling/coverage design (không Kelly vì falsified Chu kỳ 16)
-- **Context**: Chu kỳ 23 original plan là budget-aware, nhưng user pivot sang UX refactor sau Chu kỳ 22 feedback → budget pushed to Chu kỳ 24
+- **Composite**: E[payout] 0.35 / P(win≥1) 0.25 / variance_penalty 0.15 / coverage 0.15 / budget_eff 0.10
+- **Eliminated families (Principle #17)**: Kelly concentration, Bayesian posterior sizing — DO NOT propose
 
 #### Done (archival)
 - **Chu kỳ 22 Optimization Mode** — executed 2026-04-22, see [executed/cycle22_optimization_mode.md](executed/cycle22_optimization_mode.md) + [history/cycle22_optimization_mode.md](../history/cycle22_optimization_mode.md)

@@ -1,12 +1,12 @@
 ## Chu Kỳ 24 — Pre-Registration: Budget-Aware Ticket Portfolio (UC2)
 
-**Status**: 📝 **DRAFT 2026-04-24** — awaiting user APPROVE before execution. Will be frozen per Principle #16 on approval.
+**Status**: ✅ **APPROVED 2026-04-24** (user decision: single budget 50K, all 5 products, composite weights as drafted). Frozen per Principle #16 — content immutable until execution closes. Scope shrunk from 5-tier ladder → single 50K reference; product scope expanded from 3 → 5 (null-pick products now included with disclosure).
 
 **Mode**: Optimization extension (no new research mechanism — composition layer on top of Chu kỳ 22 picks). See [optimization/README.md Phase 3](../optimization/README.md) + [optimization/PLAYBOOK.md](../optimization/PLAYBOOK.md).
 
 **Supersedes**: original Chu kỳ 23 plan (budget-aware pushed from 23→24 after UX Refactor took the Chu kỳ 23 slot 2026-04-22).
 
-**Estimated effort**: ~1 tuần (CLI tool + UI widget + pre-reg execution).
+**Estimated effort**: ~3-4 ngày (smaller scope than original 1 week — single budget simplifies allocator + UI; offset by adding 2 null-pick products with disclosure policy).
 
 ---
 
@@ -20,24 +20,25 @@ Given user-provided budget **B (VND)**, deliver a **ticket portfolio X = {(strat
 
 ### Context
 
-Post Chu kỳ 22 + Chu kỳ 23:
-- 3/5 products have `picks.*` in [cycle22_rankings.json](../optimization/cycle22_rankings.json): Power 6/55 (MinDistance), Power 5/35 (Freq_Hot), Max 3D (diverse 3-pick). 2/5 null (Mega 6/45, Max 3D Pro).
+Post Chu kỳ 22 + Chu kỳ 23 + Phase A 3D Pro audit (2026-04-24):
+- 3/5 products have valid `picks.*` in [cycle22_rankings.json](../optimization/cycle22_rankings.json): Power 6/55 (MinDistance), Power 5/35 (Freq_Hot), Max 3D (diverse 3-pick).
+- 2/5 products null: Mega 6/45 (baseline drift), Max 3D Pro (regime split; confirmed null under corrected 8-tier evaluator per [cycle22_3dpro_audit.md](../optimization/cycle22_3dpro_audit.md)).
 - UI picks surface the strategy. **Gap**: user doesn't know *how many tickets* to buy, or *how to trade off budget between winrate picks vs ROI picks vs Random-diversify*.
 
 Budget-aware feature closes that gap: a single input (VND budget) → concrete bet plan.
 
-**Dependency on Phase A audit** (plans/max3d_pro_backtest_audit.md):
-- Nếu audit xác nhận Max 3D Pro ranking không đổi meaningfully sau evaluator fix → Chu kỳ 24 dùng picks hiện tại (max_3d_pro vẫn null → skip từ budget-aware scope).
-- Nếu audit làm valid picks xuất hiện cho 3D Pro → Chu kỳ 24 extend scope bao gồm 3D Pro, dùng corrected evaluator.
+**User decision 2026-04-24**: all 5 products in scope (including 2 null-pick products). Implication: allocator must handle null-pick products with a disclosed fallback strategy — see §Null-pick policy below.
+
+**Phase A audit resolution**: max_3d_pro rankings DID shift internally (B2 TierWeighted replaces EVMaximizer as top composite under corrected evaluator), but still fails forward gate → picks stays null. Chu kỳ 24 references corrected evaluator when allocating for 3D Pro.
 
 ---
 
 ### Hypothesis / Goal (pre-registered)
 
-For each product P with valid `picks.*` (post-audit), and budget B in a pre-registered ladder:
+For each product P, at the pre-registered reference budget **B = 50,000 VND** (= 5 tickets @ 10K each):
 
 ```
-X*(P, B) = arg max_{X: cost(X) ≤ B}  composite_budget(P, X, B)
+X*(P) = arg max_{X: cost(X) ≤ 50000}  composite_budget(P, X)
 ```
 
 where `composite_budget` = weighted sum of backtest-estimated metrics:
@@ -56,25 +57,25 @@ where `composite_budget` = weighted sum of backtest-estimated metrics:
 
 ### Scope
 
-**Budget ladder (5 tiers)**:
+**Budget (single reference, frozen)**: **50,000 VND = 5 tickets** per product per invocation.
 
-| Tier | Budget (VND) | Target user |
+Rationale: user decision 2026-04-24. Original draft had 5-tier ladder (10K–1M); shrunk to 1 tier for MVP scope. Future Chu kỳ 25+ can extend ladder if needed. Allocator + UI may still accept arbitrary budget input — but only B=50K is pre-registered and verified; other values surface with "experimental" caveat.
+
+**Products in scope (ALL 5)**:
+
+| Product | Chu kỳ 22 picks state | Chu kỳ 24 allocator policy |
 |---|:-:|---|
-| T1 | 10,000 | 1 vé — baseline |
-| T2 | 50,000 | 5 vé — casual |
-| T3 | 100,000 | 10 vé — regular |
-| T4 | 500,000 | 50 vé — heavy |
-| T5 | 1,000,000 | 100 vé — enthusiast |
+| Power 6/55 | ✓ valid (MinDistance all_three) | Use pick strategies directly |
+| Power 5/35 | ✓ valid (Freq_Hot all_three) | Use pick strategies directly |
+| Max 3D | ✓ valid (3-pick diverse) | Use pick strategies directly |
+| Mega 6/45 | ✗ null (baseline drift) | Null-pick policy (see §Null-pick policy) |
+| Max 3D Pro | ✗ null (regime split, confirmed under corrected evaluator) | Null-pick policy (see §Null-pick policy) |
 
-**Products in scope**:
-- Power 6/55, Power 5/35, Max 3D (dựa trên Chu kỳ 22 valid picks)
-- **Excluded**: Mega 6/45 (null picks, no anchor); Max 3D Pro (null hoặc corrected từ Phase A audit TBD)
-
-**Portfolio strategies** (candidates to compose X from):
-- **Pure**: repeat pick strategy N times (with stochastic variation)
-- **Mixed**: split budget between `picks.winrate` + `picks.roi` (ratio ∈ {50/50, 70/30, 30/70})
-- **Hedged**: X% pick-driven + (100−X)% Random diversification (X ∈ {70, 85, 100})
-- **Wheel** (matrix only): MinDistance or coverage-optimized full wheel when N ≥ 20
+**Portfolio strategies** (candidates to compose X from, with 5-ticket budget constraint):
+- **Pure**: repeat one pick strategy 5 times (with stochastic seed variation per ticket)
+- **Mixed**: split 5 tickets between `picks.winrate` + `picks.roi` (ratios: 3:2, 2:3, 1:4, 4:1)
+- **Hedged**: k tickets pick-driven + (5−k) tickets Random diversification (k ∈ {3, 4, 5})
+- **Wheel** (matrix only): MinDistance-style 5-ticket spread maximizing Hamming distance pairs
 
 **Explicitly excluded allocation paradigms**:
 - **Kelly concentration** — falsified Chu kỳ 16 (Δ up to −28pp). Principle #17 family-eliminated. **DO NOT propose**.
@@ -82,37 +83,63 @@ where `composite_budget` = weighted sum of backtest-estimated metrics:
 
 ---
 
+### Null-pick policy (Mega 6/45 + Max 3D Pro)
+
+User decision 2026-04-24: both null-pick products included in Chu kỳ 24 scope. Allocator must still produce a portfolio recommendation for each.
+
+**Principle**: honesty-first — portfolio draws from best-composite strategy from rankings **regardless of split-half/forward verdict**, but UI disclosure explicitly flags that product has no verified edge.
+
+**Strategy source per null-pick product**:
+
+| Product | Source | Strategy fallback |
+|---|---|---|
+| Mega 6/45 | cycle22_rankings.json top-composite by Balanced profile | Whatever ranks #1 under Balanced weights (ignoring split-half failure) |
+| Max 3D Pro | cycle22_backtest_3dpro_corrected.json top-composite by Balanced profile | Under corrected evaluator: B2 TierWeighted (#1 ROI/Balanced), D1 EVMaximizer (#1 WinRate). Use Balanced → B2 TierWeighted. |
+
+**Disclosure policy**:
+- UI label: `⚠ Không có edge xác nhận` (not 🎯/💰/⚖ pick badges)
+- Tooltip/expandable: "Sản phẩm này không có strategy nào vượt qua split-half + forward verify. Portfolio dưới đây dựa trên top-composite strategy trong null field, chỉ mang tính tham khảo."
+- CSV export: include `caveat: "no_verified_edge"` column
+- Không fallback sang Random — phá logic Chu kỳ 22 null semantic. Random sẵn có làm baseline nhưng không surface làm recommendation.
+
+**If user disables disclosure (future opt-out)**: still emit portfolio but with reduced font-size warning. Không được hide.
+
 ### Methodology
 
 #### Phase 0 — Power Gate Classification
 - Primary metric: composite_budget score (descriptive-only, no significance claim)
 - Inherits Chu kỳ 22 exploratory-only classification for all products
-- **No Accept/Reject verdicts**. Output is best-portfolio-per-budget table.
+- **No Accept/Reject verdicts**. Output is best-portfolio-per-product table at B=50K.
 
 #### Phase 1 — Implementation
 1. Python allocator `research/optimization/cycle24_allocator.py`:
-   - Enumerate portfolio candidates per (product, budget_tier)
-   - For each candidate: simulate forward-window (last 100 draws) × N_RUNS=5
+   - Enumerate portfolio candidates per product (Pure / Mixed / Hedged / Wheel variants)
+   - For each candidate: simulate forward-window (last 100 draws) × N_RUNS=5 at B=50K (5 tickets)
+   - For null-pick products (Mega 6/45, Max 3D Pro): source strategy from top-composite Balanced profile ranking (ignore split-half failure)
+   - For Max 3D Pro: use corrected backtest data from `cycle22_backtest_3dpro_corrected.json` (not legacy `cycle22_backtest_3d.json`)
    - Compute composite_budget per pre-reg formula
-   - Output `cycle24_portfolios.json` — top-3 portfolios per (product, budget)
+   - Output `cycle24_portfolios.json` — top-3 portfolios per product × 5 products = 15 recommendations
 2. CLI tool `vietlott-budget` (Click, reuses check_rate evaluators):
-   - `vietlott-budget --product power_655 --budget 100000`
-   - Output: recommended portfolio + expected stats + disclaimer
+   - `vietlott-budget --product power_655`  (budget implicitly 50K)
+   - Flag `--budget N` to experiment with non-50K values (clearly marked non-canonical)
+   - Output: recommended portfolio + expected stats + disclaimer (+ null-pick caveat if applicable)
 3. UI widget `/suggest` budget section:
-   - Input: slider or preset buttons for budget ladder
+   - Input: 50K budget displayed prominently; optional "custom budget" expander
    - Output: recommended portfolio breakdown + downloadable CSV compatible với check-rate
-4. Integration test: generated portfolio passes into check-rate → ROI numbers align with allocator predictions (within ±10%)
+   - Null-pick products: disclosure banner above portfolio
+4. Integration test: generated portfolio at B=50K passes into check-rate → ROI numbers align với allocator predictions (within ±10% tolerance, accounting for simulation variance)
 
 #### Phase 2 — Validation
 
 Post-ship QA:
-- All 3 products × 5 budget tiers = 15 recommendations verified
+- All 5 products × 1 budget (50K) = 5 recommendations verified
 - Composite scores reproducible (seed=42)
 - UI generates valid CSV for check-rate
+- Null-pick products surface with proper disclosure banner (automated UI check)
 
 ### Retry Tree (Principle #16)
 
-**Tier 1 — Paradigm swap (if composite_budget produces inconsistent recommendations across budget tiers)**:
+**Tier 1 — Paradigm swap (if composite_budget produces pathological recommendations for ≥2 products)**:
 - R1: Drop composite, switch to pure E[payout] maximization
 - R2: Drop composite, switch to pure P(win ≥ 1) maximization
 
@@ -120,9 +147,9 @@ Post-ship QA:
 - V1: Increase N_RUNS to 10 (reduce simulation variance)
 - V2: Extend forward window to last-200 (more stable E[payout] estimates)
 - V3: Add "diversity bonus" explicit term to composite
-- V4: Cap per-strategy ticket count at budget/3 (prevent pathological all-in)
+- V4: Cap per-strategy ticket count at 3/5 (prevent pathological all-in)
 
-Cap **3 retries total** per Principle #16. Failure after retries → ship smaller scope (e.g., only T1–T3 budgets, defer T4–T5).
+Cap **3 retries total** per Principle #16. Failure after retries → ship smaller scope (e.g., only 3 valid-pick products, defer null-pick products to Chu kỳ 25+ with updated policy).
 
 ### Family Check (Principle #17 binding)
 
@@ -137,19 +164,19 @@ This cycle proposes **diversity + wheeling + hedge mixtures** — none in elimin
 
 ### Decision Rule
 
-**Composite score (frozen pre-reg)** — rank portfolio candidates within (product, budget_tier) by composite_budget. Top-1 = recommended.
+**Composite score (frozen pre-reg)** — rank portfolio candidates per product by composite_budget at B=50K. Top-1 = recommended.
 
-**Budget efficiency floor**: reject portfolios using < 80% of budget (exception: T1=10K has only 1 option). Prevents degenerate "buy 1 ticket with 1M budget" outcomes.
+**Budget efficiency floor**: at B=50K with per-ticket cost 10K, only 5-ticket portfolios qualify. Portfolios using <5 tickets (e.g., 3-ticket saving 20K) rejected unless variance_penalty justifies (≥10% composite improvement vs full 5-ticket equivalent). Prevents degenerate "buy 1 ticket, save the rest" outcomes while allowing legitimate risk-off picks.
 
-**No UI escalation**: all recommendations surface with disclosure — EV âm, portfolio tốt nhất trong null field, không đảm bảo positive ROI. Label taxonomy: "💰 Portfolio T3 (100K)" not "🏆 Khuyến nghị".
+**No UI escalation**: all recommendations surface with disclosure — EV âm, portfolio tốt nhất trong null field, không đảm bảo positive ROI. Label taxonomy: `💰 Portfolio 50K` (valid-pick products) / `⚠ Không có edge xác nhận` (null-pick products). Never "🏆 Khuyến nghị".
 
 ---
 
 ### Artifacts
 
-- Pre-reg (this file) — frozen on approve
+- Pre-reg (this file, at `proposals/` root) — APPROVED, moves to `proposals/executed/` on ship
 - `research/optimization/cycle24_allocator.py` — computation
-- `research/optimization/cycle24_portfolios.json` — canonical output (3 products × 5 budgets × top-3 portfolios)
+- `research/optimization/cycle24_portfolios.json` — canonical output (5 products × top-3 portfolios @ B=50K)
 - `research/optimization/cycle24_review.md` — diagnostic review (if anomalies surface)
 - `history/cycle24_budget_aware.md` — closure record on ship
 - CLI: `src/vietlott/cli/budget.py` + `vietlott-budget` entry in `pyproject.toml`
@@ -157,11 +184,16 @@ This cycle proposes **diversity + wheeling + hedge mixtures** — none in elimin
 
 ---
 
-### Open questions (resolve before freeze)
+### User decisions (resolved 2026-04-24, frozen)
 
-1. **Max 3D Pro inclusion**: Phase A audit output pending. Default assumption: exclude (null picks stay null). Revisit if audit flips rankings.
-2. **Matrix product Mega 6/45**: null picks → no anchor. Option A = exclude from Chu kỳ 24. Option B = allow "Random diversification only" for null-pick products. **Recommendation: Option A** — simpler UX + consistent with Chu kỳ 22 null semantic.
-3. **Ticket count minimum for wheel strategies**: current Chu kỳ 22 MinDistance is single-ticket logic ported. For budget T4+ (≥50 tickets), do we keep single-ticket repeat OR auto-swap to full wheel? **Recommendation**: budget ≥ 50 tickets triggers wheel mode if product is matrix. Document in allocator.
+| Item | Resolution |
+|---|---|
+| Budget ladder | **Single tier B = 50K (5 tickets)**. No ladder in Chu kỳ 24 scope. Optional UI custom-budget expander, but only 50K is canonical. |
+| Composite weights | **As drafted**: 0.35/0.25/0.15/0.15/0.10 (E[payout]/P(win≥1)/variance_penalty/coverage/budget_eff) |
+| Product scope | **All 5 products** incl. Mega 6/45 + Max 3D Pro (null-pick policy applies to 2 null products) |
+| Phase A audit integration | **Use corrected evaluator** for 3D Pro (from [cycle22_3dpro_audit.md](../../optimization/cycle22_3dpro_audit.md)); do not overwrite cycle22_rankings.json |
+| Retry tree + family check | As drafted, satisfactory |
+| Wheel trigger threshold | At B=50K there's only 5 tickets → wheel mode auto-engaged for matrix products (MinDistance-style 5-ticket spread). No threshold decision needed in Chu kỳ 24. |
 
 ---
 
@@ -170,15 +202,4 @@ This cycle proposes **diversity + wheeling + hedge mixtures** — none in elimin
 - New strategy mechanism proposal (would trigger §9 closure reopen, Chu kỳ 25+ only)
 - Modifying Chu kỳ 22 picks output (upstream)
 - Running check-rate analytics on real user budgets (privacy)
-
----
-
-### Approval checklist (for user to confirm before freeze)
-
-- [ ] Goal statement accurate?
-- [ ] Budget ladder matches user intent? (10K / 50K / 100K / 500K / 1M VND)
-- [ ] Composite weights acceptable? (0.35/0.25/0.15/0.15/0.10)
-- [ ] Product scope correct? (Power 6/55, Power 5/35, Max 3D; exclude Mega 6/45 + 3D Pro)
-- [ ] Phase A audit result integration path clear?
-- [ ] Retry tree + family check satisfactory?
-- [ ] Artifact list complete?
+- Budget ladder beyond 50K (ladder extension = Chu kỳ 25+ scope if demanded)
