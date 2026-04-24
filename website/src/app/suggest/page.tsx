@@ -7,7 +7,8 @@ import { loadMatrixData, loadThreeDData } from "@/lib/data-loader";
 import { generateSuggestions } from "@/lib/suggest-matrix";
 import { generate3DSuggestions } from "@/lib/suggest-3d";
 import { SuggestionPanel } from "@/components/products/SuggestionPanel";
-import { BudgetWidget } from "@/components/products/BudgetWidget";
+// BudgetWidget import tạm gỡ (Chu kỳ 24 hidden) — see research/history/cycle24_budget_aware.md.
+// Component + data module vẫn còn trong repo để re-enable sau.
 import { cn } from "@/lib/utils";
 import type {
   MatrixDraw,
@@ -203,26 +204,20 @@ function SuggestPageContent() {
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
               </div>
             ) : product.group === "matrix" ? (
-              <div className="space-y-4">
-                <SuggestionPanel
-                  type="matrix"
-                  slug={slug as "power-655" | "power-645" | "power-535"}
-                  onGenerate={makeMatrixHandler(slug)}
-                  hasSpecial={product.hasSpecial}
-                  color={product.color}
-                />
-                <BudgetWidget product={product} matrixDraws={drawsCache[slug]?.matrix} />
-              </div>
+              <SuggestionPanel
+                type="matrix"
+                slug={slug as "power-655" | "power-645" | "power-535"}
+                onGenerate={makeMatrixHandler(slug)}
+                hasSpecial={product.hasSpecial}
+                color={product.color}
+              />
             ) : (
-              <div className="space-y-4">
-                <SuggestionPanel
-                  type="3d"
-                  slug={slug as "max-3d" | "max-3d-pro"}
-                  onGenerate={makeThreeDHandler(slug)}
-                  color={product.color}
-                />
-                <BudgetWidget product={product} threeDDraws={drawsCache[slug]?.threeD} />
-              </div>
+              <SuggestionPanel
+                type="3d"
+                slug={slug as "max-3d" | "max-3d-pro"}
+                onGenerate={makeThreeDHandler(slug)}
+                color={product.color}
+              />
             )}
           </div>
         );
