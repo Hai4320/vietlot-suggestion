@@ -1,0 +1,14 @@
+{
+  "method_id": "C6_negative_control_535",
+  "description": "Negative control: try C6 A=B structure on Power 5/35 (no A=B doubling rule in quy chế). Expected: ~Random (no edge). Confirms C6 finding is Max 3D Pro-specific.",
+  "category": "C",
+  "applicable_products": ["power_535"],
+  "n_runs": 50,
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"},
+  "note": "NOTE: this method uses fixed n_tickets=1 for Power 5/35 because a_equal_b is 3D Pro-specific bet-structure. The 'negative control' angle is that with NO doubling rule, random baseline should match A3 Random ~= -90%. If ROI differs, indicates framework bug."
+}

@@ -1,0 +1,13 @@
+{
+  "method_id": "C6_ab_random_N200",
+  "description": "C6 A=B random retest at N_RUNS=200 for tight CI validation (Chu kỳ 27 N=20 showed +4758% ROI — confirm at 10× runs)",
+  "category": "C",
+  "applicable_products": ["max_3d_pro"],
+  "n_runs": 200,
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "a_equal_b"},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

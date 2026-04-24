@@ -582,6 +582,19 @@ def _generate_ticket_bundle(spec: dict, adapter: ProductAdapter, history,
             return [[x, x]]
         return [base]
 
+    if btype == "a_equal_b_portfolio":
+        # 3D Pro only: pick N different Xs, emit N tickets [[X1,X1], [X2,X2], ...]
+        n = bet.get("n_tickets", 10)
+        out = []
+        for _ in range(n):
+            base = _resolve_ticket(spec["selection"], adapter, history, target_idx,
+                                   persistent_cache, rotate_idx)
+            if isinstance(base, str):
+                out.append([base, base])
+            elif isinstance(base, list) and len(base) >= 1:
+                out.append([base[0], base[0]])
+        return out
+
     if btype == "key_wheel":
         # Matrix: key_numbers fixed + rotate through others
         if not isinstance(adapter, MatrixAdapter):
@@ -925,7 +938,10 @@ def aggregate_metrics(runs: list[RunState]) -> dict:
 
 def evaluate_method_on_product(spec: dict, product_key: str,
                                 seg_config: dict = None) -> dict:
-    """Run N_RUNS simulations on 4 segments (full/half1/half2/forward)."""
+    """Run N_RUNS simulations on 4 segments (full/half1/half2/forward).
+
+    Chu kỳ 28+: spec may override n_runs via `spec["n_runs"]` (for high-CI validation).
+    """
     adapter = make_adapter(product_key)
     history = adapter.load_history()
     n = adapter.history_len(history)
@@ -940,10 +956,13 @@ def evaluate_method_on_product(spec: dict, product_key: str,
         "forward": (forward_start, n),
     }
 
+    # Per-spec n_runs override; default to module-level N_RUNS
+    n_runs = int(spec.get("n_runs", N_RUNS))
+
     result = {}
     for seg_name, (s, e) in segments.items():
         runs: list[RunState] = []
-        for run_idx in range(N_RUNS):
+        for run_idx in range(n_runs):
             seed = SEED_BASE + run_idx + hash(spec.get("method_id", "")) % 10_000
             rs = simulate_run(spec, adapter, history, s, e, seed)
             runs.append(rs)
@@ -951,6 +970,7 @@ def evaluate_method_on_product(spec: dict, product_key: str,
         metrics["segment"] = seg_name
         metrics["start_idx"] = s
         metrics["end_idx"] = e
+        metrics["n_runs_used"] = n_runs
         result[seg_name] = metrics
     return result
 

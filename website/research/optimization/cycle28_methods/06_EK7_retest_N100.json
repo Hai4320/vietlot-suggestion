@@ -1,0 +1,13 @@
+{
+  "method_id": "E_K7_645_retest_N100",
+  "description": "Retest Chu kỳ 27 E every K=7 × Power 6/45 (-60.5% vs Random -86.2% = +25pp Inconclusive) at N_RUNS=100",
+  "category": "E",
+  "applicable_products": ["power_645"],
+  "n_runs": 100,
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_k", "k": 7},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

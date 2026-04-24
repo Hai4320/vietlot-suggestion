@@ -1,6 +1,6 @@
 ## Chu Kỳ 28 — Pre-Registration: C6 A=B Validation + Meta-Analysis + Novel Hybrids
 
-**Status**: ✅ **APPROVED 2026-04-24** (user "Next"). Frozen per Principle #16.
+**Status**: ✅ **EXECUTED 2026-04-24** (same-day framework + 8 methods shipped). Moved to `executed/` on close. Frozen per Principle #16. Verdict record: [history/cycle28_c6_validation_meta_analysis.md](../../history/cycle28_c6_validation_meta_analysis.md).
 
 **Mode**: Optimization validation + meta-analysis. HIGHEST STAKES cycle (potential first Accept claim in project history).
 

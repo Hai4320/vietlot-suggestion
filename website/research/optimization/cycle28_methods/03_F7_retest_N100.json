@@ -1,0 +1,13 @@
+{
+  "method_id": "F7_K50_retest_N100",
+  "description": "Retest Chu kỳ 25 F7 K=50 escape × Power 5/35 (+10.8pp Inconclusive) at N_RUNS=100",
+  "category": "F",
+  "applicable_products": ["power_535"],
+  "n_runs": 100,
+  "selection": {"type": "fixed_persistent", "algorithm": "MinDistance", "params": {"lookback_days": 365, "n_candidates": 30}},
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "until_condition"},
+  "stop_condition": {"type": "combined", "budget_vnd": 10000000, "k": 50},
+  "compounding": {"type": "flat"}
+}

@@ -1,0 +1,13 @@
+{
+  "method_id": "C5_fw_rv_retest_N100",
+  "description": "Retest Chu kỳ 26 C5 forward+reverse hedge × Max 3D Pro (full +34.5pp but forward fail) at N_RUNS=100",
+  "category": "C",
+  "applicable_products": ["max_3d_pro"],
+  "n_runs": 100,
+  "selection": {"type": "algorithm_fresh", "algorithm": "TierWeighted", "params": {"lookback": 300, "temperature": 0.8}},
+  "bet_size": {"type": "forward_reverse_hedge"},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

@@ -2,9 +2,9 @@
 
 **Purpose**: Registry của pre-regs (frozen per Principle #16). `proposals/` root = active/pending/PAUSED. `proposals/executed/` = completed (frozen, cross-linked từ history/).
 
-**Last updated**: 2026-04-24 (Chu kỳ 27 SHIPPED with 🚨 C6 A=B SUGGESTIVE — first positive-EV finding in 27 cycles)
+**Last updated**: 2026-04-24 (Chu kỳ 28 SHIPPED — 🚨 C6 VALIDATED at N=200, all Inconclusives demoted, pending external user validation)
 
-**🎯 Current priority**: **Chu kỳ 28 CRITICAL** — validate C6 A=B Max 3D Pro exploit before Accept claim. Steps: real-world ticket purchase trial + Vietlott UI feasibility check + replicate at N_RUNS=200 + draft rule-stability disclosure language. Also: retest Inconclusives, meta-analysis, novel hybrid discovery.
+**🎯 Current priority**: **USER ACTION** — complete C6 A=B external validation per [cycle28_meta_analysis.md §5](../optimization/cycle28_meta_analysis.md). 4 steps: Vietlott UI feasibility check + real ticket purchase + payout verification + rule stability monitoring. If validated → UPGRADE to Accept (potentially first in project history).
 
 ---
 
@@ -31,6 +31,7 @@
 | [executed/cycle25_method_evaluation_framework.md](executed/cycle25_method_evaluation_framework.md) | 25 | Method Evaluation Framework + Tier-1 — 13 methods × 5 products. Gambler's fallacy refalsified. | [history/cycle25_method_evaluation_framework.md](../history/cycle25_method_evaluation_framework.md) |
 | [executed/cycle26_tier2_wheeling_3d_permutations.md](executed/cycle26_tier2_wheeling_3d_permutations.md) | 26 | Tier-2 Wheeling + 3D Permutations — 12 methods. Wheeling P(hit) ↑ but ROI tied; C5 3D Pro forward-gate fail. | [history/cycle26_tier2_wheeling_3d_permutations.md](../history/cycle26_tier2_wheeling_3d_permutations.md) |
 | [executed/cycle27_tier3_compounding_calendar.md](executed/cycle27_tier3_compounding_calendar.md) | 27 | 🚨 Tier-3 Compounding + Calendar + **C6 A=B SUGGESTIVE +4758% ROI** (first positive-EV in 27 cycles, exploits quy chế). Compounding G forward-fail. | [history/cycle27_tier3_compounding_calendar.md](../history/cycle27_tier3_compounding_calendar.md) |
+| [executed/cycle28_c6_validation_meta_analysis.md](executed/cycle28_c6_validation_meta_analysis.md) | 28 | 🚨 **C6 VALIDATED at N_RUNS=200** (+3752 to +4372% 4 segments consistent). H1/H5 hybrids confirm linear scaling. All prior Inconclusives demoted. Meta-analysis: 47/73 methods tested. | [history/cycle28_c6_validation_meta_analysis.md](../history/cycle28_c6_validation_meta_analysis.md) |
 
 ---
 
@@ -38,25 +39,20 @@
 
 ### Tier 1: Active / primary
 
-#### 1. **Chu kỳ 28 — CRITICAL PRIORITY — C6 A=B validation**
+#### 1. **USER ACTION — C6 A=B external validation** (non-framework)
 
-- **Trigger**: Chu kỳ 27 found SUGGESTIVE +4758% ROI C6 A=B Max 3D Pro — first positive-EV finding in 27 cycles
-- **Priority**: 🔴 HIGH — potentially first Accept claim in project history
-- **Scope**:
-  1. Replicate at N_RUNS=200 (variance tightening, CI CI)
-  2. External real-world trial: 1 A=B ticket × N draws, verify Vietlott actually pays doubled prize
-  3. Vietlott UI feasibility check: can user submit A=B ticket through official channels?
-  4. Rule stability assessment: how often does Vietlott change quy chế? Back-check historical changes.
-  5. If all verified → DRAFT UI disclosure banner + consider surfacing as recommendation (Accept)
-  6. If NOT verified → document as research-only finding
-- **Also in Chu kỳ 28**:
-  - Retest Chu kỳ 25/26 Inconclusives at N_RUNS=200 (F7 × 5/35, F1b 3D, C5 3D Pro)
-  - Meta-analysis: cross-cycle synthesis of 22-27 findings
-  - Novel hybrid discovery from 6-dim gaps
-- **Effort**: ~5 ngày
-- **Deferred from earlier cycles (optional scope)**:
-  - C4 KK 2-số-cuối focused (tier-targeting adapter)
-  - B8 5/35 special sub-strategies, B9 6/55 bonus-ball targeting (product-specific adapter work)
+See [cycle28_meta_analysis.md §5](../optimization/cycle28_meta_analysis.md).
+
+- Vietlott UI feasibility check (can user submit A=B ticket)
+- Test ticket purchase + payout verification
+- Rule stability monitoring
+- Conditional: upgrade SUGGESTIVE-CONFIRMED → Accept
+
+#### 2. **Chu kỳ 29+ (optional)** — continued research OR close phase
+
+- Deferred adapter work: C4 KK 2-số-cuối, B8 5/35 special, B9 6/55 bonus
+- Novel hybrid discovery from remaining 6-dim gaps (low priority)
+- OR: close research phase với C6 as headline finding
 
 #### Done (archival)
 - **Chu kỳ 22 Optimization Mode** — executed 2026-04-22, see [executed/cycle22_optimization_mode.md](executed/cycle22_optimization_mode.md) + [history/cycle22_optimization_mode.md](../history/cycle22_optimization_mode.md)
@@ -65,6 +61,7 @@
 - **Chu kỳ 25 Method Evaluation Framework** — executed 2026-04-24, see [executed/cycle25_method_evaluation_framework.md](executed/cycle25_method_evaluation_framework.md) + [history/cycle25_method_evaluation_framework.md](../history/cycle25_method_evaluation_framework.md)
 - **Chu kỳ 26 Tier-2 Wheeling + 3D Permutations** — executed 2026-04-24, see [executed/cycle26_tier2_wheeling_3d_permutations.md](executed/cycle26_tier2_wheeling_3d_permutations.md) + [history/cycle26_tier2_wheeling_3d_permutations.md](../history/cycle26_tier2_wheeling_3d_permutations.md)
 - **Chu kỳ 27 🚨 Tier-3 Compounding + C6 A=B SUGGESTIVE** — executed 2026-04-24, see [executed/cycle27_tier3_compounding_calendar.md](executed/cycle27_tier3_compounding_calendar.md) + [history/cycle27_tier3_compounding_calendar.md](../history/cycle27_tier3_compounding_calendar.md)
+- **Chu kỳ 28 🚨 C6 Validation + Meta-Analysis** — executed 2026-04-24, see [executed/cycle28_c6_validation_meta_analysis.md](executed/cycle28_c6_validation_meta_analysis.md) + [history/cycle28_c6_validation_meta_analysis.md](../history/cycle28_c6_validation_meta_analysis.md) — **Pending user external validation step**
 
 ### Tier 2: Untested hướng từ META_REVIEW (archived)
 

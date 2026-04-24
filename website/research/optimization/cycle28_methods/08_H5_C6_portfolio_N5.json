@@ -1,0 +1,13 @@
+{
+  "method_id": "H5_C6_ab_portfolio_N5",
+  "description": "H5 hybrid — 5 A=B tickets per draw. Mid-scale comparison (cost 50K/draw)",
+  "category": "H",
+  "applicable_products": ["max_3d_pro"],
+  "n_runs": 50,
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "a_equal_b_portfolio", "n_tickets": 5},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

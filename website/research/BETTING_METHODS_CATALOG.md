@@ -69,7 +69,7 @@ Universal across 5 products:
 | C3 | **Bao xỉu chủ** | User pick → mua cả xỉu (3 số) + chủ (2 số cuối) | N/A — Vietlott 3D không có tier riêng này |
 | C4 | **KK 2 số cuối focused** | Tập trung giải KK (Max 3D) hoặc Tư/Năm (3D Pro) | Deferred Chu kỳ 27 (tier-targeting adapter) |
 | C5 | **Forward + reverse hedge (3D Pro)** | Mua (A,B) + (B,A) → hit cả ĐB + Phụ ĐB | ✓ **Chu kỳ 26** — full +34.5pp nhưng forward-gate FAIL, Inconclusive |
-| C6 | **Same-digit A=B exploit (3D Pro)** | Tập trung tickets A=B để double Nhất-Sáu prizes | ✓ **Chu kỳ 27 — 🚨 SUGGESTIVE +4758% ROI consistent across 4 segments, forward-gate pass. Principle #14 flag investigated, resolved via theoretical EV match. Requires Chu kỳ 28 real-world validation before Accept.** |
+| C6 | **Same-digit A=B exploit (3D Pro)** | Tập trung tickets A=B để double Nhất-Sáu prizes | ✓ **Chu kỳ 27-28 — 🚨 SUGGESTIVE-CONFIRMED: N=200 ROI +3864% full, all 4 segments +3752% to +4372% consistent. Negative control 5/35 = Random (no artifact). Theoretical EV +4180% matches observed. Hybrid N=5/N=10 scale linearly. PENDING external validation (user ticket trial) before Accept.** |
 | C7 | **Digit-sum targeting** | Chọn số có digit-sum ∈ [hot range] (e.g., 10-20) | Subsumed — similar to MaxEntropy SumRange |
 | C8 | **Mirror-paired (số đối)** | Mua 123 + 876 cùng lúc | ✓ **Chu kỳ 26** — within variance |
 | C9 | **Digit-position Bayesian** | Per-position independent posterior | ✓ Chu kỳ 4, 11 (Reject) |

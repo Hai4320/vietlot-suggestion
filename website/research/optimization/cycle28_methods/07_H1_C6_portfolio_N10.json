@@ -1,0 +1,13 @@
+{
+  "method_id": "H1_C6_ab_portfolio_N10",
+  "description": "H1 hybrid — 10 A=B tickets per draw (10 different random Xs, each ticket = [Xi, Xi]). Cost 100K/draw. Expected: same per-ticket EV = +4180% ROI, but P(any hit) ~ 1 - (1-0.02)^10 = 18% vs C6 single 2%",
+  "category": "H",
+  "applicable_products": ["max_3d_pro"],
+  "n_runs": 50,
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "a_equal_b_portfolio", "n_tickets": 10},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}
