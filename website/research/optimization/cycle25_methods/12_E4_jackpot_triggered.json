@@ -1,0 +1,18 @@
+{
+  "method_id": "E4_jackpot_triggered",
+  "description": "E4 — Jackpot-triggered play: only bet on draws when jackpot hasn't hit in last K=5 draws (MVP proxy: every draw until proper jackpot flag data available)",
+  "category": "E",
+  "applicable_products": ["power_655", "power_645"],
+  "note": "MVP implementation: time_frequency.type=jackpot_triggered returns True always (no jackpot data). Metric interpretation as baseline until Vietlott jackpot flag lands in data layer.",
+  "selection": {
+    "type": "random_fresh"
+  },
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {
+    "type": "jackpot_triggered",
+    "k": 5
+  },
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

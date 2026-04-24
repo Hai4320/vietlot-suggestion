@@ -1,0 +1,5235 @@
+{
+  "cycle": 25,
+  "pre_reg": "proposals/cycle25_method_evaluation_framework.md",
+  "timestamp": "2026-04-24 09:28:49",
+  "constants": {
+    "n_runs": 20,
+    "seed_base": 42,
+    "forward_window": 100,
+    "ticket_price_vnd": 10000,
+    "pain_streak_thresholds": [
+      5,
+      10,
+      20
+    ],
+    "ruin_budgets_vnd": [
+      500000,
+      1000000,
+      5000000
+    ],
+    "ruin_window_n": 100
+  },
+  "composite_weights": {
+    "roi_pct": 0.3,
+    "e_payout_per_draw_vnd": 0.15,
+    "p_any_hit_per_draw": 0.15,
+    "sharpe_ratio": 0.1,
+    "neg_ruin_1m": 0.1,
+    "neg_pain_ge10": 0.1,
+    "neg_max_drawdown": 0.1
+  },
+  "methods": [
+    {
+      "method_id": "A1_fixed_ticket",
+      "description": "A1 — Fixed same bộ số (Freq_Hot picked once) qua N kỳ, never changes (matrix-only)",
+      "spec": {
+        "method_id": "A1_fixed_ticket",
+        "description": "A1 — Fixed same bộ số (Freq_Hot picked once) qua N kỳ, never changes (matrix-only)",
+        "category": "A",
+        "applicable_products": [
+          "power_655",
+          "power_645",
+          "power_535"
+        ],
+        "selection": {
+          "type": "fixed_persistent",
+          "algorithm": "Freq_Hot",
+          "params": {
+            "lookback_days": 365,
+            "weight": 0.8
+          }
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "indefinite"
+        },
+        "stop_condition": {
+          "type": "never"
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "power_655": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 25700,
+            "total_cost_vnd": 257000000,
+            "total_payout_vnd": 13380000,
+            "e_payout_per_draw_vnd": 520.62,
+            "p_any_hit_per_draw": 0.0139,
+            "roi_pct": -94.79,
+            "sharpe_ratio": -9.985,
+            "max_drawdown_vnd": 12580000,
+            "variance_norm": 13.15,
+            "ticks_to_first_hit": {
+              "p25": 25,
+              "p50": 43,
+              "p75": 111,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1335
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 12340,
+            "total_cost_vnd": 123400000,
+            "total_payout_vnd": 6390000,
+            "e_payout_per_draw_vnd": 517.83,
+            "p_any_hit_per_draw": 0.0143,
+            "roi_pct": -94.82,
+            "sharpe_ratio": -10.6108,
+            "max_drawdown_vnd": 6050000,
+            "variance_norm": 12.444,
+            "ticks_to_first_hit": {
+              "p25": 25,
+              "p50": 43,
+              "p75": 111,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 667
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 13360,
+            "total_cost_vnd": 133600000,
+            "total_payout_vnd": 7980000,
+            "e_payout_per_draw_vnd": 597.31,
+            "p_any_hit_per_draw": 0.0145,
+            "roi_pct": -94.03,
+            "sharpe_ratio": -8.3416,
+            "max_drawdown_vnd": 6530000,
+            "variance_norm": 13.608,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 31,
+              "p75": 74,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 667,
+            "end_idx": 1335
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 780000,
+            "e_payout_per_draw_vnd": 390.0,
+            "p_any_hit_per_draw": 0.013,
+            "roi_pct": -96.1,
+            "sharpe_ratio": -20.3875,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 8.716,
+            "ticks_to_first_hit": {
+              "p25": 18,
+              "p50": 38,
+              "p75": 48,
+              "never_hit_runs": 4
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "forward",
+            "start_idx": 1235,
+            "end_idx": 1335
+          }
+        },
+        "power_645": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 25060,
+            "total_cost_vnd": 250600000,
+            "total_payout_vnd": 34540000,
+            "e_payout_per_draw_vnd": 1378.29,
+            "p_any_hit_per_draw": 0.0244,
+            "roi_pct": -86.22,
+            "sharpe_ratio": -0.9719,
+            "max_drawdown_vnd": 11780000,
+            "variance_norm": 46.414,
+            "ticks_to_first_hit": {
+              "p25": 16,
+              "p50": 23,
+              "p75": 44,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 1000.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1303
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 12020,
+            "total_cost_vnd": 120200000,
+            "total_payout_vnd": 12510000,
+            "e_payout_per_draw_vnd": 1040.77,
+            "p_any_hit_per_draw": 0.0257,
+            "roi_pct": -89.59,
+            "sharpe_ratio": -6.1317,
+            "max_drawdown_vnd": 5720000,
+            "variance_norm": 10.124,
+            "ticks_to_first_hit": {
+              "p25": 16,
+              "p50": 23,
+              "p75": 44,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 651
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 13040,
+            "total_cost_vnd": 130400000,
+            "total_payout_vnd": 26410000,
+            "e_payout_per_draw_vnd": 2025.31,
+            "p_any_hit_per_draw": 0.0227,
+            "roi_pct": -79.75,
+            "sharpe_ratio": -0.6479,
+            "max_drawdown_vnd": 6160000,
+            "variance_norm": 43.821,
+            "ticks_to_first_hit": {
+              "p25": 13,
+              "p50": 45,
+              "p75": 87,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 1000.0,
+            "segment": "half2",
+            "start_idx": 651,
+            "end_idx": 1303
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 1830000,
+            "e_payout_per_draw_vnd": 915.0,
+            "p_any_hit_per_draw": 0.0215,
+            "roi_pct": -90.85,
+            "sharpe_ratio": -6.3137,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 11.34,
+            "ticks_to_first_hit": {
+              "p25": 7,
+              "p50": 13,
+              "p75": 43,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1203,
+            "end_idx": 1303
+          }
+        },
+        "power_535": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 9920,
+            "total_cost_vnd": 99200000,
+            "total_payout_vnd": 8050000,
+            "e_payout_per_draw_vnd": 811.49,
+            "p_any_hit_per_draw": 0.0144,
+            "roi_pct": -91.89,
+            "sharpe_ratio": -7.1747,
+            "max_drawdown_vnd": 4860000,
+            "variance_norm": 11.38,
+            "ticks_to_first_hit": {
+              "p25": 13,
+              "p50": 51,
+              "p75": 110,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 546
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 4460,
+            "total_cost_vnd": 44600000,
+            "total_payout_vnd": 3600000,
+            "e_payout_per_draw_vnd": 807.17,
+            "p_any_hit_per_draw": 0.0141,
+            "roi_pct": -91.93,
+            "sharpe_ratio": -6.9808,
+            "max_drawdown_vnd": 2180000,
+            "variance_norm": 11.765,
+            "ticks_to_first_hit": {
+              "p25": 13,
+              "p50": 51,
+              "p75": 110,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 273
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 5460,
+            "total_cost_vnd": 54600000,
+            "total_payout_vnd": 4300000,
+            "e_payout_per_draw_vnd": 787.55,
+            "p_any_hit_per_draw": 0.0141,
+            "roi_pct": -92.12,
+            "sharpe_ratio": -7.4282,
+            "max_drawdown_vnd": 2680000,
+            "variance_norm": 11.356,
+            "ticks_to_first_hit": {
+              "p25": 27,
+              "p50": 54,
+              "p75": 108,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half2",
+            "start_idx": 273,
+            "end_idx": 546
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 3250000,
+            "e_payout_per_draw_vnd": 1625.0,
+            "p_any_hit_per_draw": 0.0145,
+            "roi_pct": -83.75,
+            "sharpe_ratio": -2.6261,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 14.152,
+            "ticks_to_first_hit": {
+              "p25": 7,
+              "p50": 18,
+              "p75": 36,
+              "never_hit_runs": 3
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.95,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "forward",
+            "start_idx": 446,
+            "end_idx": 546
+          }
+        }
+      }
+    },
+    {
+      "method_id": "A1b_fixed_ticket_3d",
+      "description": "A1 variant for 3D — Fixed bộ số (FreqWholeHot picked once) qua N kỳ",
+      "spec": {
+        "method_id": "A1b_fixed_ticket_3d",
+        "description": "A1 variant for 3D — Fixed bộ số (FreqWholeHot picked once) qua N kỳ",
+        "category": "A",
+        "applicable_products": [
+          "max_3d",
+          "max_3d_pro"
+        ],
+        "selection": {
+          "type": "fixed_persistent",
+          "algorithm": "FreqWholeHot",
+          "params": {
+            "lookback": 200
+          }
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "indefinite"
+        },
+        "stop_condition": {
+          "type": "never"
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "max_3d": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 20320,
+            "total_cost_vnd": 203200000,
+            "total_payout_vnd": 115270000,
+            "e_payout_per_draw_vnd": 5672.74,
+            "p_any_hit_per_draw": 0.0208,
+            "roi_pct": -43.27,
+            "sharpe_ratio": -0.5687,
+            "max_drawdown_vnd": 7060000,
+            "variance_norm": 9.672,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 23,
+              "p75": 40,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.7,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1066
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 9660,
+            "total_cost_vnd": 96600000,
+            "total_payout_vnd": 59230000,
+            "e_payout_per_draw_vnd": 6131.47,
+            "p_any_hit_per_draw": 0.0225,
+            "roi_pct": -38.69,
+            "sharpe_ratio": -0.4898,
+            "max_drawdown_vnd": 3820000,
+            "variance_norm": 9.289,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 23,
+              "p75": 40,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.7,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 533
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 10660,
+            "total_cost_vnd": 106600000,
+            "total_payout_vnd": 58050000,
+            "e_payout_per_draw_vnd": 5445.59,
+            "p_any_hit_per_draw": 0.0206,
+            "roi_pct": -45.54,
+            "sharpe_ratio": -0.6591,
+            "max_drawdown_vnd": 4190000,
+            "variance_norm": 9.15,
+            "ticks_to_first_hit": {
+              "p25": 22,
+              "p50": 39,
+              "p75": 56,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.65,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "half2",
+            "start_idx": 533,
+            "end_idx": 1066
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 10820000,
+            "e_payout_per_draw_vnd": 5410.0,
+            "p_any_hit_per_draw": 0.027,
+            "roi_pct": -45.9,
+            "sharpe_ratio": -0.7563,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 8.089,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 22,
+              "p75": 36,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.65,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "forward",
+            "start_idx": 966,
+            "end_idx": 1066
+          }
+        },
+        "max_3d_pro": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 13240,
+            "total_cost_vnd": 132400000,
+            "total_payout_vnd": 54400000,
+            "e_payout_per_draw_vnd": 4108.76,
+            "p_any_hit_per_draw": 0.0378,
+            "roi_pct": -58.91,
+            "sharpe_ratio": -0.1627,
+            "max_drawdown_vnd": 5860000,
+            "variance_norm": 63.56,
+            "ticks_to_first_hit": {
+              "p25": 8,
+              "p50": 27,
+              "p75": 43,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 3000.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 712
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 6120,
+            "total_cost_vnd": 61200000,
+            "total_payout_vnd": 40140000,
+            "e_payout_per_draw_vnd": 6558.82,
+            "p_any_hit_per_draw": 0.0379,
+            "roi_pct": -34.41,
+            "sharpe_ratio": -0.0647,
+            "max_drawdown_vnd": 2900000,
+            "variance_norm": 58.481,
+            "ticks_to_first_hit": {
+              "p25": 8,
+              "p50": 27,
+              "p75": 43,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 3000.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 356
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 7120,
+            "total_cost_vnd": 71200000,
+            "total_payout_vnd": 17040000,
+            "e_payout_per_draw_vnd": 2393.26,
+            "p_any_hit_per_draw": 0.0383,
+            "roi_pct": -76.07,
+            "sharpe_ratio": -2.1328,
+            "max_drawdown_vnd": 3180000,
+            "variance_norm": 10.746,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 24,
+              "p75": 60,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.9,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "half2",
+            "start_idx": 356,
+            "end_idx": 712
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 3940000,
+            "e_payout_per_draw_vnd": 1970.0,
+            "p_any_hit_per_draw": 0.029,
+            "roi_pct": -80.3,
+            "sharpe_ratio": -2.3875,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 12.311,
+            "ticks_to_first_hit": {
+              "p25": 6,
+              "p50": 15,
+              "p75": 22,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.95,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "forward",
+            "start_idx": 612,
+            "end_idx": 712
+          }
+        }
+      }
+    },
+    {
+      "method_id": "A3_random_baseline",
+      "description": "A3 — Pure random each draw (BASELINE for comparison)",
+      "spec": {
+        "method_id": "A3_random_baseline",
+        "description": "A3 — Pure random each draw (BASELINE for comparison)",
+        "category": "A",
+        "selection": {
+          "type": "random_fresh"
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "indefinite"
+        },
+        "stop_condition": {
+          "type": "never"
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "power_655": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 25700,
+            "total_cost_vnd": 257000000,
+            "total_payout_vnd": 25330000,
+            "e_payout_per_draw_vnd": 985.6,
+            "p_any_hit_per_draw": 0.0143,
+            "roi_pct": -90.14,
+            "sharpe_ratio": -1.0332,
+            "max_drawdown_vnd": 12490000,
+            "variance_norm": 63.836,
+            "ticks_to_first_hit": {
+              "p25": 14,
+              "p50": 38,
+              "p75": 73,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 1000.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1335
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 12340,
+            "total_cost_vnd": 123400000,
+            "total_payout_vnd": 17290000,
+            "e_payout_per_draw_vnd": 1401.13,
+            "p_any_hit_per_draw": 0.0139,
+            "roi_pct": -85.99,
+            "sharpe_ratio": -0.6859,
+            "max_drawdown_vnd": 6080000,
+            "variance_norm": 64.521,
+            "ticks_to_first_hit": {
+              "p25": 14,
+              "p50": 38,
+              "p75": 73,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 1000.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 667
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 13360,
+            "total_cost_vnd": 133600000,
+            "total_payout_vnd": 7620000,
+            "e_payout_per_draw_vnd": 570.36,
+            "p_any_hit_per_draw": 0.0136,
+            "roi_pct": -94.3,
+            "sharpe_ratio": -8.4152,
+            "max_drawdown_vnd": 6560000,
+            "variance_norm": 14.167,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 25,
+              "p75": 90,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 667,
+            "end_idx": 1335
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 1530000,
+            "e_payout_per_draw_vnd": 765.0,
+            "p_any_hit_per_draw": 0.0165,
+            "roi_pct": -92.35,
+            "sharpe_ratio": -6.5485,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 13.293,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 26,
+              "p75": 46,
+              "never_hit_runs": 3
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1235,
+            "end_idx": 1335
+          }
+        },
+        "power_645": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 25060,
+            "total_cost_vnd": 250600000,
+            "total_payout_vnd": 34540000,
+            "e_payout_per_draw_vnd": 1378.29,
+            "p_any_hit_per_draw": 0.0244,
+            "roi_pct": -86.22,
+            "sharpe_ratio": -0.9719,
+            "max_drawdown_vnd": 11870000,
+            "variance_norm": 46.414,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 26,
+              "p75": 58,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 1000.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1303
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 12020,
+            "total_cost_vnd": 120200000,
+            "total_payout_vnd": 9990000,
+            "e_payout_per_draw_vnd": 831.11,
+            "p_any_hit_per_draw": 0.024,
+            "roi_pct": -91.69,
+            "sharpe_ratio": -8.6861,
+            "max_drawdown_vnd": 5710000,
+            "variance_norm": 9.159,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 26,
+              "p75": 58,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 651
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 13040,
+            "total_cost_vnd": 130400000,
+            "total_payout_vnd": 13680000,
+            "e_payout_per_draw_vnd": 1049.08,
+            "p_any_hit_per_draw": 0.0219,
+            "roi_pct": -89.51,
+            "sharpe_ratio": -5.2984,
+            "max_drawdown_vnd": 6160000,
+            "variance_norm": 11.612,
+            "ticks_to_first_hit": {
+              "p25": 14,
+              "p50": 30,
+              "p75": 47,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.95,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 651,
+            "end_idx": 1303
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 2100000,
+            "e_payout_per_draw_vnd": 1050.0,
+            "p_any_hit_per_draw": 0.0215,
+            "roi_pct": -89.5,
+            "sharpe_ratio": -5.2353,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 11.741,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 27,
+              "p75": 51,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1203,
+            "end_idx": 1303
+          }
+        },
+        "power_535": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 9920,
+            "total_cost_vnd": 99200000,
+            "total_payout_vnd": 9050000,
+            "e_payout_per_draw_vnd": 912.3,
+            "p_any_hit_per_draw": 0.0146,
+            "roi_pct": -90.88,
+            "sharpe_ratio": -5.6293,
+            "max_drawdown_vnd": 4810000,
+            "variance_norm": 12.761,
+            "ticks_to_first_hit": {
+              "p25": 29,
+              "p50": 49,
+              "p75": 80,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.9,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 546
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 4460,
+            "total_cost_vnd": 44600000,
+            "total_payout_vnd": 5400000,
+            "e_payout_per_draw_vnd": 1210.76,
+            "p_any_hit_per_draw": 0.0182,
+            "roi_pct": -87.89,
+            "sharpe_ratio": -4.3688,
+            "max_drawdown_vnd": 2180000,
+            "variance_norm": 11.982,
+            "ticks_to_first_hit": {
+              "p25": 29,
+              "p50": 49,
+              "p75": 80,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.9,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 273
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 5460,
+            "total_cost_vnd": 54600000,
+            "total_payout_vnd": 7350000,
+            "e_payout_per_draw_vnd": 1346.15,
+            "p_any_hit_per_draw": 0.0154,
+            "roi_pct": -86.54,
+            "sharpe_ratio": -3.3166,
+            "max_drawdown_vnd": 2680000,
+            "variance_norm": 13.977,
+            "ticks_to_first_hit": {
+              "p25": 16,
+              "p50": 45,
+              "p75": 74,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.95,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half2",
+            "start_idx": 273,
+            "end_idx": 546
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 1300000,
+            "e_payout_per_draw_vnd": 650.0,
+            "p_any_hit_per_draw": 0.013,
+            "roi_pct": -93.5,
+            "sharpe_ratio": -11.9016,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 8.716,
+            "ticks_to_first_hit": {
+              "p25": 15,
+              "p50": 33,
+              "p75": 54,
+              "never_hit_runs": 2
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 5.0,
+            "segment": "forward",
+            "start_idx": 446,
+            "end_idx": 546
+          }
+        },
+        "max_3d": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 20320,
+            "total_cost_vnd": 203200000,
+            "total_payout_vnd": 105480000,
+            "e_payout_per_draw_vnd": 5190.94,
+            "p_any_hit_per_draw": 0.0193,
+            "roi_pct": -48.09,
+            "sharpe_ratio": -0.6916,
+            "max_drawdown_vnd": 7570000,
+            "variance_norm": 9.659,
+            "ticks_to_first_hit": {
+              "p25": 13,
+              "p50": 49,
+              "p75": 91,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.85,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1066
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 9660,
+            "total_cost_vnd": 96600000,
+            "total_payout_vnd": 46160000,
+            "e_payout_per_draw_vnd": 4778.47,
+            "p_any_hit_per_draw": 0.0184,
+            "roi_pct": -52.22,
+            "sharpe_ratio": -0.7982,
+            "max_drawdown_vnd": 3930000,
+            "variance_norm": 9.872,
+            "ticks_to_first_hit": {
+              "p25": 13,
+              "p50": 49,
+              "p75": 91,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.85,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 533
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 10660,
+            "total_cost_vnd": 106600000,
+            "total_payout_vnd": 50980000,
+            "e_payout_per_draw_vnd": 4782.36,
+            "p_any_hit_per_draw": 0.0179,
+            "roi_pct": -52.18,
+            "sharpe_ratio": -0.7947,
+            "max_drawdown_vnd": 5120000,
+            "variance_norm": 9.9,
+            "ticks_to_first_hit": {
+              "p25": 27,
+              "p50": 55,
+              "p75": 92,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.65,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "half2",
+            "start_idx": 533,
+            "end_idx": 1066
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 8170000,
+            "e_payout_per_draw_vnd": 4085.0,
+            "p_any_hit_per_draw": 0.0185,
+            "roi_pct": -59.15,
+            "sharpe_ratio": -1.1503,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 9.077,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 22,
+              "p75": 44,
+              "never_hit_runs": 3
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.7,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "forward",
+            "start_idx": 966,
+            "end_idx": 1066
+          }
+        },
+        "max_3d_pro": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 13240,
+            "total_cost_vnd": 132400000,
+            "total_payout_vnd": 25940000,
+            "e_payout_per_draw_vnd": 1959.21,
+            "p_any_hit_per_draw": 0.0407,
+            "roi_pct": -80.41,
+            "sharpe_ratio": -4.4099,
+            "max_drawdown_vnd": 5740000,
+            "variance_norm": 6.711,
+            "ticks_to_first_hit": {
+              "p25": 9,
+              "p50": 18,
+              "p75": 35,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 712
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 6120,
+            "total_cost_vnd": 61200000,
+            "total_payout_vnd": 11480000,
+            "e_payout_per_draw_vnd": 1875.82,
+            "p_any_hit_per_draw": 0.041,
+            "roi_pct": -81.24,
+            "sharpe_ratio": -6.0088,
+            "max_drawdown_vnd": 2720000,
+            "variance_norm": 5.198,
+            "ticks_to_first_hit": {
+              "p25": 9,
+              "p50": 18,
+              "p75": 35,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 10.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 356
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 7120,
+            "total_cost_vnd": 71200000,
+            "total_payout_vnd": 14220000,
+            "e_payout_per_draw_vnd": 1997.19,
+            "p_any_hit_per_draw": 0.0409,
+            "roi_pct": -80.03,
+            "sharpe_ratio": -3.7765,
+            "max_drawdown_vnd": 3100000,
+            "variance_norm": 7.651,
+            "ticks_to_first_hit": {
+              "p25": 8,
+              "p50": 15,
+              "p75": 48,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "half2",
+            "start_idx": 356,
+            "end_idx": 712
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 3880000,
+            "e_payout_per_draw_vnd": 1940.0,
+            "p_any_hit_per_draw": 0.0425,
+            "roi_pct": -80.6,
+            "sharpe_ratio": -5.8746,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 5.1,
+            "ticks_to_first_hit": {
+              "p25": 10,
+              "p50": 14,
+              "p75": 29,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 10.0,
+            "segment": "forward",
+            "start_idx": 612,
+            "end_idx": 712
+          }
+        }
+      }
+    },
+    {
+      "method_id": "A4_rotate_algorithms",
+      "description": "A4 — Rotate through {Freq_Hot, MinDistance, Pattern} per draw (matrix) or {FreqWholeHot, DigitPairExploiter, MinimumCoverageSet} (3D)",
+      "spec": {
+        "method_id": "A4_rotate_algorithms",
+        "description": "A4 — Rotate through {Freq_Hot, MinDistance, Pattern} per draw (matrix) or {FreqWholeHot, DigitPairExploiter, MinimumCoverageSet} (3D)",
+        "category": "A",
+        "applicable_products": [
+          "power_655",
+          "power_645",
+          "power_535"
+        ],
+        "selection": {
+          "type": "rotate",
+          "algorithms": [
+            {
+              "algorithm": "Freq_Hot",
+              "params": {
+                "lookback_days": 365,
+                "weight": 0.8
+              }
+            },
+            {
+              "algorithm": "MinDistance",
+              "params": {
+                "lookback_days": 365,
+                "n_candidates": 30
+              }
+            },
+            {
+              "algorithm": "Pattern",
+              "params": {
+                "lookback_days": 180
+              }
+            }
+          ]
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "indefinite"
+        },
+        "stop_condition": {
+          "type": "never"
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "power_655": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 25700,
+            "total_cost_vnd": 257000000,
+            "total_payout_vnd": 13230000,
+            "e_payout_per_draw_vnd": 514.79,
+            "p_any_hit_per_draw": 0.0126,
+            "roi_pct": -94.85,
+            "sharpe_ratio": -9.1277,
+            "max_drawdown_vnd": 12580000,
+            "variance_norm": 14.557,
+            "ticks_to_first_hit": {
+              "p25": 16,
+              "p50": 90,
+              "p75": 128,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1335
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 12340,
+            "total_cost_vnd": 123400000,
+            "total_payout_vnd": 6450000,
+            "e_payout_per_draw_vnd": 522.69,
+            "p_any_hit_per_draw": 0.0123,
+            "roi_pct": -94.77,
+            "sharpe_ratio": -8.7245,
+            "max_drawdown_vnd": 6050000,
+            "variance_norm": 14.987,
+            "ticks_to_first_hit": {
+              "p25": 16,
+              "p50": 90,
+              "p75": 128,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 667
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 13360,
+            "total_cost_vnd": 133600000,
+            "total_payout_vnd": 6570000,
+            "e_payout_per_draw_vnd": 491.77,
+            "p_any_hit_per_draw": 0.0124,
+            "roi_pct": -95.08,
+            "sharpe_ratio": -9.6112,
+            "max_drawdown_vnd": 6560000,
+            "variance_norm": 14.507,
+            "ticks_to_first_hit": {
+              "p25": 27,
+              "p50": 58,
+              "p75": 76,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 667,
+            "end_idx": 1335
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 1080000,
+            "e_payout_per_draw_vnd": 540.0,
+            "p_any_hit_per_draw": 0.009,
+            "roi_pct": -94.6,
+            "sharpe_ratio": -6.9279,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 18.235,
+            "ticks_to_first_hit": {
+              "p25": 19,
+              "p50": 46,
+              "p75": 69,
+              "never_hit_runs": 6
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1235,
+            "end_idx": 1335
+          }
+        },
+        "power_645": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 25060,
+            "total_cost_vnd": 250600000,
+            "total_payout_vnd": 38020000,
+            "e_payout_per_draw_vnd": 1517.16,
+            "p_any_hit_per_draw": 0.0233,
+            "roi_pct": -84.83,
+            "sharpe_ratio": -0.9498,
+            "max_drawdown_vnd": 11840000,
+            "variance_norm": 42.45,
+            "ticks_to_first_hit": {
+              "p25": 7,
+              "p50": 18,
+              "p75": 29,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 1000.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1303
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 12020,
+            "total_cost_vnd": 120200000,
+            "total_payout_vnd": 14160000,
+            "e_payout_per_draw_vnd": 1178.04,
+            "p_any_hit_per_draw": 0.0258,
+            "roi_pct": -88.22,
+            "sharpe_ratio": -5.1054,
+            "max_drawdown_vnd": 5630000,
+            "variance_norm": 10.577,
+            "ticks_to_first_hit": {
+              "p25": 7,
+              "p50": 18,
+              "p75": 29,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 651
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 13040,
+            "total_cost_vnd": 130400000,
+            "total_payout_vnd": 15360000,
+            "e_payout_per_draw_vnd": 1177.91,
+            "p_any_hit_per_draw": 0.0234,
+            "roi_pct": -88.22,
+            "sharpe_ratio": -4.784,
+            "max_drawdown_vnd": 6250000,
+            "variance_norm": 11.289,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 41,
+              "p75": 66,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 651,
+            "end_idx": 1303
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 2100000,
+            "e_payout_per_draw_vnd": 1050.0,
+            "p_any_hit_per_draw": 0.026,
+            "roi_pct": -89.5,
+            "sharpe_ratio": -6.1133,
+            "max_drawdown_vnd": 970000,
+            "variance_norm": 10.054,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 25,
+              "p75": 30,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.95,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1203,
+            "end_idx": 1303
+          }
+        },
+        "power_535": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 9920,
+            "total_cost_vnd": 99200000,
+            "total_payout_vnd": 9950000,
+            "e_payout_per_draw_vnd": 1003.02,
+            "p_any_hit_per_draw": 0.0146,
+            "roi_pct": -89.97,
+            "sharpe_ratio": -4.7667,
+            "max_drawdown_vnd": 4860000,
+            "variance_norm": 13.57,
+            "ticks_to_first_hit": {
+              "p25": 25,
+              "p50": 77,
+              "p75": 159,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 546
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 4460,
+            "total_cost_vnd": 44600000,
+            "total_payout_vnd": 3800000,
+            "e_payout_per_draw_vnd": 852.02,
+            "p_any_hit_per_draw": 0.013,
+            "roi_pct": -91.48,
+            "sharpe_ratio": -5.5202,
+            "max_drawdown_vnd": 2230000,
+            "variance_norm": 14.026,
+            "ticks_to_first_hit": {
+              "p25": 23,
+              "p50": 58,
+              "p75": 141,
+              "never_hit_runs": 2
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 273
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 5460,
+            "total_cost_vnd": 54600000,
+            "total_payout_vnd": 4950000,
+            "e_payout_per_draw_vnd": 906.59,
+            "p_any_hit_per_draw": 0.0165,
+            "roi_pct": -90.93,
+            "sharpe_ratio": -7.082,
+            "max_drawdown_vnd": 2680000,
+            "variance_norm": 10.213,
+            "ticks_to_first_hit": {
+              "p25": 33,
+              "p50": 68,
+              "p75": 107,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half2",
+            "start_idx": 273,
+            "end_idx": 546
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 1350000,
+            "e_payout_per_draw_vnd": 675.0,
+            "p_any_hit_per_draw": 0.0135,
+            "roi_pct": -93.25,
+            "sharpe_ratio": -11.6508,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 8.55,
+            "ticks_to_first_hit": {
+              "p25": 39,
+              "p50": 59,
+              "p75": 78,
+              "never_hit_runs": 6
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 5.0,
+            "segment": "forward",
+            "start_idx": 446,
+            "end_idx": 546
+          }
+        }
+      }
+    },
+    {
+      "method_id": "F1_so_gan_cold_persistence",
+      "description": "F1 — Số gan: pick cold numbers once (LongAbsence matrix / FreqWholeCold 3D), persist until ANY tier hit (user-requested gambler's fallacy test)",
+      "spec": {
+        "method_id": "F1_so_gan_cold_persistence",
+        "description": "F1 — Số gan: pick cold numbers once (LongAbsence matrix / FreqWholeCold 3D), persist until ANY tier hit (user-requested gambler's fallacy test)",
+        "category": "F",
+        "applicable_products": [
+          "power_655",
+          "power_645",
+          "power_535"
+        ],
+        "note": "Matrix-only scope for MVP. F1_3d is a separate spec for 3D analog.",
+        "selection": {
+          "type": "fixed_persistent",
+          "algorithm": "LongAbsence",
+          "params": {
+            "lookback_days": 90
+          }
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "until_condition"
+        },
+        "stop_condition": {
+          "type": "any_tier_hit"
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "power_655": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 1317,
+            "total_cost_vnd": 13170000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 455.58,
+            "p_any_hit_per_draw": 0.0152,
+            "roi_pct": -95.44,
+            "sharpe_ratio": -18.7528,
+            "max_drawdown_vnd": 1640000,
+            "variance_norm": 8.056,
+            "ticks_to_first_hit": {
+              "p25": 16,
+              "p50": 54,
+              "p75": 110,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.55,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.85,
+              "p_ge20": 0.7
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1335
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 1317,
+            "total_cost_vnd": 13170000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 455.58,
+            "p_any_hit_per_draw": 0.0152,
+            "roi_pct": -95.44,
+            "sharpe_ratio": -18.7528,
+            "max_drawdown_vnd": 1640000,
+            "variance_norm": 8.056,
+            "ticks_to_first_hit": {
+              "p25": 16,
+              "p50": 54,
+              "p75": 110,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.55,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.85,
+              "p_ge20": 0.7
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 667
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 1298,
+            "total_cost_vnd": 12980000,
+            "total_payout_vnd": 870000,
+            "e_payout_per_draw_vnd": 670.26,
+            "p_any_hit_per_draw": 0.0154,
+            "roi_pct": -93.3,
+            "sharpe_ratio": -7.4239,
+            "max_drawdown_vnd": 2080000,
+            "variance_norm": 13.521,
+            "ticks_to_first_hit": {
+              "p25": 29,
+              "p50": 46,
+              "p75": 82,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.45,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.95,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 667,
+            "end_idx": 1335
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 1025,
+            "total_cost_vnd": 10250000,
+            "total_payout_vnd": 420000,
+            "e_payout_per_draw_vnd": 409.76,
+            "p_any_hit_per_draw": 0.0137,
+            "roi_pct": -95.9,
+            "sharpe_ratio": -19.851,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 8.502,
+            "ticks_to_first_hit": {
+              "p25": 9,
+              "p50": 27,
+              "p75": 46,
+              "never_hit_runs": 6
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.4,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.75,
+              "p_ge20": 0.7
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "forward",
+            "start_idx": 1235,
+            "end_idx": 1335
+          }
+        },
+        "power_645": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 1047,
+            "total_cost_vnd": 10470000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 573.07,
+            "p_any_hit_per_draw": 0.0191,
+            "roi_pct": -94.27,
+            "sharpe_ratio": -16.5459,
+            "max_drawdown_vnd": 2090000,
+            "variance_norm": 7.169,
+            "ticks_to_first_hit": {
+              "p25": 14,
+              "p50": 32,
+              "p75": 59,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.8,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1303
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 1047,
+            "total_cost_vnd": 10470000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 573.07,
+            "p_any_hit_per_draw": 0.0191,
+            "roi_pct": -94.27,
+            "sharpe_ratio": -16.5459,
+            "max_drawdown_vnd": 2090000,
+            "variance_norm": 7.169,
+            "ticks_to_first_hit": {
+              "p25": 14,
+              "p50": 32,
+              "p75": 59,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.8,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 651
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 798,
+            "total_cost_vnd": 7980000,
+            "total_payout_vnd": 870000,
+            "e_payout_per_draw_vnd": 1090.23,
+            "p_any_hit_per_draw": 0.0251,
+            "roi_pct": -89.1,
+            "sharpe_ratio": -5.5672,
+            "max_drawdown_vnd": 1190000,
+            "variance_norm": 10.586,
+            "ticks_to_first_hit": {
+              "p25": 16,
+              "p50": 26,
+              "p75": 48,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.25,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.9,
+              "p_ge20": 0.7
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 651,
+            "end_idx": 1303
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 612,
+            "total_cost_vnd": 6120000,
+            "total_payout_vnd": 1650000,
+            "e_payout_per_draw_vnd": 2696.08,
+            "p_any_hit_per_draw": 0.031,
+            "roi_pct": -73.04,
+            "sharpe_ratio": -2.1431,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 9.116,
+            "ticks_to_first_hit": {
+              "p25": 9,
+              "p50": 19,
+              "p75": 31,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.2,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.7,
+              "p_ge20": 0.5
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1203,
+            "end_idx": 1303
+          }
+        },
+        "power_535": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 946,
+            "total_cost_vnd": 9460000,
+            "total_payout_vnd": 1000000,
+            "e_payout_per_draw_vnd": 1057.08,
+            "p_any_hit_per_draw": 0.0211,
+            "roi_pct": -89.43,
+            "sharpe_ratio": -8.9609,
+            "max_drawdown_vnd": 2650000,
+            "variance_norm": 6.808,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 32,
+              "p75": 55,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.85,
+              "p_ge20": 0.6
+            },
+            "best_single_hit_ratio": 5.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 546
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 903,
+            "total_cost_vnd": 9030000,
+            "total_payout_vnd": 950000,
+            "e_payout_per_draw_vnd": 1052.05,
+            "p_any_hit_per_draw": 0.021,
+            "roi_pct": -89.48,
+            "sharpe_ratio": -8.9867,
+            "max_drawdown_vnd": 2230000,
+            "variance_norm": 6.825,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 32,
+              "p75": 54,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.85,
+              "p_ge20": 0.6
+            },
+            "best_single_hit_ratio": 5.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 273
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 1783,
+            "total_cost_vnd": 17830000,
+            "total_payout_vnd": 2800000,
+            "e_payout_per_draw_vnd": 1570.39,
+            "p_any_hit_per_draw": 0.0112,
+            "roi_pct": -84.3,
+            "sharpe_ratio": -2.5215,
+            "max_drawdown_vnd": 2720000,
+            "variance_norm": 15.351,
+            "ticks_to_first_hit": {
+              "p25": 37,
+              "p50": 62,
+              "p75": 135,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.6,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.9,
+              "p_ge20": 0.85
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half2",
+            "start_idx": 273,
+            "end_idx": 546
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 869,
+            "total_cost_vnd": 8690000,
+            "total_payout_vnd": 1250000,
+            "e_payout_per_draw_vnd": 1438.43,
+            "p_any_hit_per_draw": 0.0184,
+            "roi_pct": -85.62,
+            "sharpe_ratio": -3.403,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 12.613,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 26,
+              "p75": 44,
+              "never_hit_runs": 4
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.4,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.8,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "forward",
+            "start_idx": 446,
+            "end_idx": 546
+          }
+        }
+      }
+    },
+    {
+      "method_id": "F1b_so_gan_3d",
+      "description": "F1 variant for 3D — FreqWholeCold (least-frequent 3-digit number) persistence until any tier hit",
+      "spec": {
+        "method_id": "F1b_so_gan_3d",
+        "description": "F1 variant for 3D — FreqWholeCold (least-frequent 3-digit number) persistence until any tier hit",
+        "category": "F",
+        "applicable_products": [
+          "max_3d",
+          "max_3d_pro"
+        ],
+        "selection": {
+          "type": "fixed_persistent",
+          "algorithm": "FreqWholeCold",
+          "params": {
+            "lookback": 200
+          }
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "until_condition"
+        },
+        "stop_condition": {
+          "type": "any_tier_hit"
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "max_3d": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 520,
+            "total_cost_vnd": 5200000,
+            "total_payout_vnd": 20000000,
+            "e_payout_per_draw_vnd": 38461.54,
+            "p_any_hit_per_draw": 0.0385,
+            "roi_pct": 284.62,
+            "sharpe_ratio": 1.0662,
+            "max_drawdown_vnd": 250000,
+            "variance_norm": 5.005,
+            "ticks_to_first_hit": {
+              "p25": 26,
+              "p50": 26,
+              "p75": 26,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1066
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 520,
+            "total_cost_vnd": 5200000,
+            "total_payout_vnd": 20000000,
+            "e_payout_per_draw_vnd": 38461.54,
+            "p_any_hit_per_draw": 0.0385,
+            "roi_pct": 284.62,
+            "sharpe_ratio": 1.0662,
+            "max_drawdown_vnd": 250000,
+            "variance_norm": 5.005,
+            "ticks_to_first_hit": {
+              "p25": 26,
+              "p50": 26,
+              "p75": 26,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 533
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 60,
+            "total_cost_vnd": 600000,
+            "total_payout_vnd": 2000000,
+            "e_payout_per_draw_vnd": 33333.33,
+            "p_any_hit_per_draw": 0.3333,
+            "roi_pct": 233.33,
+            "sharpe_ratio": 3.5394,
+            "max_drawdown_vnd": 20000,
+            "variance_norm": 1.426,
+            "ticks_to_first_hit": {
+              "p25": 3,
+              "p50": 3,
+              "p75": 3,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.0,
+              "p_ge10": 0.0,
+              "p_ge20": 0.0
+            },
+            "best_single_hit_ratio": 10.0,
+            "segment": "half2",
+            "start_idx": 533,
+            "end_idx": 1066
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 960,
+            "total_cost_vnd": 9600000,
+            "total_payout_vnd": 4200000,
+            "e_payout_per_draw_vnd": 4375.0,
+            "p_any_hit_per_draw": 0.0208,
+            "roi_pct": -56.25,
+            "sharpe_ratio": -1.3517,
+            "max_drawdown_vnd": 470000,
+            "variance_norm": 6.859,
+            "ticks_to_first_hit": {
+              "p25": 48,
+              "p50": 48,
+              "p75": 48,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 21.0,
+            "segment": "forward",
+            "start_idx": 966,
+            "end_idx": 1066
+          }
+        },
+        "max_3d_pro": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 560,
+            "total_cost_vnd": 5600000,
+            "total_payout_vnd": 800000,
+            "e_payout_per_draw_vnd": 1428.57,
+            "p_any_hit_per_draw": 0.0357,
+            "roi_pct": -85.71,
+            "sharpe_ratio": -8.3192,
+            "max_drawdown_vnd": 270000,
+            "variance_norm": 5.201,
+            "ticks_to_first_hit": {
+              "p25": 28,
+              "p50": 28,
+              "p75": 28,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 4.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 712
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 560,
+            "total_cost_vnd": 5600000,
+            "total_payout_vnd": 800000,
+            "e_payout_per_draw_vnd": 1428.57,
+            "p_any_hit_per_draw": 0.0357,
+            "roi_pct": -85.71,
+            "sharpe_ratio": -8.3192,
+            "max_drawdown_vnd": 270000,
+            "variance_norm": 5.201,
+            "ticks_to_first_hit": {
+              "p25": 28,
+              "p50": 28,
+              "p75": 28,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 4.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 356
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 100,
+            "total_cost_vnd": 1000000,
+            "total_payout_vnd": 800000,
+            "e_payout_per_draw_vnd": 8000.0,
+            "p_any_hit_per_draw": 0.2,
+            "roi_pct": -20.0,
+            "sharpe_ratio": -0.8969,
+            "max_drawdown_vnd": 40000,
+            "variance_norm": 2.01,
+            "ticks_to_first_hit": {
+              "p25": 5,
+              "p50": 5,
+              "p75": 5,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.0,
+              "p_ge10": 0.0,
+              "p_ge20": 0.0
+            },
+            "best_single_hit_ratio": 4.0,
+            "segment": "half2",
+            "start_idx": 356,
+            "end_idx": 712
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 680,
+            "total_cost_vnd": 6800000,
+            "total_payout_vnd": 800000,
+            "e_payout_per_draw_vnd": 1176.47,
+            "p_any_hit_per_draw": 0.0294,
+            "roi_pct": -88.24,
+            "sharpe_ratio": -9.4078,
+            "max_drawdown_vnd": 330000,
+            "variance_norm": 5.749,
+            "ticks_to_first_hit": {
+              "p25": 34,
+              "p50": 34,
+              "p75": 34,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 4.0,
+            "segment": "forward",
+            "start_idx": 612,
+            "end_idx": 712
+          }
+        }
+      }
+    },
+    {
+      "method_id": "F2_hot_persistence",
+      "description": "F2 — Hot number persistence: pick Freq_Hot/FreqWholeHot once, persist until any tier hit",
+      "spec": {
+        "method_id": "F2_hot_persistence",
+        "description": "F2 — Hot number persistence: pick Freq_Hot/FreqWholeHot once, persist until any tier hit",
+        "category": "F",
+        "selection": {
+          "type": "fixed_persistent",
+          "algorithm": "Freq_Hot",
+          "params": {
+            "lookback_days": 365,
+            "weight": 0.8
+          }
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "until_condition"
+        },
+        "stop_condition": {
+          "type": "any_tier_hit"
+        },
+        "compounding": {
+          "type": "flat"
+        },
+        "applicable_products": [
+          "power_655",
+          "power_645",
+          "power_535"
+        ]
+      },
+      "products": {
+        "power_655": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 1977,
+            "total_cost_vnd": 19770000,
+            "total_payout_vnd": 870000,
+            "e_payout_per_draw_vnd": 440.06,
+            "p_any_hit_per_draw": 0.0101,
+            "roi_pct": -95.6,
+            "sharpe_ratio": -9.3807,
+            "max_drawdown_vnd": 3720000,
+            "variance_norm": 16.7,
+            "ticks_to_first_hit": {
+              "p25": 31,
+              "p50": 66,
+              "p75": 107,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.55,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.85,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1335
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 1977,
+            "total_cost_vnd": 19770000,
+            "total_payout_vnd": 870000,
+            "e_payout_per_draw_vnd": 440.06,
+            "p_any_hit_per_draw": 0.0101,
+            "roi_pct": -95.6,
+            "sharpe_ratio": -9.3807,
+            "max_drawdown_vnd": 3720000,
+            "variance_norm": 16.7,
+            "ticks_to_first_hit": {
+              "p25": 31,
+              "p50": 66,
+              "p75": 107,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.55,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.85,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 667
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 1693,
+            "total_cost_vnd": 16930000,
+            "total_payout_vnd": 870000,
+            "e_payout_per_draw_vnd": 513.88,
+            "p_any_hit_per_draw": 0.0118,
+            "roi_pct": -94.86,
+            "sharpe_ratio": -8.616,
+            "max_drawdown_vnd": 2160000,
+            "variance_norm": 15.45,
+            "ticks_to_first_hit": {
+              "p25": 18,
+              "p50": 67,
+              "p75": 137,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.55,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.8,
+              "p_ge20": 0.7
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 667,
+            "end_idx": 1335
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 1047,
+            "total_cost_vnd": 10470000,
+            "total_payout_vnd": 480000,
+            "e_payout_per_draw_vnd": 458.45,
+            "p_any_hit_per_draw": 0.0153,
+            "roi_pct": -95.42,
+            "sharpe_ratio": -18.6874,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 8.031,
+            "ticks_to_first_hit": {
+              "p25": 17,
+              "p50": 37,
+              "p75": 52,
+              "never_hit_runs": 4
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.45,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.9,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "forward",
+            "start_idx": 1235,
+            "end_idx": 1335
+          }
+        },
+        "power_645": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 1442,
+            "total_cost_vnd": 14420000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 416.09,
+            "p_any_hit_per_draw": 0.0139,
+            "roi_pct": -95.84,
+            "sharpe_ratio": -19.6912,
+            "max_drawdown_vnd": 1630000,
+            "variance_norm": 8.435,
+            "ticks_to_first_hit": {
+              "p25": 29,
+              "p50": 71,
+              "p75": 109,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.65,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.95,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1303
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 1442,
+            "total_cost_vnd": 14420000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 416.09,
+            "p_any_hit_per_draw": 0.0139,
+            "roi_pct": -95.84,
+            "sharpe_ratio": -19.6912,
+            "max_drawdown_vnd": 1630000,
+            "variance_norm": 8.435,
+            "ticks_to_first_hit": {
+              "p25": 29,
+              "p50": 71,
+              "p75": 109,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.65,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.95,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 651
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 693,
+            "total_cost_vnd": 6930000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 865.8,
+            "p_any_hit_per_draw": 0.0289,
+            "roi_pct": -91.34,
+            "sharpe_ratio": -13.1053,
+            "max_drawdown_vnd": 1080000,
+            "variance_norm": 5.805,
+            "ticks_to_first_hit": {
+              "p25": 7,
+              "p50": 24,
+              "p75": 50,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.25,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.7,
+              "p_ge20": 0.5
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "half2",
+            "start_idx": 651,
+            "end_idx": 1303
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 598,
+            "total_cost_vnd": 5980000,
+            "total_payout_vnd": 1110000,
+            "e_payout_per_draw_vnd": 1856.19,
+            "p_any_hit_per_draw": 0.0318,
+            "roi_pct": -81.44,
+            "sharpe_ratio": -3.2641,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 9.693,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 18,
+              "p75": 43,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.2,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.75,
+              "p_ge20": 0.45
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1203,
+            "end_idx": 1303
+          }
+        },
+        "power_535": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 1301,
+            "total_cost_vnd": 13010000,
+            "total_payout_vnd": 1450000,
+            "e_payout_per_draw_vnd": 1114.53,
+            "p_any_hit_per_draw": 0.0154,
+            "roi_pct": -88.85,
+            "sharpe_ratio": -4.2471,
+            "max_drawdown_vnd": 1800000,
+            "variance_norm": 13.536,
+            "ticks_to_first_hit": {
+              "p25": 34,
+              "p50": 54,
+              "p75": 87,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.5,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.95,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 546
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 1301,
+            "total_cost_vnd": 13010000,
+            "total_payout_vnd": 1450000,
+            "e_payout_per_draw_vnd": 1114.53,
+            "p_any_hit_per_draw": 0.0154,
+            "roi_pct": -88.85,
+            "sharpe_ratio": -4.2471,
+            "max_drawdown_vnd": 1800000,
+            "variance_norm": 13.536,
+            "ticks_to_first_hit": {
+              "p25": 34,
+              "p50": 54,
+              "p75": 87,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.5,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.95,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 273
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 1452,
+            "total_cost_vnd": 14520000,
+            "total_payout_vnd": 950000,
+            "e_payout_per_draw_vnd": 654.27,
+            "p_any_hit_per_draw": 0.0131,
+            "roi_pct": -93.46,
+            "sharpe_ratio": -11.8567,
+            "max_drawdown_vnd": 2730000,
+            "variance_norm": 8.688,
+            "ticks_to_first_hit": {
+              "p25": 17,
+              "p50": 55,
+              "p75": 78,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.55,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.8,
+              "p_ge20": 0.75
+            },
+            "best_single_hit_ratio": 5.0,
+            "segment": "half2",
+            "start_idx": 273,
+            "end_idx": 546
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 1090,
+            "total_cost_vnd": 10900000,
+            "total_payout_vnd": 1200000,
+            "e_payout_per_draw_vnd": 1100.92,
+            "p_any_hit_per_draw": 0.0138,
+            "roi_pct": -88.99,
+            "sharpe_ratio": -3.976,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 14.66,
+            "ticks_to_first_hit": {
+              "p25": 20,
+              "p50": 44,
+              "p75": 52,
+              "never_hit_runs": 5
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.45,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.85,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "forward",
+            "start_idx": 446,
+            "end_idx": 546
+          }
+        }
+      }
+    },
+    {
+      "method_id": "F2b_hot_persistence_3d",
+      "description": "F2 variant for 3D — FreqWholeHot persistence until any tier hit",
+      "spec": {
+        "method_id": "F2b_hot_persistence_3d",
+        "description": "F2 variant for 3D — FreqWholeHot persistence until any tier hit",
+        "category": "F",
+        "applicable_products": [
+          "max_3d",
+          "max_3d_pro"
+        ],
+        "selection": {
+          "type": "fixed_persistent",
+          "algorithm": "FreqWholeHot",
+          "params": {
+            "lookback": 200
+          }
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "until_condition"
+        },
+        "stop_condition": {
+          "type": "any_tier_hit"
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "max_3d": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 1050,
+            "total_cost_vnd": 10500000,
+            "total_payout_vnd": 4020000,
+            "e_payout_per_draw_vnd": 3828.57,
+            "p_any_hit_per_draw": 0.019,
+            "roi_pct": -61.71,
+            "sharpe_ratio": -1.4517,
+            "max_drawdown_vnd": 1680000,
+            "variance_norm": 8.007,
+            "ticks_to_first_hit": {
+              "p25": 10,
+              "p50": 26,
+              "p75": 77,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.65,
+              "p_ge20": 0.55
+            },
+            "best_single_hit_ratio": 35.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1066
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 1050,
+            "total_cost_vnd": 10500000,
+            "total_payout_vnd": 4020000,
+            "e_payout_per_draw_vnd": 3828.57,
+            "p_any_hit_per_draw": 0.019,
+            "roi_pct": -61.71,
+            "sharpe_ratio": -1.4517,
+            "max_drawdown_vnd": 1680000,
+            "variance_norm": 8.007,
+            "ticks_to_first_hit": {
+              "p25": 10,
+              "p50": 26,
+              "p75": 77,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.65,
+              "p_ge20": 0.55
+            },
+            "best_single_hit_ratio": 35.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 533
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 1260,
+            "total_cost_vnd": 12600000,
+            "total_payout_vnd": 5750000,
+            "e_payout_per_draw_vnd": 4563.49,
+            "p_any_hit_per_draw": 0.0159,
+            "roi_pct": -54.37,
+            "sharpe_ratio": -0.7394,
+            "max_drawdown_vnd": 2170000,
+            "variance_norm": 11.618,
+            "ticks_to_first_hit": {
+              "p25": 26,
+              "p50": 40,
+              "p75": 65,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.4,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.85,
+              "p_ge20": 0.85
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "half2",
+            "start_idx": 533,
+            "end_idx": 1066
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 901,
+            "total_cost_vnd": 9010000,
+            "total_payout_vnd": 7650000,
+            "e_payout_per_draw_vnd": 8490.57,
+            "p_any_hit_per_draw": 0.0222,
+            "roi_pct": -15.09,
+            "sharpe_ratio": -0.1469,
+            "max_drawdown_vnd": 880000,
+            "variance_norm": 8.726,
+            "ticks_to_first_hit": {
+              "p25": 14,
+              "p50": 53,
+              "p75": 71,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.5,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.8,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "forward",
+            "start_idx": 966,
+            "end_idx": 1066
+          }
+        },
+        "max_3d_pro": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 498,
+            "total_cost_vnd": 4980000,
+            "total_payout_vnd": 800000,
+            "e_payout_per_draw_vnd": 1606.43,
+            "p_any_hit_per_draw": 0.0402,
+            "roi_pct": -83.94,
+            "sharpe_ratio": -7.6993,
+            "max_drawdown_vnd": 970000,
+            "variance_norm": 4.894,
+            "ticks_to_first_hit": {
+              "p25": 8,
+              "p50": 17,
+              "p75": 36,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.15,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.8,
+              "p_ge10": 0.7,
+              "p_ge20": 0.5
+            },
+            "best_single_hit_ratio": 4.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 712
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 498,
+            "total_cost_vnd": 4980000,
+            "total_payout_vnd": 800000,
+            "e_payout_per_draw_vnd": 1606.43,
+            "p_any_hit_per_draw": 0.0402,
+            "roi_pct": -83.94,
+            "sharpe_ratio": -7.6993,
+            "max_drawdown_vnd": 970000,
+            "variance_norm": 4.894,
+            "ticks_to_first_hit": {
+              "p25": 8,
+              "p50": 17,
+              "p75": 36,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.15,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.8,
+              "p_ge10": 0.7,
+              "p_ge20": 0.5
+            },
+            "best_single_hit_ratio": 4.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 356
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 553,
+            "total_cost_vnd": 5530000,
+            "total_payout_vnd": 980000,
+            "e_payout_per_draw_vnd": 1772.15,
+            "p_any_hit_per_draw": 0.0362,
+            "roi_pct": -82.28,
+            "sharpe_ratio": -5.9191,
+            "max_drawdown_vnd": 1200000,
+            "variance_norm": 5.656,
+            "ticks_to_first_hit": {
+              "p25": 10,
+              "p50": 16,
+              "p75": 31,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.25,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.6,
+              "p_ge20": 0.3
+            },
+            "best_single_hit_ratio": 10.0,
+            "segment": "half2",
+            "start_idx": 356,
+            "end_idx": 712
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 625,
+            "total_cost_vnd": 6250000,
+            "total_payout_vnd": 900000,
+            "e_payout_per_draw_vnd": 1440.0,
+            "p_any_hit_per_draw": 0.0288,
+            "roi_pct": -85.6,
+            "sharpe_ratio": -6.7165,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 6.382,
+            "ticks_to_first_hit": {
+              "p25": 7,
+              "p50": 20,
+              "p75": 27,
+              "never_hit_runs": 2
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.15,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.65,
+              "p_ge20": 0.55
+            },
+            "best_single_hit_ratio": 10.0,
+            "segment": "forward",
+            "start_idx": 612,
+            "end_idx": 712
+          }
+        }
+      }
+    },
+    {
+      "method_id": "F3_algo_persistence",
+      "description": "F3 — Composite-top algorithm persistence: pick via Chu kỳ 22 winner per product, persist until any hit",
+      "spec": {
+        "method_id": "F3_algo_persistence",
+        "description": "F3 — Composite-top algorithm persistence: pick via Chu kỳ 22 winner per product, persist until any hit",
+        "category": "F",
+        "applicable_products": [
+          "power_655",
+          "power_645",
+          "power_535"
+        ],
+        "note": "Matrix anchor strategies: MinDistance (6/55), Freq_Hot (6/45, 5/35)",
+        "selection": {
+          "type": "fixed_persistent",
+          "algorithm": "MinDistance",
+          "params": {
+            "lookback_days": 365,
+            "n_candidates": 30
+          }
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "until_condition"
+        },
+        "stop_condition": {
+          "type": "any_tier_hit"
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "power_655": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 1591,
+            "total_cost_vnd": 15910000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 377.12,
+            "p_any_hit_per_draw": 0.0126,
+            "roi_pct": -96.23,
+            "sharpe_ratio": -20.7547,
+            "max_drawdown_vnd": 2000000,
+            "variance_norm": 8.866,
+            "ticks_to_first_hit": {
+              "p25": 28,
+              "p50": 54,
+              "p75": 115,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.5,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1335
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 1591,
+            "total_cost_vnd": 15910000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 377.12,
+            "p_any_hit_per_draw": 0.0126,
+            "roi_pct": -96.23,
+            "sharpe_ratio": -20.7547,
+            "max_drawdown_vnd": 2000000,
+            "variance_norm": 8.866,
+            "ticks_to_first_hit": {
+              "p25": 28,
+              "p50": 54,
+              "p75": 115,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.5,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 667
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 1459,
+            "total_cost_vnd": 14590000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 411.24,
+            "p_any_hit_per_draw": 0.0137,
+            "roi_pct": -95.89,
+            "sharpe_ratio": -19.8154,
+            "max_drawdown_vnd": 1740000,
+            "variance_norm": 8.485,
+            "ticks_to_first_hit": {
+              "p25": 40,
+              "p50": 53,
+              "p75": 104,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.6,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.9,
+              "p_ge20": 0.85
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "half2",
+            "start_idx": 667,
+            "end_idx": 1335
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 1300,
+            "total_cost_vnd": 13000000,
+            "total_payout_vnd": 330000,
+            "e_payout_per_draw_vnd": 253.85,
+            "p_any_hit_per_draw": 0.0085,
+            "roi_pct": -97.46,
+            "sharpe_ratio": -25.5663,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 10.829,
+            "ticks_to_first_hit": {
+              "p25": 18,
+              "p50": 41,
+              "p75": 54,
+              "never_hit_runs": 9
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.6,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.9,
+              "p_ge20": 0.85
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "forward",
+            "start_idx": 1235,
+            "end_idx": 1335
+          }
+        },
+        "power_645": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 794,
+            "total_cost_vnd": 7940000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 755.67,
+            "p_any_hit_per_draw": 0.0252,
+            "roi_pct": -92.44,
+            "sharpe_ratio": -14.1715,
+            "max_drawdown_vnd": 1170000,
+            "variance_norm": 6.225,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 24,
+              "p75": 63,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.75,
+              "p_ge20": 0.6
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1303
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 794,
+            "total_cost_vnd": 7940000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 755.67,
+            "p_any_hit_per_draw": 0.0252,
+            "roi_pct": -92.44,
+            "sharpe_ratio": -14.1715,
+            "max_drawdown_vnd": 1170000,
+            "variance_norm": 6.225,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 24,
+              "p75": 63,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.75,
+              "p_ge20": 0.6
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 651
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 631,
+            "total_cost_vnd": 6310000,
+            "total_payout_vnd": 870000,
+            "e_payout_per_draw_vnd": 1378.76,
+            "p_any_hit_per_draw": 0.0317,
+            "roi_pct": -86.21,
+            "sharpe_ratio": -4.795,
+            "max_drawdown_vnd": 1290000,
+            "variance_norm": 9.403,
+            "ticks_to_first_hit": {
+              "p25": 11,
+              "p50": 24,
+              "p75": 39,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.15,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.75,
+              "p_ge20": 0.55
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 651,
+            "end_idx": 1303
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 977,
+            "total_cost_vnd": 9770000,
+            "total_payout_vnd": 750000,
+            "e_payout_per_draw_vnd": 767.66,
+            "p_any_hit_per_draw": 0.0164,
+            "roi_pct": -92.32,
+            "sharpe_ratio": -6.4831,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 13.377,
+            "ticks_to_first_hit": {
+              "p25": 10,
+              "p50": 30,
+              "p75": 54,
+              "never_hit_runs": 4
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.45,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.8,
+              "p_ge20": 0.75
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1203,
+            "end_idx": 1303
+          }
+        },
+        "power_535": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 1151,
+            "total_cost_vnd": 11510000,
+            "total_payout_vnd": 1900000,
+            "e_payout_per_draw_vnd": 1650.74,
+            "p_any_hit_per_draw": 0.0174,
+            "roi_pct": -83.49,
+            "sharpe_ratio": -2.7737,
+            "max_drawdown_vnd": 2420000,
+            "variance_norm": 13.15,
+            "ticks_to_first_hit": {
+              "p25": 24,
+              "p50": 34,
+              "p75": 77,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.85,
+              "p_ge20": 0.85
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 546
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 1131,
+            "total_cost_vnd": 11310000,
+            "total_payout_vnd": 1850000,
+            "e_payout_per_draw_vnd": 1635.72,
+            "p_any_hit_per_draw": 0.0168,
+            "roi_pct": -83.64,
+            "sharpe_ratio": -2.7605,
+            "max_drawdown_vnd": 2230000,
+            "variance_norm": 13.358,
+            "ticks_to_first_hit": {
+              "p25": 24,
+              "p50": 33,
+              "p75": 70,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.85,
+              "p_ge20": 0.85
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 273
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 1447,
+            "total_cost_vnd": 14470000,
+            "total_payout_vnd": 1450000,
+            "e_payout_per_draw_vnd": 1002.07,
+            "p_any_hit_per_draw": 0.0138,
+            "roi_pct": -89.98,
+            "sharpe_ratio": -4.5347,
+            "max_drawdown_vnd": 2260000,
+            "variance_norm": 14.279,
+            "ticks_to_first_hit": {
+              "p25": 34,
+              "p50": 50,
+              "p75": 100,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.5,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.85,
+              "p_ge20": 0.85
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half2",
+            "start_idx": 273,
+            "end_idx": 546
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 1097,
+            "total_cost_vnd": 10970000,
+            "total_payout_vnd": 750000,
+            "e_payout_per_draw_vnd": 683.68,
+            "p_any_hit_per_draw": 0.0137,
+            "roi_pct": -93.16,
+            "sharpe_ratio": -11.5645,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 8.497,
+            "ticks_to_first_hit": {
+              "p25": 9,
+              "p50": 42,
+              "p75": 67,
+              "never_hit_runs": 5
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.55,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.8,
+              "p_ge20": 0.7
+            },
+            "best_single_hit_ratio": 5.0,
+            "segment": "forward",
+            "start_idx": 446,
+            "end_idx": 546
+          }
+        }
+      }
+    },
+    {
+      "method_id": "F3b_algo_persistence_3d",
+      "description": "F3 variant for 3D — PairExploiter persistence (Chu kỳ 22 winrate top for Max 3D)",
+      "spec": {
+        "method_id": "F3b_algo_persistence_3d",
+        "description": "F3 variant for 3D — PairExploiter persistence (Chu kỳ 22 winrate top for Max 3D)",
+        "category": "F",
+        "applicable_products": [
+          "max_3d",
+          "max_3d_pro"
+        ],
+        "selection": {
+          "type": "fixed_persistent",
+          "algorithm": "DigitPairExploiter",
+          "params": {
+            "lookback": 200,
+            "temperature": 0.5
+          }
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "until_condition"
+        },
+        "stop_condition": {
+          "type": "any_tier_hit"
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "max_3d": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 1358,
+            "total_cost_vnd": 13580000,
+            "total_payout_vnd": 4560000,
+            "e_payout_per_draw_vnd": 3357.88,
+            "p_any_hit_per_draw": 0.0147,
+            "roi_pct": -66.42,
+            "sharpe_ratio": -1.3045,
+            "max_drawdown_vnd": 1860000,
+            "variance_norm": 10.934,
+            "ticks_to_first_hit": {
+              "p25": 20,
+              "p50": 69,
+              "p75": 93,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.6,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.9,
+              "p_ge20": 0.75
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1066
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 1358,
+            "total_cost_vnd": 13580000,
+            "total_payout_vnd": 4560000,
+            "e_payout_per_draw_vnd": 3357.88,
+            "p_any_hit_per_draw": 0.0147,
+            "roi_pct": -66.42,
+            "sharpe_ratio": -1.3045,
+            "max_drawdown_vnd": 1860000,
+            "variance_norm": 10.934,
+            "ticks_to_first_hit": {
+              "p25": 20,
+              "p50": 69,
+              "p75": 93,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.6,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.9,
+              "p_ge20": 0.75
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 533
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 1641,
+            "total_cost_vnd": 16410000,
+            "total_payout_vnd": 6470000,
+            "e_payout_per_draw_vnd": 3942.72,
+            "p_any_hit_per_draw": 0.0122,
+            "roi_pct": -60.57,
+            "sharpe_ratio": -0.9035,
+            "max_drawdown_vnd": 2760000,
+            "variance_norm": 12.262,
+            "ticks_to_first_hit": {
+              "p25": 14,
+              "p50": 43,
+              "p75": 104,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.35,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.9,
+              "p_ge20": 0.7
+            },
+            "best_single_hit_ratio": 100.0,
+            "segment": "half2",
+            "start_idx": 533,
+            "end_idx": 1066
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 916,
+            "total_cost_vnd": 9160000,
+            "total_payout_vnd": 3060000,
+            "e_payout_per_draw_vnd": 3340.61,
+            "p_any_hit_per_draw": 0.0153,
+            "roi_pct": -66.59,
+            "sharpe_ratio": -1.6402,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 8.764,
+            "ticks_to_first_hit": {
+              "p25": 9,
+              "p50": 14,
+              "p75": 21,
+              "never_hit_runs": 6
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.4,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.8,
+              "p_ge20": 0.5
+            },
+            "best_single_hit_ratio": 35.0,
+            "segment": "forward",
+            "start_idx": 966,
+            "end_idx": 1066
+          }
+        },
+        "max_3d_pro": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 544,
+            "total_cost_vnd": 5440000,
+            "total_payout_vnd": 980000,
+            "e_payout_per_draw_vnd": 1801.47,
+            "p_any_hit_per_draw": 0.0368,
+            "roi_pct": -81.99,
+            "sharpe_ratio": -5.8512,
+            "max_drawdown_vnd": 610000,
+            "variance_norm": 5.609,
+            "ticks_to_first_hit": {
+              "p25": 13,
+              "p50": 23,
+              "p75": 39,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.15,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.8,
+              "p_ge20": 0.6
+            },
+            "best_single_hit_ratio": 10.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 712
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 544,
+            "total_cost_vnd": 5440000,
+            "total_payout_vnd": 980000,
+            "e_payout_per_draw_vnd": 1801.47,
+            "p_any_hit_per_draw": 0.0368,
+            "roi_pct": -81.99,
+            "sharpe_ratio": -5.8512,
+            "max_drawdown_vnd": 610000,
+            "variance_norm": 5.609,
+            "ticks_to_first_hit": {
+              "p25": 13,
+              "p50": 23,
+              "p75": 39,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.15,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.85,
+              "p_ge10": 0.8,
+              "p_ge20": 0.6
+            },
+            "best_single_hit_ratio": 10.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 356
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 347,
+            "total_cost_vnd": 3470000,
+            "total_payout_vnd": 800000,
+            "e_payout_per_draw_vnd": 2305.48,
+            "p_any_hit_per_draw": 0.0576,
+            "roi_pct": -76.95,
+            "sharpe_ratio": -5.9434,
+            "max_drawdown_vnd": 580000,
+            "variance_norm": 4.049,
+            "ticks_to_first_hit": {
+              "p25": 9,
+              "p50": 14,
+              "p75": 22,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.05,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.8,
+              "p_ge10": 0.7,
+              "p_ge20": 0.3
+            },
+            "best_single_hit_ratio": 4.0,
+            "segment": "half2",
+            "start_idx": 356,
+            "end_idx": 712
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 435,
+            "total_cost_vnd": 4350000,
+            "total_payout_vnd": 1220000,
+            "e_payout_per_draw_vnd": 2804.6,
+            "p_any_hit_per_draw": 0.046,
+            "roi_pct": -71.95,
+            "sharpe_ratio": -3.6568,
+            "max_drawdown_vnd": 680000,
+            "variance_norm": 5.059,
+            "ticks_to_first_hit": {
+              "p25": 5,
+              "p50": 19,
+              "p75": 31,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.1,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.75,
+              "p_ge10": 0.55,
+              "p_ge20": 0.5
+            },
+            "best_single_hit_ratio": 10.0,
+            "segment": "forward",
+            "start_idx": 612,
+            "end_idx": 712
+          }
+        }
+      }
+    },
+    {
+      "method_id": "F6_budget_capped_1M",
+      "description": "F6 — Budget-capped algo persistence: F3 variant với escape valve budget=1M VND (100 tickets max)",
+      "spec": {
+        "method_id": "F6_budget_capped_1M",
+        "description": "F6 — Budget-capped algo persistence: F3 variant với escape valve budget=1M VND (100 tickets max)",
+        "category": "F",
+        "applicable_products": [
+          "power_655",
+          "power_645",
+          "power_535"
+        ],
+        "selection": {
+          "type": "fixed_persistent",
+          "algorithm": "MinDistance",
+          "params": {
+            "lookback_days": 365,
+            "n_candidates": 30
+          }
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "until_condition"
+        },
+        "stop_condition": {
+          "type": "combined",
+          "budget_vnd": 1000000,
+          "k": 100
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "power_655": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 944,
+            "total_cost_vnd": 9440000,
+            "total_payout_vnd": 780000,
+            "e_payout_per_draw_vnd": 826.27,
+            "p_any_hit_per_draw": 0.018,
+            "roi_pct": -91.74,
+            "sharpe_ratio": -6.3066,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 12.695,
+            "ticks_to_first_hit": {
+              "p25": 25,
+              "p50": 34,
+              "p75": 44,
+              "never_hit_runs": 3
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.3,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.9,
+              "p_ge20": 0.85
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1335
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 944,
+            "total_cost_vnd": 9440000,
+            "total_payout_vnd": 780000,
+            "e_payout_per_draw_vnd": 826.27,
+            "p_any_hit_per_draw": 0.018,
+            "roi_pct": -91.74,
+            "sharpe_ratio": -6.3066,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 12.695,
+            "ticks_to_first_hit": {
+              "p25": 25,
+              "p50": 34,
+              "p75": 44,
+              "never_hit_runs": 3
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.3,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.9,
+              "p_ge20": 0.85
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 667
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 999,
+            "total_cost_vnd": 9990000,
+            "total_payout_vnd": 780000,
+            "e_payout_per_draw_vnd": 780.78,
+            "p_any_hit_per_draw": 0.017,
+            "roi_pct": -92.19,
+            "sharpe_ratio": -6.519,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 13.061,
+            "ticks_to_first_hit": {
+              "p25": 10,
+              "p50": 38,
+              "p75": 65,
+              "never_hit_runs": 3
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.4,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.75,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 667,
+            "end_idx": 1335
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 1045,
+            "total_cost_vnd": 10450000,
+            "total_payout_vnd": 1080000,
+            "e_payout_per_draw_vnd": 1033.49,
+            "p_any_hit_per_draw": 0.0172,
+            "roi_pct": -89.67,
+            "sharpe_ratio": -4.752,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 13.166,
+            "ticks_to_first_hit": {
+              "p25": 19,
+              "p50": 50,
+              "p75": 70,
+              "never_hit_runs": 2
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.55,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.9,
+              "p_ge20": 0.75
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1235,
+            "end_idx": 1335
+          }
+        },
+        "power_645": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 746,
+            "total_cost_vnd": 7460000,
+            "total_payout_vnd": 1080000,
+            "e_payout_per_draw_vnd": 1447.72,
+            "p_any_hit_per_draw": 0.0241,
+            "roi_pct": -85.52,
+            "sharpe_ratio": -3.8332,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 11.113,
+            "ticks_to_first_hit": {
+              "p25": 10,
+              "p50": 24,
+              "p75": 45,
+              "never_hit_runs": 2
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.25,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.75,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1303
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 746,
+            "total_cost_vnd": 7460000,
+            "total_payout_vnd": 1080000,
+            "e_payout_per_draw_vnd": 1447.72,
+            "p_any_hit_per_draw": 0.0241,
+            "roi_pct": -85.52,
+            "sharpe_ratio": -3.8332,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 11.113,
+            "ticks_to_first_hit": {
+              "p25": 10,
+              "p50": 24,
+              "p75": 45,
+              "never_hit_runs": 2
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.25,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.75,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 651
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 612,
+            "total_cost_vnd": 6120000,
+            "total_payout_vnd": 840000,
+            "e_payout_per_draw_vnd": 1372.55,
+            "p_any_hit_per_draw": 0.031,
+            "roi_pct": -86.27,
+            "sharpe_ratio": -4.7447,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 9.553,
+            "ticks_to_first_hit": {
+              "p25": 9,
+              "p50": 22,
+              "p75": 35,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.2,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.7,
+              "p_ge20": 0.55
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 651,
+            "end_idx": 1303
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 633,
+            "total_cost_vnd": 6330000,
+            "total_payout_vnd": 840000,
+            "e_payout_per_draw_vnd": 1327.01,
+            "p_any_hit_per_draw": 0.03,
+            "roi_pct": -86.73,
+            "sharpe_ratio": -4.8502,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 9.717,
+            "ticks_to_first_hit": {
+              "p25": 10,
+              "p50": 16,
+              "p75": 32,
+              "never_hit_runs": 1
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.2,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.75,
+              "p_ge20": 0.5
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1203,
+            "end_idx": 1303
+          }
+        },
+        "power_535": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 1145,
+            "total_cost_vnd": 11450000,
+            "total_payout_vnd": 1200000,
+            "e_payout_per_draw_vnd": 1048.03,
+            "p_any_hit_per_draw": 0.0131,
+            "roi_pct": -89.52,
+            "sharpe_ratio": -4.0989,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 15.027,
+            "ticks_to_first_hit": {
+              "p25": 30,
+              "p50": 44,
+              "p75": 56,
+              "never_hit_runs": 5
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.45,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.9,
+              "p_ge20": 0.9
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 546
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 1145,
+            "total_cost_vnd": 11450000,
+            "total_payout_vnd": 1200000,
+            "e_payout_per_draw_vnd": 1048.03,
+            "p_any_hit_per_draw": 0.0131,
+            "roi_pct": -89.52,
+            "sharpe_ratio": -4.0989,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 15.027,
+            "ticks_to_first_hit": {
+              "p25": 30,
+              "p50": 44,
+              "p75": 56,
+              "never_hit_runs": 5
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.45,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.9,
+              "p_ge20": 0.9
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 273
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 1033,
+            "total_cost_vnd": 10330000,
+            "total_payout_vnd": 1250000,
+            "e_payout_per_draw_vnd": 1210.07,
+            "p_any_hit_per_draw": 0.0155,
+            "roi_pct": -87.9,
+            "sharpe_ratio": -3.8076,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 13.757,
+            "ticks_to_first_hit": {
+              "p25": 17,
+              "p50": 48,
+              "p75": 56,
+              "never_hit_runs": 4
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.6,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.85,
+              "p_ge20": 0.7
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half2",
+            "start_idx": 273,
+            "end_idx": 546
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 1352,
+            "total_cost_vnd": 13520000,
+            "total_payout_vnd": 1000000,
+            "e_payout_per_draw_vnd": 739.64,
+            "p_any_hit_per_draw": 0.0081,
+            "roi_pct": -92.6,
+            "sharpe_ratio": -4.6868,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 19.263,
+            "ticks_to_first_hit": {
+              "p25": 13,
+              "p50": 44,
+              "p75": 61,
+              "never_hit_runs": 9
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.65,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.85,
+              "p_ge20": 0.8
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "forward",
+            "start_idx": 446,
+            "end_idx": 546
+          }
+        }
+      }
+    },
+    {
+      "method_id": "F7_k50_escape",
+      "description": "F7 — K=50 draws escape: F3 persistence với stop sau 50 kỳ không hit",
+      "spec": {
+        "method_id": "F7_k50_escape",
+        "description": "F7 — K=50 draws escape: F3 persistence với stop sau 50 kỳ không hit",
+        "category": "F",
+        "applicable_products": [
+          "power_655",
+          "power_645",
+          "power_535"
+        ],
+        "selection": {
+          "type": "fixed_persistent",
+          "algorithm": "MinDistance",
+          "params": {
+            "lookback_days": 365,
+            "n_candidates": 30
+          }
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "every_draw"
+        },
+        "duration": {
+          "type": "until_condition"
+        },
+        "stop_condition": {
+          "type": "combined",
+          "budget_vnd": 10000000,
+          "k": 50
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "power_655": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 776,
+            "total_cost_vnd": 7760000,
+            "total_payout_vnd": 240000,
+            "e_payout_per_draw_vnd": 309.28,
+            "p_any_hit_per_draw": 0.0103,
+            "roi_pct": -96.91,
+            "sharpe_ratio": -23.0458,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 9.804,
+            "ticks_to_first_hit": {
+              "p25": 13,
+              "p50": 14,
+              "p75": 28,
+              "never_hit_runs": 12
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.95,
+              "p_ge20": 0.75
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1335
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 776,
+            "total_cost_vnd": 7760000,
+            "total_payout_vnd": 240000,
+            "e_payout_per_draw_vnd": 309.28,
+            "p_any_hit_per_draw": 0.0103,
+            "roi_pct": -96.91,
+            "sharpe_ratio": -23.0458,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 9.804,
+            "ticks_to_first_hit": {
+              "p25": 13,
+              "p50": 14,
+              "p75": 28,
+              "never_hit_runs": 12
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.95,
+              "p_ge20": 0.75
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 667
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 596,
+            "total_cost_vnd": 5960000,
+            "total_payout_vnd": 900000,
+            "e_payout_per_draw_vnd": 1510.07,
+            "p_any_hit_per_draw": 0.0201,
+            "roi_pct": -84.9,
+            "sharpe_ratio": -3.4475,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 11.76,
+            "ticks_to_first_hit": {
+              "p25": 2,
+              "p50": 8,
+              "p75": 32,
+              "never_hit_runs": 8
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.75,
+              "p_ge10": 0.65,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 667,
+            "end_idx": 1335
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 673,
+            "total_cost_vnd": 6730000,
+            "total_payout_vnd": 360000,
+            "e_payout_per_draw_vnd": 534.92,
+            "p_any_hit_per_draw": 0.0178,
+            "roi_pct": -94.65,
+            "sharpe_ratio": -17.1793,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 7.427,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 26,
+              "p75": 32,
+              "never_hit_runs": 8
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.85,
+              "p_ge20": 0.75
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "forward",
+            "start_idx": 1235,
+            "end_idx": 1335
+          }
+        },
+        "power_645": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 679,
+            "total_cost_vnd": 6790000,
+            "total_payout_vnd": 630000,
+            "e_payout_per_draw_vnd": 927.84,
+            "p_any_hit_per_draw": 0.0177,
+            "roi_pct": -90.72,
+            "sharpe_ratio": -5.4053,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 13.044,
+            "ticks_to_first_hit": {
+              "p25": 16,
+              "p50": 21,
+              "p75": 28,
+              "never_hit_runs": 8
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.9,
+              "p_ge20": 0.7
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1303
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 679,
+            "total_cost_vnd": 6790000,
+            "total_payout_vnd": 630000,
+            "e_payout_per_draw_vnd": 927.84,
+            "p_any_hit_per_draw": 0.0177,
+            "roi_pct": -90.72,
+            "sharpe_ratio": -5.4053,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 13.044,
+            "ticks_to_first_hit": {
+              "p25": 16,
+              "p50": 21,
+              "p75": 28,
+              "never_hit_runs": 8
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.9,
+              "p_ge20": 0.7
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 651
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 648,
+            "total_cost_vnd": 6480000,
+            "total_payout_vnd": 660000,
+            "e_payout_per_draw_vnd": 1018.52,
+            "p_any_hit_per_draw": 0.0201,
+            "roi_pct": -89.81,
+            "sharpe_ratio": -5.2062,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 12.214,
+            "ticks_to_first_hit": {
+              "p25": 7,
+              "p50": 18,
+              "p75": 37,
+              "never_hit_runs": 7
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.9,
+              "p_ge10": 0.75,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 651,
+            "end_idx": 1303
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 470,
+            "total_cost_vnd": 4700000,
+            "total_payout_vnd": 450000,
+            "e_payout_per_draw_vnd": 957.45,
+            "p_any_hit_per_draw": 0.0319,
+            "roi_pct": -90.43,
+            "sharpe_ratio": -12.3525,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 5.513,
+            "ticks_to_first_hit": {
+              "p25": 3,
+              "p50": 14,
+              "p75": 19,
+              "never_hit_runs": 5
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.75,
+              "p_ge10": 0.75,
+              "p_ge20": 0.45
+            },
+            "best_single_hit_ratio": 3.0,
+            "segment": "forward",
+            "start_idx": 1203,
+            "end_idx": 1303
+          }
+        },
+        "power_535": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 604,
+            "total_cost_vnd": 6040000,
+            "total_payout_vnd": 1200000,
+            "e_payout_per_draw_vnd": 1986.75,
+            "p_any_hit_per_draw": 0.0248,
+            "roi_pct": -80.13,
+            "sharpe_ratio": -2.6691,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 10.897,
+            "ticks_to_first_hit": {
+              "p25": 15,
+              "p50": 24,
+              "p75": 35,
+              "never_hit_runs": 5
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.85,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 546
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 604,
+            "total_cost_vnd": 6040000,
+            "total_payout_vnd": 1200000,
+            "e_payout_per_draw_vnd": 1986.75,
+            "p_any_hit_per_draw": 0.0248,
+            "roi_pct": -80.13,
+            "sharpe_ratio": -2.6691,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 10.897,
+            "ticks_to_first_hit": {
+              "p25": 15,
+              "p50": 24,
+              "p75": 35,
+              "never_hit_runs": 5
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.85,
+              "p_ge20": 0.65
+            },
+            "best_single_hit_ratio": 50.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 273
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 826,
+            "total_cost_vnd": 8260000,
+            "total_payout_vnd": 300000,
+            "e_payout_per_draw_vnd": 363.2,
+            "p_any_hit_per_draw": 0.0073,
+            "roi_pct": -96.37,
+            "sharpe_ratio": -16.3568,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 11.698,
+            "ticks_to_first_hit": {
+              "p25": 15,
+              "p50": 24,
+              "p75": 28,
+              "never_hit_runs": 14
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 0.95,
+              "p_ge20": 0.9
+            },
+            "best_single_hit_ratio": 5.0,
+            "segment": "half2",
+            "start_idx": 273,
+            "end_idx": 546
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 638,
+            "total_cost_vnd": 6380000,
+            "total_payout_vnd": 600000,
+            "e_payout_per_draw_vnd": 940.44,
+            "p_any_hit_per_draw": 0.0188,
+            "roi_pct": -90.6,
+            "sharpe_ratio": -9.6104,
+            "max_drawdown_vnd": 500000,
+            "variance_norm": 7.228,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 18,
+              "p75": 24,
+              "never_hit_runs": 8
+            },
+            "ruin_prob": {
+              "B500000_N100": 0.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 0.95,
+              "p_ge10": 0.85,
+              "p_ge20": 0.6
+            },
+            "best_single_hit_ratio": 5.0,
+            "segment": "forward",
+            "start_idx": 446,
+            "end_idx": 546
+          }
+        }
+      }
+    },
+    {
+      "method_id": "E4_jackpot_triggered",
+      "description": "E4 — Jackpot-triggered play: only bet on draws when jackpot hasn't hit in last K=5 draws (MVP proxy: every draw until proper jackpot flag data available)",
+      "spec": {
+        "method_id": "E4_jackpot_triggered",
+        "description": "E4 — Jackpot-triggered play: only bet on draws when jackpot hasn't hit in last K=5 draws (MVP proxy: every draw until proper jackpot flag data available)",
+        "category": "E",
+        "applicable_products": [
+          "power_655",
+          "power_645"
+        ],
+        "note": "MVP implementation: time_frequency.type=jackpot_triggered returns True always (no jackpot data). Metric interpretation as baseline until Vietlott jackpot flag lands in data layer.",
+        "selection": {
+          "type": "random_fresh"
+        },
+        "bet_size": {
+          "type": "fixed",
+          "n_tickets": 1
+        },
+        "time_frequency": {
+          "type": "jackpot_triggered",
+          "k": 5
+        },
+        "duration": {
+          "type": "indefinite"
+        },
+        "stop_condition": {
+          "type": "never"
+        },
+        "compounding": {
+          "type": "flat"
+        }
+      },
+      "products": {
+        "power_655": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 25700,
+            "total_cost_vnd": 257000000,
+            "total_payout_vnd": 14790000,
+            "e_payout_per_draw_vnd": 575.49,
+            "p_any_hit_per_draw": 0.0132,
+            "roi_pct": -94.25,
+            "sharpe_ratio": -8.0931,
+            "max_drawdown_vnd": 12700000,
+            "variance_norm": 14.592,
+            "ticks_to_first_hit": {
+              "p25": 32,
+              "p50": 68,
+              "p75": 150,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1335
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 12340,
+            "total_cost_vnd": 123400000,
+            "total_payout_vnd": 7860000,
+            "e_payout_per_draw_vnd": 636.95,
+            "p_any_hit_per_draw": 0.0139,
+            "roi_pct": -93.63,
+            "sharpe_ratio": -7.3515,
+            "max_drawdown_vnd": 6050000,
+            "variance_norm": 14.419,
+            "ticks_to_first_hit": {
+              "p25": 32,
+              "p50": 68,
+              "p75": 150,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 667
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 13360,
+            "total_cost_vnd": 133600000,
+            "total_payout_vnd": 7770000,
+            "e_payout_per_draw_vnd": 581.59,
+            "p_any_hit_per_draw": 0.014,
+            "roi_pct": -94.18,
+            "sharpe_ratio": -8.3844,
+            "max_drawdown_vnd": 6560000,
+            "variance_norm": 13.928,
+            "ticks_to_first_hit": {
+              "p25": 26,
+              "p50": 67,
+              "p75": 88,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 667,
+            "end_idx": 1335
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 1620000,
+            "e_payout_per_draw_vnd": 810.0,
+            "p_any_hit_per_draw": 0.018,
+            "roi_pct": -91.9,
+            "sharpe_ratio": -6.4767,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 12.632,
+            "ticks_to_first_hit": {
+              "p25": 21,
+              "p50": 37,
+              "p75": 51,
+              "never_hit_runs": 6
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1235,
+            "end_idx": 1335
+          }
+        },
+        "power_645": {
+          "full": {
+            "n_runs": 20,
+            "total_draws": 25060,
+            "total_cost_vnd": 250600000,
+            "total_payout_vnd": 35650000,
+            "e_payout_per_draw_vnd": 1422.59,
+            "p_any_hit_per_draw": 0.0237,
+            "roi_pct": -85.77,
+            "sharpe_ratio": -0.9644,
+            "max_drawdown_vnd": 11750000,
+            "variance_norm": 45.082,
+            "ticks_to_first_hit": {
+              "p25": 14,
+              "p50": 32,
+              "p75": 55,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 1000.0,
+            "segment": "full",
+            "start_idx": 50,
+            "end_idx": 1303
+          },
+          "half1": {
+            "n_runs": 20,
+            "total_draws": 12020,
+            "total_cost_vnd": 120200000,
+            "total_payout_vnd": 21400000,
+            "e_payout_per_draw_vnd": 1780.37,
+            "p_any_hit_per_draw": 0.022,
+            "roi_pct": -82.2,
+            "sharpe_ratio": -0.6454,
+            "max_drawdown_vnd": 5740000,
+            "variance_norm": 51.58,
+            "ticks_to_first_hit": {
+              "p25": 14,
+              "p50": 32,
+              "p75": 55,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 1000.0,
+            "segment": "half1",
+            "start_idx": 50,
+            "end_idx": 651
+          },
+          "half2": {
+            "n_runs": 20,
+            "total_draws": 13040,
+            "total_cost_vnd": 130400000,
+            "total_payout_vnd": 15660000,
+            "e_payout_per_draw_vnd": 1200.92,
+            "p_any_hit_per_draw": 0.0228,
+            "roi_pct": -87.99,
+            "sharpe_ratio": -4.6045,
+            "max_drawdown_vnd": 6220000,
+            "variance_norm": 11.475,
+            "ticks_to_first_hit": {
+              "p25": 12,
+              "p50": 29,
+              "p75": 60,
+              "never_hit_runs": 0
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "half2",
+            "start_idx": 651,
+            "end_idx": 1303
+          },
+          "forward": {
+            "n_runs": 20,
+            "total_draws": 2000,
+            "total_cost_vnd": 20000000,
+            "total_payout_vnd": 2010000,
+            "e_payout_per_draw_vnd": 1005.0,
+            "p_any_hit_per_draw": 0.02,
+            "roi_pct": -89.95,
+            "sharpe_ratio": -5.2835,
+            "max_drawdown_vnd": 1000000,
+            "variance_norm": 12.216,
+            "ticks_to_first_hit": {
+              "p25": 10,
+              "p50": 27,
+              "p75": 54,
+              "never_hit_runs": 2
+            },
+            "ruin_prob": {
+              "B500000_N100": 1.0,
+              "B1000000_N100": 0.0,
+              "B5000000_N100": 0.0
+            },
+            "pain_streak": {
+              "p_ge5": 1.0,
+              "p_ge10": 1.0,
+              "p_ge20": 1.0
+            },
+            "best_single_hit_ratio": 30.0,
+            "segment": "forward",
+            "start_idx": 1203,
+            "end_idx": 1303
+          }
+        }
+      }
+    }
+  ],
+  "total_elapsed_s": 95.4
+}

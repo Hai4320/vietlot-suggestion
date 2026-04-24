@@ -1,0 +1,27 @@
+{
+  "method_id": "F1b_so_gan_3d",
+  "description": "F1 variant for 3D — FreqWholeCold (least-frequent 3-digit number) persistence until any tier hit",
+  "category": "F",
+  "applicable_products": ["max_3d", "max_3d_pro"],
+  "selection": {
+    "type": "fixed_persistent",
+    "algorithm": "FreqWholeCold",
+    "params": {"lookback": 200}
+  },
+  "bet_size": {
+    "type": "fixed",
+    "n_tickets": 1
+  },
+  "time_frequency": {
+    "type": "every_draw"
+  },
+  "duration": {
+    "type": "until_condition"
+  },
+  "stop_condition": {
+    "type": "any_tier_hit"
+  },
+  "compounding": {
+    "type": "flat"
+  }
+}

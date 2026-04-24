@@ -1,0 +1,24 @@
+{
+  "method_id": "A3_random_baseline",
+  "description": "A3 — Pure random each draw (BASELINE for comparison)",
+  "category": "A",
+  "selection": {
+    "type": "random_fresh"
+  },
+  "bet_size": {
+    "type": "fixed",
+    "n_tickets": 1
+  },
+  "time_frequency": {
+    "type": "every_draw"
+  },
+  "duration": {
+    "type": "indefinite"
+  },
+  "stop_condition": {
+    "type": "never"
+  },
+  "compounding": {
+    "type": "flat"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "method_id": "F6_budget_capped_1M",
+  "description": "F6 — Budget-capped algo persistence: F3 variant với escape valve budget=1M VND (100 tickets max)",
+  "category": "F",
+  "applicable_products": ["power_655", "power_645", "power_535"],
+  "selection": {
+    "type": "fixed_persistent",
+    "algorithm": "MinDistance",
+    "params": {"lookback_days": 365, "n_candidates": 30}
+  },
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "until_condition"},
+  "stop_condition": {
+    "type": "combined",
+    "budget_vnd": 1000000,
+    "k": 100
+  },
+  "compounding": {"type": "flat"}
+}

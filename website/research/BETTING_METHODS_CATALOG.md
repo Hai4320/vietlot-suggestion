@@ -33,10 +33,10 @@ Universal across 5 products:
 
 | # | Method | Selection (D1) | Đã test? |
 |:-:|---|---|---|
-| A1 | **Fixed same bộ số N kỳ** | User/algorithm-picked, unchanged | Chưa direct |
+| A1 | **Fixed same bộ số N kỳ** | User/algorithm-picked, unchanged | ✓ **Chu kỳ 25** (matrix A1 / 3D A1b) |
 | A2 | **Algorithm-chosen fresh each draw** | Re-run algo mỗi kỳ | ✓ Chu kỳ 1-21 (all strategies) |
 | A3 | **Pure Random each draw** | Uniform random | ✓ Baseline trong mọi cycle |
-| A4 | **Rotate algorithms across draws** | Week 1 Freq_Hot, Week 2 MinDistance, ... | Chưa |
+| A4 | **Rotate algorithms across draws** | Week 1 Freq_Hot, Week 2 MinDistance, ... | ✓ **Chu kỳ 25** (matrix only) |
 | A5 | **Ensemble vote** | K algorithms vote, pick top N | ✓ C22 composite profiles (3 axes), Chu kỳ 19e single+multi ensemble (Reject) |
 | A6 | **Follow last winning numbers** | Copy bộ vừa trúng kỳ trước | Chưa |
 | A7 | **Anti-last-winning** | Avoid bộ vừa trúng | Gần NotRepeat (Chu kỳ 1) |
@@ -94,7 +94,7 @@ Universal across 5 products:
 | E1 | **Every draw** | Fire on every scheduled draw | ✓ default |
 | E2 | **Alternate (every 2nd/3rd)** | Skip 1-2 draws to stretch budget | Chưa |
 | E3 | **Weekly calendar** | Chỉ T2+T4+T6 hoặc T7+CN | Chưa |
-| E4 | **Jackpot-threshold triggered** | Play only when jackpot rollover ≥ X tỷ | Chưa — Power 6/55 + 6/45 specific |
+| E4 | **Jackpot-threshold triggered** | Play only when jackpot rollover ≥ X tỷ | ✓ **Chu kỳ 25 MVP proxy** — needs Vietlott jackpot flag data cho real test |
 | E5 | **Dry-spell triggered** | Play sau K kỳ liên tiếp không có jackpot hit | Chưa |
 | E6 | **User-specified interval** | Random/sporadic based on user mood | N/A — không reproducible |
 
@@ -102,13 +102,13 @@ Universal across 5 products:
 
 | # | Method | Mô tả | Đã test? |
 |:-:|---|---|---|
-| F1 | **"Số gan" persistence — buy cold until hit** | Chọn 1 bộ gồm số vắng lâu nhất, mua liên tục đến khi trúng ≥ any tier | **Chưa — user-requested** |
-| F2 | **Hot number persistence** | Mirror — mua 1 bộ hot, persist | Chưa |
-| F3 | **Algorithm-chosen persistence** | Pick via algo 1 lần, persist cho đến hit | Chưa |
-| F4 | **Stop at first ANY tier** | Stop persistence sau khi hit bất kỳ tier (kể cả Giải ba) | Sub-variant of F1-F3 |
-| F5 | **Stop at jackpot only** | Chỉ dừng khi hit jackpot (tier 1) — rất costly | Sub-variant |
-| F6 | **Budget-capped persistence** | F1-F5 + "stop nếu budget exhausted" escape valve | Sub-variant |
-| F7 | **Max-K-draws escape valve** | F1-F5 + "stop sau K kỳ không hit" | Sub-variant |
+| F1 | **"Số gan" persistence — buy cold until hit** | Chọn 1 bộ gồm số vắng lâu nhất, mua liên tục đến khi trúng ≥ any tier | ✓ **Chu kỳ 25** — REFALSIFIED worse than Random |
+| F2 | **Hot number persistence** | Mirror — mua 1 bộ hot, persist | ✓ **Chu kỳ 25** — worse than Random matrix |
+| F3 | **Algorithm-chosen persistence** | Pick via algo 1 lần, persist cho đến hit | ✓ **Chu kỳ 25** — mixed (F3 Power 5/35 = -83.5%, best of matrix persistence) |
+| F4 | **Stop at first ANY tier** | Stop persistence sau khi hit bất kỳ tier (kể cả Giải ba) | ✓ Chu kỳ 25 (stop_condition.type=any_tier_hit) |
+| F5 | **Stop at jackpot only** | Chỉ dừng khi hit jackpot (tier 1) — rất costly | Chưa — overlaps F4 variants |
+| F6 | **Budget-capped persistence** | F1-F5 + "stop nếu budget exhausted" escape valve | ✓ **Chu kỳ 25** — slight lift vs F3 |
+| F7 | **Max-K-draws escape valve** | F1-F5 + "stop sau K kỳ không hit" | ✓ **Chu kỳ 25** — F7 × Power 5/35 = -80.1% Inconclusive |
 | F8 | **Reset after N cold streak** | Change selection sau N kỳ không hit | Chưa |
 | F9 | **N-hit stop** | Stop sau K lần trúng (không chỉ 1st) | Chưa |
 

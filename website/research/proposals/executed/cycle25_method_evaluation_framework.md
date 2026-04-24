@@ -1,6 +1,6 @@
 ## Chu Kỳ 25 — Pre-Registration: Method Evaluation Framework + Tier-1 Methods
 
-**Status**: ✅ **APPROVED 2026-04-24** (user approve). Frozen per Principle #16 — content immutable until execution closes.
+**Status**: ✅ **EXECUTED 2026-04-24** (framework + 13 methods shipped, same-day). Moved to `executed/` on close. Frozen per Principle #16. Verdict record: [history/cycle25_method_evaluation_framework.md](../../history/cycle25_method_evaluation_framework.md).
 
 **Mode**: Optimization extension (method-evaluation framework — not new mechanism research).
 

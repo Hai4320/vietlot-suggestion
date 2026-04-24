@@ -1,0 +1,30 @@
+{
+  "method_id": "A4_rotate_algorithms",
+  "description": "A4 — Rotate through {Freq_Hot, MinDistance, Pattern} per draw (matrix) or {FreqWholeHot, DigitPairExploiter, MinimumCoverageSet} (3D)",
+  "category": "A",
+  "applicable_products": ["power_655", "power_645", "power_535"],
+  "selection": {
+    "type": "rotate",
+    "algorithms": [
+      {"algorithm": "Freq_Hot", "params": {"lookback_days": 365, "weight": 0.8}},
+      {"algorithm": "MinDistance", "params": {"lookback_days": 365, "n_candidates": 30}},
+      {"algorithm": "Pattern", "params": {"lookback_days": 180}}
+    ]
+  },
+  "bet_size": {
+    "type": "fixed",
+    "n_tickets": 1
+  },
+  "time_frequency": {
+    "type": "every_draw"
+  },
+  "duration": {
+    "type": "indefinite"
+  },
+  "stop_condition": {
+    "type": "never"
+  },
+  "compounding": {
+    "type": "flat"
+  }
+}
