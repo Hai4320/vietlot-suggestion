@@ -4,7 +4,7 @@
 
 **Last updated**: 2026-04-24 (Chu kỳ 24 pre-reg APPROVED; Phase A 3D Pro audit shipped)
 
-**🎯 Current priority**: Chu kỳ 24 budget-aware feature **APPROVED 2026-04-24** — ready to execute. Scope frozen: B=50K fixed, all 5 products incl. null-pick policy for Mega 6/45 + Max 3D Pro.
+**🎯 Current priority**: Chu kỳ 24 budget-aware feature **APPROVED 2026-04-24** — ready to execute. Scope frozen: B=100K fixed (10 tickets, amended from initial 50K before execution), all 5 products incl. null-pick policy for Mega 6/45 + Max 3D Pro.
 
 ---
 
@@ -12,7 +12,7 @@
 
 | File | Status | Scope | Effort | Notes |
 |---|:---:|---|:---:|---|
-| [cycle24_budget_aware.md](cycle24_budget_aware.md) | ✅ **APPROVED 2026-04-24** (frozen pending execution) | Budget-aware portfolio @ B=50K × 5 products (incl. null-pick disclosure policy) | ~3-4 ngày | Allocator + CLI + UI widget. Moves → executed/ on ship. |
+| [cycle24_budget_aware.md](cycle24_budget_aware.md) | ✅ **APPROVED 2026-04-24** (frozen pending execution) | Budget-aware portfolio @ B=100K × 5 products (incl. null-pick disclosure policy) | ~3-4 ngày | Allocator + CLI + UI widget. Moves → executed/ on ship. |
 | [cycle17a_roi_ranking_3d.md](cycle17a_roi_ranking_3d.md) | ⚠ Superseded by cycle22 | (Historical reference only) | N/A | Content frozen Principle #16 |
 
 ---
@@ -37,7 +37,7 @@
 #### 1. **Chu kỳ 24 Budget-aware feature** — ✅ APPROVED 2026-04-24 (ready to execute)
 
 - **File**: [cycle24_budget_aware.md](cycle24_budget_aware.md) (frozen per Principle #16)
-- **Scope**: Portfolio @ B = 50K VND (5 tickets) × 5 products. All 5 products included — valid-pick (Power 6/55, Power 5/35, Max 3D) use pick strategies directly; null-pick (Mega 6/45, Max 3D Pro) use top-composite Balanced profile với disclosure banner.
+- **Scope**: Portfolio @ B = 100K VND (10 tickets) × 5 products. All 5 products included — valid-pick (Power 6/55, Power 5/35, Max 3D) use pick strategies directly; null-pick (Mega 6/45, Max 3D Pro) use top-composite Balanced profile với disclosure banner.
 - **Effort**: ~3-4 ngày (smaller than initial 1-week estimate after scope fixed to single budget)
 - **Mode**: Optimization extension (no new research mechanism)
 - **Composite**: E[payout] 0.35 / P(win≥1) 0.25 / variance_penalty 0.15 / coverage 0.15 / budget_eff 0.10
