@@ -36,6 +36,26 @@ export interface MethodMetrics {
   cycle: number;
 }
 
+/**
+ * Concrete "how to buy" instructions for users. Added post methods_page.md §9.
+ * User feedback 2026-04-24: descriptions aren't actionable enough — need
+ * step-by-step purchase guidance per method.
+ */
+export interface HowToBuy {
+  /** Ordered steps user follows to execute this method. Vietnamese. */
+  steps: string[];
+  /** Example ticket as user would enter it (e.g. "7 12 23 31 42 55" for 6/55, "007 007" for 3D Pro A=B). */
+  sample_ticket?: string;
+  /** Cost estimate per draw in VND (may be "per ticket" for single or "per bundle" for wheel/portfolio). */
+  cost_per_draw_vnd?: number | string;
+  /** Where to buy: "vietlott.vn" or "đại lý" or mixed. */
+  where_to_buy?: string;
+  /** Recommended draw frequency / total plays. */
+  play_schedule?: string;
+  /** Warnings / cautions specific to this method (in addition to global disclaimers). */
+  warnings?: string[];
+}
+
 export interface CatalogMethod {
   id: string;
   category: MethodCategory;
@@ -49,6 +69,7 @@ export interface CatalogMethod {
   metrics?: MethodMetrics[];
   user_action?: { label: string; href: string };
   history_link?: string;
+  how_to_buy?: HowToBuy;
 }
 
 // ─────────────────────────── JSON metric extraction helper ───────────────────────────
@@ -92,6 +113,22 @@ export const METHODS_CATALOG: CatalogMethod[] = [
     status: "tested_no_edge",
     cycles_tested: [25],
     metrics: [...pullMetrics(C25, "A1_fixed_ticket", 25), ...pullMetrics(C25, "A1b_fixed_ticket_3d", 25)],
+    how_to_buy: {
+      steps: [
+        "Vào /suggest, chọn sản phẩm (vd Power 6/55), click Generate để tạo 1 bộ số",
+        "Ghi lại bộ số (ví dụ: 7 12 23 31 42 55)",
+        "Mỗi kỳ, mua CÙNG bộ số đó — không đổi qua thời gian",
+        "Duy trì trong N kỳ (gợi ý N=20-50 để test mood cá nhân)",
+      ],
+      sample_ticket: "Matrix: 7 12 23 31 42 55 | 3D: 007 | 3D Pro: 007 042",
+      cost_per_draw_vnd: 10000,
+      where_to_buy: "vietlott.vn hoặc đại lý",
+      play_schedule: "N kỳ liên tiếp (e.g., 20 kỳ = ~4-5 tuần đối với Power)",
+      warnings: [
+        "Không có edge statistical — tested to worse than Random 2-5pp",
+        "Lý do thử: ít effort, không cần re-compute mỗi kỳ. Psychological commitment.",
+      ],
+    },
   },
   {
     id: "A2",
@@ -113,6 +150,21 @@ export const METHODS_CATALOG: CatalogMethod[] = [
     verdict_note: "Baseline. ROI typically −48% (Max 3D) đến −90% (matrix products)",
     cycles_tested: [25],
     metrics: pullMetrics(C25, "A3_random_baseline", 25),
+    how_to_buy: {
+      steps: [
+        "Trên vietlott.vn, chọn 'Chọn số ngẫu nhiên' (Quick Pick) khi mua vé",
+        "Hoặc tự pick số ngẫu nhiên trong phạm vi sản phẩm",
+        "Mỗi kỳ pick lại fresh, KHÔNG dùng lại bộ cũ",
+      ],
+      sample_ticket: "Quick Pick trên Vietlott UI sinh sẵn",
+      cost_per_draw_vnd: 10000,
+      where_to_buy: "vietlott.vn Quick Pick hoặc đại lý",
+      play_schedule: "Tùy user — không có 'optimal' frequency",
+      warnings: [
+        "Baseline — đây là benchmark, không phải recommendation",
+        "Mọi strategy khác đều được đo vs Random",
+      ],
+    },
   },
   {
     id: "A4",
@@ -200,6 +252,23 @@ export const METHODS_CATALOG: CatalogMethod[] = [
       ...pullMetrics(C26, "B1_wheel_K7_MinDistance", 26),
       ...pullMetrics(C26, "B1_wheel_K6_Freq_Hot_535", 26),
     ],
+    how_to_buy: {
+      steps: [
+        "Chọn K số ưa thích (e.g., K=7 cho Power 6/55). K phải > số cần match.",
+        "Liệt kê tất cả C(K, main_count) tổ hợp — Vd K=7 cho 6/55 = C(7,6) = 7 vé",
+        "Mua mỗi tổ hợp như 1 vé riêng trên Vietlott",
+        "Nếu K số chứa đủ số trúng, đảm bảo hit (nhưng chỉ 1 tier)",
+      ],
+      sample_ticket: "K=7 → {1,7,12,23,31,42,55} → 7 vé mỗi kỳ (mỗi vé bỏ 1 số)",
+      cost_per_draw_vnd: "70,000 (K=7) / 210,000 (K=8) / tùy K",
+      where_to_buy: "Vietlott đại lý — nhập từng vé hoặc dùng wheel tool",
+      play_schedule: "Mỗi kỳ mua cùng wheel, hoặc rotate K numbers theo thuật toán",
+      warnings: [
+        "Chi phí cao (7-28× vé thường)",
+        "Chỉ ↑ P(hit), KHÔNG cải thiện ROI — math: same house edge",
+        "Ruin probability 100% khi B=1M (chi phí 70K × 100 kỳ = 7M)",
+      ],
+    },
   },
   {
     id: "B2",
@@ -317,6 +386,23 @@ export const METHODS_CATALOG: CatalogMethod[] = [
       ...pullMetrics(C26, "C1_bao_lo_6_perms", 26),
       ...pullMetrics(C26, "C1_bao_lo_random", 26),
     ],
+    how_to_buy: {
+      steps: [
+        "Pick 1 bộ 3 chữ số khác nhau (e.g., 123)",
+        "Tạo tất cả 6 hoán vị: 123, 132, 213, 231, 312, 321",
+        "Mua 6 vé Max 3D, mỗi vé 1 hoán vị",
+        "Nếu số trúng là 1 trong 6 perms → hit",
+      ],
+      sample_ticket: "Bộ 1-2-3 → 6 vé: 123 / 132 / 213 / 231 / 312 / 321",
+      cost_per_draw_vnd: 60000,
+      where_to_buy: "Vietlott đại lý Max 3D",
+      play_schedule: "Mỗi kỳ pick 1 bộ mới hoặc fix",
+      warnings: [
+        "P(hit) ↑ 5× (1.9% → 9.9%) — tốt cho tâm lý user, giảm cold streak",
+        "ROI tied Random — không có edge tài chính",
+        "Nếu 2 digit giống (e.g., 122) → chỉ 3 perms = 30K/kỳ (rẻ hơn)",
+      ],
+    },
   },
   {
     id: "C2",
@@ -361,6 +447,23 @@ export const METHODS_CATALOG: CatalogMethod[] = [
       ...pullMetrics(C26, "C5_forward_reverse_hedge_3dpro", 26),
       ...pullMetrics(C28, "C5_fw_rv_retest_N100", 28),
     ],
+    how_to_buy: {
+      steps: [
+        "Pick 2 số 3-digit khác nhau, X và Y (e.g., X=007, Y=042)",
+        "Mua vé 1: A=007, B=042 — tổ hợp forward",
+        "Mua vé 2: A=042, B=007 — tổ hợp reverse",
+        "2 vé × 10K = 20K/kỳ",
+      ],
+      sample_ticket: "2 vé: [007, 042] + [042, 007]",
+      cost_per_draw_vnd: 20000,
+      where_to_buy: "vietlott.vn Max 3D Pro — MANUAL entry",
+      play_schedule: "Mỗi kỳ fresh X, Y",
+      warnings: [
+        "Apparent ROI +34.5pp trong backtest nhưng forward-gate FAIL = variance trap",
+        "Retest N=100 confirmed null — không có edge thực sự",
+        "Pick 2 khác nhau (X≠Y) — nếu X=Y thì fallback sang C6 A=B",
+      ],
+    },
   },
   {
     id: "C6",
@@ -380,6 +483,28 @@ export const METHODS_CATALOG: CatalogMethod[] = [
     ],
     user_action: { label: "🏆 Mua tại /max-3d-pro", href: "/max-3d-pro" },
     history_link: "/research/history#cycle28",
+    how_to_buy: {
+      steps: [
+        "Vào vietlott.vn → chọn Max 3D Pro → 'Chọn số' (manual entry)",
+        "Pick 1 số 3-digit bất kỳ X (e.g., 007). RANDOM works — không cần algorithm.",
+        "Nhập X vào CẢ 2 slot (A và B) — key step: A=B=X",
+        "Kiểm tra: phiếu hiện 'A=007, B=007' hoặc '007 007'",
+        "Xác nhận + thanh toán — 10,000 VND/vé",
+        "Chờ kết quả kỳ quay. Nếu X trong Nhất/Nhì/Ba/Tư của kỳ đó → prize DOUBLED",
+        "(Optional) Portfolio mode: mua 5-10 vé với 5-10 X khác nhau (mỗi vé A=B)",
+      ],
+      sample_ticket: "Single: [007, 007] — 10K. Portfolio N=5: [007,007] + [042,042] + [153,153] + [289,289] + [376,376] — 50K.",
+      cost_per_draw_vnd: "10,000 (single) / 50,000 (N=5) / 100,000 (N=10)",
+      where_to_buy: "vietlott.vn hoặc đại lý Max 3D Pro — MANUAL entry bắt buộc (không dùng Quick Pick vì Quick Pick không generate A=B)",
+      play_schedule: "Mỗi kỳ bất kỳ. Portfolio N=10 (B=100K) = Chu kỳ 24 canonical.",
+      warnings: [
+        "🏆 FIRST ACCEPT claim — validated qua real Vietlott payout 2026-04-24",
+        "PHỤ THUỘC QUY CHẾ — nếu Vietlott sửa quy chế A=B doubling, exploit biến mất",
+        "CHỈ Max 3D Pro — Max 3D không có rule này, Power products không có A=B structure",
+        "Variance cao — P(hit) chỉ 2%, 98% kỳ không trúng. Lỗ ngắn hạn bình thường.",
+        "User PHẢI tự nhập A=B manually — Vietlott UI cho phép nhưng không auto-suggest",
+      ],
+    },
   },
   {
     id: "C7",
@@ -401,6 +526,22 @@ export const METHODS_CATALOG: CatalogMethod[] = [
     status: "tested_no_edge",
     cycles_tested: [26],
     metrics: pullMetrics(C26, "C8_mirror_paired", 26),
+    how_to_buy: {
+      steps: [
+        "Pick 1 số 3-digit X (e.g., 123)",
+        "Tính số đối: 999 - X = 999 - 123 = 876",
+        "Mua 2 vé Max 3D: 123 và 876",
+        "2 vé × 10K = 20K/kỳ",
+      ],
+      sample_ticket: "X=123 → 2 vé: 123 + 876",
+      cost_per_draw_vnd: 20000,
+      where_to_buy: "Vietlott Max 3D (đại lý hoặc vietlott.vn)",
+      play_schedule: "Mỗi kỳ pick 1 X mới",
+      warnings: [
+        "Cultural 'số đối' heuristic — không có statistical edge",
+        "P(hit) tăng 2× (linear với ticket count), ROI tied Random",
+      ],
+    },
   },
   {
     id: "C9",
@@ -573,6 +714,25 @@ export const METHODS_CATALOG: CatalogMethod[] = [
     verdict_note: "🚨 REFALSIFIED — worse than Random 5-8pp matrix. Consistent với LongAbsence Reject Chu kỳ 1-13 + drift falsified Chu kỳ 8.",
     cycles_tested: [25],
     metrics: pullMetrics(C25, "F1_so_gan_cold_persistence", 25),
+    how_to_buy: {
+      steps: [
+        "Xem Vietlott lịch sử → tìm số chưa ra trong 60-90 kỳ gần nhất (số 'gan')",
+        "Pick 1 bộ gồm các số gan đó (e.g., 5-11-17-29-34)",
+        "Mua CÙNG bộ số mỗi kỳ",
+        "Dừng khi BẤT KỲ số nào trong bộ đó trúng (bất kỳ tier)",
+        "Sau đó restart: pick bộ số gan mới",
+      ],
+      sample_ticket: "5 11 17 29 34 — số vắng mặt 60+ kỳ trước đây",
+      cost_per_draw_vnd: 10000,
+      where_to_buy: "Bất kỳ (vietlott.vn hoặc đại lý)",
+      play_schedule: "Persistent đến khi hit — trung bình 30-50 kỳ",
+      warnings: [
+        "🚨 FALSIFIED: testing 25 cycles + 8 cycles drift verification confirms NO EDGE",
+        "Phương pháp này thực tế WORSE THAN Random 5-8pp",
+        "Gambler's fallacy — quá khứ không predict tương lai trong IID lottery",
+        "Chỉ nên thử as educational exercise, không phải với tiền thật",
+      ],
+    },
   },
   {
     id: "F2",
@@ -692,6 +852,26 @@ export const METHODS_CATALOG: CatalogMethod[] = [
       ...pullMetrics(C27, "G2_martingale_cap32", 27),
       ...pullMetrics(C27, "G2_martingale_cap8", 27),
     ],
+    how_to_buy: {
+      steps: [
+        "Kỳ 1: mua 1 vé Random (10K)",
+        "Nếu thua → Kỳ 2: mua 2 vé (20K)",
+        "Tiếp tục thua → Kỳ 3: 4 vé (40K), Kỳ 4: 8 vé, Kỳ 5: 16 vé, Kỳ 6: 32 vé (320K)",
+        "Khi trúng 1 vé bất kỳ → reset về 1 vé (10K) cho kỳ kế",
+        "Cap: không được double quá 32× (vì lỗ tăng exponential)",
+      ],
+      sample_ticket: "Sequence: 1→2→4→8→16→32 (cap) vé mỗi kỳ",
+      cost_per_draw_vnd: "10K (kỳ thắng) đến 320K (6 kỳ liên tiếp thua)",
+      where_to_buy: "vietlott.vn hoặc đại lý — track losses manually",
+      play_schedule: "Indefinite — dừng khi cumulative loss > budget B",
+      warnings: [
+        "🚨 CAUTIONARY: 100% bankruptcy rate ở B=1M trong backtest N=100 kỳ",
+        "Compounding không thay đổi house edge — lỗ chỉ tăng nhanh hơn",
+        "Casino/lottery Martingale là classic misconception",
+        "KHÔNG recommend thực sự — document để user biết tại sao KHÔNG work",
+        "Apparent +1696% ROI Max 3D Pro = variance trap từ rare high-tier × 32× bet",
+      ],
+    },
   },
   {
     id: "G3",
@@ -756,6 +936,25 @@ export const METHODS_CATALOG: CatalogMethod[] = [
     verdict_note: "Linear scaling C6 ACCEPT. Ideal for Chu kỳ 24 budget 100K.",
     cycles_tested: [28],
     metrics: pullMetrics(C28, "H1_C6_ab_portfolio_N10", 28),
+    how_to_buy: {
+      steps: [
+        "Pick 10 số 3-digit khác nhau (e.g., random: 007, 042, 153, 289, 376, 421, 558, 634, 781, 892)",
+        "Vào vietlott.vn Max 3D Pro → chọn 'Chọn số' 10 lần",
+        "Với MỖI số Xi → nhập Xi vào CẢ A và B slot (A=B)",
+        "Tổng 10 vé × 10K = 100K VND cho 1 kỳ",
+        "Mua cùng 10 vé (mỗi vé A=B khác nhau) mỗi kỳ",
+      ],
+      sample_ticket: "10 vé: [007,007] [042,042] [153,153] [289,289] [376,376] [421,421] [558,558] [634,634] [781,781] [892,892]",
+      cost_per_draw_vnd: 100000,
+      where_to_buy: "vietlott.vn — MANUAL entry từng vé A=B",
+      play_schedule: "Mỗi kỳ = Chu kỳ 24 canonical budget (100K)",
+      warnings: [
+        "P(any hit) = 17.8% — cao hơn single C6 (2%) nhiều",
+        "Expected ROI +4056% vẫn giữ — per-ticket EV không đổi",
+        "Cost 100K/kỳ — ruin prob 100% ở B=1M after 10 kỳ nếu không hit cao",
+        "Inherits TẤT CẢ C6 caveats: rule-dependent, manual entry, 3D Pro only",
+      ],
+    },
   },
   {
     id: "H2",
@@ -797,6 +996,23 @@ export const METHODS_CATALOG: CatalogMethod[] = [
     verdict_note: "P(hit) 9.7% ≈ theoretical 9.6%, ROI +4326%",
     cycles_tested: [28],
     metrics: pullMetrics(C28, "H5_C6_ab_portfolio_N5", 28),
+    how_to_buy: {
+      steps: [
+        "Pick 5 số 3-digit khác nhau (e.g., 007, 042, 153, 289, 376)",
+        "Vào vietlott.vn Max 3D Pro → mua 5 vé",
+        "Với mỗi số Xi → nhập Xi vào CẢ A và B slot",
+        "Tổng 5 vé × 10K = 50K VND cho 1 kỳ",
+      ],
+      sample_ticket: "5 vé: [007,007] [042,042] [153,153] [289,289] [376,376]",
+      cost_per_draw_vnd: 50000,
+      where_to_buy: "vietlott.vn — MANUAL entry A=B",
+      play_schedule: "Mỗi kỳ hoặc rotate — budget 50K friendly cho casual user",
+      warnings: [
+        "P(any hit) = 9.7% (2× vs N=5 nhờ diversification)",
+        "ROI expected +4326% (same per-ticket EV)",
+        "Inherits C6 caveats: rule-dependent, manual entry, 3D Pro only",
+      ],
+    },
   },
 
   // ═══════════════════ I. Cultural / pattern-based ═══════════════════

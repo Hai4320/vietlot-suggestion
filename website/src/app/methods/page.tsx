@@ -414,16 +414,70 @@ export default function MethodsPage() {
                     </tr>
                     {expanded && (
                       <tr key={`${m.id}-exp`} className="border-b bg-muted/10">
-                        <td colSpan={7} className="px-6 py-4 space-y-3">
+                        <td colSpan={7} className="px-6 py-4 space-y-4">
                           {m.mechanism_vi && (
                             <div className="text-sm">
                               <div className="font-semibold mb-1">Cơ chế:</div>
                               <p className="text-muted-foreground leading-relaxed">{m.mechanism_vi}</p>
                             </div>
                           )}
+
+                          {m.how_to_buy && (
+                            <div className={`rounded-md p-3 border space-y-2 ${m.status === "accept" ? "bg-green-500/5 border-green-500/40" : "bg-primary/5 border-primary/30"}`}>
+                              <div className="flex items-center gap-2 font-semibold text-sm">
+                                <span>🛒</span>
+                                <span>Cách mua thực tế</span>
+                              </div>
+                              <ol className="list-decimal list-inside space-y-1 text-sm ml-2">
+                                {m.how_to_buy.steps.map((step, i) => (
+                                  <li key={i} className="leading-relaxed">{step}</li>
+                                ))}
+                              </ol>
+                              <div className="grid md:grid-cols-2 gap-x-4 gap-y-1 text-xs pt-2 border-t border-border/50 mt-2">
+                                {m.how_to_buy.sample_ticket && (
+                                  <div className="md:col-span-2">
+                                    <strong className="text-foreground">Vé mẫu:</strong>{" "}
+                                    <span className="font-mono text-muted-foreground">{m.how_to_buy.sample_ticket}</span>
+                                  </div>
+                                )}
+                                {m.how_to_buy.cost_per_draw_vnd !== undefined && (
+                                  <div>
+                                    <strong className="text-foreground">Chi phí/kỳ:</strong>{" "}
+                                    <span className="font-mono text-muted-foreground">
+                                      {typeof m.how_to_buy.cost_per_draw_vnd === "number"
+                                        ? `${m.how_to_buy.cost_per_draw_vnd.toLocaleString("vi-VN")} VND`
+                                        : m.how_to_buy.cost_per_draw_vnd}
+                                    </span>
+                                  </div>
+                                )}
+                                {m.how_to_buy.where_to_buy && (
+                                  <div>
+                                    <strong className="text-foreground">Mua ở đâu:</strong>{" "}
+                                    <span className="text-muted-foreground">{m.how_to_buy.where_to_buy}</span>
+                                  </div>
+                                )}
+                                {m.how_to_buy.play_schedule && (
+                                  <div className="md:col-span-2">
+                                    <strong className="text-foreground">Lịch mua:</strong>{" "}
+                                    <span className="text-muted-foreground">{m.how_to_buy.play_schedule}</span>
+                                  </div>
+                                )}
+                              </div>
+                              {m.how_to_buy.warnings && m.how_to_buy.warnings.length > 0 && (
+                                <div className="pt-2 border-t border-border/50 space-y-0.5">
+                                  {m.how_to_buy.warnings.map((w, i) => (
+                                    <div key={i} className="text-[11px] text-amber-700 dark:text-amber-400 leading-relaxed">
+                                      ⚠ {w}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
+
                           {m.verdict_note && (
                             <div className="text-sm">
-                              <div className="font-semibold mb-1">Verdict:</div>
+                              <div className="font-semibold mb-1">Verdict nghiên cứu:</div>
                               <p className="text-muted-foreground leading-relaxed">{m.verdict_note}</p>
                             </div>
                           )}
