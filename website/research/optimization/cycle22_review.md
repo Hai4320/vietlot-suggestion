@@ -204,3 +204,22 @@ Flag: có thể rời-bộ nhớ cho cycle 24 hoặc breakthrough reopen nếu a
 - [x] Collapse rules applied (§3.2 MEASUREMENT)
 - [x] Null picks honored (không force surface)
 - [ ] **USER APPROVAL** — cần chốt §4 option + confirm 5 products ready for UI
+
+---
+
+## §9. Appendix — Max 3D Pro evaluator fix (post-ship, 2026-04-24)
+
+**Discovered during check-rate Phase 5 development (2026-04-23)**: backtest evaluator used throughout Chu kỳ 22 ([cycle22_rebacktest_3d.py](cycle22_rebacktest_3d.py) → [advanced_backtest.evaluate_prediction](../3d/advanced_backtest.py)) applies the Max 3D 4-tier per-number model to `max_3d_pro` too. Correct model for Max 3D Pro = 8-tier ticket-level (order-sensitive A/B, A=B doubling). See [plans/max3d_pro_backtest_audit.md](../../plans/max3d_pro_backtest_audit.md).
+
+**Phase A audit shipped 2026-04-24** with corrected evaluator ([3d/p3d_pro_evaluator.py](../3d/p3d_pro_evaluator.py), ported from check-rate source of truth):
+
+| Finding | Status |
+|---|:-:|
+| Evaluator WAS wrong for 3D Pro | ✅ Confirmed |
+| Rankings rearrange internally | ✅ Confirmed — top-1 flip for ROI + Balanced (EVMaximizer → B2 TierWeighted) |
+| UI `picks.*` affected | ❌ **NO** — all 3 profiles still produce null under corrected evaluator (no strategy passes split-half + forward verify) |
+| `cycle22_rankings.json` patched | ❌ **Not overwritten** (frozen record preserved; corrections in separate [cycle22_backtest_3dpro_corrected.json](cycle22_backtest_3dpro_corrected.json) + [cycle22_3dpro_audit.md](cycle22_3dpro_audit.md)) |
+
+**Why no re-ship**: Chu kỳ 22 surfaced `picks = null` for 3D Pro from day one. Under corrected evaluator the null still holds (B2 TierWeighted passes split-half with +117.7%/+87.9% ROI but forward drops to −84.4%, classic forward-gate fail). User-facing UI state is identical before and after audit.
+
+Severity downgrade: 🔴 High (audit doc initial) → 🟢 Low (post-verification, diagnostic-only). Historical 3D Pro Reject verdicts (Chu kỳ 7/8/11/12/13/17) remain valid — all were based on split-half flips or chi²-homogeneity null, not prize-amount-sensitive signals.

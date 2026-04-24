@@ -1,8 +1,8 @@
 # Audit: Max 3D Pro backtest scoring — reward-model correctness
 
-**Status:** ⏳ Planned (for next research cycle — Chu kỳ 24+ or on-demand)
+**Status:** ✅ **Phase A SHIPPED 2026-04-24**. See outcome §8 below.
 **Origin:** Discovered while implementing check-rate Phase 5 (2026-04-23).
-**Severity:** 🔴 High — candidate UX-lie per [website/CLAUDE.md](../CLAUDE.md) ("Avoid UX lies").
+**Severity (post Phase A):** 🟢 Low — diagnostic-only, no UI user-impact (picks were null regardless). Revised down from initial 🔴 High.
 
 ---
 
@@ -115,3 +115,35 @@ Bao nhiêu user action dựa trên sai backtest?
 - [src/vietlott/check_rate/evaluators/p3d_pro.py](../../src/vietlott/check_rate/evaluators/p3d_pro.py) — source of truth cho 8-tier evaluation (post-Phase 5)
 - [src/vietlott/config/prize_tables.py `MAX_3D_PRO_TIERS`](../../src/vietlott/config/prize_tables.py) — canonical prize values
 - Vietlott quy chế: https://vietlott.vn/vi/choi/max3dpro/gioi-thieu-san-pham-max3dpro
+
+---
+
+## 8. Phase A outcome (shipped 2026-04-24)
+
+Full audit report: [website/research/optimization/cycle22_3dpro_audit.md](../research/optimization/cycle22_3dpro_audit.md)
+
+**Hypothesis outcomes**:
+| | Status | Evidence |
+|---|:-:|---|
+| H1 (evaluator was wrong for 3D Pro) | ✅ Confirmed | `research/3d/advanced_backtest.py` uses 4-tier Max 3D eval for both 3D products |
+| H2 (Chu kỳ 22 rankings affected) | ✅ Confirmed | Top-1 flips for ROI + Balanced profiles (EVMaximizer → TierWeighted) |
+| H3 (UI picks misleading) | ❌ Not confirmed | Chu kỳ 22 UI shows `picks = null` for 3D Pro; no user-visible pick was ever wrong |
+
+**Artifacts shipped**:
+- `website/research/3d/p3d_pro_evaluator.py` — ported 8-tier resolver from check-rate Phase 5
+- `website/research/optimization/cycle22_rebacktest_3dpro_corrected.py` — re-run script
+- `website/research/optimization/cycle22_backtest_3dpro_corrected.json` — 17 strategies × 4 segments (326s)
+- `website/research/optimization/cycle22_3dpro_diff.py` + `cycle22_3dpro_diff.json` — rank-delta analyzer
+- `website/research/optimization/cycle22_3dpro_audit.md` — full narrative (this doc's §8 is the summary)
+
+**Key finding**: under corrected evaluator, **no strategy survives split-half + forward verify** for 3D Pro either. B2 TierWeighted (new top-1 in ROI profile with ROI +13.8% full-sample) passes split-half (both halves positive ROI) but FAILS forward (−84.4%, Δ_win −2.4pp). Other candidates hit split-half direction flip. `picks = null` state of Chu kỳ 22 UI therefore **remains correct**.
+
+**Actions completed** (Tier 1 Data Correctness, per §4 of this plan):
+- ✅ Evaluator ported to research/ layer
+- ✅ Rankings recomputed, diff surfaced
+- ⏳ Appendix note in `cycle22_review.md` (pending, Tier 1 finish)
+
+**Actions NOT taken** (by design):
+- ❌ Overwriting `cycle22_rankings.json` — intentionally preserve frozen record tied to shipped UI state. Corrected numbers live in separate JSON for future reference.
+- ❌ UI-layer changes — no user-visible picks affected; disclosure banner would add noise without upside
+- ❌ Tier 3 (native 3D Pro strategy design) — deferred. Corrected evaluator shows no mechanism passes 3-gate verification → case for new-mechanism investment is WEAKER, not stronger. Defer until §9 reopen trigger (PROJECT_CLOSURE_REPORT).

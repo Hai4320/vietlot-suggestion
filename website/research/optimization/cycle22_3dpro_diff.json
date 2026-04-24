@@ -1,0 +1,417 @@
+{
+  "profiles": [
+    "WinRate",
+    "ROI",
+    "Balanced"
+  ],
+  "segment": "full",
+  "summary": {
+    "WinRate": {
+      "old_top1": "D1: EVMaximizer",
+      "new_top1": "D1: EVMaximizer",
+      "changed": false,
+      "old_top5": [
+        [
+          1,
+          "D1: EVMaximizer",
+          1.425424689798631
+        ],
+        [
+          2,
+          "ULTIMATE_v2_sharp",
+          1.2210271682524598
+        ],
+        [
+          3,
+          "A1: JointBias_T1.0",
+          0.8460539856086219
+        ],
+        [
+          4,
+          "B3: StratifiedDigit",
+          0.4934943526295133
+        ],
+        [
+          5,
+          "A2: CondChain_T0.6",
+          0.47532725182649826
+        ]
+      ],
+      "new_top5": [
+        [
+          1,
+          "D1: EVMaximizer",
+          1.47928420008767
+        ],
+        [
+          2,
+          "B2: TierWeighted",
+          1.0962779959439601
+        ],
+        [
+          3,
+          "A1: JointBias_T1.0",
+          0.6764697215923974
+        ],
+        [
+          4,
+          "ULTIMATE_v2_sharp",
+          0.6625783974198475
+        ],
+        [
+          5,
+          "B3: StratifiedDigit",
+          0.29634619015763164
+        ]
+      ]
+    },
+    "ROI": {
+      "old_top1": "D1: EVMaximizer",
+      "new_top1": "B2: TierWeighted",
+      "changed": true,
+      "old_top5": [
+        [
+          1,
+          "D1: EVMaximizer",
+          1.5511292662828313
+        ],
+        [
+          2,
+          "ULTIMATE_v2_sharp",
+          1.4227542864577287
+        ],
+        [
+          3,
+          "A1: JointBias_T1.0",
+          0.7151824683307847
+        ],
+        [
+          4,
+          "A2: CondChain_T0.6",
+          0.5554005813784217
+        ],
+        [
+          5,
+          "B2: TierWeighted",
+          0.3514634085832471
+        ]
+      ],
+      "new_top5": [
+        [
+          1,
+          "B2: TierWeighted",
+          2.087909930557927
+        ],
+        [
+          2,
+          "D1: EVMaximizer",
+          1.6192156749091475
+        ],
+        [
+          3,
+          "A1: JointBias_T1.0",
+          0.2850069369730832
+        ],
+        [
+          4,
+          "ULTIMATE_v2_sharp",
+          0.03862909978852524
+        ],
+        [
+          5,
+          "A2: CondChain_T0.8",
+          -0.022113587956131428
+        ]
+      ]
+    },
+    "Balanced": {
+      "old_top1": "D1: EVMaximizer",
+      "new_top1": "B2: TierWeighted",
+      "changed": true,
+      "old_top5": [
+        [
+          1,
+          "D1: EVMaximizer",
+          1.4882769780407312
+        ],
+        [
+          2,
+          "ULTIMATE_v2_sharp",
+          1.3218907273550944
+        ],
+        [
+          3,
+          "A1: JointBias_T1.0",
+          0.7806182269697033
+        ],
+        [
+          4,
+          "A2: CondChain_T0.6",
+          0.5153639166024601
+        ],
+        [
+          5,
+          "B3: StratifiedDigit",
+          0.40611509375123683
+        ]
+      ],
+      "new_top5": [
+        [
+          1,
+          "B2: TierWeighted",
+          1.5920939632509437
+        ],
+        [
+          2,
+          "D1: EVMaximizer",
+          1.5492499374984088
+        ],
+        [
+          3,
+          "A1: JointBias_T1.0",
+          0.48073832928274035
+        ],
+        [
+          4,
+          "ULTIMATE_v2_sharp",
+          0.3506037486041864
+        ],
+        [
+          5,
+          "A2: CondChain_T0.6",
+          0.11669106171971733
+        ]
+      ]
+    }
+  },
+  "rank_deltas": [
+    [
+      "B2: TierWeighted",
+      6,
+      2,
+      4
+    ],
+    [
+      "ULTIMATE_v2_sharp",
+      2,
+      4,
+      -2
+    ],
+    [
+      "B3: StratifiedDigit",
+      4,
+      5,
+      -1
+    ],
+    [
+      "A2: CondChain_T0.6",
+      5,
+      6,
+      -1
+    ],
+    [
+      "A1: JointBias_T0.7",
+      9,
+      10,
+      -1
+    ],
+    [
+      "D3: PairExploiter_T0.7",
+      10,
+      9,
+      1
+    ],
+    [
+      "FreqWholeHot",
+      11,
+      12,
+      -1
+    ],
+    [
+      "C3: Portfolio",
+      12,
+      11,
+      1
+    ],
+    [
+      "D1: EVMaximizer",
+      1,
+      1,
+      0
+    ],
+    [
+      "A1: JointBias_T1.0",
+      3,
+      3,
+      0
+    ],
+    [
+      "D3: PairExploiter_T0.5",
+      7,
+      7,
+      0
+    ],
+    [
+      "A2: CondChain_T0.8",
+      8,
+      8,
+      0
+    ],
+    [
+      "D2: KLMinimizer",
+      13,
+      13,
+      0
+    ],
+    [
+      "ULTIMATE_v1",
+      14,
+      14,
+      0
+    ],
+    [
+      "C2: MultiSignal",
+      15,
+      15,
+      0
+    ],
+    [
+      "B1: CoverageOpt",
+      16,
+      16,
+      0
+    ]
+  ],
+  "old_metrics": {
+    "FreqWholeHot": {
+      "win": 2.0424,
+      "roi": -47.29
+    },
+    "A1: JointBias_T1.0": {
+      "win": 2.3752,
+      "roi": -36.87
+    },
+    "A1: JointBias_T0.7": {
+      "win": 2.0575,
+      "roi": -43.36
+    },
+    "A2: CondChain_T0.8": {
+      "win": 2.0877,
+      "roi": -40.0
+    },
+    "A2: CondChain_T0.6": {
+      "win": 2.2239,
+      "roi": -37.46
+    },
+    "B1: CoverageOpt": {
+      "win": 1.4372,
+      "roi": -58.62
+    },
+    "B2: TierWeighted": {
+      "win": 2.2542,
+      "roi": -40.53
+    },
+    "B3: StratifiedDigit": {
+      "win": 2.2844,
+      "roi": -41.2
+    },
+    "C2: MultiSignal": {
+      "win": 1.8457,
+      "roi": -51.44
+    },
+    "C3: Portfolio": {
+      "win": 2.118,
+      "roi": -57.64
+    },
+    "D1: EVMaximizer": {
+      "win": 2.4962,
+      "roi": -26.48
+    },
+    "D2: KLMinimizer": {
+      "win": 1.9516,
+      "roi": -49.97
+    },
+    "D3: PairExploiter_T0.7": {
+      "win": 2.0877,
+      "roi": -46.46
+    },
+    "D3: PairExploiter_T0.5": {
+      "win": 2.1331,
+      "roi": -40.12
+    },
+    "ULTIMATE_v1": {
+      "win": 1.8911,
+      "roi": -52.65
+    },
+    "ULTIMATE_v2_sharp": {
+      "win": 2.4206,
+      "roi": -27.46
+    }
+  },
+  "new_metrics": {
+    "FreqWholeHot": {
+      "win": 4.0785,
+      "roi": -81.15
+    },
+    "A1: JointBias_T1.0": {
+      "win": 4.6828,
+      "roi": -69.31
+    },
+    "A1: JointBias_T0.7": {
+      "win": 4.0785,
+      "roi": -78.07
+    },
+    "A2: CondChain_T0.8": {
+      "win": 4.0785,
+      "roi": -72.27
+    },
+    "A2: CondChain_T0.6": {
+      "win": 4.4109,
+      "roi": -76.37
+    },
+    "B1: CoverageOpt": {
+      "win": 2.8701,
+      "roi": -86.71
+    },
+    "B2: TierWeighted": {
+      "win": 4.4713,
+      "roi": 13.84
+    },
+    "B3: StratifiedDigit": {
+      "win": 4.5619,
+      "roi": -79.4
+    },
+    "C2: MultiSignal": {
+      "win": 3.716,
+      "roi": -82.96
+    },
+    "C3: Portfolio": {
+      "win": 4.2296,
+      "roi": -82.18
+    },
+    "D1: EVMaximizer": {
+      "win": 4.9849,
+      "roi": -16.62
+    },
+    "D2: KLMinimizer": {
+      "win": 3.8973,
+      "roi": -81.87
+    },
+    "D3: PairExploiter_T0.7": {
+      "win": 4.1088,
+      "roi": -75.23
+    },
+    "D3: PairExploiter_T0.5": {
+      "win": 4.29,
+      "roi": -77.22
+    },
+    "ULTIMATE_v1": {
+      "win": 3.7764,
+      "roi": -83.08
+    },
+    "ULTIMATE_v2_sharp": {
+      "win": 4.8338,
+      "roi": -77.04
+    }
+  }
+}
