@@ -1,0 +1,1499 @@
+{
+  "cycle": 24,
+  "scope": "budget_aware_portfolio",
+  "pre_reg": "proposals/cycle24_budget_aware.md",
+  "timestamp": "2026-04-24 08:27:46",
+  "budget_vnd": 100000,
+  "ticket_price_vnd": 10000,
+  "n_tickets_per_portfolio": 10,
+  "forward_window": 100,
+  "n_runs": 5,
+  "seed": 42,
+  "composite_weights": {
+    "expected_payout": 0.35,
+    "p_win_ge1": 0.25,
+    "variance_penalty": 0.15,
+    "coverage": 0.15,
+    "budget_eff": 0.1
+  },
+  "products": {
+    "power_655": {
+      "null_pick": false,
+      "anchors": [
+        "MinDistance"
+      ],
+      "type": "matrix",
+      "n_candidates": 5,
+      "rankings": [
+        {
+          "label": "Hedged(MinDistance, 9+1R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "MinDistance",
+            "k": 9
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 24860.0,
+          "p_win_ge1": 0.142,
+          "std_payout": 447322.23,
+          "coverage": 0.7129,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 12430000,
+          "net_profit_vnd": -37570000,
+          "roi_pct": -75.14,
+          "elapsed_s": 4.89,
+          "z": {
+            "expected_payout": 1.769,
+            "p_win_ge1": 0.4,
+            "std_payout": 1.787,
+            "coverage": 0.058,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.46,
+          "rank": 1
+        },
+        {
+          "label": "Pure(MinDistance)",
+          "kind": "pure",
+          "params": {
+            "strat": "MinDistance"
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 7260.0,
+          "p_win_ge1": 0.146,
+          "std_payout": 31430.37,
+          "coverage": 0.7261,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 3630000,
+          "net_profit_vnd": -46370000,
+          "roi_pct": -92.74,
+          "elapsed_s": 5.31,
+          "z": {
+            "expected_payout": -0.335,
+            "p_win_ge1": 0.845,
+            "std_payout": -0.42,
+            "coverage": 0.943,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.299,
+          "rank": 2
+        },
+        {
+          "label": "Wheel(MinDistance×10)",
+          "kind": "wheel_mindistance",
+          "params": {},
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 7260.0,
+          "p_win_ge1": 0.146,
+          "std_payout": 31430.37,
+          "coverage": 0.7261,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 3630000,
+          "net_profit_vnd": -46370000,
+          "roi_pct": -92.74,
+          "elapsed_s": 5.38,
+          "z": {
+            "expected_payout": -0.335,
+            "p_win_ge1": 0.845,
+            "std_payout": -0.42,
+            "coverage": 0.943,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.299,
+          "rank": 3
+        },
+        {
+          "label": "Hedged(MinDistance, 8+2R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "MinDistance",
+            "k": 8
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 4260.0,
+          "p_win_ge1": 0.132,
+          "std_payout": 11309.65,
+          "coverage": 0.7036,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 2130000,
+          "net_profit_vnd": -47870000,
+          "roi_pct": -95.74,
+          "elapsed_s": 4.14,
+          "z": {
+            "expected_payout": -0.693,
+            "p_win_ge1": -0.712,
+            "std_payout": -0.527,
+            "coverage": -0.566,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.427,
+          "rank": 4
+        },
+        {
+          "label": "Hedged(MinDistance, 7+3R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "MinDistance",
+            "k": 7
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 6660.0,
+          "p_win_ge1": 0.126,
+          "std_payout": 31276.2,
+          "coverage": 0.6915,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 3330000,
+          "net_profit_vnd": -46670000,
+          "roi_pct": -93.34,
+          "elapsed_s": 3.6,
+          "z": {
+            "expected_payout": -0.406,
+            "p_win_ge1": -1.379,
+            "std_payout": -0.421,
+            "coverage": -1.378,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.631,
+          "rank": 5
+        }
+      ],
+      "top_portfolio": {
+        "label": "Hedged(MinDistance, 9+1R)",
+        "kind": "hedged",
+        "params": {
+          "strat": "MinDistance",
+          "k": 9
+        },
+        "n_tickets": 10,
+        "n_draws_simulated": 500,
+        "expected_payout_vnd": 24860.0,
+        "p_win_ge1": 0.142,
+        "std_payout": 447322.23,
+        "coverage": 0.7129,
+        "budget_eff": 1.0,
+        "total_cost_vnd": 50000000,
+        "total_revenue_vnd": 12430000,
+        "net_profit_vnd": -37570000,
+        "roi_pct": -75.14,
+        "elapsed_s": 4.89,
+        "z": {
+          "expected_payout": 1.769,
+          "p_win_ge1": 0.4,
+          "std_payout": 1.787,
+          "coverage": 0.058,
+          "budget_eff": 0.0
+        },
+        "composite_score": 0.46,
+        "rank": 1
+      }
+    },
+    "power_535": {
+      "null_pick": false,
+      "anchors": [
+        "Freq_Hot"
+      ],
+      "type": "matrix",
+      "n_candidates": 4,
+      "rankings": [
+        {
+          "label": "Pure(Freq_Hot)",
+          "kind": "pure",
+          "params": {
+            "strat": "Freq_Hot"
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 9000.0,
+          "p_win_ge1": 0.14,
+          "std_payout": 35938.6,
+          "coverage": 0.551,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 4500000,
+          "net_profit_vnd": -45500000,
+          "roi_pct": -91.0,
+          "elapsed_s": 1.22,
+          "z": {
+            "expected_payout": 0.565,
+            "p_win_ge1": 0.426,
+            "std_payout": 0.036,
+            "coverage": 0.523,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.377,
+          "rank": 1
+        },
+        {
+          "label": "Hedged(Freq_Hot, 8+2R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "Freq_Hot",
+            "k": 8
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 8800.0,
+          "p_win_ge1": 0.15,
+          "std_payout": 29227.87,
+          "coverage": 0.5485,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 4400000,
+          "net_profit_vnd": -45600000,
+          "roi_pct": -91.2,
+          "elapsed_s": 1.01,
+          "z": {
+            "expected_payout": -0.081,
+            "p_win_ge1": 1.202,
+            "std_payout": -1.248,
+            "coverage": -0.784,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.342,
+          "rank": 2
+        },
+        {
+          "label": "Hedged(Freq_Hot, 9+1R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "Freq_Hot",
+            "k": 9
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 9100.0,
+          "p_win_ge1": 0.122,
+          "std_payout": 42020.49,
+          "coverage": 0.5483,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 4550000,
+          "net_profit_vnd": -45450000,
+          "roi_pct": -90.9,
+          "elapsed_s": 1.1,
+          "z": {
+            "expected_payout": 0.888,
+            "p_win_ge1": -0.969,
+            "std_payout": 1.201,
+            "coverage": -0.889,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.245,
+          "rank": 3
+        },
+        {
+          "label": "Hedged(Freq_Hot, 7+3R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "Freq_Hot",
+            "k": 7
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 8400.0,
+          "p_win_ge1": 0.126,
+          "std_payout": 35805.08,
+          "coverage": 0.5522,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 4200000,
+          "net_profit_vnd": -45800000,
+          "roi_pct": -91.6,
+          "elapsed_s": 0.86,
+          "z": {
+            "expected_payout": -1.373,
+            "p_win_ge1": -0.659,
+            "std_payout": 0.011,
+            "coverage": 1.15,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.474,
+          "rank": 4
+        }
+      ],
+      "top_portfolio": {
+        "label": "Pure(Freq_Hot)",
+        "kind": "pure",
+        "params": {
+          "strat": "Freq_Hot"
+        },
+        "n_tickets": 10,
+        "n_draws_simulated": 500,
+        "expected_payout_vnd": 9000.0,
+        "p_win_ge1": 0.14,
+        "std_payout": 35938.6,
+        "coverage": 0.551,
+        "budget_eff": 1.0,
+        "total_cost_vnd": 50000000,
+        "total_revenue_vnd": 4500000,
+        "net_profit_vnd": -45500000,
+        "roi_pct": -91.0,
+        "elapsed_s": 1.22,
+        "z": {
+          "expected_payout": 0.565,
+          "p_win_ge1": 0.426,
+          "std_payout": 0.036,
+          "coverage": 0.523,
+          "budget_eff": 0.0
+        },
+        "composite_score": 0.377,
+        "rank": 1
+      }
+    },
+    "power_645": {
+      "null_pick": true,
+      "anchors": [
+        "Freq_Hot"
+      ],
+      "type": "matrix",
+      "n_candidates": 4,
+      "rankings": [
+        {
+          "label": "Hedged(Freq_Hot, 9+1R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "Freq_Hot",
+            "k": 9
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 10800.0,
+          "p_win_ge1": 0.196,
+          "std_payout": 38108.59,
+          "coverage": 0.5681,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 5400000,
+          "net_profit_vnd": -44600000,
+          "roi_pct": -89.2,
+          "elapsed_s": 0.68,
+          "z": {
+            "expected_payout": 0.764,
+            "p_win_ge1": -0.993,
+            "std_payout": 0.568,
+            "coverage": 1.317,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.131,
+          "rank": 1
+        },
+        {
+          "label": "Hedged(Freq_Hot, 8+2R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "Freq_Hot",
+            "k": 8
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 9840.0,
+          "p_win_ge1": 0.208,
+          "std_payout": 32681.96,
+          "coverage": 0.5677,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 4920000,
+          "net_profit_vnd": -45080000,
+          "roi_pct": -90.16,
+          "elapsed_s": 0.61,
+          "z": {
+            "expected_payout": -0.813,
+            "p_win_ge1": 1.391,
+            "std_payout": -1.278,
+            "coverage": -1.025,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.101,
+          "rank": 2
+        },
+        {
+          "label": "Hedged(Freq_Hot, 7+3R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "Freq_Hot",
+            "k": 7
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 10920.0,
+          "p_win_ge1": 0.2,
+          "std_payout": 39332.53,
+          "coverage": 0.5678,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 5460000,
+          "net_profit_vnd": -44540000,
+          "roi_pct": -89.08,
+          "elapsed_s": 0.54,
+          "z": {
+            "expected_payout": 0.961,
+            "p_win_ge1": -0.199,
+            "std_payout": 0.984,
+            "coverage": -0.439,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.073,
+          "rank": 3
+        },
+        {
+          "label": "Pure(Freq_Hot)",
+          "kind": "pure",
+          "params": {
+            "strat": "Freq_Hot"
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 9780.0,
+          "p_win_ge1": 0.2,
+          "std_payout": 35629.91,
+          "coverage": 0.5679,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 4890000,
+          "net_profit_vnd": -45110000,
+          "roi_pct": -90.22,
+          "elapsed_s": 0.75,
+          "z": {
+            "expected_payout": -0.912,
+            "p_win_ge1": -0.199,
+            "std_payout": -0.275,
+            "coverage": 0.146,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.306,
+          "rank": 4
+        }
+      ],
+      "top_portfolio": {
+        "label": "Hedged(Freq_Hot, 9+1R)",
+        "kind": "hedged",
+        "params": {
+          "strat": "Freq_Hot",
+          "k": 9
+        },
+        "n_tickets": 10,
+        "n_draws_simulated": 500,
+        "expected_payout_vnd": 10800.0,
+        "p_win_ge1": 0.196,
+        "std_payout": 38108.59,
+        "coverage": 0.5681,
+        "budget_eff": 1.0,
+        "total_cost_vnd": 50000000,
+        "total_revenue_vnd": 5400000,
+        "net_profit_vnd": -44600000,
+        "roi_pct": -89.2,
+        "elapsed_s": 0.68,
+        "z": {
+          "expected_payout": 0.764,
+          "p_win_ge1": -0.993,
+          "std_payout": 0.568,
+          "coverage": 1.317,
+          "budget_eff": 0.0
+        },
+        "composite_score": 0.131,
+        "rank": 1
+      }
+    },
+    "max_3d": {
+      "null_pick": false,
+      "anchors": [
+        "D3: PairExploiter_T0.5",
+        "B1: CoverageOpt",
+        "FreqWholeHot"
+      ],
+      "type": "3d",
+      "n_candidates": 27,
+      "rankings": [
+        {
+          "label": "Mixed(D3: PairExploiter_T0.5+FreqWholeHot, 7:3)",
+          "kind": "mixed",
+          "params": {
+            "s1": "D3: PairExploiter_T0.5",
+            "s2": "FreqWholeHot",
+            "k": 7
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 74880.0,
+          "p_win_ge1": 0.24,
+          "std_payout": 191021.37,
+          "coverage": 0.9964,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 37440000,
+          "net_profit_vnd": -12560000,
+          "roi_pct": -25.12,
+          "elapsed_s": 1.79,
+          "z": {
+            "expected_payout": 2.017,
+            "p_win_ge1": 2.371,
+            "std_payout": 1.071,
+            "coverage": 0.412,
+            "budget_eff": 0.0
+          },
+          "composite_score": 1.2,
+          "rank": 1
+        },
+        {
+          "label": "Pure(D3: PairExploiter_T0.5)",
+          "kind": "pure",
+          "params": {
+            "strat": "D3: PairExploiter_T0.5"
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 70940.0,
+          "p_win_ge1": 0.224,
+          "std_payout": 187300.51,
+          "coverage": 1.0,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 35470000,
+          "net_profit_vnd": -14530000,
+          "roi_pct": -29.06,
+          "elapsed_s": 1.68,
+          "z": {
+            "expected_payout": 1.475,
+            "p_win_ge1": 1.426,
+            "std_payout": 0.893,
+            "coverage": 0.573,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.825,
+          "rank": 2
+        },
+        {
+          "label": "Hedged(FreqWholeHot, 9+1R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "FreqWholeHot",
+            "k": 9
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 76560.0,
+          "p_win_ge1": 0.218,
+          "std_payout": 220729.72,
+          "coverage": 0.9992,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 38280000,
+          "net_profit_vnd": -11720000,
+          "roi_pct": -23.44,
+          "elapsed_s": 0.2,
+          "z": {
+            "expected_payout": 2.249,
+            "p_win_ge1": 1.072,
+            "std_payout": 2.496,
+            "coverage": 0.537,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.761,
+          "rank": 3
+        },
+        {
+          "label": "Mixed(D3: PairExploiter_T0.5+FreqWholeHot, 6:4)",
+          "kind": "mixed",
+          "params": {
+            "s1": "D3: PairExploiter_T0.5",
+            "s2": "FreqWholeHot",
+            "k": 6
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 68760.0,
+          "p_win_ge1": 0.224,
+          "std_payout": 183458.38,
+          "coverage": 0.9966,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 34380000,
+          "net_profit_vnd": -15620000,
+          "roi_pct": -31.24,
+          "elapsed_s": 1.78,
+          "z": {
+            "expected_payout": 1.174,
+            "p_win_ge1": 1.426,
+            "std_payout": 0.709,
+            "coverage": 0.421,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.724,
+          "rank": 4
+        },
+        {
+          "label": "Mixed(D3: PairExploiter_T0.5+B1: CoverageOpt, 5:5)",
+          "kind": "mixed",
+          "params": {
+            "s1": "D3: PairExploiter_T0.5",
+            "s2": "B1: CoverageOpt",
+            "k": 5
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 66320.0,
+          "p_win_ge1": 0.218,
+          "std_payout": 164587.47,
+          "coverage": 0.9958,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 33160000,
+          "net_profit_vnd": -16840000,
+          "roi_pct": -33.68,
+          "elapsed_s": 2.14,
+          "z": {
+            "expected_payout": 0.838,
+            "p_win_ge1": 1.072,
+            "std_payout": -0.196,
+            "coverage": 0.385,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.648,
+          "rank": 5
+        },
+        {
+          "label": "Hedged(B1: CoverageOpt, 9+1R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "B1: CoverageOpt",
+            "k": 9
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 62360.0,
+          "p_win_ge1": 0.208,
+          "std_payout": 168301.76,
+          "coverage": 0.9992,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 31180000,
+          "net_profit_vnd": -18820000,
+          "roi_pct": -37.64,
+          "elapsed_s": 1.42,
+          "z": {
+            "expected_payout": 0.292,
+            "p_win_ge1": 0.481,
+            "std_payout": -0.018,
+            "coverage": 0.537,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.306,
+          "rank": 6
+        },
+        {
+          "label": "Hedged(B1: CoverageOpt, 8+2R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "B1: CoverageOpt",
+            "k": 8
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 58140.0,
+          "p_win_ge1": 0.21,
+          "std_payout": 155915.87,
+          "coverage": 0.9988,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 29070000,
+          "net_profit_vnd": -20930000,
+          "roi_pct": -41.86,
+          "elapsed_s": 1.17,
+          "z": {
+            "expected_payout": -0.289,
+            "p_win_ge1": 0.599,
+            "std_payout": -0.612,
+            "coverage": 0.519,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.218,
+          "rank": 7
+        },
+        {
+          "label": "Hedged(FreqWholeHot, 8+2R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "FreqWholeHot",
+            "k": 8
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 59620.0,
+          "p_win_ge1": 0.21,
+          "std_payout": 171337.0,
+          "coverage": 0.9978,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 29810000,
+          "net_profit_vnd": -20190000,
+          "roi_pct": -40.38,
+          "elapsed_s": 0.2,
+          "z": {
+            "expected_payout": -0.085,
+            "p_win_ge1": 0.599,
+            "std_payout": 0.127,
+            "coverage": 0.475,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.172,
+          "rank": 8
+        },
+        {
+          "label": "Hedged(B1: CoverageOpt, 7+3R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "B1: CoverageOpt",
+            "k": 7
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 58960.0,
+          "p_win_ge1": 0.202,
+          "std_payout": 162819.96,
+          "coverage": 0.9982,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 29480000,
+          "net_profit_vnd": -20520000,
+          "roi_pct": -41.04,
+          "elapsed_s": 0.94,
+          "z": {
+            "expected_payout": -0.176,
+            "p_win_ge1": 0.127,
+            "std_payout": -0.281,
+            "coverage": 0.492,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.086,
+          "rank": 9
+        },
+        {
+          "label": "Hedged(FreqWholeHot, 7+3R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "FreqWholeHot",
+            "k": 7
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 57520.0,
+          "p_win_ge1": 0.2,
+          "std_payout": 154508.24,
+          "coverage": 0.9976,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 28760000,
+          "net_profit_vnd": -21240000,
+          "roi_pct": -42.48,
+          "elapsed_s": 0.2,
+          "z": {
+            "expected_payout": -0.375,
+            "p_win_ge1": 0.009,
+            "std_payout": -0.68,
+            "coverage": 0.466,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.043,
+          "rank": 10
+        },
+        {
+          "label": "Mixed(D3: PairExploiter_T0.5+FreqWholeHot, 5:5)",
+          "kind": "mixed",
+          "params": {
+            "s1": "D3: PairExploiter_T0.5",
+            "s2": "FreqWholeHot",
+            "k": 5
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 60460.0,
+          "p_win_ge1": 0.194,
+          "std_payout": 171037.12,
+          "coverage": 0.9974,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 30230000,
+          "net_profit_vnd": -19770000,
+          "roi_pct": -39.54,
+          "elapsed_s": 1.77,
+          "z": {
+            "expected_payout": 0.03,
+            "p_win_ge1": -0.346,
+            "std_payout": 0.113,
+            "coverage": 0.457,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.024,
+          "rank": 11
+        },
+        {
+          "label": "Mixed(B1: CoverageOpt+FreqWholeHot, 6:4)",
+          "kind": "mixed",
+          "params": {
+            "s1": "B1: CoverageOpt",
+            "s2": "FreqWholeHot",
+            "k": 6
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 61360.0,
+          "p_win_ge1": 0.212,
+          "std_payout": 162806.52,
+          "coverage": 0.941,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 30680000,
+          "net_profit_vnd": -19320000,
+          "roi_pct": -38.64,
+          "elapsed_s": 0.92,
+          "z": {
+            "expected_payout": 0.154,
+            "p_win_ge1": 0.717,
+            "std_payout": -0.282,
+            "coverage": -2.065,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.034,
+          "rank": 12
+        },
+        {
+          "label": "Mixed(D3: PairExploiter_T0.5+FreqWholeHot, 4:6)",
+          "kind": "mixed",
+          "params": {
+            "s1": "D3: PairExploiter_T0.5",
+            "s2": "FreqWholeHot",
+            "k": 4
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 57800.0,
+          "p_win_ge1": 0.198,
+          "std_payout": 163042.1,
+          "coverage": 0.9954,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 28900000,
+          "net_profit_vnd": -21100000,
+          "roi_pct": -42.2,
+          "elapsed_s": 1.78,
+          "z": {
+            "expected_payout": -0.336,
+            "p_win_ge1": -0.109,
+            "std_payout": -0.271,
+            "coverage": 0.367,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.049,
+          "rank": 13
+        },
+        {
+          "label": "Mixed(D3: PairExploiter_T0.5+B1: CoverageOpt, 7:3)",
+          "kind": "mixed",
+          "params": {
+            "s1": "D3: PairExploiter_T0.5",
+            "s2": "B1: CoverageOpt",
+            "k": 7
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 65320.0,
+          "p_win_ge1": 0.186,
+          "std_payout": 190175.79,
+          "coverage": 0.9952,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 32660000,
+          "net_profit_vnd": -17340000,
+          "roi_pct": -34.68,
+          "elapsed_s": 1.89,
+          "z": {
+            "expected_payout": 0.7,
+            "p_win_ge1": -0.818,
+            "std_payout": 1.031,
+            "coverage": 0.358,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.06,
+          "rank": 14
+        },
+        {
+          "label": "Mixed(B1: CoverageOpt+FreqWholeHot, 4:6)",
+          "kind": "mixed",
+          "params": {
+            "s1": "B1: CoverageOpt",
+            "s2": "FreqWholeHot",
+            "k": 4
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 60080.0,
+          "p_win_ge1": 0.214,
+          "std_payout": 161947.05,
+          "coverage": 0.9366,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 30040000,
+          "net_profit_vnd": -19960000,
+          "roi_pct": -39.92,
+          "elapsed_s": 0.62,
+          "z": {
+            "expected_payout": -0.022,
+            "p_win_ge1": 0.836,
+            "std_payout": -0.323,
+            "coverage": -2.261,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.09,
+          "rank": 15
+        },
+        {
+          "label": "Hedged(D3: PairExploiter_T0.5, 7+3R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "D3: PairExploiter_T0.5",
+            "k": 7
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 62580.0,
+          "p_win_ge1": 0.182,
+          "std_payout": 191851.92,
+          "coverage": 0.9996,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 31290000,
+          "net_profit_vnd": -18710000,
+          "roi_pct": -37.42,
+          "elapsed_s": 1.59,
+          "z": {
+            "expected_payout": 0.323,
+            "p_win_ge1": -1.054,
+            "std_payout": 1.111,
+            "coverage": 0.555,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.234,
+          "rank": 16
+        },
+        {
+          "label": "Mixed(D3: PairExploiter_T0.5+FreqWholeHot, 3:7)",
+          "kind": "mixed",
+          "params": {
+            "s1": "D3: PairExploiter_T0.5",
+            "s2": "FreqWholeHot",
+            "k": 3
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 56160.0,
+          "p_win_ge1": 0.192,
+          "std_payout": 167971.67,
+          "coverage": 0.9978,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 28080000,
+          "net_profit_vnd": -21920000,
+          "roi_pct": -43.84,
+          "elapsed_s": 1.78,
+          "z": {
+            "expected_payout": -0.562,
+            "p_win_ge1": -0.464,
+            "std_payout": -0.034,
+            "coverage": 0.475,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.236,
+          "rank": 17
+        },
+        {
+          "label": "Hedged(D3: PairExploiter_T0.5, 9+1R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "D3: PairExploiter_T0.5",
+            "k": 9
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 54380.0,
+          "p_win_ge1": 0.194,
+          "std_payout": 162768.56,
+          "coverage": 1.0,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 27190000,
+          "net_profit_vnd": -22810000,
+          "roi_pct": -45.62,
+          "elapsed_s": 1.6,
+          "z": {
+            "expected_payout": -0.807,
+            "p_win_ge1": -0.346,
+            "std_payout": -0.284,
+            "coverage": 0.573,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.24,
+          "rank": 18
+        },
+        {
+          "label": "Pure(B1: CoverageOpt)",
+          "kind": "pure",
+          "params": {
+            "strat": "B1: CoverageOpt"
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 52900.0,
+          "p_win_ge1": 0.19,
+          "std_payout": 148136.69,
+          "coverage": 1.0,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 26450000,
+          "net_profit_vnd": -23550000,
+          "roi_pct": -47.1,
+          "elapsed_s": 1.78,
+          "z": {
+            "expected_payout": -1.011,
+            "p_win_ge1": -0.582,
+            "std_payout": -0.986,
+            "coverage": 0.573,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.266,
+          "rank": 19
+        },
+        {
+          "label": "Hedged(D3: PairExploiter_T0.5, 8+2R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "D3: PairExploiter_T0.5",
+            "k": 8
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 48320.0,
+          "p_win_ge1": 0.2,
+          "std_payout": 137821.5,
+          "coverage": 0.9986,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 24160000,
+          "net_profit_vnd": -25840000,
+          "roi_pct": -51.68,
+          "elapsed_s": 1.6,
+          "z": {
+            "expected_payout": -1.642,
+            "p_win_ge1": 0.009,
+            "std_payout": -1.48,
+            "coverage": 0.51,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.274,
+          "rank": 20
+        },
+        {
+          "label": "Mixed(B1: CoverageOpt+FreqWholeHot, 7:3)",
+          "kind": "mixed",
+          "params": {
+            "s1": "B1: CoverageOpt",
+            "s2": "FreqWholeHot",
+            "k": 7
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 57040.0,
+          "p_win_ge1": 0.198,
+          "std_payout": 157189.87,
+          "coverage": 0.9492,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 28520000,
+          "net_profit_vnd": -21480000,
+          "roi_pct": -42.96,
+          "elapsed_s": 1.12,
+          "z": {
+            "expected_payout": -0.441,
+            "p_win_ge1": -0.109,
+            "std_payout": -0.551,
+            "coverage": -1.698,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.354,
+          "rank": 21
+        },
+        {
+          "label": "Mixed(D3: PairExploiter_T0.5+B1: CoverageOpt, 4:6)",
+          "kind": "mixed",
+          "params": {
+            "s1": "D3: PairExploiter_T0.5",
+            "s2": "B1: CoverageOpt",
+            "k": 4
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 51960.0,
+          "p_win_ge1": 0.188,
+          "std_payout": 145995.85,
+          "coverage": 0.9942,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 25980000,
+          "net_profit_vnd": -24020000,
+          "roi_pct": -48.04,
+          "elapsed_s": 2.33,
+          "z": {
+            "expected_payout": -1.141,
+            "p_win_ge1": -0.7,
+            "std_payout": -1.088,
+            "coverage": 0.314,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.364,
+          "rank": 22
+        },
+        {
+          "label": "Mixed(B1: CoverageOpt+FreqWholeHot, 3:7)",
+          "kind": "mixed",
+          "params": {
+            "s1": "B1: CoverageOpt",
+            "s2": "FreqWholeHot",
+            "k": 3
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 60260.0,
+          "p_win_ge1": 0.19,
+          "std_payout": 164063.3,
+          "coverage": 0.9436,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 30130000,
+          "net_profit_vnd": -19870000,
+          "roi_pct": -39.74,
+          "elapsed_s": 0.51,
+          "z": {
+            "expected_payout": 0.003,
+            "p_win_ge1": -0.582,
+            "std_payout": -0.222,
+            "coverage": -1.948,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.403,
+          "rank": 23
+        },
+        {
+          "label": "Mixed(D3: PairExploiter_T0.5+B1: CoverageOpt, 3:7)",
+          "kind": "mixed",
+          "params": {
+            "s1": "D3: PairExploiter_T0.5",
+            "s2": "B1: CoverageOpt",
+            "k": 3
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 54420.0,
+          "p_win_ge1": 0.184,
+          "std_payout": 162338.45,
+          "coverage": 0.994,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 27210000,
+          "net_profit_vnd": -22790000,
+          "roi_pct": -45.58,
+          "elapsed_s": 2.51,
+          "z": {
+            "expected_payout": -0.802,
+            "p_win_ge1": -0.936,
+            "std_payout": -0.304,
+            "coverage": 0.305,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.423,
+          "rank": 24
+        },
+        {
+          "label": "Pure(FreqWholeHot)",
+          "kind": "pure",
+          "params": {
+            "strat": "FreqWholeHot"
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 66140.0,
+          "p_win_ge1": 0.168,
+          "std_payout": 215053.94,
+          "coverage": 1.0,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 33070000,
+          "net_profit_vnd": -16930000,
+          "roi_pct": -33.86,
+          "elapsed_s": 0.2,
+          "z": {
+            "expected_payout": 0.813,
+            "p_win_ge1": -1.881,
+            "std_payout": 2.224,
+            "coverage": 0.573,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.433,
+          "rank": 25
+        },
+        {
+          "label": "Mixed(D3: PairExploiter_T0.5+B1: CoverageOpt, 6:4)",
+          "kind": "mixed",
+          "params": {
+            "s1": "D3: PairExploiter_T0.5",
+            "s2": "B1: CoverageOpt",
+            "k": 6
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 45940.0,
+          "p_win_ge1": 0.178,
+          "std_payout": 127363.1,
+          "coverage": 0.9948,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 22970000,
+          "net_profit_vnd": -27030000,
+          "roi_pct": -54.06,
+          "elapsed_s": 2.0,
+          "z": {
+            "expected_payout": -1.97,
+            "p_win_ge1": -1.29,
+            "std_payout": -1.982,
+            "coverage": 0.34,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.664,
+          "rank": 26
+        },
+        {
+          "label": "Mixed(B1: CoverageOpt+FreqWholeHot, 5:5)",
+          "kind": "mixed",
+          "params": {
+            "s1": "B1: CoverageOpt",
+            "s2": "FreqWholeHot",
+            "k": 5
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 57280.0,
+          "p_win_ge1": 0.174,
+          "std_payout": 164910.26,
+          "coverage": 0.937,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 28640000,
+          "net_profit_vnd": -21360000,
+          "roi_pct": -42.72,
+          "elapsed_s": 0.75,
+          "z": {
+            "expected_payout": -0.408,
+            "p_win_ge1": -1.527,
+            "std_payout": -0.181,
+            "coverage": -2.243,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.834,
+          "rank": 27
+        }
+      ],
+      "top_portfolio": {
+        "label": "Mixed(D3: PairExploiter_T0.5+FreqWholeHot, 7:3)",
+        "kind": "mixed",
+        "params": {
+          "s1": "D3: PairExploiter_T0.5",
+          "s2": "FreqWholeHot",
+          "k": 7
+        },
+        "n_tickets": 10,
+        "n_draws_simulated": 500,
+        "expected_payout_vnd": 74880.0,
+        "p_win_ge1": 0.24,
+        "std_payout": 191021.37,
+        "coverage": 0.9964,
+        "budget_eff": 1.0,
+        "total_cost_vnd": 50000000,
+        "total_revenue_vnd": 37440000,
+        "net_profit_vnd": -12560000,
+        "roi_pct": -25.12,
+        "elapsed_s": 1.79,
+        "z": {
+          "expected_payout": 2.017,
+          "p_win_ge1": 2.371,
+          "std_payout": 1.071,
+          "coverage": 0.412,
+          "budget_eff": 0.0
+        },
+        "composite_score": 1.2,
+        "rank": 1
+      }
+    },
+    "max_3d_pro": {
+      "null_pick": true,
+      "anchors": [
+        "B2: TierWeighted"
+      ],
+      "type": "3d_pro",
+      "n_candidates": 4,
+      "rankings": [
+        {
+          "label": "Pure(B2: TierWeighted)",
+          "kind": "pure",
+          "params": {
+            "strat": "B2: TierWeighted"
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 66680.0,
+          "p_win_ge1": 0.332,
+          "std_payout": 656988.47,
+          "coverage": 1.0,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 33340000,
+          "net_profit_vnd": -16660000,
+          "roi_pct": -33.32,
+          "elapsed_s": 0.34,
+          "z": {
+            "expected_payout": 1.493,
+            "p_win_ge1": -0.536,
+            "std_payout": 1.47,
+            "coverage": 1.091,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.332,
+          "rank": 1
+        },
+        {
+          "label": "Hedged(B2: TierWeighted, 7+3R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "B2: TierWeighted",
+            "k": 7
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 23600.0,
+          "p_win_ge1": 0.358,
+          "std_payout": 70859.59,
+          "coverage": 0.9947,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 11800000,
+          "net_profit_vnd": -38200000,
+          "roi_pct": -76.4,
+          "elapsed_s": 0.34,
+          "z": {
+            "expected_payout": -0.521,
+            "p_win_ge1": 1.323,
+            "std_payout": -0.628,
+            "coverage": -1.091,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.079,
+          "rank": 2
+        },
+        {
+          "label": "Hedged(B2: TierWeighted, 9+1R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "B2: TierWeighted",
+            "k": 9
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 21880.0,
+          "p_win_ge1": 0.342,
+          "std_payout": 69677.65,
+          "coverage": 0.9987,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 10940000,
+          "net_profit_vnd": -39060000,
+          "roi_pct": -78.12,
+          "elapsed_s": 0.35,
+          "z": {
+            "expected_payout": -0.602,
+            "p_win_ge1": 0.179,
+            "std_payout": -0.632,
+            "coverage": 0.556,
+            "budget_eff": 0.0
+          },
+          "composite_score": 0.012,
+          "rank": 3
+        },
+        {
+          "label": "Hedged(B2: TierWeighted, 8+2R)",
+          "kind": "hedged",
+          "params": {
+            "strat": "B2: TierWeighted",
+            "k": 8
+          },
+          "n_tickets": 10,
+          "n_draws_simulated": 500,
+          "expected_payout_vnd": 26840.0,
+          "p_win_ge1": 0.326,
+          "std_payout": 187219.97,
+          "coverage": 0.996,
+          "budget_eff": 1.0,
+          "total_cost_vnd": 50000000,
+          "total_revenue_vnd": 13420000,
+          "net_profit_vnd": -36580000,
+          "roi_pct": -73.16,
+          "elapsed_s": 0.34,
+          "z": {
+            "expected_payout": -0.37,
+            "p_win_ge1": -0.965,
+            "std_payout": -0.211,
+            "coverage": -0.556,
+            "budget_eff": 0.0
+          },
+          "composite_score": -0.422,
+          "rank": 4
+        }
+      ],
+      "top_portfolio": {
+        "label": "Pure(B2: TierWeighted)",
+        "kind": "pure",
+        "params": {
+          "strat": "B2: TierWeighted"
+        },
+        "n_tickets": 10,
+        "n_draws_simulated": 500,
+        "expected_payout_vnd": 66680.0,
+        "p_win_ge1": 0.332,
+        "std_payout": 656988.47,
+        "coverage": 1.0,
+        "budget_eff": 1.0,
+        "total_cost_vnd": 50000000,
+        "total_revenue_vnd": 33340000,
+        "net_profit_vnd": -16660000,
+        "roi_pct": -33.32,
+        "elapsed_s": 0.34,
+        "z": {
+          "expected_payout": 1.493,
+          "p_win_ge1": -0.536,
+          "std_payout": 1.47,
+          "coverage": 1.091,
+          "budget_eff": 0.0
+        },
+        "composite_score": 0.332,
+        "rank": 1
+      }
+    }
+  },
+  "total_elapsed_s": 67.76
+}

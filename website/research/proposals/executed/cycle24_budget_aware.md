@@ -1,8 +1,8 @@
 ## Chu Kỳ 24 — Pre-Registration: Budget-Aware Ticket Portfolio (UC2)
 
-**Status**: ✅ **APPROVED 2026-04-24** (user decision: single budget B=100K = 10 tickets, all 5 products, composite weights as drafted). Pre-execution scope amendment 2026-04-24 (budget 50K → 100K before any execution started — allowed under Principle #16 since no execution artifact had been produced). Frozen post-amendment; content immutable until execution closes.
+**Status**: ✅ **EXECUTED 2026-04-24** (allocator + CLI + UI shipped). Moved to `executed/` on close. Frozen per Principle #16. Verdict record: [history/cycle24_budget_aware.md](../../history/cycle24_budget_aware.md). Pre-execution amendment 2026-04-24 (budget 50K → 100K) preserved in provenance below.
 
-**Mode**: Optimization extension (no new research mechanism — composition layer on top of Chu kỳ 22 picks). See [optimization/README.md Phase 3](../optimization/README.md) + [optimization/PLAYBOOK.md](../optimization/PLAYBOOK.md).
+**Mode**: Optimization extension (no new research mechanism — composition layer on top of Chu kỳ 22 picks). See [optimization/README.md Phase 3](../../optimization/README.md) + [optimization/PLAYBOOK.md](../../optimization/PLAYBOOK.md).
 
 **Supersedes**: original Chu kỳ 23 plan (budget-aware pushed from 23→24 after UX Refactor took the Chu kỳ 23 slot 2026-04-22).
 

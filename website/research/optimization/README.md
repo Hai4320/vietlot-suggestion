@@ -2,7 +2,7 @@
 
 > **Purpose**: Post-closure user-facing deliverable work. Rank existing strategies by ROI + win-rate cho UI `PRODUCT_RANKS.picks` + budget feature. NOT breakthrough research.
 
-**Current focus** (2026-04-23+): Chu kỳ 22 Optimization + Chu kỳ 23 UX Refactor both SHIPPED. Next cycle: Chu kỳ 24 budget-aware feature (pre-reg pending).
+**Current focus** (2026-04-24+): Chu kỳ 22 Optimization + Chu kỳ 23 UX Refactor + **Chu kỳ 24 Budget-aware** all SHIPPED. Awaiting Chu kỳ 25+ kickoff.
 
 ---
 
@@ -103,27 +103,28 @@ From [3d/advanced_backtest.py](../3d/advanced_backtest.py):
 - Badge taxonomy reset: max 3 pick badges (🎯 / 💰 / ⚖), removed #rank/★/🔬/🧪
 - Time-to-first-suggestion ~20s → ~8s
 
-### ⏳ Phase 3: Chu kỳ 24 — Budget-aware feature (PENDING pre-reg)
+### ✅ Phase 3: Chu kỳ 24 — Budget-aware feature (SHIPPED 2026-04-24)
 
-**Scope**:
-- User specifies budget (VND) → system suggests ticket portfolio maximizing E[payout]
-- Based on `picks.roi` (N=1 single-ticket) or `picks.winrate` (N≥20 multi-ticket diversification)
-- Coverage-optimized wheeling for large N (not Kelly — falsified Chu kỳ 16)
+**Pre-reg** (executed): [proposals/executed/cycle24_budget_aware.md](../proposals/executed/cycle24_budget_aware.md)
+**Verdict**: [history/cycle24_budget_aware.md](../history/cycle24_budget_aware.md)
 
-**Effort**: ~1 tuần
+**Output**:
+- Budget = 100K VND fixed (amended from 50K pre-execution)
+- 44 portfolio candidates enumerated × 5 products × 5-term composite scoring
+- Top portfolios emit: Max 3D Mixed(PairExploiter+FreqWholeHot, 7:3) (+1.200 composite) / Power 6/55 Hedged(MinDistance, 9+1R) / Power 5/35 Pure(Freq_Hot)
+- Null-pick products (Mega 6/45, Max 3D Pro) emit portfolios với explicit "⚠ Không có edge xác nhận" disclosure per pre-reg §Null-pick policy
+- Shipped: Python allocator `cycle24_allocator.py` + `vietlott-budget` CLI + `BudgetWidget` React component integrated into `/suggest`
 
-**Deliverable**: UI budget widget + backend computation
+### ⚪ Phase 4: Chu kỳ 25+ — optional polish / extension (not pre-reg'd)
 
-**Blockers**: Pre-reg chưa viết. Wheeling design + exclusion policy (family-eliminated strategies out)
-
-### ⚪ Phase 4: Chu kỳ 25+ — UI transparency polish (optional)
-
-**Scope** (if needed post-Chu kỳ 24):
-- Additional glossary / disclosure refinements
+**Possible scopes**:
+- Budget ladder extension (T1=10K, T3=500K, T4=1M) beyond the Chu kỳ 24 single-B=100K
+- Evaluator patches (allocator to include `KK 2 số cuối` for Max 3D to align with check-rate)
 - Data refresh cadence review
-- Reopen criteria surfacing
+- Reopen criteria banner refinements
+- Breakthrough reopen (only on §9 triggers of [PROJECT_CLOSURE_REPORT.md](../PROJECT_CLOSURE_REPORT.md))
 
-**Status**: Phần lớn scope gốc đã subsumed bởi Chu kỳ 23 UX refactor.
+**Status**: Awaiting user kickoff.
 
 ---
 
@@ -165,6 +166,8 @@ Do NOT surface as `picks.winrate` / `picks.roi` / `picks.balanced`:
 - [PLAYBOOK.md](PLAYBOOK.md) — Optimization-specific process (3-phase pipeline)
 - Pre-regs active → [../proposals/](../proposals/); executed → [../proposals/executed/](../proposals/executed/) (cycle22 + cycle23 live there)
 - Chu kỳ 22 results → [cycle22_rankings.json](cycle22_rankings.json), [cycle22_backtest_matrix.json](cycle22_backtest_matrix.json), [cycle22_backtest_3d.json](cycle22_backtest_3d.json), [cycle22_review.md](cycle22_review.md), [cycle22_page_archive.md](cycle22_page_archive.md) (archive của route bị xoá Chu kỳ 23)
+- Phase A audit → [cycle22_3dpro_audit.md](cycle22_3dpro_audit.md) + [cycle22_backtest_3dpro_corrected.json](cycle22_backtest_3dpro_corrected.json) + [cycle22_3dpro_diff.json](cycle22_3dpro_diff.json)
+- Chu kỳ 24 results → [cycle24_portfolios.json](cycle24_portfolios.json) (5 products × top-3 portfolios @ B=100K)
 - UI updates → [website/src/components/products/SuggestionPanel.tsx](../../src/components/products/SuggestionPanel.tsx) per [RESEARCH_TO_UI_PLAYBOOK.md](../../RESEARCH_TO_UI_PLAYBOOK.md)
 
 ## Not in scope

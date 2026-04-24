@@ -36,6 +36,7 @@
 | 21 | 04/2026 | **Hierarchical Bayesian (Hướng B unblocked)** | **9/9 Reject**. 2 split-half direction flips Power 6/55 (power-independent reject). Forward +1.6pp noise signature. Bayesian broad family eliminated §7.5 closure update. |
 | **22** | **04/2026** | **Optimization Mode — Phase O-1 + O-2 shipped** | Post-closure Optimization: 3 composite profiles (WinRate/ROI/Balanced) × 5 products. Fresh re-backtest với split-half trên picks. 3/5 có valid picks (Power 6/55 MinDistance dominate, Power 5/35 Freq_Hot dominate, Max 3D diverse 3-pick: PairExploiter + CoverageOpt + FreqWholeHot). 2/5 null honest (Mega 6/45 baseline drift, Max 3D Pro regime split). UI shipped: 3 new TS strategies (mindistance/coverageopt/pairexploiter), `/research/cycle22` full-rankings page, glossary C22 section. |
 | **23** | **04/2026** | **App-wide UX Refactor** | 4-phase UX cleanup (Optimization mode extension, UI-only): 23.1 stale string audit (7 files), 23.2 badge taxonomy reset (max 3 pick badges: 🎯/💰/⚖), 23.3 `/research` rewrite 867→250 lines + `/research/cycle22` route deleted (inline vào `/research`), 23.4 `/suggest` compact header + Generate up-front + product pages "✨ Gợi ý số" CTA với `?p=` query param. Time-to-first-suggestion ~20s → ~8s. No new research mechanism. |
+| **24** | **04/2026** | **Budget-aware Portfolio (UC2)** | Allocator + CLI + UI @ B=100K VND (10 tickets) × 5 products. 44 portfolio candidates ranked by 5-term composite (E[payout] 0.35 / P(win≥1) 0.25 / variance_penalty 0.15 / coverage 0.15 / budget_eff 0.10). Top winners: Max 3D Mixed(PairExploiter+FreqWholeHot, 7:3) composite +1.200 / Power 6/55 Hedged(MinDistance, 9+1R) / Power 5/35 Pure(Freq_Hot). Null-pick products (Mega 6/45, Max 3D Pro) ship với explicit "⚠ Không có edge xác nhận" disclosure. CLI `vietlott-budget`, UI BudgetWidget in `/suggest`. Pre-reg amended 50K→100K pre-execution. No Accept/Reject (Optimization mode). |
 
 ---
 
@@ -67,6 +68,7 @@
 | 21 | [cycle21_hierarchical_bayesian.md](history/cycle21_hierarchical_bayesian.md) | **Hierarchical Bayesian** (Hướng B) — 9/9 Reject. 2 split-half direction flips Power 6/55 (Sharp + Lazy forward +1.6pp noise signature). Bayesian family broadly eliminated §7.5. Chu kỳ 20 methodology rules applied cleanly. |
 | **22** | [cycle22_optimization_mode.md](history/cycle22_optimization_mode.md) | **Optimization Mode Phase O-1 + O-2** — first cycle post-closure user-facing work. 3 composite profiles methodology codified ([optimization/MEASUREMENT.md](optimization/MEASUREMENT.md)). Fresh re-backtest 12 matrix + 17 3D strategies với split-half segments. UI shipped với 3 new TS strategies + `/research/cycle22` page + glossary C22 section. |
 | **23** | [cycle23_app_refactor.md](history/cycle23_app_refactor.md) | **App-wide UX Refactor** — 4 phases shipped 2026-04-22 theo 7 user feedback issues. Badge taxonomy reset (3 pick badges only). `/research/cycle22` route removed → inline vào `/research`. Data module `cycle22-data.ts` retained. Time-to-first-suggestion 20s→8s. No research mechanism change. |
+| **24** | [cycle24_budget_aware.md](history/cycle24_budget_aware.md) | **Budget-aware Portfolio** — allocator + `vietlott-budget` CLI + BudgetWidget UI @ B=100K × 5 products. 44 portfolio candidates × 5-term composite. Max 3D composite winner (+1.200). Null-pick products ship với disclosure banner. Pre-reg amended 50K→100K pre-execution. No Accept/Reject claims. |
 
 ---
 
@@ -148,7 +150,9 @@ Guardrails bất biến (từ Chu kỳ 1+):
 
 **Chu kỳ 23 (closed, 2026-04-22)**: **App-wide UX Refactor**. 4 phases theo 7 user feedback issues. Badge taxonomy reset (max 3 pick badges), `/research` rewrite 867→250 lines, `/research/cycle22` route deleted (merged inline vào `/research`), `/suggest` compact header + Generate up-front. Time-to-first-suggestion 20s→8s. Original Chu kỳ 23 budget-aware plan pushed to Chu kỳ 24. No new research mechanism. See [cycle23_app_refactor.md](history/cycle23_app_refactor.md).
 
-**Next**: Chu kỳ 24 — budget-aware feature (UC2 "chọn bộ số với budget X VND"), pre-reg chưa viết, đợi user kickoff. Chu kỳ 25+ optional UI polish hoặc data refresh.
+**Chu kỳ 24 (closed, 2026-04-24)**: **Budget-aware Portfolio (UC2)**. Allocator + `vietlott-budget` CLI + BudgetWidget UI shipped @ B=100K × 5 products. 44 portfolio candidates ranked by 5-term composite; null-pick products (Mega 6/45, Max 3D Pro) ship với explicit disclosure banner. Pre-reg amended 50K→100K before execution. Phase A 3D Pro audit prerequisite integrated. See [cycle24_budget_aware.md](history/cycle24_budget_aware.md).
+
+**Next**: Chu kỳ 25+ — optional UI polish, ladder extension, data refresh, or breakthrough reopen (§9 triggers). No active pre-reg, awaiting user kickoff.
 
 **Reopen breakthrough**: only on triggers in [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md) (data N≥2000, Vietlott discloses betting volume, novel paradigm paper, null-reversal finding).
 
@@ -158,4 +162,4 @@ Chu kỳ 12 GBM Max 3D Pro deprecated — không ship, không rank. Audit comple
 
 *File restructured 2026-04-21: split into per-cycle files trong [history/](history/). Main file giờ là compact index.*
 
-*Cập nhật lần cuối: 2026-04-23 — Chu kỳ 23 UX Refactor closure row added. `/research/cycle22` route note documented as removed. Cumulative state refreshed tới post Chu kỳ 23 (66 strategies, 79 Reject / 8 Inconclusive-UP / 1 Inconclusive, 7 eliminated families).*
+*Cập nhật lần cuối: 2026-04-24 — Chu kỳ 24 Budget-aware Portfolio closed. Allocator + CLI (`vietlott-budget`) + BudgetWidget UI shipped @ B=100K × 5 products. Cumulative breakthrough state unchanged (post Chu kỳ 23): 66 strategies, 0 Accept, 79 Reject / 8 Inconclusive-UP / 1 Inconclusive, 7 eliminated families.*

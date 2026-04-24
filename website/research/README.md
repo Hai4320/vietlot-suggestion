@@ -2,14 +2,15 @@
 
 Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tích cho hệ thống gợi ý số Vietlott.
 
-## 🎯 Trạng thái hiện tại (2026-04-23) — **Chu kỳ 22 + 23 shipped, Chu kỳ 24 pending**
+## 🎯 Trạng thái hiện tại (2026-04-24) — **Chu kỳ 22 + 23 + 24 shipped**
 
 ### Active focus: **[optimization/](optimization/)** → user-facing UI deliverables
 
 **Breakthrough research phase CLOSED** (Chu kỳ 1-21, 0 Accept). **Optimization phase active**:
 - **Chu kỳ 22** (2026-04-22): Optimization Mode Phase O-1 + O-2 shipped — 3 composite profiles × 5 products + UI 3 new TS strategies + `PRODUCT_RANKS` 3-pick structure.
 - **Chu kỳ 23** (2026-04-22): App-wide UX Refactor shipped — 4 phases, badge taxonomy reset, `/research/cycle22` route removed (inline vào `/research`), time-to-first-suggestion 20s→8s.
-- **Chu kỳ 24** (pending): budget-aware feature (UC2), pre-reg chưa viết.
+- **Phase A audit** (2026-04-24): Max 3D Pro 8-tier evaluator fix shipped ([cycle22_3dpro_audit.md](optimization/cycle22_3dpro_audit.md)). Severity 🟢 Low — UI picks were null anyway, no user-visible impact.
+- **Chu kỳ 24** (2026-04-24): Budget-aware Portfolio (UC2) shipped — allocator + `vietlott-budget` CLI + BudgetWidget UI @ B=100K × 5 products. Null-pick products surface với disclosure banner.
 
 ### Primary entry points
 
@@ -22,25 +23,29 @@ Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tíc
 | [optimization/cycle22_review.md](optimization/cycle22_review.md) | Chu kỳ 22 diagnostic review |
 | [history/cycle22_optimization_mode.md](history/cycle22_optimization_mode.md) | Chu kỳ 22 closure record |
 | [history/cycle23_app_refactor.md](history/cycle23_app_refactor.md) | Chu kỳ 23 UX refactor closure record |
-| [proposals/README.md](proposals/README.md) | Proposals index + TODO list (Chu kỳ 24 pending) |
-| [proposals/executed/](proposals/executed/) | Frozen pre-regs của cycles đã execute (17, 20, 21, 22, 23) |
+| [history/cycle24_budget_aware.md](history/cycle24_budget_aware.md) | Chu kỳ 24 budget-aware portfolio closure record |
+| [optimization/cycle24_portfolios.json](optimization/cycle24_portfolios.json) | Canonical Chu kỳ 24 output (5 products × top-3 portfolios @ B=100K) |
+| [proposals/README.md](proposals/README.md) | Proposals index + TODO list (no pending, awaiting Chu kỳ 25+ kickoff) |
+| [proposals/executed/](proposals/executed/) | Frozen pre-regs của cycles đã execute (17, 20, 21, 22, 23, 24) |
 
 ### Research archive (breakthrough phase terminal)
 
 | Doc | Purpose |
 |---|---|
 | [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | 🏁 Terminal closure artifact (updated Chu kỳ 19-21) |
-| [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | 23 cycles index (21 breakthrough + 2 optimization) |
+| [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | 24 cycles index (21 breakthrough + 3 optimization) |
 | [METHODOLOGY.md](METHODOLOGY.md), [EVALUATION.md](EVALUATION.md), [TESTING.md](TESTING.md), [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md), [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) | Canonical breakthrough methodology (reference for reopen triggers) |
 
-### Cumulative result (post Chu kỳ 23)
+### Cumulative result (post Chu kỳ 24)
 
 ~66 strategies × 5 products × refined 3-gate =
 - **0 strong Accept / 0 Suggestive** (breakthrough null after 21 cycles)
 - **79 Reject** / **8 Inconclusive-underpowered** (pending N≥2000-3000 per product, ~2027-2030) / **1 Inconclusive** (Chu kỳ 15 matrix)
 - **7 eliminated families** với unbind triggers (Principle #17)
 
-**Optimization output (Chu kỳ 22)**: 3/5 products có valid UI picks (Power 6/55, Power 5/35, Max 3D), 2/5 honest null (Mega 6/45 baseline drift, Max 3D Pro regime split).
+**Optimization output**:
+- Chu kỳ 22: 3/5 products có valid UI picks (Power 6/55, Power 5/35, Max 3D), 2/5 honest null (Mega 6/45 baseline drift, Max 3D Pro regime split).
+- Chu kỳ 24: 44 portfolio candidates × 5 products ranked @ B=100K. Max 3D composite winner (+1.200 Mixed(PairExploiter+FreqWholeHot, 7:3)). Null-pick products deliver disclosed portfolios ("⚠ Không có edge xác nhận" banner).
 
 **Reopen breakthrough research**: chỉ khi đủ triggers — xem [PROJECT_CLOSURE_REPORT.md §9](PROJECT_CLOSURE_REPORT.md).
 
@@ -70,8 +75,8 @@ Sau Chu kỳ 9, project đã exhaust discovery mode (25+ strategies, 3/3 Suggest
 |:-:|:-:|---|
 | 22 | ✅ Shipped 2026-04-22 | 3 composite profiles × 5 products ranking + UI picks shipped |
 | 23 | ✅ Shipped 2026-04-22 | App-wide UX refactor (4 phases), `/research/cycle22` route removed |
-| 24 | ⏳ Pending pre-reg | Budget-aware feature (UC2: "chọn bộ số với budget X VND") |
-| 25+ | ⚪ Optional | UI polish hoặc data refresh |
+| 24 | ✅ Shipped 2026-04-24 | Budget-aware portfolio (UC2) @ B=100K — allocator + `vietlott-budget` CLI + BudgetWidget UI |
+| 25+ | ⚪ Optional | Budget ladder extension / UI polish / data refresh / breakthrough reopen (§9 triggers) |
 
 Canonical methodology: [optimization/MEASUREMENT.md](optimization/MEASUREMENT.md). Roadmap: [optimization/README.md](optimization/README.md).
 
@@ -84,14 +89,20 @@ research/
 │
 │   ── 🎯 ACTIVE: Optimization Mode (Chu kỳ 22+) ──
 ├── optimization/
-│   ├── README.md                         ← Optimization overview + roadmap
-│   ├── MEASUREMENT.md                    ← 🎯 Canonical methodology (3 profiles + checklist)
-│   ├── PLAYBOOK.md                       ← Optimization process (lighter than breakthrough)
-│   ├── cycle22_rebacktest_{matrix,3d}.py ← Chu kỳ 22 re-backtest scripts
-│   ├── cycle22_backtest_{matrix,3d}.json ← Fresh split-half backtest outputs
-│   ├── cycle22_ranking.py                ← 3-composite ranking script
-│   ├── cycle22_rankings.json             ← Canonical Chu kỳ 22 output (3 profiles × 5 products)
-│   └── cycle22_review.md                 ← Phase O-1 diagnostic review
+│   ├── README.md                              ← Optimization overview + roadmap
+│   ├── MEASUREMENT.md                         ← 🎯 Canonical methodology (3 profiles + checklist)
+│   ├── PLAYBOOK.md                            ← Optimization process (lighter than breakthrough)
+│   ├── cycle22_rebacktest_{matrix,3d}.py      ← Chu kỳ 22 re-backtest scripts
+│   ├── cycle22_backtest_{matrix,3d}.json      ← Fresh split-half backtest outputs
+│   ├── cycle22_ranking.py                     ← 3-composite ranking script
+│   ├── cycle22_rankings.json                  ← Canonical Chu kỳ 22 output (3 profiles × 5 products)
+│   ├── cycle22_review.md                      ← Phase O-1 diagnostic review
+│   ├── cycle22_3dpro_audit.md                 ← Phase A audit (3D Pro 8-tier evaluator fix, 2026-04-24)
+│   ├── cycle22_rebacktest_3dpro_corrected.py  ← Corrected 3D Pro rebacktest
+│   ├── cycle22_backtest_3dpro_corrected.json  ← Corrected 3D Pro output (audit)
+│   ├── cycle22_3dpro_diff.py + .json          ← 3D Pro rank-diff analyzer
+│   ├── cycle24_allocator.py                   ← 🎯 Chu kỳ 24 portfolio allocator
+│   └── cycle24_portfolios.json                ← Canonical Chu kỳ 24 output (5 products × top-3 @ B=100K)
 │
 │   ── Proposals (pre-regs) ──
 ├── proposals/                      ← Index: [proposals/README.md](proposals/README.md)
@@ -102,11 +113,12 @@ research/
 │       ├── cycle20_evaluation_checklist.md
 │       ├── cycle21_hierarchical_bayesian.md
 │       ├── cycle22_optimization_mode.md    ← moved 2026-04-23 after shipment
-│       └── cycle23_app_refactor.md         ← moved 2026-04-23 after shipment
+│       ├── cycle23_app_refactor.md         ← moved 2026-04-23 after shipment
+│       └── cycle24_budget_aware.md         ← moved 2026-04-24 after shipment
 │
 │   ── 🏁 Research archive (breakthrough phase closed Chu kỳ 18) ──
 ├── PROJECT_CLOSURE_REPORT.md       ← Terminal closure (updated Chu kỳ 19-21)
-├── RESEARCH_HISTORY.md             ← 23 cycles index (21 breakthrough + 2 optimization)
+├── RESEARCH_HISTORY.md             ← 24 cycles index (21 breakthrough + 3 optimization)
 │
 │   ── Canonical breakthrough methodology (reference) ──
 ├── METHODOLOGY.md                  ← 5-phase pipeline + Principles #11-#17
