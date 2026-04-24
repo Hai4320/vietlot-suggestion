@@ -1,0 +1,16 @@
+{
+  "method_id": "C1_bao_lo_6_perms",
+  "description": "C1 — Bao lô 6 hoán vị: pick 1 number via FreqWholeHot, emit all distinct permutations (6 for 3 distinct digits, 3 for 2-digit-same, 1 for AAA)",
+  "category": "C",
+  "applicable_products": ["max_3d"],
+  "selection": {
+    "type": "algorithm_fresh",
+    "algorithm": "FreqWholeHot",
+    "params": {"lookback": 200}
+  },
+  "bet_size": {"type": "permutation_all"},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

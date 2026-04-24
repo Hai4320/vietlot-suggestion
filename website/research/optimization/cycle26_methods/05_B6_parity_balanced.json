@@ -1,0 +1,15 @@
+{
+  "method_id": "B6_parity_balanced",
+  "description": "B6 — Random ticket filtered by parity-balanced (≥2 odd, ≤4 odd for 6-main; ≥2, ≤3 for 5-main)",
+  "category": "B",
+  "applicable_products": ["power_655", "power_645", "power_535"],
+  "selection": {
+    "type": "random_fresh",
+    "filter": {"type": "parity_balanced", "min_odd": 2, "max_odd": 4}
+  },
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

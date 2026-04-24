@@ -1,0 +1,13 @@
+{
+  "method_id": "B3_key_wheel_K2_R7",
+  "description": "B3 — Key-number wheel: 2 fixed numbers (e.g., user lucky) + rotate through 7 hot numbers. For 6/55 + 6/45 = C(7, 4) × (2 fixed) = 35 tickets per draw",
+  "category": "B",
+  "applicable_products": ["power_655", "power_645"],
+  "selection": {"type": "algorithm_fresh", "algorithm": "Freq_Hot", "params": {"lookback_days": 365, "weight": 0.8}},
+  "bet_size": {"type": "key_wheel", "key_numbers": [7, 23], "rotate_pool_size": 7},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"},
+  "note": "Key numbers [7, 23] chosen as cultural lucky (ngày 07 + số 23). Arbitrary — doesn't imply recommendation."
+}

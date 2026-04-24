@@ -1,0 +1,12 @@
+{
+  "method_id": "B1_wheel_K7_MinDistance",
+  "description": "B1 — Full wheel K=7 MinDistance (diverse) for 6/x products. Compare vs wheel_K7_hot.",
+  "category": "B",
+  "applicable_products": ["power_655", "power_645"],
+  "selection": {"type": "algorithm_fresh", "algorithm": "MinDistance", "params": {"lookback_days": 365, "n_candidates": 30}},
+  "bet_size": {"type": "full_wheel", "k_numbers": 7},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

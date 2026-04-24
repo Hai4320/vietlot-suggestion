@@ -35,8 +35,9 @@ THIS_DIR = Path(__file__).resolve().parent
 RESEARCH_DIR = THIS_DIR.parent
 MATRIX_DIR = RESEARCH_DIR / "matrix"
 THREED_DIR = RESEARCH_DIR / "3d"
-METHODS_DIR = THIS_DIR / "cycle25_methods"
-OUTPUT_FILE = THIS_DIR / "cycle25_results.json"
+# Default methods dir; can be overridden via --methods-dir CLI flag
+DEFAULT_METHODS_DIR = THIS_DIR / "cycle25_methods"
+DEFAULT_OUTPUT_FILE = THIS_DIR / "cycle25_results.json"
 LOG_DIR = THIS_DIR / "logs"
 LOG_DIR.mkdir(exist_ok=True)
 
@@ -234,18 +235,20 @@ class MatrixAdapter(ProductAdapter):
     def history_len(self, history) -> int:
         return len(history)
 
-    def select_via_strategy(self, strategy_name, strategy_params, history, target_idx):
+    def select_via_strategy(self, strategy_name, strategy_params, history, target_idx, num_count_override=None):
         strat = _matrix_strategy(strategy_name, strategy_params)
         row = history.iloc[target_idx]
         train = history.iloc[:target_idx]
+        nc = num_count_override if num_count_override is not None else self.cfg["num_count"]
         return strat.predict(
-            train, row["date"], self.cfg["min_val"], self.cfg["max_val"], self.cfg["num_count"]
+            train, row["date"], self.cfg["min_val"], self.cfg["max_val"], nc
         )
 
-    def random_ticket(self, history, target_idx):
+    def random_ticket(self, history, target_idx, num_count_override=None):
+        nc = num_count_override if num_count_override is not None else self.cfg["num_count"]
         return sorted(random.sample(
             range(self.cfg["min_val"], self.cfg["max_val"] + 1),
-            self.cfg["num_count"],
+            nc,
         ))
 
     def evaluate(self, ticket, history, target_idx):
@@ -362,6 +365,7 @@ class RunState:
     draws_since_last_hit: int = 0
     cumulative_losses: list = field(default_factory=list)
     per_draw_payout: list = field(default_factory=list)
+    per_draw_cost: list = field(default_factory=list)  # supports multi-ticket bundles
     per_draw_hit: list = field(default_factory=list)
     first_hit_draw: Optional[int] = None
     running_streaks: list = field(default_factory=list)  # finalized cold-streak lengths
@@ -369,10 +373,71 @@ class RunState:
     stopped_early_at: Optional[int] = None  # index where stop fired
 
 
+# ═══════════════════════════════════════════════════════════════
+# Filter helpers (matrix — B5/B6/B10/B11 filter-based selections)
+# ═══════════════════════════════════════════════════════════════
+
+def _ticket_passes_filter(ticket: list, filter_spec: dict) -> bool:
+    """Returns True if matrix ticket (list of ints) passes the filter."""
+    if not filter_spec:
+        return True
+    ftype = filter_spec.get("type", "none")
+
+    if ftype == "sum_range":
+        s = sum(ticket)
+        return filter_spec["min"] <= s <= filter_spec["max"]
+
+    if ftype == "parity_balanced":
+        # Require count(odd) in [min_odd, max_odd]
+        odd = sum(1 for n in ticket if n % 2 == 1)
+        return filter_spec.get("min_odd", 0) <= odd <= filter_spec.get("max_odd", len(ticket))
+
+    if ftype == "no_consecutive":
+        srt = sorted(ticket)
+        for a, b in zip(srt, srt[1:]):
+            if b - a == 1:
+                return False
+        return True
+
+    if ftype == "has_consecutive":
+        srt = sorted(ticket)
+        for a, b in zip(srt, srt[1:]):
+            if b - a == 1:
+                return True
+        return False
+
+    return True
+
+
 def _resolve_ticket(spec_selection: dict, adapter: ProductAdapter,
                      history, target_idx: int,
                      persistent_cache: dict, algo_rotation_idx: int = 0):
-    """Returns ticket per selection dimension."""
+    """Returns ticket per selection dimension, with optional post-filter retry (matrix)."""
+    filter_spec = spec_selection.get("filter")
+    max_retries = 50  # give up after too many rejections
+
+    def _one_shot():
+        return _resolve_ticket_raw(spec_selection, adapter, history, target_idx, persistent_cache, algo_rotation_idx)
+
+    # Fast path: no filter
+    if not filter_spec:
+        return _one_shot()
+
+    # Only apply filters to matrix tickets (list of ints)
+    if not isinstance(adapter, MatrixAdapter):
+        return _one_shot()
+
+    for _ in range(max_retries):
+        t = _one_shot()
+        if _ticket_passes_filter(t, filter_spec):
+            return t
+    return t  # return last attempt even if filter violated
+
+
+def _resolve_ticket_raw(spec_selection: dict, adapter: ProductAdapter,
+                         history, target_idx: int,
+                         persistent_cache: dict, algo_rotation_idx: int = 0):
+    """Internal single-shot ticket resolution (no filter retry)."""
     sel_type = spec_selection["type"]
 
     if sel_type == "fixed_persistent":
@@ -409,6 +474,119 @@ def _resolve_ticket(spec_selection: dict, adapter: ProductAdapter,
         return adapter.select_via_strategy(picked["algorithm"], picked.get("params", {}), history, target_idx)
 
     raise ValueError(f"Unknown selection type: {sel_type}")
+
+
+# ═══════════════════════════════════════════════════════════════
+# Multi-ticket bet generation (Chu kỳ 26 extension)
+# ═══════════════════════════════════════════════════════════════
+
+def _select_k_numbers(spec_selection: dict, adapter: MatrixAdapter, history,
+                      target_idx: int, k: int, persistent_cache: dict) -> list:
+    """For wheeling: return K distinct numbers (not a full ticket).
+
+    Uses algorithm to rank numbers, takes top-K; for random uses random.sample.
+    """
+    sel_type = spec_selection["type"]
+
+    if sel_type == "random_fresh":
+        return sorted(random.sample(
+            range(adapter.cfg["min_val"], adapter.cfg["max_val"] + 1), k
+        ))
+
+    if sel_type in ("algorithm_fresh", "fixed_persistent", "algorithm_persistent"):
+        algo = spec_selection.get("algorithm", "Freq_Hot")
+        params = spec_selection.get("params", {})
+        return sorted(adapter.select_via_strategy(
+            algo, params, history, target_idx, num_count_override=k
+        ))
+
+    # Default fallback
+    return sorted(random.sample(
+        range(adapter.cfg["min_val"], adapter.cfg["max_val"] + 1), k
+    ))
+
+
+def _mirror_3d(num: str) -> str:
+    """999-complement mirror for 3-digit number."""
+    n = int(num)
+    return f"{(999 - n) % 1000:03d}"
+
+
+def _generate_ticket_bundle(spec: dict, adapter: ProductAdapter, history,
+                             target_idx: int, persistent_cache: dict,
+                             rotate_idx: int) -> list:
+    """Returns list of tickets for this draw per bet_size dimension.
+
+    Each ticket is evaluated independently; bundle cost = N × ticket_price.
+    """
+    bet = spec.get("bet_size", {})
+    btype = bet.get("type", "fixed")
+
+    if btype == "fixed":
+        n = bet.get("n_tickets", 1)
+        return [_resolve_ticket(spec["selection"], adapter, history, target_idx,
+                                persistent_cache, rotate_idx) for _ in range(n)]
+
+    if btype == "full_wheel":
+        if not isinstance(adapter, MatrixAdapter):
+            raise ValueError("full_wheel only supports matrix products")
+        from itertools import combinations
+        k = bet.get("k_numbers", 7)
+        k_nums = _select_k_numbers(spec["selection"], adapter, history,
+                                    target_idx, k, persistent_cache)
+        nc = adapter.cfg["num_count"]
+        return [sorted(c) for c in combinations(k_nums, nc)]
+
+    if btype == "permutation_all":
+        # 3D: pick 1 number via selection, emit all distinct permutations
+        from itertools import permutations
+        base = _resolve_ticket(spec["selection"], adapter, history, target_idx,
+                               persistent_cache, rotate_idx)
+        if isinstance(base, list):
+            # 3D Pro (A, B) — permute both together
+            if len(base) == 2:
+                return [list(p) for p in set(permutations(base))]
+            return [base]
+        # single 3-digit string
+        return list(set(["".join(p) for p in permutations(str(base))]))
+
+    if btype == "paired_mirror":
+        base = _resolve_ticket(spec["selection"], adapter, history, target_idx,
+                               persistent_cache, rotate_idx)
+        if isinstance(base, str):
+            return [base, _mirror_3d(base)]
+        return [base]
+
+    if btype == "forward_reverse_hedge":
+        # 3D Pro: pick (A, B), emit [(A, B), (B, A)]
+        base = _resolve_ticket(spec["selection"], adapter, history, target_idx,
+                               persistent_cache, rotate_idx)
+        if isinstance(base, list) and len(base) == 2:
+            return [base, [base[1], base[0]]]
+        return [base]
+
+    if btype == "key_wheel":
+        # Matrix: key_numbers fixed + rotate through others
+        if not isinstance(adapter, MatrixAdapter):
+            raise ValueError("key_wheel only supports matrix products")
+        from itertools import combinations
+        key_nums = bet.get("key_numbers", [])
+        rotate_pool_size = bet.get("rotate_pool_size", 7)
+        nc = adapter.cfg["num_count"]
+        needed_from_pool = nc - len(key_nums)
+        # Pick rotate pool via selection
+        pool = _select_k_numbers(spec["selection"], adapter, history,
+                                  target_idx, rotate_pool_size, persistent_cache)
+        # Avoid overlap with key_nums
+        pool = [p for p in pool if p not in key_nums]
+        if len(pool) < needed_from_pool:
+            return [sorted(key_nums + pool)]  # can't build wheel, fallback
+        return [sorted(list(key_nums) + list(combo))
+                for combo in combinations(pool, needed_from_pool)]
+
+    # Default
+    return [_resolve_ticket(spec["selection"], adapter, history, target_idx,
+                            persistent_cache, rotate_idx)]
 
 
 def _should_play_draw(spec_freq: dict, state: RunState, adapter: ProductAdapter,
@@ -485,35 +663,44 @@ def simulate_run(spec: dict, adapter: ProductAdapter, history, start_idx: int,
         if not _should_play_draw(spec["time_frequency"], state, adapter, history, i):
             continue
 
-        # Generate ticket
+        # Generate ticket bundle (1 or more tickets per draw)
         try:
-            ticket = _resolve_ticket(
-                spec["selection"], adapter, history, i, persistent_cache, rotate_idx,
+            tickets = _generate_ticket_bundle(
+                spec, adapter, history, i, persistent_cache, rotate_idx,
             )
-            if not ticket:
+            if not tickets:
                 continue
         except Exception:
             continue
 
         rotate_idx += 1
 
-        # Bet size (MVP: always 1)
-        n_tickets = spec["bet_size"].get("n_tickets", 1)
+        # Evaluate each ticket; aggregate prize + hit-any
+        n_tickets = len(tickets)
         cost = n_tickets * adapter.ticket_price()
-
-        # Evaluate
-        result = adapter.evaluate(ticket, history, i)
+        draw_payout = 0
+        any_hit = False
+        for t in tickets:
+            try:
+                r = adapter.evaluate(t, history, i)
+            except Exception:
+                continue
+            draw_payout += r.prize_vnd
+            if r.hit:
+                any_hit = True
 
         # Record
         state.draws_played += 1
         state.tickets_purchased += n_tickets
         state.total_cost_vnd += cost
-        state.total_payout_vnd += result.prize_vnd
-        state.per_draw_payout.append(result.prize_vnd)
-        state.per_draw_hit.append(1 if result.hit else 0)
+        state.total_payout_vnd += draw_payout
+        # per_draw_payout stores GROSS payout for the draw (sum across bundle)
+        state.per_draw_payout.append(draw_payout)
+        state.per_draw_cost.append(cost)
+        state.per_draw_hit.append(1 if any_hit else 0)
         state.cumulative_losses.append(state.total_cost_vnd - state.total_payout_vnd)
 
-        if result.hit:
+        if any_hit:
             state.hits_this_run += 1
             state.draws_since_last_hit = 0
             if state.first_hit_draw is None:
@@ -545,8 +732,12 @@ def aggregate_metrics(runs: list[RunState]) -> dict:
     p_hit = float(np.mean(all_hits)) if all_hits else 0.0
     roi = ((total_payout - total_cost) / total_cost * 100) if total_cost > 0 else 0.0
 
-    # Sharpe — treat each draw as one "period" and use per-draw profit
-    profits = [p - TICKET_PRICE_VND for p in all_payouts]
+    # Sharpe — per-draw profit = payout - cost (cost may vary across bundle sizes)
+    all_costs = [c for r in runs for c in r.per_draw_cost]
+    if len(all_costs) == len(all_payouts):
+        profits = [p - c for p, c in zip(all_payouts, all_costs)]
+    else:
+        profits = [p - TICKET_PRICE_VND for p in all_payouts]
     sharpe = 0.0
     if len(profits) > 1:
         std = float(np.std(profits, ddof=1))
@@ -667,9 +858,9 @@ def evaluate_method_on_product(spec: dict, product_key: str,
 # Main
 # ═══════════════════════════════════════════════════════════════
 
-def load_method_specs() -> list[dict]:
+def load_method_specs(methods_dir: Path) -> list[dict]:
     specs = []
-    for f in sorted(METHODS_DIR.glob("*.json")):
+    for f in sorted(methods_dir.glob("*.json")):
         spec = json.loads(f.read_text())
         specs.append(spec)
     return specs
@@ -683,17 +874,19 @@ def applicable_products(spec: dict) -> list[str]:
     return PRODUCT_KEYS
 
 
-def main():
-    if not METHODS_DIR.exists():
-        print(f"ERROR: method specs dir not found: {METHODS_DIR}")
+def main(methods_dir: Path = None, output_file: Path = None, cycle_num: int = 25, pre_reg: str = "proposals/cycle25_method_evaluation_framework.md"):
+    methods_dir = methods_dir or DEFAULT_METHODS_DIR
+    output_file = output_file or DEFAULT_OUTPUT_FILE
+    if not methods_dir.exists():
+        print(f"ERROR: method specs dir not found: {methods_dir}")
         return 1
 
-    specs = load_method_specs()
-    print(f"Loaded {len(specs)} method specs from {METHODS_DIR}")
+    specs = load_method_specs(methods_dir)
+    print(f"Loaded {len(specs)} method specs from {methods_dir}")
 
     output = {
-        "cycle": 25,
-        "pre_reg": "proposals/cycle25_method_evaluation_framework.md",
+        "cycle": cycle_num,
+        "pre_reg": pre_reg,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "constants": {
             "n_runs": N_RUNS,
@@ -744,10 +937,17 @@ def main():
 
     output["total_elapsed_s"] = round(time.time() - t_start, 2)
 
-    OUTPUT_FILE.write_text(json.dumps(output, indent=2, ensure_ascii=False))
-    print(f"\n✓ Wrote {OUTPUT_FILE}  (total {output['total_elapsed_s']}s)")
+    output_file.write_text(json.dumps(output, indent=2, ensure_ascii=False))
+    print(f"\n✓ Wrote {output_file}  (total {output['total_elapsed_s']}s)")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--methods-dir", type=Path, default=DEFAULT_METHODS_DIR)
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_FILE)
+    parser.add_argument("--cycle", type=int, default=25)
+    parser.add_argument("--pre-reg", type=str, default="proposals/cycle25_method_evaluation_framework.md")
+    args = parser.parse_args()
+    raise SystemExit(main(args.methods_dir, args.output, args.cycle, args.pre_reg))

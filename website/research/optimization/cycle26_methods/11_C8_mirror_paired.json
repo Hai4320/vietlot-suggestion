@@ -1,0 +1,16 @@
+{
+  "method_id": "C8_mirror_paired",
+  "description": "C8 — Mirror-paired: pick X via algo, emit [X, 999-X] (cultural số đối)",
+  "category": "C",
+  "applicable_products": ["max_3d"],
+  "selection": {
+    "type": "algorithm_fresh",
+    "algorithm": "FreqWholeHot",
+    "params": {"lookback": 200}
+  },
+  "bet_size": {"type": "paired_mirror"},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

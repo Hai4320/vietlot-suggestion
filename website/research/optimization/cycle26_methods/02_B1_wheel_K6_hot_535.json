@@ -1,0 +1,12 @@
+{
+  "method_id": "B1_wheel_K6_Freq_Hot_535",
+  "description": "B1 — Full wheel K=6 hot numbers for Power 5/35. C(6, 5) = 6 tickets per draw.",
+  "category": "B",
+  "applicable_products": ["power_535"],
+  "selection": {"type": "algorithm_fresh", "algorithm": "Freq_Hot", "params": {"lookback_days": 365, "weight": 0.8}},
+  "bet_size": {"type": "full_wheel", "k_numbers": 6},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

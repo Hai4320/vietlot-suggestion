@@ -1,0 +1,12 @@
+{
+  "method_id": "B1_wheel_K7_Freq_Hot",
+  "description": "B1 — Full wheel K=7 (hot numbers) for 6/x products. Generates C(7, num_count) tickets per draw.",
+  "category": "B",
+  "applicable_products": ["power_655", "power_645"],
+  "selection": {"type": "algorithm_fresh", "algorithm": "Freq_Hot", "params": {"lookback_days": 365, "weight": 0.8}},
+  "bet_size": {"type": "full_wheel", "k_numbers": 7},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

@@ -1,0 +1,16 @@
+{
+  "method_id": "B5_sum_range_filter",
+  "description": "B5 — Random ticket filtered by sum in historical hot range (rough: [30, 80] for 6/x; [15, 50] for 5/35)",
+  "category": "B",
+  "applicable_products": ["power_655", "power_645", "power_535"],
+  "selection": {
+    "type": "random_fresh",
+    "filter": {"type": "sum_range", "min": 30, "max": 80}
+  },
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"},
+  "note": "Sum ranges are rough mid-window. Real implementation would adapt per product."
+}

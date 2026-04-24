@@ -2,9 +2,9 @@
 
 **Purpose**: Registry của pre-regs (frozen per Principle #16). `proposals/` root = active/pending/PAUSED. `proposals/executed/` = completed (frozen, cross-linked từ history/).
 
-**Last updated**: 2026-04-24 (Chu kỳ 25 SHIPPED; method evaluation framework + Tier-1 deployed)
+**Last updated**: 2026-04-24 (Chu kỳ 26 SHIPPED; Tier-2 wheeling + 3D permutations deployed, same-day)
 
-**🎯 Current priority**: _(none pending)_ — Chu kỳ 25 shipped same-day. Awaiting user kickoff for **Chu kỳ 26** (Tier-2: wheeling B1-B11 + 3D permutations C1-C11 — framework `methods_evaluator.py` ready to receive new spec JSONs).
+**🎯 Current priority**: _(none pending)_ — Chu kỳ 25 + 26 shipped same-day. Awaiting user kickoff for **Chu kỳ 27** (Tier-3: G compounding Martingale variants + E calendar patterns + deferred 3D methods C4/C6 + B8/B9 product-specific).
 
 ---
 
@@ -29,6 +29,7 @@
 | [executed/cycle23_app_refactor.md](executed/cycle23_app_refactor.md) | 23 | App-wide UX refactor — 4 phases (stale strings, badges, `/research` rewrite, `/suggest` flow) | [history/cycle23_app_refactor.md](../history/cycle23_app_refactor.md) |
 | [executed/cycle24_budget_aware.md](executed/cycle24_budget_aware.md) | 24 | Budget-aware portfolio @ B=100K — allocator + CLI (`vietlott-budget`) + BudgetWidget UI | [history/cycle24_budget_aware.md](../history/cycle24_budget_aware.md) |
 | [executed/cycle25_method_evaluation_framework.md](executed/cycle25_method_evaluation_framework.md) | 25 | Method Evaluation Framework + Tier-1 — 13 methods × 5 products. Gambler's fallacy refalsified. | [history/cycle25_method_evaluation_framework.md](../history/cycle25_method_evaluation_framework.md) |
+| [executed/cycle26_tier2_wheeling_3d_permutations.md](executed/cycle26_tier2_wheeling_3d_permutations.md) | 26 | Tier-2 Wheeling + 3D Permutations — 12 methods. Wheeling P(hit) ↑ but ROI tied; C5 3D Pro forward-gate fail. | [history/cycle26_tier2_wheeling_3d_permutations.md](../history/cycle26_tier2_wheeling_3d_permutations.md) |
 
 ---
 
@@ -36,27 +37,32 @@
 
 ### Tier 1: Active / primary
 
-#### 1. **Chu kỳ 26** — Tier-2 methods (wheeling + 3D permutations)
+#### 1. **Chu kỳ 27** — Tier-3 (G compounding + E calendar + deferred 3D methods)
 
-- **Framework**: `methods_evaluator.py` shipped Chu kỳ 25, ready to ingest new spec JSONs
-- **Scope**: B1-B11 matrix wheeling + C1-C11 3D permutation systems (~22 methods)
-- **Priority**: high — fills biggest remaining catalog gap after Tier-1 done
+- **Framework**: `methods_evaluator.py` shipped Chu kỳ 25-26, ready
+- **Scope**:
+  - G2/G3/G5 compounding variants (Martingale, Anti-Martingale, near-miss escalation) — cautionary bankruptcy documentation
+  - E2/E3/E4-proper calendar patterns (alternate, weekly, jackpot-triggered với real data)
+  - Deferred 3D methods from Chu kỳ 26: C4 KK 2-số-cuối focused, C6 3D Pro A=B exploit
+  - Deferred product-specific: B8 5/35 special sub-strategies, B9 6/55 bonus-ball targeting
+- **Priority**: medium — fills remaining catalog gap, G bankruptcy prove useful for user education
 - **Effort**: ~1 tuần
 - Awaiting user kickoff
 
-#### 2. **Chu kỳ 27+** — Tier-3 / Tier-4 / Meta-analysis
+#### 2. **Chu kỳ 28** — Meta-analysis + novel hybrid discovery
 
-Parallel queue:
-- Tier-3 (Chu kỳ 27): G compounding + E calendar + I3 anti-crowd (~10 methods)
-- Meta-analysis (Chu kỳ 28): novel hybrid discovery + Chu kỳ 25/26/27 cross-cycle synthesis
-- Budget ladder extension (extends Chu kỳ 24 scope)
-- Breakthrough reopen (only on §9 triggers of [PROJECT_CLOSURE_REPORT.md](../PROJECT_CLOSURE_REPORT.md))
+- Cross-cycle synthesis của 25+26+27 findings
+- Retest Inconclusives at N_RUNS=200 (F7 × 5/35, C5 3D Pro, F1b 3D variance)
+- Generate novel methods from dimensional gaps in 6-dim space
+- Effort: ~3-5 ngày
+- Conditional on Chu kỳ 27 complete
 
 #### Done (archival)
 - **Chu kỳ 22 Optimization Mode** — executed 2026-04-22, see [executed/cycle22_optimization_mode.md](executed/cycle22_optimization_mode.md) + [history/cycle22_optimization_mode.md](../history/cycle22_optimization_mode.md)
 - **Chu kỳ 23 UX Refactor** — executed 2026-04-22, see [executed/cycle23_app_refactor.md](executed/cycle23_app_refactor.md) + [history/cycle23_app_refactor.md](../history/cycle23_app_refactor.md)
 - **Chu kỳ 24 Budget-aware** — executed 2026-04-24, see [executed/cycle24_budget_aware.md](executed/cycle24_budget_aware.md) + [history/cycle24_budget_aware.md](../history/cycle24_budget_aware.md)
 - **Chu kỳ 25 Method Evaluation Framework** — executed 2026-04-24, see [executed/cycle25_method_evaluation_framework.md](executed/cycle25_method_evaluation_framework.md) + [history/cycle25_method_evaluation_framework.md](../history/cycle25_method_evaluation_framework.md)
+- **Chu kỳ 26 Tier-2 Wheeling + 3D Permutations** — executed 2026-04-24, see [executed/cycle26_tier2_wheeling_3d_permutations.md](executed/cycle26_tier2_wheeling_3d_permutations.md) + [history/cycle26_tier2_wheeling_3d_permutations.md](../history/cycle26_tier2_wheeling_3d_permutations.md)
 
 ### Tier 2: Untested hướng từ META_REVIEW (archived)
 

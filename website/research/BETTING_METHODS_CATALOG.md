@@ -48,30 +48,30 @@ Universal across 5 products:
 
 | # | Method | Mô tả | Đã test? |
 |:-:|---|---|---|
-| B1 | **Full wheel K numbers** | Chọn K > main_count, mua tất cả C(K, main_count) tổ hợp | Chu kỳ 5 (5/35 partial) |
-| B2 | **Reduced/Partial wheel** | Subset of full wheel guaranteeing N-match if K-match in wheel | Chưa |
-| B3 | **Key-number wheel** | 1-2 fixed numbers + rotate others | Chưa |
-| B4 | **Position-weighted selection** | Weight numbers bởi vị trí lịch sử (low/mid/high range) | Gần Pattern (Chu kỳ 1-3) |
-| B5 | **Sum-range filter** | Chỉ chọn bộ với sum trong historical range | Chưa |
-| B6 | **Parity-stratified** | Balance odd/even theo distribution | Gần HybridParity (Chu kỳ 5, Reject) |
-| B7 | **Birthday-universe** | Chỉ từ 1-31 (ngày) hoặc 1-12 (tháng) | Chưa — giảm universe |
-| B8 | **Special number sub-strategy (5/35 only)** | Pick special 1-12 theo: fixed / hot / cold / freq-match | Chưa |
-| B9 | **Bonus-ball targeted (6/55 only)** | Optimize cho tier 2 (match 5 + bonus) vs jackpot | Chưa |
-| B10 | **Consecutive-avoid** | Tránh số liền kề (e.g., 4-5-6) | Chưa |
-| B11 | **Consecutive-prefer** | Chỉ chọn có ít nhất K cặp liền kề | Chưa |
+| B1 | **Full wheel K numbers** | Chọn K > main_count, mua tất cả C(K, main_count) tổ hợp | ✓ **Chu kỳ 26** — P(hit) ↑ nhưng ROI tied Random |
+| B2 | **Reduced/Partial wheel** | Subset of full wheel guaranteeing N-match if K-match in wheel | Chưa (deferred Chu kỳ 27+, cần math optimization) |
+| B3 | **Key-number wheel** | 1-2 fixed numbers + rotate others | ✓ **Chu kỳ 26** — within variance |
+| B4 | **Position-weighted selection** | Weight numbers bởi vị trí lịch sử (low/mid/high range) | Gần Pattern (Chu kỳ 1-3) — subsumed |
+| B5 | **Sum-range filter** | Chỉ chọn bộ với sum trong historical range | ✓ **Chu kỳ 26** — statistical noise |
+| B6 | **Parity-stratified** | Balance odd/even theo distribution | ✓ **Chu kỳ 26** — within variance |
+| B7 | **Birthday-universe** | Chỉ từ 1-31 (ngày) hoặc 1-12 (tháng) | Deferred — trivial restriction, low value |
+| B8 | **Special number sub-strategy (5/35 only)** | Pick special 1-12 theo: fixed / hot / cold / freq-match | Deferred Chu kỳ 27 (5/35-specific adapter) |
+| B9 | **Bonus-ball targeted (6/55 only)** | Optimize cho tier 2 (match 5 + bonus) vs jackpot | Deferred Chu kỳ 27 (6/55 bonus adapter) |
+| B10 | **Consecutive-avoid** | Tránh số liền kề (e.g., 4-5-6) | ✓ **Chu kỳ 26** — within variance (+1.5pp 6/45) |
+| B11 | **Consecutive-prefer** | Chỉ chọn có ít nhất K cặp liền kề | ✓ **Chu kỳ 26** — within variance |
 
 ## C. 3D-specific selection (Max 3D, Max 3D Pro)
 
 | # | Method | Mô tả | Đã test? |
 |:-:|---|---|---|
-| C1 | **Bao lô 6 hoán vị** | 1 bộ 3 chữ số khác nhau → 6 permutations (123/132/213/231/312/321) | Chưa — quan trọng cho 3D Pro order-sensitive |
-| C2 | **Bao bộ ba (3 hoán vị)** | 1 bộ có cặp giống (e.g., 122) → 3 perms | Chưa |
+| C1 | **Bao lô 6 hoán vị** | 1 bộ 3 chữ số khác nhau → 6 permutations (123/132/213/231/312/321) | ✓ **Chu kỳ 26** — P(hit) 5× Random, ROI tied (no edge) |
+| C2 | **Bao bộ ba (3 hoán vị)** | 1 bộ có cặp giống (e.g., 122) → 3 perms | Subsumed bởi C1 (same permutation_all framework) |
 | C3 | **Bao xỉu chủ** | User pick → mua cả xỉu (3 số) + chủ (2 số cuối) | N/A — Vietlott 3D không có tier riêng này |
-| C4 | **KK 2 số cuối focused** | Tập trung giải KK (Max 3D) hoặc Tư/Năm (3D Pro) | Chưa — cũng fix allocator gap C24 |
-| C5 | **Forward + reverse hedge (3D Pro)** | Mua (A,B) + (B,A) → hit cả ĐB + Phụ ĐB | Chưa — thiết kế cho 3D Pro |
-| C6 | **Same-digit A=B exploit (3D Pro)** | Tập trung tickets A=B để double Nhất-Sáu prizes | Chưa |
-| C7 | **Digit-sum targeting** | Chọn số có digit-sum ∈ [hot range] (e.g., 10-20) | Gần MaxEntropy SumRange |
-| C8 | **Mirror-paired (số đối)** | Mua 123 + 876 cùng lúc | Chưa |
+| C4 | **KK 2 số cuối focused** | Tập trung giải KK (Max 3D) hoặc Tư/Năm (3D Pro) | Deferred Chu kỳ 27 (tier-targeting adapter) |
+| C5 | **Forward + reverse hedge (3D Pro)** | Mua (A,B) + (B,A) → hit cả ĐB + Phụ ĐB | ✓ **Chu kỳ 26** — full +34.5pp nhưng forward-gate FAIL, Inconclusive |
+| C6 | **Same-digit A=B exploit (3D Pro)** | Tập trung tickets A=B để double Nhất-Sáu prizes | Deferred Chu kỳ 27 (3D Pro adapter work) |
+| C7 | **Digit-sum targeting** | Chọn số có digit-sum ∈ [hot range] (e.g., 10-20) | Subsumed — similar to MaxEntropy SumRange |
+| C8 | **Mirror-paired (số đối)** | Mua 123 + 876 cùng lúc | ✓ **Chu kỳ 26** — within variance |
 | C9 | **Digit-position Bayesian** | Per-position independent posterior | ✓ Chu kỳ 4, 11 (Reject) |
 | C10 | **Joint-digit bias exploit** | Non-independence per pair | ✓ Chu kỳ 4 (Reject) |
 | C11 | **Same last digit** | 100, 210, 340, 450 (all end in 0) | Chưa — cultural heuristic |

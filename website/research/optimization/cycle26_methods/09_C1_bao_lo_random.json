@@ -1,0 +1,14 @@
+{
+  "method_id": "C1_bao_lo_random",
+  "description": "C1 variant — Bao lô random: pick random 3-digit then emit all distinct permutations",
+  "category": "C",
+  "applicable_products": ["max_3d"],
+  "selection": {
+    "type": "random_fresh"
+  },
+  "bet_size": {"type": "permutation_all"},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

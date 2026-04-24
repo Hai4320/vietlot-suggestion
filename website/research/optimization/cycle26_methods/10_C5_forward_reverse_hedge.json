@@ -1,0 +1,16 @@
+{
+  "method_id": "C5_forward_reverse_hedge_3dpro",
+  "description": "C5 — 3D Pro forward+reverse hedge: pick (A,B) via TierWeighted, emit [(A,B), (B,A)] to hit both ĐB and Phụ ĐB tiers",
+  "category": "C",
+  "applicable_products": ["max_3d_pro"],
+  "selection": {
+    "type": "algorithm_fresh",
+    "algorithm": "TierWeighted",
+    "params": {"lookback": 300, "temperature": 0.8}
+  },
+  "bet_size": {"type": "forward_reverse_hedge"},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

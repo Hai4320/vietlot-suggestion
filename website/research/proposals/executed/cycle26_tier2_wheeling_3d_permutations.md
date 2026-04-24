@@ -1,6 +1,6 @@
 ## Chu Kỳ 26 — Pre-Registration: Tier-2 Methods (Wheeling + 3D Permutations)
 
-**Status**: ✅ **APPROVED 2026-04-24** (user "bắt đầu"). Frozen per Principle #16 — content immutable until execution closes.
+**Status**: ✅ **EXECUTED 2026-04-24** (same-day framework + 12 methods shipped). Moved to `executed/` on close. Frozen per Principle #16. Verdict record: [history/cycle26_tier2_wheeling_3d_permutations.md](../../history/cycle26_tier2_wheeling_3d_permutations.md).
 
 **Mode**: Optimization extension (multi-ticket method tuples — builds on Chu kỳ 25 framework).
 
