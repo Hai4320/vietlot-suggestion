@@ -643,6 +643,14 @@ export function generate3DSuggestions(
         numbers = [...picked].map(padNum);
         break;
       }
+      case "ab_exploit": {
+        // Chu kỳ 28 Accept — 3D Pro only, ticket [X, X] doubles prize per quy chế.
+        // Random X ∈ [000, 999] (uniform). P(X ∈ 20-number universe) = 2% → EV +4180%.
+        // Caller must pair these as (A, B) identical. See /methods page for details.
+        const x = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
+        numbers = [x, x];
+        break;
+      }
       case "mixed":
       default: {
         // Compose digit by digit using weighted random

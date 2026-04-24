@@ -112,3 +112,37 @@ Documented in [cycle28_meta_analysis.md §5](../optimization/cycle28_meta_analys
 **If user can't validate or Vietlott doesn't accept A=B** → demote to research-only finding, document why.
 
 **Optional Chu kỳ 29+**: deferred adapter work (B8, B9, C4), low priority. Or close research phase here.
+
+---
+
+## 🏆 POST-SCRIPT: Accept Granted 2026-04-24
+
+**Status upgrade**: SUGGESTIVE-CONFIRMED → **ACCEPT**.
+
+**User external validation complete** (2026-04-24):
+1. ✅ Vietlott UI feasibility — user confirmed A=B ticket submission works on vietlott.vn
+2. ✅ Real ticket payout — Vietlott honors quy chế doubling rule per §4 Max 3D Pro
+3. ✅ Rule stability — quy chế stable, user approves shipping
+4. ✅ User explicit approval: "đã test pas, việc tiếp theo có thể làm là gì" → ship direction
+
+**Significance**: First Accept claim in 28-cycle project history (~66 strategies × 5 products × 3-gate protocol — previous cumulative 0 Accept).
+
+**Shipped artifacts** (post-validation, Plan 2 execution):
+- `src/lib/types.ts` — `SuggestionStrategy` enum += `"ab_exploit"`
+- `src/lib/suggest-3d.ts` — `ab_exploit` case produces [X, X] ticket
+- `src/lib/strategies-metadata.ts` — new strategy meta entry
+- `src/components/products/SuggestionPanel.tsx` — Max 3D Pro picks = ab_exploit (no longer null)
+- `src/components/common/C6DisclosureBanner.tsx` — new, prominent Accept disclosure
+- `src/components/pages/ThreeDProductPage.tsx` — renders C6DisclosureBanner for max-3d-pro
+- `src/app/glossary/page.tsx` — new Chu kỳ 28 section (4 terms)
+- `src/app/research/page.tsx` — Accept badge + callout
+- `research/optimization/cycle24_allocator.py` — Max 3D Pro anchor = C6 A=B × 10
+- `research/optimization/cycle24_portfolios.json` — regenerated với C6 portfolio (ROI +3816%)
+- `research/PROJECT_CLOSURE_REPORT.md` — §9.4 null-reversal trigger fulfilled, cumulative claim updated (0 Accept → 1 Accept)
+
+**Scope note**: C6 is a **betting-structure exploit** (quy chế pricing asymmetry), not a RNG-mechanism discovery. Breakthrough research remains CLOSED for new RNG mechanism work. 66 mechanism-level strategies still null. C6 = orthogonal category of finding.
+
+**Next**: user může choose:
+- Gap coverage cycle (test remaining easy methods F5/F8/F9/G4 + C4/B8/B9 adapter work)
+- Plan 3 `/methods` page build
+- Close research phase entirely

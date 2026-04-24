@@ -22,6 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ResearchStateBanner } from "@/components/common/ResearchStateBanner";
+import { C6DisclosureBanner } from "@/components/common/C6DisclosureBanner";
 import type {
   ThreeDDraw,
   TimeFilter,
@@ -67,7 +68,11 @@ export default function ThreeDProductPage({ slug }: Props) {
   return (
     <div className="space-y-6">
       {/* Research disclosure banner — always visible, before data loads */}
-      <ResearchStateBanner variant="closed" size="sm" />
+      {slug === "max-3d-pro" ? (
+        <C6DisclosureBanner />
+      ) : (
+        <ResearchStateBanner variant="closed" size="sm" />
+      )}
 
       {/* Product header */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">

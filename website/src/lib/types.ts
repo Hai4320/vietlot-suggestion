@@ -137,7 +137,9 @@ export type SuggestionStrategy =
   // Chu kỳ 22 Optimization mode additions (2026-04-22) — research-layer ported to UI
   | "mindistance"    // Matrix: Dirichlet sample + Jaccard-diverse greedy (Power 6/55 winner)
   | "coverageopt"    // 3D: frequency + digit-distance diversity (Max 3D ROI pick)
-  | "pairexploiter"; // 3D: O/E synergy of non-independent digit pairs (Max 3D winrate pick)
+  | "pairexploiter"  // 3D: O/E synergy of non-independent digit pairs (Max 3D winrate pick)
+  // Chu kỳ 28 Accept claim (2026-04-24) — first positive-EV in 28-cycle history
+  | "ab_exploit";    // 3D Pro only: ticket [X, X] exploits quy chế A=B doubling rule (+4180% EV)
 
 export interface SuggestionSet {
   numbers: number[];

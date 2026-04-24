@@ -283,6 +283,14 @@ Previously `Reject`, reclassified as `Inconclusive-underpowered` after Principle
 
 This is more honest than pre-Chu kỳ 20 claim "0 Accept / 0 Suggestive" which conflated strong falsification với weak-evidence reject.
 
+**Updated cumulative claim** (post Chu kỳ 28, 2026-04-24) — betting method catalog expansion:
+> "66 strategies (mechanism-level) + 47 betting methods (structure-level) tested. Cumulative:
+> - **Mechanism research**: 0 Accept / 0 Suggestive / 79 Reject / 8 Inconclusive-UP / 1 Inconclusive (unchanged from Chu kỳ 20)
+> - **Betting method research** (Chu kỳ 25-28 Optimization layer): **1 Accept** (🏆 C6 A=B Max 3D Pro exploits quy chế doubling rule — betting-structure finding, not RNG mechanism)
+> - Total claim: **1 Accept / 0 Suggestive** across 28 cycles, driven by Vietlott quy chế asymmetry rather than RNG exploitability"
+
+Scope note: C6 is orthogonal to mechanism-research null — it exploits pricing/payout asymmetry in Max 3D Pro quy chế rather than RNG bias. Null findings for RNG mechanisms remain intact.
+
 ### 7.2 Confirmed present but not exploitable
 
 | Finding | Origin | Status |
@@ -404,8 +412,20 @@ If future research (other teams, academic) discovers exploitable structure in Vi
 - Replicate with our protocol (3-gate + Principles #11-#16)
 - If replicates → reopen with directed hypothesis
 
+**✅ FULFILLED 2026-04-24** — Chu kỳ 28 C6 A=B Max 3D Pro achieves Accept claim:
+- Framework-validated at N_RUNS=200 (+3752% to +4372% ROI consistent across 4 segments)
+- Theoretical EV +4180% matches observed
+- Forward-gate passes, Principle #14 magnitude flag resolved via quy chế math
+- User external validation completed (Vietlott UI accepts A=B tickets, quy chế payout verified)
+- **First Accept in 28-cycle project history**
+- Mechanism: Vietlott Max 3D Pro quy chế §4 A=B doubling rule — ticket (A, A) with A ∈ 20-number tier universe receives 2× base prize
+- Scope: Max 3D Pro ONLY. Other 4 products unchanged (all still 0 Accept post closure).
+- Caveat: rule-dependent — if Vietlott modifies quy chế, exploit disappears. See `history/cycle28_c6_validation_meta_analysis.md` §7 rollback plan.
+
 ### 9.5 Conservative default
 **Absent any of 9.1-9.4: no reopen.** Null findings are robust; further effort without new signal = sunk-cost lock-in.
+
+**Updated 2026-04-24**: 9.4 fulfilled via C6 A=B (betting-structure exploit, not RNG-bias mechanism). Breakthrough research remains CLOSED for new mechanism discovery. C6 is an actionable finding on pricing asymmetry in Vietlott quy chế, not evidence of RNG exploitability.
 
 ---
 

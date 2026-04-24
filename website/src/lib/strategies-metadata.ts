@@ -110,6 +110,14 @@ export const STRATEGIES: StrategyMeta[] = [
     appliesTo: "matrix",
     productLimit: "power_535",
   },
+  {
+    key: "ab_exploit",
+    emoji: "🏆",
+    label: "A=B Exploit (Accept C28)",
+    description: "3D Pro: vé [X, X] khai thác quy chế doubling rule — theoretical ROI +4180%",
+    appliesTo: "3d",
+    productLimit: "max_3d_pro",
+  },
 ];
 
 export function getStrategyMeta(key: SuggestionStrategy): StrategyMeta | undefined {

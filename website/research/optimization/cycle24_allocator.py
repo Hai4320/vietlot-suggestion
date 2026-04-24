@@ -152,11 +152,14 @@ PRODUCT_CONFIGS = {
     },
     "max_3d_pro": {
         "type": "3d_pro",
-        # NULL pick — corrected Balanced top = B2 TierWeighted (cycle22_3dpro_audit.md)
-        "anchors": ["B2: TierWeighted"],
+        # Chu kỳ 28 Accept (2026-04-24) — C6 A=B exploit quy chế doubling rule.
+        # No longer null-pick. Portfolio uses A=B tickets only.
+        # See cycle28_meta_analysis.md, cycle27_tier3_compounding_calendar.md.
+        "anchors": ["C6: A=B exploit"],
         "strats": _3d_strats,
         "supports_wheel": False,
-        "null_pick": True,
+        "supports_c6_ab": True,  # triggers special portfolio builder
+        "null_pick": False,
     },
 }
 
@@ -209,6 +212,12 @@ def enumerate_candidates(product_cfg) -> list[PortfolioSpec]:
     if product_cfg.get("supports_wheel"):
         specs.append(PortfolioSpec("wheel_mindistance", {}, "Wheel(MinDistance×10)"))
 
+    if product_cfg.get("supports_c6_ab"):
+        # Chu kỳ 28 Accept — A=B exploit for Max 3D Pro. Only viable anchor.
+        # Emit single portfolio spec that generates N_TICKETS A=B tickets.
+        specs = [PortfolioSpec("c6_ab_portfolio", {"n": N_TICKETS},
+                                f"C6(A=B exploit × {N_TICKETS})")]
+
     return specs
 
 
@@ -252,7 +261,18 @@ def _build_portfolio_3d(spec, strats, train, product_key) -> list[list[str]]:
 
     For 3d_pro: each "ticket" = 2 adjacent 3-digit strings (A, B pair). So we
     generate 20 strings → caller pairs them.
+
+    Special case: c6_ab_portfolio (Chu kỳ 28 Accept) emits N tickets with A=B=X.
     """
+    # Chu kỳ 28 — C6 A=B exploit for Max 3D Pro
+    if spec.kind == "c6_ab_portfolio" and product_key == "max_3d_pro":
+        n = spec.params.get("n", N_TICKETS)
+        out = []
+        for _ in range(n):
+            x = f"{random.randint(0, 999):03d}"
+            out.append([x, x])
+        return out
+
     per_ticket = 2 if product_key == "max_3d_pro" else 1
     total_needed = N_TICKETS * per_ticket
 

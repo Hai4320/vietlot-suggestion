@@ -104,11 +104,14 @@ export default function ResearchPage() {
         <div className="flex items-center gap-3 flex-wrap">
           <h1 className="text-3xl font-extrabold tracking-tight">🔬 Nghiên cứu Vietlott</h1>
           <Badge variant="destructive" className="text-xs">Breakthrough closed</Badge>
-          <Badge variant="default" className="text-xs">Chu kỳ 22 shipped</Badge>
+          <Badge variant="default" className="text-xs">Chu kỳ 22-28 shipped</Badge>
+          <Badge className="text-xs bg-green-600 hover:bg-green-700">🏆 1 Accept (C28)</Badge>
         </div>
         <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
-          22 chu kỳ nghiên cứu nghiêm ngặt, 69 chiến lược, 5 sản phẩm. Kết quả: <strong>0 Accept</strong>.
-          Chu kỳ 22 chuyển sang Optimization mode — rank existing strategies cho UI picks.
+          28 chu kỳ nghiên cứu nghiêm ngặt, ~66 strategies × 5 products × 3-gate, 73-method betting catalog.
+          Breakthrough phase: <strong>0 Accept</strong>.{" "}
+          <strong className="text-green-700 dark:text-green-500">Chu kỳ 28 Accept đầu tiên</strong>:
+          C6 A=B Max 3D Pro exploit (xem <a href="/max-3d-pro" className="underline">/max-3d-pro</a>).
         </p>
       </header>
 

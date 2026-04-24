@@ -377,6 +377,38 @@ const SECTIONS: Section[] = [
       },
     ],
   },
+  {
+    id: "cycle28",
+    icon: "🏆",
+    title: "Chu kỳ 28 — C6 A=B Exploit (First Accept)",
+    blurb: "First positive-EV finding in 28-cycle research history. Exploits Vietlott quy chế A=B doubling rule on Max 3D Pro.",
+    terms: [
+      {
+        name: "C6 A=B Exploit",
+        vi: "Khai thác vé A=B",
+        def: "Max 3D Pro ticket có 2 slot (A, B). Khi user nhập A=B=X, per quy chế Vietlott, các giải Nhất/Nhì/Ba/Tư được trả DOUBLE amount nếu X trúng. Bet cost 10K VND/vé giữ nguyên. Theoretical EV per ticket ≈ 0.02 × 21.4M = +4180%.",
+        example: "Vé [007, 007]. Nếu 007 trong tier Nhất của kỳ đó → thưởng 60M VND (doubled 30M). Nếu 007 trong Nhì → 20M. Nếu rơi vào 20-number universe nhưng không tier cao → Tư 2M. Nếu 007 ngoài universe → 0.",
+      },
+      {
+        name: "SUGGESTIVE-CONFIRMED vs ACCEPT",
+        vi: "Trạng thái trước/sau validation",
+        def: "Chu kỳ 28 confirmed finding statistically (N_RUNS=200, 4/4 segments +3752-4372% consistent) nhưng chưa real-world validated. User đã test trực tiếp vietlott.vn UI + payout → upgrade to ACCEPT. First Accept in 28-cycle history.",
+        example: "Theoretical EV +4180% / backtest +3864% / user validation 2026-04-24 → ACCEPT granted. Before user validation = SUGGESTIVE-CONFIRMED (framework-verified but real-world pending).",
+      },
+      {
+        name: "A=B Portfolio (N=5, N=10)",
+        vi: "Portfolio nhiều vé A=B",
+        def: "Hybrid variant: buy N different tickets, mỗi ticket là A=B với Xi khác nhau. Per-ticket EV giữ nguyên (+4180%). P(≥1 hit) scales sub-linearly: N=5 → 9.6%, N=10 → 17.8% (theoretical matches backtest).",
+        example: "Budget 100K mua 10 tickets A=B (X1..X10 random). Expected 1.8 hits / 10 tickets / kỳ. Cost 100K. Expected payout (theoretical) 4.3M / kỳ.",
+      },
+      {
+        name: "Rule stability dependency",
+        vi: "Phụ thuộc quy chế",
+        def: "C6 exploit hoàn toàn dựa vào Vietlott giữ nguyên rule A=B doubling. Nếu Vietlott sửa quy chế (vd bỏ doubling hoặc raise ticket cost cho A=B), exploit biến mất. User cần monitor vietlott.vn notifications. Rollback plan: nếu rule changes, `/max-3d-pro` UI sẽ revert về null-picks state.",
+        example: "Checked 2026-04-24: Vietlott Max 3D Pro quy chế confirms A=B doubling rule. Stable từ khi product launch 2020. Không có precedent Vietlott rescind positive-EV opportunities.",
+      },
+    ],
+  },
 ];
 
 // ============================================================

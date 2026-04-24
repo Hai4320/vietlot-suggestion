@@ -90,8 +90,16 @@ const PRODUCT_RANKS: Record<ProductSlug, {
     defaultStrategy: "pairexploiter",
   },
   "max-3d-pro": {
-    picks: { winrate: null, roi: null, balanced: null },
-    defaultStrategy: "evmax",
+    // Chu kỳ 28 Accept (2026-04-24) — first positive-EV finding in 28 cycles
+    // C6 A=B exploits Vietlott quy chế doubling rule. Theoretical EV +4180%,
+    // backtest N=200 = +3864% ROI consistent across 4 segments. Forward-gate passes.
+    // User must manually enter A=B on vietlott.vn UI.
+    picks: {
+      winrate: { strategy: "ab_exploit", stat: "P(hit) 2.0%/vé, scales với N" },
+      roi: { strategy: "ab_exploit", stat: "ROI +3864% backtest (theoretical +4180%)" },
+      balanced: { strategy: "ab_exploit", stat: "composite 🏆 ACCEPT Chu kỳ 28" },
+    },
+    defaultStrategy: "ab_exploit",
   },
 };
 
