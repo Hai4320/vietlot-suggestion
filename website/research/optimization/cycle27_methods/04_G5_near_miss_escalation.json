@@ -1,0 +1,12 @@
+{
+  "method_id": "G5_near_miss_escalation",
+  "description": "G5 — Near-miss escalation (matrix): double bet after a 'near-miss' (main_count-2 matches). Intuition: cold numbers due — but compounds loss.",
+  "category": "G",
+  "applicable_products": ["power_655", "power_645"],
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "near_miss_escalation", "max_multiplier": 8}
+}

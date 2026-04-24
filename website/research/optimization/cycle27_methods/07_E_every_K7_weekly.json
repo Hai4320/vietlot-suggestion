@@ -1,0 +1,12 @@
+{
+  "method_id": "E_every_K7_weekly",
+  "description": "E — Every 7th draw approx-weekly (sparse). Useful for low-budget long-horizon play.",
+  "category": "E",
+  "applicable_products": ["power_655", "power_645", "power_535", "max_3d", "max_3d_pro"],
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_k", "k": 7},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

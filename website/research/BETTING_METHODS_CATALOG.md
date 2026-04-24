@@ -69,7 +69,7 @@ Universal across 5 products:
 | C3 | **Bao xỉu chủ** | User pick → mua cả xỉu (3 số) + chủ (2 số cuối) | N/A — Vietlott 3D không có tier riêng này |
 | C4 | **KK 2 số cuối focused** | Tập trung giải KK (Max 3D) hoặc Tư/Năm (3D Pro) | Deferred Chu kỳ 27 (tier-targeting adapter) |
 | C5 | **Forward + reverse hedge (3D Pro)** | Mua (A,B) + (B,A) → hit cả ĐB + Phụ ĐB | ✓ **Chu kỳ 26** — full +34.5pp nhưng forward-gate FAIL, Inconclusive |
-| C6 | **Same-digit A=B exploit (3D Pro)** | Tập trung tickets A=B để double Nhất-Sáu prizes | Deferred Chu kỳ 27 (3D Pro adapter work) |
+| C6 | **Same-digit A=B exploit (3D Pro)** | Tập trung tickets A=B để double Nhất-Sáu prizes | ✓ **Chu kỳ 27 — 🚨 SUGGESTIVE +4758% ROI consistent across 4 segments, forward-gate pass. Principle #14 flag investigated, resolved via theoretical EV match. Requires Chu kỳ 28 real-world validation before Accept.** |
 | C7 | **Digit-sum targeting** | Chọn số có digit-sum ∈ [hot range] (e.g., 10-20) | Subsumed — similar to MaxEntropy SumRange |
 | C8 | **Mirror-paired (số đối)** | Mua 123 + 876 cùng lúc | ✓ **Chu kỳ 26** — within variance |
 | C9 | **Digit-position Bayesian** | Per-position independent posterior | ✓ Chu kỳ 4, 11 (Reject) |
@@ -92,8 +92,8 @@ Universal across 5 products:
 | # | Method | Mô tả | Đã test? |
 |:-:|---|---|---|
 | E1 | **Every draw** | Fire on every scheduled draw | ✓ default |
-| E2 | **Alternate (every 2nd/3rd)** | Skip 1-2 draws to stretch budget | Chưa |
-| E3 | **Weekly calendar** | Chỉ T2+T4+T6 hoặc T7+CN | Chưa |
+| E2 | **Alternate (every 2nd/3rd)** | Skip 1-2 draws to stretch budget | ✓ **Chu kỳ 27** — no EV edge, stretches budget only |
+| E3 | **Weekly calendar** | Chỉ T2+T4+T6 hoặc T7+CN | ✓ **Chu kỳ 27** (every K=3, K=7) — variance from sparse sampling |
 | E4 | **Jackpot-threshold triggered** | Play only when jackpot rollover ≥ X tỷ | ✓ **Chu kỳ 25 MVP proxy** — needs Vietlott jackpot flag data cho real test |
 | E5 | **Dry-spell triggered** | Play sau K kỳ liên tiếp không có jackpot hit | Chưa |
 | E6 | **User-specified interval** | Random/sporadic based on user mood | N/A — không reproducible |
@@ -117,11 +117,11 @@ Universal across 5 products:
 | # | Method | Mô tả | Đã test? |
 |:-:|---|---|---|
 | G1 | **Flat betting** | Bet size cố định mọi kỳ | ✓ default |
-| G2 | **Martingale** | Double-up sau mỗi lần thua | Chưa (nhưng EV âm lottery nên compound → phá sản rõ) |
-| G3 | **Anti-Martingale (Paroli)** | Double-up sau mỗi lần thắng | Chưa |
-| G4 | **1-3-2-6 progression** | Fixed sequence theo streak | Chưa |
-| G5 | **Near-miss escalation** | Tăng bet sau kỳ almost-hit (4/6 match) | Chưa |
-| G6 | **Win-reset** | Sau khi thắng, reset về bet base | Chưa |
+| G2 | **Martingale** | Double-up sau mỗi lần thua | ✓ **Chu kỳ 27** — 100% bankruptcy at B=1M, forward-fail confirms no edge (CAUTIONARY) |
+| G3 | **Anti-Martingale (Paroli)** | Double-up sau mỗi lần thắng | ✓ **Chu kỳ 27** — no edge, within variance |
+| G4 | **1-3-2-6 progression** | Fixed sequence theo streak | Skipped — trivial variant of G1 |
+| G5 | **Near-miss escalation** | Tăng bet sau kỳ almost-hit (4/6 match) | ✓ **Chu kỳ 27** — low trigger rate, no edge |
+| G6 | **Win-reset** | Sau khi thắng, reset về bet base | Subsumed by flat (trivial) |
 | G7 | **Kelly criterion** (POS banned — falsified Chu kỳ 16) | Optimal log-utility sizing | ❌ Eliminated Chu kỳ 16 |
 
 ## H. Portfolio construction (cross-time)

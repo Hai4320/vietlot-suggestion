@@ -371,6 +371,12 @@ class RunState:
     running_streaks: list = field(default_factory=list)  # finalized cold-streak lengths
     current_cold_streak: int = 0
     stopped_early_at: Optional[int] = None  # index where stop fired
+    # Chu kỳ 27 — D6 compounding support
+    bet_multiplier: int = 1           # current compounding multiplier (×1 base)
+    max_multiplier_reached: int = 1   # max observed across run
+    cap_hits: int = 0                 # times multiplier hit the cap
+    last_was_hit: Optional[bool] = None  # for martingale / anti-martingale decisions
+    last_near_miss: bool = False      # for near-miss escalation
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -565,6 +571,17 @@ def _generate_ticket_bundle(spec: dict, adapter: ProductAdapter, history,
             return [base, [base[1], base[0]]]
         return [base]
 
+    if btype == "a_equal_b":
+        # 3D Pro only: pick 1 number, emit ticket = [X, X]
+        base = _resolve_ticket(spec["selection"], adapter, history, target_idx,
+                               persistent_cache, rotate_idx)
+        if isinstance(base, str):
+            return [[base, base]]
+        if isinstance(base, list) and len(base) >= 1:
+            x = base[0]
+            return [[x, x]]
+        return [base]
+
     if btype == "key_wheel":
         # Matrix: key_numbers fixed + rotate through others
         if not isinstance(adapter, MatrixAdapter):
@@ -596,18 +613,70 @@ def _should_play_draw(spec_freq: dict, state: RunState, adapter: ProductAdapter,
     if ftype == "every_draw":
         return True
     if ftype == "alternate":
-        return state.draws_played % 2 == 0
+        return target_idx % 2 == 0
     if ftype == "every_k":
         k = spec_freq.get("k", 3)
         return (target_idx % k) == 0
+    if ftype == "weekly_calendar":
+        # Chu kỳ 27: play only on specific weekdays. Uses draw date if available.
+        # Matrix: df.iloc[target_idx]["date"] → date obj; 3D: draws[target_idx]["date"] str
+        allowed = set(spec_freq.get("weekdays", [0, 1, 2, 3, 4]))  # 0=Mon, 6=Sun
+        try:
+            if isinstance(adapter, MatrixAdapter):
+                row = history.iloc[target_idx]
+                d = row["date"]
+                wd = d.weekday() if hasattr(d, "weekday") else 0
+            else:
+                import datetime as _dt
+                dstr = str(history[target_idx]["date"])
+                d = _dt.datetime.strptime(dstr[:10], "%Y-%m-%d").date()
+                wd = d.weekday()
+            return wd in allowed
+        except Exception:
+            return True
     if ftype == "jackpot_triggered":
-        # E4: play only if no jackpot hit in the last K draws
-        # For matrix: use "no 6-match in pool of last K draws" as proxy for rollover
-        k = spec_freq.get("k", 5)
-        # Since we can't observe jackpot directly, trigger always True for this MVP
-        # Real implementation needs Vietlott jackpot flag in data
-        return True  # TODO: implement proper jackpot-rollover logic when data available
+        # E4: play only if no jackpot hit in the last K draws (proxy until data available)
+        return True  # TODO: implement proper jackpot-rollover logic when Vietlott data extended
     return True
+
+
+def _compute_bet_multiplier(spec_compound: dict, state: RunState) -> int:
+    """Compute current bet multiplier based on compounding type and prior outcome.
+
+    Called BEFORE the current draw's ticket generation.
+    """
+    ctype = spec_compound.get("type", "flat")
+    if ctype == "flat":
+        return 1
+
+    max_mult = spec_compound.get("max_multiplier", 32)
+
+    if ctype == "martingale":
+        # Double after loss; reset after win
+        if state.last_was_hit is None:
+            return 1  # first draw
+        if state.last_was_hit:
+            return 1  # reset
+        new_mult = min(state.bet_multiplier * 2, max_mult)
+        return new_mult
+
+    if ctype == "anti_martingale":
+        # Double after win; reset after loss
+        if state.last_was_hit is None:
+            return 1
+        if state.last_was_hit:
+            new_mult = min(state.bet_multiplier * 2, max_mult)
+            return new_mult
+        return 1  # reset on loss
+
+    if ctype == "near_miss_escalation":
+        # Double only after a near-miss; reset otherwise
+        if state.last_near_miss:
+            new_mult = min(state.bet_multiplier * 2, max_mult)
+            return new_mult
+        return 1
+
+    return 1
 
 
 def _should_stop(spec_stop: dict, state: RunState, spec_duration: dict) -> bool:
@@ -675,30 +744,52 @@ def simulate_run(spec: dict, adapter: ProductAdapter, history, start_idx: int,
 
         rotate_idx += 1
 
-        # Evaluate each ticket; aggregate prize + hit-any
+        # Chu kỳ 27 — compute bet multiplier from D6 compounding BEFORE this draw
+        state.bet_multiplier = _compute_bet_multiplier(
+            spec.get("compounding", {"type": "flat"}), state
+        )
+        state.max_multiplier_reached = max(state.max_multiplier_reached, state.bet_multiplier)
+        max_mult_cap = spec.get("compounding", {}).get("max_multiplier", 32)
+        if state.bet_multiplier >= max_mult_cap and spec.get("compounding", {}).get("type", "flat") != "flat":
+            state.cap_hits += 1
+
+        # Evaluate each ticket; aggregate prize + hit-any + near-miss detection
         n_tickets = len(tickets)
-        cost = n_tickets * adapter.ticket_price()
+        cost = n_tickets * adapter.ticket_price() * state.bet_multiplier
         draw_payout = 0
         any_hit = False
+        near_miss_this_draw = False
         for t in tickets:
             try:
                 r = adapter.evaluate(t, history, i)
             except Exception:
                 continue
-            draw_payout += r.prize_vnd
+            # Scale prize by bet multiplier (wager × payout ratio stays constant)
+            draw_payout += r.prize_vnd * state.bet_multiplier
             if r.hit:
                 any_hit = True
+            # Near-miss detection for matrix: 3-match when 5-need (5/35) or 4-match when 6-need
+            if isinstance(adapter, MatrixAdapter) and not r.hit:
+                row = history.iloc[i]
+                actual = set(row["result"][:adapter.cfg["num_count"]])
+                m = len(set(t) & actual)
+                # Define near-miss as (main_count - 2) match for matrix
+                # e.g., 6/55 near-miss = 4-match; 5/35 near-miss = 3-match
+                near_threshold = adapter.cfg["num_count"] - 2
+                if m == near_threshold:
+                    near_miss_this_draw = True
 
         # Record
         state.draws_played += 1
         state.tickets_purchased += n_tickets
         state.total_cost_vnd += cost
         state.total_payout_vnd += draw_payout
-        # per_draw_payout stores GROSS payout for the draw (sum across bundle)
         state.per_draw_payout.append(draw_payout)
         state.per_draw_cost.append(cost)
         state.per_draw_hit.append(1 if any_hit else 0)
         state.cumulative_losses.append(state.total_cost_vnd - state.total_payout_vnd)
+        state.last_was_hit = any_hit
+        state.last_near_miss = near_miss_this_draw
 
         if any_hit:
             state.hits_this_run += 1
@@ -800,6 +891,15 @@ def aggregate_metrics(runs: list[RunState]) -> dict:
 
     variance_norm = (float(np.std(all_payouts, ddof=1)) / e_payout) if e_payout > 0 and len(all_payouts) > 1 else 0.0
 
+    # Chu kỳ 27 — compounding-specific metrics
+    max_mults = [r.max_multiplier_reached for r in runs]
+    cap_hit_runs = sum(1 for r in runs if r.cap_hits > 0)
+    compounding_metrics = {
+        "max_multiplier_reached_p50": int(np.percentile(max_mults, 50)) if max_mults else 1,
+        "max_multiplier_reached_p95": int(np.percentile(max_mults, 95)) if max_mults else 1,
+        "pct_runs_hit_cap": round(cap_hit_runs / len(runs), 4) if runs else 0.0,
+    }
+
     return {
         "n_runs": len(runs),
         "total_draws": total_draws,
@@ -815,6 +915,7 @@ def aggregate_metrics(runs: list[RunState]) -> dict:
         "ruin_prob": ruin,
         "pain_streak": pain,
         "best_single_hit_ratio": round(best, 2),
+        "compounding": compounding_metrics,
     }
 
 

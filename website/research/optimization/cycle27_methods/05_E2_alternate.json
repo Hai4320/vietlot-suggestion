@@ -1,0 +1,12 @@
+{
+  "method_id": "E2_alternate",
+  "description": "E2 — Alternate: play every 2nd draw (Random selection). Tests whether reducing draw count matters.",
+  "category": "E",
+  "applicable_products": ["power_655", "power_645", "power_535", "max_3d", "max_3d_pro"],
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "alternate"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

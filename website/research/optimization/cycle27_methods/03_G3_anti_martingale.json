@@ -1,0 +1,12 @@
+{
+  "method_id": "G3_anti_martingale_cap16",
+  "description": "G3 — Anti-Martingale: double after win (ride hot streak), reset on loss. Cap 16×.",
+  "category": "G",
+  "applicable_products": ["power_655", "max_3d"],
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "anti_martingale", "max_multiplier": 16}
+}

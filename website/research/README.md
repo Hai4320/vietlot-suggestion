@@ -2,7 +2,7 @@
 
 Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tích cho hệ thống gợi ý số Vietlott.
 
-## 🎯 Trạng thái hiện tại (2026-04-24) — **Chu kỳ 22 + 23 + 24 + 25 + 26 shipped**
+## 🎯 Trạng thái hiện tại (2026-04-24) — **Chu kỳ 22 + 23 + 24 + 25 + 26 + 27 shipped** — 🚨 **C6 A=B SUGGESTIVE (first positive-EV in 27 cycles)**
 
 ### Active focus: **[optimization/](optimization/)** → user-facing UI deliverables
 
@@ -12,7 +12,8 @@ Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tíc
 - **Phase A audit** (2026-04-24): Max 3D Pro 8-tier evaluator fix shipped ([cycle22_3dpro_audit.md](optimization/cycle22_3dpro_audit.md)). Severity 🟢 Low — UI picks were null anyway, no user-visible impact.
 - **Chu kỳ 24** (2026-04-24): Budget-aware Portfolio (UC2) shipped — allocator + `vietlott-budget` CLI + BudgetWidget UI @ B=100K × 5 products. Null-pick products surface với disclosure banner.
 - **Chu kỳ 25** (2026-04-24): Method Evaluation Framework + Tier-1 shipped — generic 6-dim method-spec evaluator + 13 methods × 5 products. Gambler's fallacy "số gan" REFALSIFIED. Psychology metrics shipped (pain streak, ruin prob, ticks-to-first-hit). Framework reusable Chu kỳ 26-28.
-- **Chu kỳ 26** (2026-04-24): Tier-2 Wheeling + 3D Permutations shipped — framework extended (5 new bet_size types + 4 filters) + 12 methods. Wheeling boosts P(hit) 1.6-5× but ROI tied Random. C5 forward+reverse hedge 3D Pro failed forward gate (variance trap). See [BETTING_METHODS_CATALOG.md](BETTING_METHODS_CATALOG.md) (73 methods, **35 tested**).
+- **Chu kỳ 26** (2026-04-24): Tier-2 Wheeling + 3D Permutations shipped — framework extended (5 new bet_size types + 4 filters) + 12 methods. Wheeling boosts P(hit) 1.6-5× but ROI tied Random. C5 forward+reverse hedge 3D Pro failed forward gate (variance trap).
+- **Chu kỳ 27** (2026-04-24): 🚨 **Tier-3 shipped with HEADLINE SUGGESTIVE finding**. Framework extended (D6 compounding + D3 weekly + a_equal_b). 9 methods. **C6 A=B Max 3D Pro = +4758% ROI consistent 4 segments, forward-gate pass — FIRST potentially positive-EV finding in 27 cycles.** Exploits quy chế A=B doubling rule. Pending Chu kỳ 28 real-world validation. Compounding G2/G3/G5 = forward-fail (100% bankruptcy). Calendar E = no EV. See [BETTING_METHODS_CATALOG.md](BETTING_METHODS_CATALOG.md) (73 methods, **44 tested**).
 
 ### Primary entry points
 
@@ -29,21 +30,24 @@ Thư mục chứa toàn bộ nghiên cứu, backtest, và dữ liệu phân tíc
 | [optimization/cycle24_portfolios.json](optimization/cycle24_portfolios.json) | Canonical Chu kỳ 24 output (5 products × top-3 portfolios @ B=100K) |
 | [history/cycle25_method_evaluation_framework.md](history/cycle25_method_evaluation_framework.md) | Chu kỳ 25 framework + Tier-1 closure record |
 | [history/cycle26_tier2_wheeling_3d_permutations.md](history/cycle26_tier2_wheeling_3d_permutations.md) | Chu kỳ 26 Tier-2 closure record |
-| [BETTING_METHODS_CATALOG.md](BETTING_METHODS_CATALOG.md) | 73-method catalog (**35 tested**, 38 remaining Chu kỳ 27-28) |
-| [optimization/methods_evaluator.py](optimization/methods_evaluator.py) | Generic 6-dim method-spec evaluator (shared Chu kỳ 25-28, extended C26) |
+| [history/cycle27_tier3_compounding_calendar.md](history/cycle27_tier3_compounding_calendar.md) | 🚨 Chu kỳ 27 Tier-3 closure record (C6 A=B SUGGESTIVE) |
+| [BETTING_METHODS_CATALOG.md](BETTING_METHODS_CATALOG.md) | 73-method catalog (**44 tested**, 29 remaining Chu kỳ 28 + deferred) |
+| [optimization/methods_evaluator.py](optimization/methods_evaluator.py) | Generic 6-dim method-spec evaluator (shared Chu kỳ 25-28, extended C26+C27) |
 | [optimization/cycle25_results.json](optimization/cycle25_results.json) | Canonical Chu kỳ 25 output (13 methods × 5 products × 4 segments) |
 | [optimization/cycle26_results.json](optimization/cycle26_results.json) | Canonical Chu kỳ 26 output (12 Tier-2 methods) |
+| [optimization/cycle27_results.json](optimization/cycle27_results.json) | Canonical Chu kỳ 27 output (9 Tier-3 methods) |
 | [optimization/cycle25_review.md](optimization/cycle25_review.md) | Chu kỳ 25 diagnostic review + dominance analysis |
 | [optimization/cycle26_review.md](optimization/cycle26_review.md) | Chu kỳ 26 diagnostic review + dominance analysis |
-| [proposals/README.md](proposals/README.md) | Proposals index + TODO list (no pending, awaiting Chu kỳ 27 kickoff) |
-| [proposals/executed/](proposals/executed/) | Frozen pre-regs của cycles đã execute (17, 20, 21, 22, 23, 24, 25, 26) |
+| [optimization/cycle27_review.md](optimization/cycle27_review.md) | 🚨 Chu kỳ 27 review với C6 A=B HEADLINE + EV math + Principle #14 analysis |
+| [proposals/README.md](proposals/README.md) | Proposals index + TODO list (no pending, awaiting Chu kỳ 28 kickoff — CRITICAL C6 A=B validation) |
+| [proposals/executed/](proposals/executed/) | Frozen pre-regs của cycles đã execute (17, 20, 21, 22, 23, 24, 25, 26, 27) |
 
 ### Research archive (breakthrough phase terminal)
 
 | Doc | Purpose |
 |---|---|
 | [PROJECT_CLOSURE_REPORT.md](PROJECT_CLOSURE_REPORT.md) | 🏁 Terminal closure artifact (updated Chu kỳ 19-21) |
-| [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | 26 cycles index (21 breakthrough + 5 optimization) |
+| [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | 27 cycles index (21 breakthrough + 6 optimization) |
 | [METHODOLOGY.md](METHODOLOGY.md), [EVALUATION.md](EVALUATION.md), [TESTING.md](TESTING.md), [RESEARCH_PLAYBOOK.md](RESEARCH_PLAYBOOK.md), [BREAKTHROUGH_ROADMAP.md](BREAKTHROUGH_ROADMAP.md) | Canonical breakthrough methodology (reference for reopen triggers) |
 
 ### Cumulative result (post Chu kỳ 24)
@@ -88,8 +92,8 @@ Sau Chu kỳ 9, project đã exhaust discovery mode (25+ strategies, 3/3 Suggest
 | 24 | ✅ Shipped 2026-04-24 | Budget-aware portfolio (UC2) @ B=100K — allocator + `vietlott-budget` CLI + BudgetWidget UI |
 | 25 | ✅ Shipped 2026-04-24 | Method evaluation framework + Tier-1 (13 methods). Gambler's fallacy refalsified. |
 | 26 | ✅ Shipped 2026-04-24 | Tier-2: wheeling + 3D permutations (12 methods). P(hit) ↑ but ROI tied. |
-| 27 | ⏳ Pending | Tier-3: compounding (G Martingale) + calendar patterns (E) + deferred 3D (C4/C6 + B8/B9) |
-| 28 | ⚪ Optional | Meta-analysis + novel hybrid discovery + retest Inconclusives at N_RUNS=200 |
+| 27 | ✅ Shipped 2026-04-24 | 🚨 Tier-3: compounding + calendar + **C6 A=B SUGGESTIVE** +4758% ROI (first positive-EV in 27 cycles) |
+| 28 | ⏳ **Pending CRITICAL** | C6 A=B real-world validation + N_RUNS=200 + meta-analysis + retest Inconclusives |
 
 Canonical methodology: [optimization/MEASUREMENT.md](optimization/MEASUREMENT.md). Roadmap: [optimization/README.md](optimization/README.md).
 
@@ -131,7 +135,7 @@ research/
 │
 │   ── 🏁 Research archive (breakthrough phase closed Chu kỳ 18) ──
 ├── PROJECT_CLOSURE_REPORT.md       ← Terminal closure (updated Chu kỳ 19-21)
-├── RESEARCH_HISTORY.md             ← 26 cycles index (21 breakthrough + 5 optimization)
+├── RESEARCH_HISTORY.md             ← 27 cycles index (21 breakthrough + 6 optimization)
 │
 │   ── Canonical breakthrough methodology (reference) ──
 ├── METHODOLOGY.md                  ← 5-phase pipeline + Principles #11-#17

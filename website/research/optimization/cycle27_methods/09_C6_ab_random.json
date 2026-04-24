@@ -1,0 +1,12 @@
+{
+  "method_id": "C6_ab_random",
+  "description": "C6 variant — 3D Pro A=B with random X. Baseline for C6_ab_tierweighted.",
+  "category": "C",
+  "applicable_products": ["max_3d_pro"],
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "a_equal_b"},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}

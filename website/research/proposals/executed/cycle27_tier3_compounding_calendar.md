@@ -1,6 +1,6 @@
 ## Chu Kỳ 27 — Pre-Registration: Tier-3 Compounding + Calendar + Deferred 3D
 
-**Status**: ✅ **APPROVED 2026-04-24** (user "oke next"). Frozen per Principle #16 — content immutable until execution closes.
+**Status**: ✅ **EXECUTED 2026-04-24** (same-day framework + 9 methods shipped). Moved to `executed/` on close. Frozen per Principle #16. Verdict record: [history/cycle27_tier3_compounding_calendar.md](../../history/cycle27_tier3_compounding_calendar.md).
 
 **Mode**: Optimization extension (compounding + time frequency + bet-structure variants).
 

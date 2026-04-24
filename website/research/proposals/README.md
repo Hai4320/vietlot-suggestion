@@ -2,9 +2,9 @@
 
 **Purpose**: Registry của pre-regs (frozen per Principle #16). `proposals/` root = active/pending/PAUSED. `proposals/executed/` = completed (frozen, cross-linked từ history/).
 
-**Last updated**: 2026-04-24 (Chu kỳ 26 SHIPPED; Tier-2 wheeling + 3D permutations deployed, same-day)
+**Last updated**: 2026-04-24 (Chu kỳ 27 SHIPPED with 🚨 C6 A=B SUGGESTIVE — first positive-EV finding in 27 cycles)
 
-**🎯 Current priority**: _(none pending)_ — Chu kỳ 25 + 26 shipped same-day. Awaiting user kickoff for **Chu kỳ 27** (Tier-3: G compounding Martingale variants + E calendar patterns + deferred 3D methods C4/C6 + B8/B9 product-specific).
+**🎯 Current priority**: **Chu kỳ 28 CRITICAL** — validate C6 A=B Max 3D Pro exploit before Accept claim. Steps: real-world ticket purchase trial + Vietlott UI feasibility check + replicate at N_RUNS=200 + draft rule-stability disclosure language. Also: retest Inconclusives, meta-analysis, novel hybrid discovery.
 
 ---
 
@@ -30,6 +30,7 @@
 | [executed/cycle24_budget_aware.md](executed/cycle24_budget_aware.md) | 24 | Budget-aware portfolio @ B=100K — allocator + CLI (`vietlott-budget`) + BudgetWidget UI | [history/cycle24_budget_aware.md](../history/cycle24_budget_aware.md) |
 | [executed/cycle25_method_evaluation_framework.md](executed/cycle25_method_evaluation_framework.md) | 25 | Method Evaluation Framework + Tier-1 — 13 methods × 5 products. Gambler's fallacy refalsified. | [history/cycle25_method_evaluation_framework.md](../history/cycle25_method_evaluation_framework.md) |
 | [executed/cycle26_tier2_wheeling_3d_permutations.md](executed/cycle26_tier2_wheeling_3d_permutations.md) | 26 | Tier-2 Wheeling + 3D Permutations — 12 methods. Wheeling P(hit) ↑ but ROI tied; C5 3D Pro forward-gate fail. | [history/cycle26_tier2_wheeling_3d_permutations.md](../history/cycle26_tier2_wheeling_3d_permutations.md) |
+| [executed/cycle27_tier3_compounding_calendar.md](executed/cycle27_tier3_compounding_calendar.md) | 27 | 🚨 Tier-3 Compounding + Calendar + **C6 A=B SUGGESTIVE +4758% ROI** (first positive-EV in 27 cycles, exploits quy chế). Compounding G forward-fail. | [history/cycle27_tier3_compounding_calendar.md](../history/cycle27_tier3_compounding_calendar.md) |
 
 ---
 
@@ -37,25 +38,25 @@
 
 ### Tier 1: Active / primary
 
-#### 1. **Chu kỳ 27** — Tier-3 (G compounding + E calendar + deferred 3D methods)
+#### 1. **Chu kỳ 28 — CRITICAL PRIORITY — C6 A=B validation**
 
-- **Framework**: `methods_evaluator.py` shipped Chu kỳ 25-26, ready
+- **Trigger**: Chu kỳ 27 found SUGGESTIVE +4758% ROI C6 A=B Max 3D Pro — first positive-EV finding in 27 cycles
+- **Priority**: 🔴 HIGH — potentially first Accept claim in project history
 - **Scope**:
-  - G2/G3/G5 compounding variants (Martingale, Anti-Martingale, near-miss escalation) — cautionary bankruptcy documentation
-  - E2/E3/E4-proper calendar patterns (alternate, weekly, jackpot-triggered với real data)
-  - Deferred 3D methods from Chu kỳ 26: C4 KK 2-số-cuối focused, C6 3D Pro A=B exploit
-  - Deferred product-specific: B8 5/35 special sub-strategies, B9 6/55 bonus-ball targeting
-- **Priority**: medium — fills remaining catalog gap, G bankruptcy prove useful for user education
-- **Effort**: ~1 tuần
-- Awaiting user kickoff
-
-#### 2. **Chu kỳ 28** — Meta-analysis + novel hybrid discovery
-
-- Cross-cycle synthesis của 25+26+27 findings
-- Retest Inconclusives at N_RUNS=200 (F7 × 5/35, C5 3D Pro, F1b 3D variance)
-- Generate novel methods from dimensional gaps in 6-dim space
-- Effort: ~3-5 ngày
-- Conditional on Chu kỳ 27 complete
+  1. Replicate at N_RUNS=200 (variance tightening, CI CI)
+  2. External real-world trial: 1 A=B ticket × N draws, verify Vietlott actually pays doubled prize
+  3. Vietlott UI feasibility check: can user submit A=B ticket through official channels?
+  4. Rule stability assessment: how often does Vietlott change quy chế? Back-check historical changes.
+  5. If all verified → DRAFT UI disclosure banner + consider surfacing as recommendation (Accept)
+  6. If NOT verified → document as research-only finding
+- **Also in Chu kỳ 28**:
+  - Retest Chu kỳ 25/26 Inconclusives at N_RUNS=200 (F7 × 5/35, F1b 3D, C5 3D Pro)
+  - Meta-analysis: cross-cycle synthesis of 22-27 findings
+  - Novel hybrid discovery from 6-dim gaps
+- **Effort**: ~5 ngày
+- **Deferred from earlier cycles (optional scope)**:
+  - C4 KK 2-số-cuối focused (tier-targeting adapter)
+  - B8 5/35 special sub-strategies, B9 6/55 bonus-ball targeting (product-specific adapter work)
 
 #### Done (archival)
 - **Chu kỳ 22 Optimization Mode** — executed 2026-04-22, see [executed/cycle22_optimization_mode.md](executed/cycle22_optimization_mode.md) + [history/cycle22_optimization_mode.md](../history/cycle22_optimization_mode.md)
@@ -63,6 +64,7 @@
 - **Chu kỳ 24 Budget-aware** — executed 2026-04-24, see [executed/cycle24_budget_aware.md](executed/cycle24_budget_aware.md) + [history/cycle24_budget_aware.md](../history/cycle24_budget_aware.md)
 - **Chu kỳ 25 Method Evaluation Framework** — executed 2026-04-24, see [executed/cycle25_method_evaluation_framework.md](executed/cycle25_method_evaluation_framework.md) + [history/cycle25_method_evaluation_framework.md](../history/cycle25_method_evaluation_framework.md)
 - **Chu kỳ 26 Tier-2 Wheeling + 3D Permutations** — executed 2026-04-24, see [executed/cycle26_tier2_wheeling_3d_permutations.md](executed/cycle26_tier2_wheeling_3d_permutations.md) + [history/cycle26_tier2_wheeling_3d_permutations.md](../history/cycle26_tier2_wheeling_3d_permutations.md)
+- **Chu kỳ 27 🚨 Tier-3 Compounding + C6 A=B SUGGESTIVE** — executed 2026-04-24, see [executed/cycle27_tier3_compounding_calendar.md](executed/cycle27_tier3_compounding_calendar.md) + [history/cycle27_tier3_compounding_calendar.md](../history/cycle27_tier3_compounding_calendar.md)
 
 ### Tier 2: Untested hướng từ META_REVIEW (archived)
 

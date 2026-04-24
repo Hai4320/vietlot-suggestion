@@ -1,0 +1,12 @@
+{
+  "method_id": "G2_martingale_cap32",
+  "description": "G2 — Martingale: double bet after every loss (reset on win). Cap 32× to prevent runaway. CAUTIONARY — expect bankruptcy, not edge.",
+  "category": "G",
+  "applicable_products": ["power_655", "power_645", "power_535", "max_3d", "max_3d_pro"],
+  "selection": {"type": "random_fresh"},
+  "bet_size": {"type": "fixed", "n_tickets": 1},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "martingale", "max_multiplier": 32}
+}

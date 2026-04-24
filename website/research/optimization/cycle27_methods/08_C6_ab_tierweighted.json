@@ -1,0 +1,16 @@
+{
+  "method_id": "C6_ab_tierweighted",
+  "description": "C6 — 3D Pro A=B exploit: pick X via TierWeighted, ticket = [X, X]. Target doubled Nhất-Sáu prizes + collapsed ĐB on (X,X) draw.",
+  "category": "C",
+  "applicable_products": ["max_3d_pro"],
+  "selection": {
+    "type": "algorithm_fresh",
+    "algorithm": "TierWeighted",
+    "params": {"lookback": 300, "temperature": 0.8}
+  },
+  "bet_size": {"type": "a_equal_b"},
+  "time_frequency": {"type": "every_draw"},
+  "duration": {"type": "indefinite"},
+  "stop_condition": {"type": "never"},
+  "compounding": {"type": "flat"}
+}
