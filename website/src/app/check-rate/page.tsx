@@ -116,13 +116,13 @@ export default function CheckRatePage() {
   return (
     <main className="container mx-auto max-w-5xl p-4 md:p-6 space-y-6">
       <header className="space-y-2">
-        <h1 className="text-2xl md:text-3xl font-bold">Check-rate</h1>
+        <h1 className="text-2xl md:text-3xl font-bold">Tra vé Vietlott — đã trúng giải nào?</h1>
         <p className="text-sm text-muted-foreground">
-          Dán CSV bộ số (xuất từ <code className="bg-muted px-1 rounded">vietlott-suggest --export-csv</code>{" "}
-          hoặc tự nhập) → xem tỷ lệ trúng theo từng giải, theo từng trò, theo từng thuật toán.
+          Dán hoặc nhập danh sách các bộ số (theo định dạng CSV bên dưới) → hệ thống sẽ tra trên dữ
+          liệu lịch sử Vietlott xem các vé đó đã trúng giải nào, ở những kỳ nào.
         </p>
         <p className="text-xs text-muted-foreground">
-          Phase 1 — đang hỗ trợ:{" "}
+          Hiện đang hỗ trợ:{" "}
           {registeredGames().map((g) => (
             <Badge key={g} variant="secondary" className="mr-1">
               {g}
@@ -158,7 +158,7 @@ export default function CheckRatePage() {
         />
         <div className="flex items-center gap-3 text-sm">
           <label htmlFor="backtest-draws" className="text-muted-foreground">
-            Cửa sổ backtest (kỳ gần nhất):
+            Tra trên bao nhiêu kỳ gần nhất:
           </label>
           <input
             id="backtest-draws"
@@ -170,7 +170,7 @@ export default function CheckRatePage() {
             onChange={(e) => setBacktestDrawsInput(e.target.value)}
             onBlur={() => setBacktestDrawsInput(String(backtestDraws))}
           />
-          <span className="text-muted-foreground">0 = toàn bộ lịch sử</span>
+          <span className="text-muted-foreground">(để 0 nghĩa là tra toàn bộ lịch sử)</span>
         </div>
         {error && (
           <div className="rounded-md border border-red-300 bg-red-50 dark:bg-red-950/30 px-3 py-2 text-sm text-red-800 dark:text-red-200">
@@ -188,7 +188,7 @@ export default function CheckRatePage() {
                 className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground"
               >
                 <Badge variant="outline">{r.game}</Badge> / {r.algorithm} ({r.nTickets} vé) —{" "}
-                chưa hỗ trợ (Phase 2–5).
+                chưa hỗ trợ (sẽ bổ sung sau).
               </div>
             ) : (
               <ResultCard key={r.key} result={r.result} histories={r.histories} />

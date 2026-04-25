@@ -14,12 +14,13 @@ import type { Decision } from "@/lib/backtest-data";
  */
 export function DecisionBadge({ d }: { d?: Decision }) {
   if (!d || d === "baseline") return null;
-  const styles: Record<Decision, string> = {
-    Accept: "bg-green-600 text-white",
-    Suggestive: "bg-yellow-500 text-black",
-    Inconclusive: "bg-gray-400 text-white",
-    Reject: "bg-muted text-muted-foreground",
-    baseline: "",
+  const map: Record<Decision, { text: string; cls: string }> = {
+    Accept: { text: "Đã xác nhận", cls: "bg-green-600 text-white" },
+    Suggestive: { text: "Có dấu hiệu", cls: "bg-yellow-500 text-black" },
+    Inconclusive: { text: "Chưa rõ", cls: "bg-gray-400 text-white" },
+    Reject: { text: "Đã loại", cls: "bg-muted text-muted-foreground" },
+    baseline: { text: "", cls: "" },
   };
-  return <Badge className={`text-[9px] px-1 py-0 ${styles[d]}`}>{d}</Badge>;
+  const m = map[d];
+  return <Badge className={`text-[9px] px-1 py-0 ${m.cls}`}>{m.text}</Badge>;
 }

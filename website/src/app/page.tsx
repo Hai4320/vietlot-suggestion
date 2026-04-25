@@ -115,36 +115,57 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-      {/* Research Section */}
+      {/* Khám phá thêm */}
       <section>
         <div className="flex items-center gap-3 mb-5">
           <div className="h-8 w-1 rounded-full bg-green-500" />
           <div>
-            <h2 className="text-xl font-bold">Nghiên Cứu Thuật Toán</h2>
+            <h2 className="text-xl font-bold">Khám phá thêm</h2>
             <p className="text-sm text-muted-foreground">
-              Tìm hiểu các thuật toán gợi ý số và kết quả đánh giá
+              Danh mục đầy đủ các cách chơi và kết quả nghiên cứu của dự án
             </p>
           </div>
         </div>
-        <Link
-          href="/algorithms"
-          className="group flex items-center gap-4 rounded-xl border border-border p-5 transition-all hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
-        >
-          <div className="shrink-0 w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-            🔬
-          </div>
-          <div className="flex-1">
-            <h3 className="font-bold group-hover:text-primary transition-colors">
-              6 Thuật Toán Gợi Ý — Đánh Giá & Khuyến Nghị
-            </h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              Bayesian AI, MaxEntropy, Adaptive và 3 thuật toán cổ điển. Backtest trên 3.173 kỳ quay thực tế.
-            </p>
-          </div>
-          <svg className="shrink-0 w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
-          </svg>
-        </Link>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Link
+            href="/methods"
+            className="group flex items-center gap-4 rounded-xl border border-border p-5 transition-all hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+          >
+            <div className="shrink-0 w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+              📋
+            </div>
+            <div className="flex-1">
+              <h3 className="font-bold group-hover:text-primary transition-colors">
+                Danh mục 73 cách chơi Vietlott
+              </h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                Đầy đủ các cách đã được thử và phân loại — bao gồm 1 cách đầu tiên có lợi thế thật.
+              </p>
+            </div>
+            <svg className="shrink-0 w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+            </svg>
+          </Link>
+          <Link
+            href="/algorithms"
+            className="group flex items-center gap-4 rounded-xl border border-border p-5 transition-all hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+          >
+            <div className="shrink-0 w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+              🔬
+            </div>
+            <div className="flex-1">
+              <h3 className="font-bold group-hover:text-primary transition-colors">
+                Các thuật toán gợi ý số
+              </h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                Hơn 6 thuật toán đã được mô phỏng trên hàng nghìn kỳ quay thực tế.
+              </p>
+            </div>
+            <svg className="shrink-0 w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+            </svg>
+          </Link>
+        </div>
       </section>
     </div>
   );

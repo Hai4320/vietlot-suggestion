@@ -22,14 +22,16 @@ export interface BacktestRow {
 type SortKey = "metric" | "roi" | "deltaWin" | "deltaRoi" | "pValue" | "name";
 type SortDir = "asc" | "desc";
 
+// Nhãn các cột (dùng tham khảo nội bộ — header bảng dùng trực tiếp)
 const METRIC_LABELS = {
-  metric: "% trúng",
-  roi: "ROI %",
-  deltaWin: "Δ trúng (pp)",
-  deltaRoi: "Δ ROI (pp)",
-  pValue: "p-value",
-  name: "Strategy",
+  metric: "Tỉ lệ trúng",
+  roi: "Lãi/lỗ %",
+  deltaWin: "Trúng so với ngẫu nhiên",
+  deltaRoi: "Lãi/lỗ so với ngẫu nhiên",
+  pValue: "Tin cậy",
+  name: "Cách chơi",
 } as const;
+void METRIC_LABELS;
 
 const DEFAULT_DIR: Record<SortKey, SortDir> = {
   metric: "desc",
@@ -53,16 +55,17 @@ function sortValue(row: BacktestRow, key: SortKey): number | string {
 
 function decisionBadge(d?: string) {
   if (!d || d === "baseline") {
-    return <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">baseline</span>;
+    return <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">Chuẩn so sánh</span>;
   }
-  const map: Record<string, string> = {
-    Accept: "bg-green-500/15 text-green-700 dark:text-green-400",
-    Suggestive: "bg-yellow-500/15 text-yellow-700 dark:text-yellow-400",
-    Reject: "bg-red-500/15 text-red-700 dark:text-red-400",
-    Inconclusive: "bg-blue-500/15 text-blue-700 dark:text-blue-400",
+  const labelMap: Record<string, { text: string; cls: string }> = {
+    Accept: { text: "Đã xác nhận", cls: "bg-green-500/15 text-green-700 dark:text-green-400" },
+    Suggestive: { text: "Có dấu hiệu", cls: "bg-yellow-500/15 text-yellow-700 dark:text-yellow-400" },
+    Reject: { text: "Đã loại", cls: "bg-red-500/15 text-red-700 dark:text-red-400" },
+    Inconclusive: { text: "Chưa rõ", cls: "bg-blue-500/15 text-blue-700 dark:text-blue-400" },
   };
-  const cls = map[d] ?? "bg-muted text-muted-foreground";
-  return <span className={`text-[10px] px-1.5 py-0.5 rounded ${cls}`}>{d}</span>;
+  const m = labelMap[d];
+  if (!m) return <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">{d}</span>;
+  return <span className={`text-[10px] px-1.5 py-0.5 rounded ${m.cls}`}>{m.text}</span>;
 }
 
 export function SortableBacktestTable({
@@ -130,7 +133,7 @@ export function SortableBacktestTable({
     <div className="space-y-2">
       {hasFresh && (
         <p className="text-[10px] text-muted-foreground italic">
-          Rows badged <span className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded bg-primary/15 text-primary font-semibold">🔄 C22</span> = Chu kỳ 22 fresh re-backtest. Others = historical snapshot (pre Chu kỳ 22).
+          Hàng có nhãn <span className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded bg-primary/15 text-primary font-semibold">🔄 Mới</span> là kết quả từ đợt nghiên cứu mới nhất. Các hàng còn lại là số liệu lịch sử trước đó.
         </p>
       )}
       <div className="overflow-x-auto rounded-lg border">
@@ -138,13 +141,13 @@ export function SortableBacktestTable({
           <thead className="bg-muted/40">
             <tr className="border-b">
               <th className="text-right px-2 py-1.5 w-8 text-[10px] font-semibold text-muted-foreground uppercase">#</th>
-              <SortHeader k="name" className="text-left px-2 py-1.5">Strategy</SortHeader>
+              <SortHeader k="name" className="text-left px-2 py-1.5">Cách chơi</SortHeader>
               <SortHeader k="metric" className="text-right px-2 py-1.5 w-20">{metricLabel}</SortHeader>
-              {hasDeltas && <SortHeader k="deltaWin" className="text-right px-2 py-1.5 w-20">Δ trúng</SortHeader>}
-              <SortHeader k="roi" className="text-right px-2 py-1.5 w-16">ROI%</SortHeader>
-              {hasDeltas && <SortHeader k="deltaRoi" className="text-right px-2 py-1.5 w-20">Δ ROI</SortHeader>}
-              <SortHeader k="pValue" className="text-right px-2 py-1.5 w-16">p</SortHeader>
-              <th className="text-left px-2 py-1.5 w-24 text-[10px] font-semibold text-muted-foreground uppercase">Decision</th>
+              {hasDeltas && <SortHeader k="deltaWin" className="text-right px-2 py-1.5 w-20">Trúng so với ngẫu nhiên</SortHeader>}
+              <SortHeader k="roi" className="text-right px-2 py-1.5 w-16">Lãi/lỗ %</SortHeader>
+              {hasDeltas && <SortHeader k="deltaRoi" className="text-right px-2 py-1.5 w-20">Lãi/lỗ so với ngẫu nhiên</SortHeader>}
+              <SortHeader k="pValue" className="text-right px-2 py-1.5 w-16">Tin cậy</SortHeader>
+              <th className="text-left px-2 py-1.5 w-24 text-[10px] font-semibold text-muted-foreground uppercase">Kết luận</th>
             </tr>
           </thead>
           <tbody>
@@ -158,13 +161,13 @@ export function SortableBacktestTable({
                   <span className="flex items-center gap-1.5">
                     {r.source === "c22" && (
                       <span className="text-[9px] px-1 py-0.5 rounded bg-primary/15 text-primary font-semibold shrink-0">
-                        🔄 C22
+                        🔄 Mới
                       </span>
                     )}
                     <span className="truncate">{r.name}</span>
                     {r.excluded && (
-                      <span className="text-[9px] px-1 py-0.5 rounded bg-red-500/10 text-red-600 dark:text-red-400 shrink-0" title="Excluded từ picks per MEASUREMENT §4">
-                        excluded
+                      <span className="text-[9px] px-1 py-0.5 rounded bg-red-500/10 text-red-600 dark:text-red-400 shrink-0" title="Cách này không được xét vào danh sách gợi ý">
+                        không xét
                       </span>
                     )}
                   </span>
@@ -201,7 +204,7 @@ export function SortableBacktestTable({
         </table>
       </div>
       <p className="text-[10px] text-muted-foreground italic pl-1">
-        Click tiêu đề cột để sắp xếp. Δ = delta vs Random baseline (pp = percentage points).
+        Bấm tiêu đề cột để sắp xếp. Các cột &ldquo;so với ngẫu nhiên&rdquo; là chênh lệch của thuật toán so với chọn ngẫu nhiên thuần.
       </p>
     </div>
   );

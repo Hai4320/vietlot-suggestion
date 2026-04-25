@@ -208,7 +208,8 @@ export function BudgetWidget({ product, matrixDraws, threeDDraws }: BudgetWidget
         </div>
         {c24.null_pick && (
           <div className="mt-2 rounded-md border border-amber-400/40 bg-amber-50/50 dark:bg-amber-950/20 px-3 py-2 text-xs text-amber-800 dark:text-amber-300">
-            ⚠ <b>Không có edge xác nhận</b> — strategy cho {product.nameVi} không pass split-half + forward verify. Portfolio dưới đây dựa trên top-composite trong null field, chỉ tham khảo.
+            ⚠ <b>Chưa có cách nào được xác nhận có lợi thế</b> cho {product.nameVi}. Gói vé bên dưới chỉ là cách
+            được xếp hạng cao nhất trong nhóm chưa kiểm chứng được — chỉ mang tính tham khảo.
           </div>
         )}
       </CardHeader>
@@ -216,10 +217,9 @@ export function BudgetWidget({ product, matrixDraws, threeDDraws }: BudgetWidget
         <div className="text-xs text-muted-foreground">
           <div className="font-medium text-foreground">{top.label}</div>
           <div className="grid grid-cols-2 gap-x-4 gap-y-1 mt-2">
-            <div>E[payout/kỳ]: <span className="font-mono">{formatVND(Math.round(top.expected_payout_vnd))}đ</span></div>
-            <div>P(win ≥ 1): <span className="font-mono">{(top.p_win_ge1 * 100).toFixed(1)}%</span></div>
-            <div>ROI lịch sử: <span className="font-mono">{top.roi_pct.toFixed(1)}%</span></div>
-            <div>Composite: <span className="font-mono">{top.composite_score >= 0 ? "+" : ""}{top.composite_score.toFixed(3)}</span></div>
+            <div>Tiền thưởng kỳ vọng / kỳ: <span className="font-mono">{formatVND(Math.round(top.expected_payout_vnd))}đ</span></div>
+            <div>Khả năng trúng ít nhất 1 vé: <span className="font-mono">{(top.p_win_ge1 * 100).toFixed(1)}%</span></div>
+            <div>Lãi/lỗ lịch sử: <span className="font-mono">{top.roi_pct.toFixed(1)}%</span></div>
           </div>
         </div>
 
@@ -239,11 +239,11 @@ export function BudgetWidget({ product, matrixDraws, threeDDraws }: BudgetWidget
         )}
 
         <div className="text-[11px] text-muted-foreground leading-relaxed">
-          ⚠ EV luôn âm. Portfolio tốt nhất trong null field, không đảm bảo positive ROI.
+          Lưu ý: Lãi/lỗ kỳ vọng vẫn âm — gói vé này không đảm bảo có lãi.
           {" "}
           {c24.null_pick
-            ? "Sản phẩm này không có strategy nào pass verify — numbers chỉ tham khảo."
-            : "Strategy underlying đã pass Chu kỳ 22 composite ranking."}
+            ? "Sản phẩm này chưa có cách chơi nào kiểm chứng được — số chỉ mang tính tham khảo."
+            : "Cách chơi này nằm trong nhóm xếp hạng cao của đợt nghiên cứu mới nhất."}
         </div>
       </CardContent>
     </Card>

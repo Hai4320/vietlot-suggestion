@@ -27,7 +27,7 @@ const SECTIONS: Section[] = [
     id: "stats",
     icon: "📐",
     title: "Thống kê cơ bản",
-    blurb: "Công cụ kiểm định giả thuyết — ngôn ngữ dùng để nói &ldquo;có thật hay chỉ do may&rdquo;.",
+    blurb: "Các công cụ thống kê dùng để phân biệt 'có thật sự là lợi thế' với 'chỉ là may rủi'.",
     terms: [
       {
         name: "p-value",
@@ -82,8 +82,8 @@ const SECTIONS: Section[] = [
   {
     id: "gates",
     icon: "🛡️",
-    title: "Quy trình kiểm định (3-gate)",
-    blurb: "Protocol dự án dùng để quyết định một chiến lược có edge hay không.",
+    title: "Quy trình kiểm định 3 lớp",
+    blurb: "Quy trình kiểm tra mà dự án áp dụng để quyết định một thuật toán có lợi thế thật hay không.",
     terms: [
       {
         name: "3-gate protocol",
@@ -132,8 +132,8 @@ const SECTIONS: Section[] = [
   {
     id: "strategy",
     icon: "🧠",
-    title: "Chiến lược & Machine Learning",
-    blurb: "Các kỹ thuật tạo prediction — dùng trong 28 chiến lược 3D + 20 chiến lược matrix.",
+    title: "Thuật toán dự đoán & Học máy",
+    blurb: "Các kỹ thuật được dùng để tạo dự đoán — dùng trong nhiều thuật toán cho cả Power và Max 3D.",
     terms: [
       {
         name: "Bayesian (Dirichlet posterior)",
@@ -194,8 +194,8 @@ const SECTIONS: Section[] = [
   {
     id: "metrics",
     icon: "📊",
-    title: "Số liệu đánh giá",
-    blurb: "Các metric dự án dùng xuyên suốt backtest + UI.",
+    title: "Các chỉ số đo lường",
+    blurb: "Các chỉ số mà dự án dùng để đo và so sánh các thuật toán.",
     terms: [
       {
         name: "Δ (delta)",
@@ -250,8 +250,8 @@ const SECTIONS: Section[] = [
   {
     id: "project",
     icon: "🧭",
-    title: "Thuật ngữ dự án",
-    blurb: "Các khái niệm chỉ riêng project này — codified trong METHODOLOGY.md.",
+    title: "Thuật ngữ riêng của dự án",
+    blurb: "Các khái niệm phát sinh trong quá trình nghiên cứu của dự án này.",
     terms: [
       {
         name: "Principle #11-#15",
@@ -330,8 +330,8 @@ const SECTIONS: Section[] = [
   {
     id: "cycle22",
     icon: "🧪",
-    title: "Chu kỳ 22 — Optimization Mode",
-    blurb: "3 composite profiles + split-half on picks + null picks honest. Xem /research#cycle22 cho rankings đầy đủ.",
+    title: "Đợt 22 — Chế độ tối ưu giao diện",
+    blurb: "Các khái niệm liên quan đến cách dự án xếp hạng các thuật toán theo 3 góc nhìn để tích hợp lên giao diện.",
     terms: [
       {
         name: "Optimization mode",
@@ -380,8 +380,8 @@ const SECTIONS: Section[] = [
   {
     id: "cycle28",
     icon: "🏆",
-    title: "Chu kỳ 28 — C6 A=B Exploit (First Accept)",
-    blurb: "First positive-EV finding in 28-cycle research history. Exploits Vietlott quy chế A=B doubling rule on Max 3D Pro.",
+    title: "Đợt 28 — Cách C6 A=B (cách đầu tiên có lợi thế thật)",
+    blurb: "Cách chơi đầu tiên trong dự án có lợi thế thật — khai thác quy chế nhân đôi giải A=B của Vietlott Max 3D Pro.",
     terms: [
       {
         name: "C6 A=B Exploit",
@@ -419,16 +419,16 @@ export default function GlossaryPage() {
   const total = SECTIONS.reduce((acc, s) => acc + s.terms.length, 0);
   return (
     <div className="space-y-6 pb-12">
-      {/* Hero */}
+      {/* Tiêu đề */}
       <div className="space-y-3">
         <div className="flex items-center gap-3 flex-wrap">
-          <h1 className="text-3xl font-bold tracking-tight">📚 Thuật ngữ khoa học</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Thuật ngữ — bảng giải thích</h1>
           <Badge variant="outline" className="text-xs">{total} thuật ngữ · {SECTIONS.length} nhóm</Badge>
         </div>
         <p className="text-muted-foreground max-w-3xl text-sm leading-relaxed">
-          Từ điển nhanh cho các thuật ngữ thống kê, methodology và ML dùng xuyên suốt
-          /research, /algorithms, /suggest. Mục tiêu: đọc 30 giây là hiểu đủ để không bị lạc trong jargon.
-          Mỗi term kèm một ví dụ cụ thể từ lịch sử dự án.
+          Bảng giải thích nhanh các thuật ngữ thống kê và phương pháp luận được dùng trong các trang
+          Lịch sử nghiên cứu, Thuật toán, Gợi ý số. Mục tiêu: đọc 30 giây là hiểu đủ ý chính.
+          Mỗi mục kèm một ví dụ cụ thể từ lịch sử dự án.
         </p>
       </div>
 
@@ -483,13 +483,12 @@ export default function GlossaryPage() {
         </section>
       ))}
 
-      {/* Footer note */}
+      {/* Lưu ý cuối */}
       <div className="rounded-lg border border-border bg-muted/20 px-4 py-3">
         <p className="text-xs text-muted-foreground leading-relaxed">
-          Nguồn chi tiết: <code className="font-mono bg-muted px-1 rounded">website/research/METHODOLOGY.md</code>
-          {" "}(principles), <code className="font-mono bg-muted px-1 rounded">website/research/EVALUATION.md</code>
-          {" "}(decision rules), <code className="font-mono bg-muted px-1 rounded">website/research/RESEARCH_HISTORY.md</code>
-          {" "}(cycle index).
+          Nguồn nghiên cứu chi tiết được lưu trong các tài liệu phương pháp luận, quy tắc đánh giá,
+          và lịch sử các đợt nghiên cứu của dự án. Tóm tắt thân thiện hơn có ở
+          {" "}<a href="/research" className="underline">trang Lịch sử nghiên cứu</a>.
         </p>
       </div>
     </div>

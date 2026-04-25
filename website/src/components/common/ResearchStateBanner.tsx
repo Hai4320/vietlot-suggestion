@@ -21,26 +21,27 @@ interface Props {
 
 const COPY: Record<ResearchVariant, { title: string; body: string; hint?: string; color: string }> = {
   closed: {
-    title: "🔬 Research Mode — No confirmed edge",
+    title: "Lưu ý: chưa có thuật toán nào được xác nhận có lợi thế cho sản phẩm này",
     body:
-      "Sau 22 chu kỳ + 69 chiến lược × 3-gate protocol, 0 Accept. Breakthrough research closed Chu kỳ 18. " +
-      "Chu kỳ 22 Optimization ship picks theo composite tournament — directional only, không confirmed edge. EV âm cố định.",
-    hint: "Xem /research cho full story.",
+      "Sau hơn 22 đợt mô phỏng và đo lường nghiêm ngặt, không có thuật toán chọn số nào đảm bảo trúng " +
+      "nhiều hơn chọn ngẫu nhiên. Các gợi ý hiện tại trên trang này chỉ là cách &ldquo;có vẻ tốt nhất&rdquo; " +
+      "theo dữ liệu mô phỏng — KHÔNG đảm bảo có lợi thế thật. Lãi/lỗ kỳ vọng vẫn âm.",
+    hint: "Xem chi tiết tại trang Lịch sử nghiên cứu.",
     color: "orange",
   },
   active: {
-    title: "🔬 Research Mode — Post-closure monitoring",
+    title: "Lưu ý: dự án đang theo dõi sau khi đóng giai đoạn đột phá",
     body:
-      "Breakthrough closed Chu kỳ 18. Reopen chỉ khi đủ §9 triggers (N≥2000 per product, novel paradigm, null-reversal). " +
-      "Current activity: Optimization mode (UI rankings), không research mechanism mới.",
-    hint: "Xem /research + /algorithms cho chi tiết methodology.",
+      "Giai đoạn nghiên cứu đột phá đã đóng. Hiện chỉ tích hợp các cách hiện có vào giao diện, không " +
+      "nghiên cứu thuật toán mới.",
+    hint: "Xem chi tiết tại trang Lịch sử nghiên cứu.",
     color: "orange",
   },
   accept: {
-    title: "✓ Accept confirmed — 3-gate protocol passed",
+    title: "Đã được xác nhận có lợi thế",
     body:
-      "Strategy đạt Accept qua full-sample + split-half + forward_last_100. Magnitude within bias ceiling " +
-      "(Principle #14). No overfit signature. Historical only — future performance not guaranteed.",
+      "Cách này đã vượt qua đầy đủ các kiểm tra (mô phỏng đầy đủ + kiểm tra chéo nửa-nửa + " +
+      "kiểm tra trên dữ liệu mới). Tuy nhiên kết quả lịch sử không đảm bảo cho tương lai.",
     color: "green",
   },
 };

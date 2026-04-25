@@ -124,11 +124,11 @@ function SuggestPageContent() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      {/* Page header */}
+      {/* Tiêu đề trang */}
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold">✨ Gợi ý bộ số may mắn</h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Chọn sản phẩm xổ số và chiến lược phân tích, hệ thống sẽ dựa trên dữ liệu lịch sử để gợi ý những bộ số tiềm năng nhất
+          Chọn sản phẩm Vietlott và cách chơi, hệ thống sẽ dựa vào dữ liệu lịch sử để gợi ý các bộ số.
         </p>
       </div>
 

@@ -76,7 +76,7 @@ export function Sidebar() {
           )}
         >
           <span>🎯</span>
-          <span>Check-rate</span>
+          <span>Tra vé đã trúng chưa</span>
         </Link>
 
         <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -90,7 +90,7 @@ export function Sidebar() {
           )}
         >
           <span>📋</span>
-          <span>Methods (73)</span>
+          <span>Cách chơi (73)</span>
         </Link>
         <Link
           href="/algorithms"

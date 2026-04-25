@@ -11,7 +11,7 @@ import { AlgorithmComparisonTable } from "./AlgorithmComparisonTable";
 import { AlgorithmLiftSummary } from "./AlgorithmLiftSummary";
 import type { SuggestionStrategy, SuggestionSet, ThreeDSuggestionSet } from "@/lib/types";
 import { calculatePrizeProbabilities, formatProbability, type PrizeTierProbability } from "@/lib/prize-probability";
-import { getRepresentativeRow, getStrategyRows } from "@/lib/algorithm-comparison";
+import { getStrategyRows } from "@/lib/algorithm-comparison";
 import { CYCLE22_PRODUCTS } from "@/lib/cycle22-data";
 
 // ── Module-level cache: survives across page navigations ──
@@ -48,24 +48,22 @@ const PAGE_SIZE = 20;
 // truth for SuggestionPanel (here) + QuickGenerate (/check-rate).
 import { STRATEGIES as ALL_STRATEGIES } from "@/lib/strategies-metadata";
 
-// Per-product ranking + research picks (Chu kỳ 22 Optimization mode, 2026-04-22).
-// 3 composite profiles (WinRate / ROI / Balanced) → up to 3 picks per product.
-// Collapse rules: khi picks trùng strategy, UI gộp labels.
-// See website/research/optimization/MEASUREMENT.md §3 for semantics.
-// Null picks: Power 6/45 (baseline drift flip) + Max 3D Pro (regime split) — honest outcome.
+// Xếp hạng + gợi ý chọn cho từng sản phẩm. 3 góc nhìn (Trúng nhiều / Lỗ ít / Cân bằng)
+// → tối đa 3 gợi ý/sản phẩm. Khi 3 gợi ý cùng trỏ về 1 cách, giao diện sẽ gộp lại.
+// Power 6/45 + một số sản phẩm có thể không có gợi ý nào đủ tin cậy — đây là kết quả trung thực.
 type ProductSlug = "power-655" | "power-645" | "power-535" | "max-3d" | "max-3d-pro";
 
 type ProductPick = { strategy: SuggestionStrategy; stat: string };
 const PRODUCT_RANKS: Record<ProductSlug, {
   picks: { winrate: ProductPick | null; roi: ProductPick | null; balanced: ProductPick | null };
-  // Fallback strategy for useState initializer when all picks are null
+  // Cách mặc định khi cả 3 gợi ý đều rỗng
   defaultStrategy: SuggestionStrategy;
 }> = {
   "power-655": {
     picks: {
-      winrate: { strategy: "mindistance", stat: "Δ+0.308pp, composite +1.757 (rank 1)" },
-      roi: { strategy: "mindistance", stat: "Δ_ROI +1.36%, composite +1.334 (rank 1)" },
-      balanced: { strategy: "mindistance", stat: "composite +1.546 (rank 1)" },
+      winrate: { strategy: "mindistance", stat: "Đứng đầu xếp hạng cho Power 6/55." },
+      roi: { strategy: "mindistance", stat: "Lỗ ít hơn chọn ngẫu nhiên một chút trong mô phỏng." },
+      balanced: { strategy: "mindistance", stat: "Đứng đầu khi cân bằng giữa trúng nhiều và lỗ ít." },
     },
     defaultStrategy: "mindistance",
   },
@@ -75,29 +73,28 @@ const PRODUCT_RANKS: Record<ProductSlug, {
   },
   "power-535": {
     picks: {
-      winrate: { strategy: "frequency", stat: "composite +0.814 (rank 1) — lưu ý: Δ_win −0.045pp (≈ tie Random)" },
-      roi: { strategy: "frequency", stat: "ROI +1.80% vs Random, composite +1.208" },
-      balanced: { strategy: "frequency", stat: "composite +1.012 (rank 1)" },
+      winrate: { strategy: "frequency", stat: "Đứng đầu xếp hạng — lưu ý: tỉ lệ trúng thực tế tương đương chọn ngẫu nhiên." },
+      roi: { strategy: "frequency", stat: "Lỗ ít hơn chọn ngẫu nhiên trong mô phỏng." },
+      balanced: { strategy: "frequency", stat: "Đứng đầu khi cân bằng giữa trúng nhiều và lỗ ít." },
     },
     defaultStrategy: "frequency",
   },
   "max-3d": {
     picks: {
-      winrate: { strategy: "pairexploiter", stat: "Δ+0.414pp, p=0.038, composite +1.603 (rank 1)" },
-      roi: { strategy: "coverageopt", stat: "Δ_ROI +11.61%, composite +1.465 (rank 2 after retry)" },
-      balanced: { strategy: "frequency", stat: "FreqWholeHot: Δ_ROI +12.93%, composite +1.586 (rank 1 balanced)" },
+      winrate: { strategy: "pairexploiter", stat: "Có dấu hiệu trúng nhiều hơn ngẫu nhiên trong mô phỏng." },
+      roi: { strategy: "coverageopt", stat: "Có dấu hiệu lỗ ít hơn ngẫu nhiên trong mô phỏng." },
+      balanced: { strategy: "frequency", stat: "Đứng đầu khi cân bằng giữa trúng nhiều và lỗ ít." },
     },
     defaultStrategy: "pairexploiter",
   },
   "max-3d-pro": {
-    // Chu kỳ 28 Accept (2026-04-24) — first positive-EV finding in 28 cycles
-    // C6 A=B exploits Vietlott quy chế doubling rule. Theoretical EV +4180%,
-    // backtest N=200 = +3864% ROI consistent across 4 segments. Forward-gate passes.
-    // User must manually enter A=B on vietlott.vn UI.
+    // C6 A=B — cách chơi đầu tiên có lợi thế thật trong dự án nghiên cứu (Đợt 28).
+    // Khai thác quy chế nhân đôi giải khi A=B của Vietlott Max 3D Pro.
+    // Người chơi phải tự nhập cùng 1 số vào cả 2 ô A và B trên vietlott.vn.
     picks: {
-      winrate: { strategy: "ab_exploit", stat: "P(hit) 2.0%/vé, scales với N" },
-      roi: { strategy: "ab_exploit", stat: "ROI +3864% backtest (theoretical +4180%)" },
-      balanced: { strategy: "ab_exploit", stat: "composite 🏆 ACCEPT Chu kỳ 28" },
+      winrate: { strategy: "ab_exploit", stat: "Tỉ lệ trúng khoảng 2 trong 100 vé — tăng tuyến tính theo số vé." },
+      roi: { strategy: "ab_exploit", stat: "Mô phỏng nhiều lần đều cho lợi nhuận kỳ vọng dương rõ rệt." },
+      balanced: { strategy: "ab_exploit", stat: "Đã được xác nhận có lợi thế thật — cách đầu tiên trong dự án." },
     },
     defaultStrategy: "ab_exploit",
   },
@@ -292,15 +289,13 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
 
   return (
     <div className="space-y-5">
-      {/* Compact header — no banner bloat */}
+      {/* Tiêu đề gọn */}
       <div className="flex items-center gap-2">
         <span className="text-2xl">🎯</span>
         <h2 className="text-lg font-bold">Bộ số may mắn</h2>
       </div>
 
-      {/* Research picks card — Chu kỳ 22: 3 profiles (winrate/roi/balanced).
-          Each pick card shows inline stats (Δ_win, Δ_ROI, p-value) so users
-          can compare picks without relying on tooltip hover. */}
+      {/* Thẻ gợi ý theo nghiên cứu — tối đa 3 góc nhìn: trúng nhiều / lỗ ít / cân bằng */}
       {(() => {
         const wrPick = productRank.picks.winrate;
         const roiPick = productRank.picks.roi;
@@ -313,8 +308,8 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
               <div className="flex items-start gap-2">
                 <span className="text-base shrink-0">⚠️</span>
                 <div className="flex-1 text-sm">
-                  <span className="font-semibold">Chưa có pick đủ tin cậy.</span>{" "}
-                  <span className="text-muted-foreground">Chọn chiến lược tuỳ ý bên dưới, hoặc tham khảo bảng so sánh để tự quyết. Chi tiết tại <a href="/research" className="underline">/research</a>.</span>
+                  <span className="font-semibold">Chưa có gợi ý nào đủ tin cậy cho sản phẩm này.</span>{" "}
+                  <span className="text-muted-foreground">Anh có thể chọn cách bất kỳ ở dưới, hoặc xem bảng so sánh để tự quyết. Chi tiết tại <a href="/research" className="underline">trang Nghiên cứu</a>.</span>
                 </div>
               </div>
             </div>
@@ -332,11 +327,11 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         const seen = new Set<string>();
         const rendered: RenderedPick[] = [];
         if (wrPick && !seen.has(wrPick.strategy)) {
-          rendered.push({ label: "Trúng cao nhất", icon: "🎯", bgClass: "bg-green-600 text-white", borderClass: "border-green-600/40", pick: wrPick });
+          rendered.push({ label: "Trúng nhiều", icon: "🎯", bgClass: "bg-green-600 text-white", borderClass: "border-green-600/40", pick: wrPick });
           seen.add(wrPick.strategy);
         }
         if (roiPick && !seen.has(roiPick.strategy)) {
-          rendered.push({ label: "Lỗ ít nhất", icon: "💰", bgClass: "bg-yellow-600 text-white", borderClass: "border-yellow-600/40", pick: roiPick });
+          rendered.push({ label: "Lỗ ít", icon: "💰", bgClass: "bg-yellow-600 text-white", borderClass: "border-yellow-600/40", pick: roiPick });
           seen.add(roiPick.strategy);
         }
         if (balPick && !seen.has(balPick.strategy)) {
@@ -348,14 +343,13 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
           <div className="rounded-xl border p-4" style={{ borderColor: `${props.color}40`, background: `${props.color}08` }}>
             <div className="flex items-center gap-2 mb-3 flex-wrap">
               <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                {rendered.length === 1 ? "Gợi ý tối ưu" : "So sánh 3 gợi ý"}
+                {rendered.length === 1 ? "Gợi ý tối ưu" : "Gợi ý theo 3 góc nhìn"}
               </span>
-              <span className="text-[10px] text-muted-foreground">· Chu kỳ 22 · click để chọn</span>
+              <span className="text-[10px] text-muted-foreground">— bấm để chọn</span>
             </div>
             <div className={`grid gap-2.5 ${rendered.length === 1 ? "grid-cols-1" : rendered.length === 2 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 sm:grid-cols-3"}`}>
               {rendered.map((r, i) => {
                 const isActive = strategy === r.pick.strategy;
-                const rep = getRepresentativeRow(props.slug, r.pick.strategy);
                 const stratLabel = ALL_STRATEGIES.find((s) => s.key === r.pick.strategy)?.label ?? r.pick.strategy;
                 return (
                   <button
@@ -373,30 +367,7 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                       )}
                     </div>
                     <div className="text-sm font-bold mb-1.5 leading-tight">{stratLabel}</div>
-                    {rep ? (
-                      <div className="grid grid-cols-3 gap-1.5 text-[11px] font-mono">
-                        <div>
-                          <div className="text-[9px] text-muted-foreground uppercase tracking-wider">Δ trúng</div>
-                          <div className={rep.deltaWinPp > 0 ? "text-green-600 dark:text-green-400 font-semibold" : rep.deltaWinPp < 0 ? "text-red-600 dark:text-red-400 font-semibold" : ""}>
-                            {rep.deltaWinPp > 0 ? "+" : ""}{rep.deltaWinPp.toFixed(2)}pp
-                          </div>
-                        </div>
-                        <div>
-                          <div className="text-[9px] text-muted-foreground uppercase tracking-wider">Δ ROI</div>
-                          <div className={rep.deltaRoiPct > 0 ? "text-green-600 dark:text-green-400 font-semibold" : rep.deltaRoiPct < 0 ? "text-red-600 dark:text-red-400 font-semibold" : ""}>
-                            {rep.deltaRoiPct > 0 ? "+" : ""}{rep.deltaRoiPct.toFixed(1)}%
-                          </div>
-                        </div>
-                        <div>
-                          <div className="text-[9px] text-muted-foreground uppercase tracking-wider">p-value</div>
-                          <div className={rep.pValue < 0.05 ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-muted-foreground"}>
-                            {rep.pValue < 0.001 ? "<.001" : rep.pValue.toFixed(3)}
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="text-[11px] text-muted-foreground italic">{r.pick.stat}</div>
-                    )}
+                    <div className="text-[11px] text-muted-foreground leading-relaxed">{r.pick.stat}</div>
                   </button>
                 );
               })}
@@ -405,11 +376,11 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         );
       })()}
 
-      {/* Part A: Full algorithm comparison table — sortable, 3 profile tabs. */}
+      {/* Bảng so sánh đầy đủ các thuật toán — có thể sắp xếp, 3 góc nhìn */}
       {(() => {
         const product = CYCLE22_PRODUCTS.find((p) => p.slug === props.slug);
         if (!product) return null;
-        const primaryLabel = product.scope === "matrix" ? "Win %" : "Exact %";
+        const primaryLabel = product.scope === "matrix" ? "Tỉ lệ trúng" : "Tỉ lệ trúng đúng";
         return (
           <AlgorithmComparisonTable
             slug={props.slug}
@@ -422,32 +393,24 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         );
       })()}
 
-      {/* Primary strategy picker — card grid, always visible, above Count+Generate.
-          Per-product filtered via `quickPills`. Each card: emoji + label +
-          description + Δ_win. Pick badges top-left, ✓ indicator top-right
-          when active. Grid collapses to 2 cols on tablet, 1 on mobile. */}
+      {/* Lưới chọn cách chơi — luôn hiển thị, phía trên ô số lượng & nút Tạo */}
       <div className="space-y-2">
         <div className="flex items-baseline justify-between gap-2">
           <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            Chọn chiến lược
+            Chọn cách chơi
           </span>
           <span className="text-[10px] text-muted-foreground hidden sm:inline">
-            💡 Số liệu chi tiết tại bảng so sánh phía trên
+            Xem chi tiết hơn ở bảng so sánh phía trên
           </span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-          {quickPills.map(({ key, deltaWinPp, hasData }) => {
+          {quickPills.map(({ key }) => {
             const meta = ALL_STRATEGIES.find((s) => s.key === key);
             if (!meta) return null;
             const isSelected = strategy === key;
             const isWinratePick = key === productRank.picks.winrate?.strategy;
             const isRoiPick = key === productRank.picks.roi?.strategy;
             const isBalancedPick = key === productRank.picks.balanced?.strategy;
-            const deltaStr = !hasData ? "—" : `${deltaWinPp >= 0 ? "+" : ""}${deltaWinPp.toFixed(2)}pp`;
-            const deltaColor = !hasData ? "text-muted-foreground/50"
-              : deltaWinPp > 0 ? "text-green-600 dark:text-green-400"
-              : deltaWinPp < 0 ? "text-red-600 dark:text-red-400"
-              : "text-muted-foreground";
             return (
               <button
                 key={key}
@@ -457,10 +420,10 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                 }`}
                 style={isSelected ? { borderColor: props.color, backgroundColor: `${props.color}12` } : undefined}
               >
-                {/* Pick badge corner */}
+                {/* Nhãn gợi ý ở góc */}
                 {isWinratePick && (
                   <span className="absolute -top-1.5 left-2 px-1.5 py-0.5 rounded text-[9px] font-bold bg-green-600 text-white shadow-sm">
-                    🎯 Trúng
+                    🎯 Trúng nhiều
                   </span>
                 )}
                 {!isWinratePick && isRoiPick && (
@@ -473,7 +436,7 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                     ⚖ Cân bằng
                   </span>
                 )}
-                {/* Selected check */}
+                {/* Đánh dấu đang chọn */}
                 {isSelected && (
                   <span
                     className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow-sm"
@@ -482,13 +445,10 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                     ✓
                   </span>
                 )}
-                {/* Content */}
+                {/* Nội dung */}
                 <div className="flex items-center gap-2 mt-1">
                   <span className="text-xl">{meta.emoji}</span>
                   <span className="font-bold text-sm flex-1 truncate">{meta.label}</span>
-                  <span className={`text-[11px] font-mono font-semibold ${isSelected ? "" : deltaColor}`} style={isSelected ? { color: props.color } : undefined}>
-                    {deltaStr}
-                  </span>
                 </div>
                 <div className="text-[11px] text-muted-foreground mt-1 leading-relaxed line-clamp-2">
                   {meta.description}
@@ -554,24 +514,24 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
       {hybridWarning && (
         <div className="text-[11px] text-yellow-600 dark:text-yellow-400 flex items-center gap-1.5 -mt-3">
           <span>⚠️</span>
-          <span>Hybrid Parity cần <strong>N≥10</strong> vé để khai thác parity bias (tối ưu N=20).</span>
+          <span>Cách Cân bằng chẵn-lẻ cần ít nhất <strong>10 vé</strong> để phát huy hiệu quả (tốt nhất là 20 vé).</span>
         </div>
       )}
 
-      {/* Disclaimer + advanced (collapse) */}
+      {/* Lưu ý gọn — bấm để xem thêm */}
       <details className="group rounded-lg border border-yellow-600/30 bg-yellow-600/5 px-3 py-2">
         <summary className="cursor-pointer list-none flex items-center gap-2 text-xs text-muted-foreground">
           <span>ℹ️</span>
-          <span>22 chu kỳ · 69 chiến lược · 0 Accept — pick chỉ directional.</span>
+          <span>Đã thử nhiều đợt nghiên cứu — gợi ý dưới đây chỉ là cách &ldquo;có vẻ tốt nhất&rdquo; theo dữ liệu hiện có.</span>
           <span className="ml-auto text-[10px] group-open:hidden">▼</span>
           <span className="ml-auto text-[10px] hidden group-open:inline">▲</span>
         </summary>
         <div className="mt-2 pt-2 border-t border-yellow-600/20 text-[11px] text-muted-foreground leading-relaxed">
-          <p>Picks = composite tournament winner. KHÔNG đảm bảo beat Random. ROI luôn âm.</p>
+          <p>Các gợi ý là cách thắng cuộc đua điểm tổng hợp giữa nhiều cách. KHÔNG đảm bảo trúng nhiều hơn chọn ngẫu nhiên — và lãi/lỗ kỳ vọng vẫn âm trừ trường hợp đặc biệt như C6 (Vé A=B Max 3D Pro).</p>
           <p className="flex gap-3 pt-1">
-            <a href="/research" className="underline">📊 Nghiên cứu</a>
-            <a href="/glossary" className="underline">📚 Thuật ngữ</a>
-            <a href="/algorithms" className="underline">🔬 13 thuật toán</a>
+            <a href="/research" className="underline">Lịch sử nghiên cứu</a>
+            <a href="/glossary" className="underline">Thuật ngữ</a>
+            <a href="/algorithms" className="underline">Tất cả thuật toán</a>
           </p>
         </div>
       </details>
@@ -614,7 +574,7 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                       special: props.slug === "power-535" ? ms.special ?? null : null,
                     };
                   })}
-                  label="🎯 Check-rate"
+                  label="🎯 Tra vé"
                 />
               )}
             </div>
@@ -638,7 +598,7 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                     📐 Tỷ lệ trúng từng giải
                     <Badge variant="secondary" className="text-[10px]">{results.length} vé</Badge>
                   </h4>
-                  <span className="text-[10px] text-muted-foreground">Công thức: 1 − (1 − 1/odds)ⁿ</span>
+                  <span className="text-[10px] text-muted-foreground">Tính cho {results.length} vé khác bộ số</span>
                 </div>
               </div>
               <div className="overflow-x-auto">
@@ -767,7 +727,7 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                     {/* Top pick badge */}
                     {globalIdx === 0 && (
                       <Badge variant="outline" className="hidden sm:flex text-[10px] shrink-0 gap-1" style={{ borderColor: props.color, color: props.color }}>
-                        ⭐ Top pick
+                        ⭐ Bộ đầu
                       </Badge>
                     )}
                   </CardContent>
@@ -795,10 +755,10 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
         </div>
       )}
 
-      {/* Link to historical decisions page */}
+      {/* Liên kết tới trang chi tiết kết luận từng cách */}
       <p className="text-[11px] text-muted-foreground text-center">
-        Xem Decision (Accept/Suggestive/Reject) + các paradigms đã bị loại (Copula, GBM, Pool...) tại{" "}
-        <a href="/algorithms" className="underline hover:text-foreground">/algorithms</a>.
+        Xem chi tiết kết luận từng cách (đã xác nhận / có dấu hiệu / đã loại) tại{" "}
+        <a href="/algorithms" className="underline hover:text-foreground">trang Thuật toán</a>.
       </p>
 
       {/* Disclaimer */}

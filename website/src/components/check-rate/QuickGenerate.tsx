@@ -130,26 +130,26 @@ export function QuickGenerate({ onAppend }: Props) {
   return (
     <div className="rounded-lg border p-4 space-y-3">
       <div className="flex items-center gap-2">
-        <h3 className="text-sm font-semibold">Sinh gợi ý nhanh</h3>
-        <span className="text-xs text-muted-foreground">— tự động điền CSV từ thuật toán có sẵn</span>
+        <h3 className="text-sm font-semibold">Sinh nhanh các bộ số để tra</h3>
+        <span className="text-xs text-muted-foreground">— tự sinh các bộ số bằng thuật toán rồi điền sẵn vào ô tra phía dưới</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
         <label className="flex flex-col gap-1 text-sm">
-          <span className="text-xs text-muted-foreground">Trò chơi</span>
+          <span className="text-xs text-muted-foreground">Sản phẩm</span>
           <select
             className="rounded-md border bg-background px-2 py-1.5 text-sm"
             value={game}
             onChange={(e) => setGame(e.target.value)}
           >
-            <optgroup label="Matrix">
+            <optgroup label="Power 6/55, 6/45, 5/35">
               {MATRIX_PRODUCTS.map((p) => (
                 <option key={p.key} value={p.key}>
                   {p.emoji} {p.name} {supported.has(p.key) ? "" : "(chưa hỗ trợ)"}
                 </option>
               ))}
             </optgroup>
-            <optgroup label="3D">
+            <optgroup label="Max 3D & 3D Pro">
               {THREE_D_PRODUCTS.map((p) => (
                 <option key={p.key} value={p.key}>
                   {p.emoji} {p.name} {supported.has(p.key) ? "" : "(chưa hỗ trợ)"}
@@ -160,7 +160,7 @@ export function QuickGenerate({ onAppend }: Props) {
         </label>
 
         <label className="flex flex-col gap-1 text-sm md:col-span-2">
-          <span className="text-xs text-muted-foreground">Thuật toán</span>
+          <span className="text-xs text-muted-foreground">Cách chọn số</span>
           <select
             className="rounded-md border bg-background px-2 py-1.5 text-sm"
             value={strategy}
@@ -189,7 +189,7 @@ export function QuickGenerate({ onAppend }: Props) {
 
       <div className="flex items-end gap-2 flex-wrap">
         <label className="flex flex-col gap-1 text-sm flex-1 min-w-[160px]">
-          <span className="text-xs text-muted-foreground">Nhãn thuật toán (tùy chọn)</span>
+          <span className="text-xs text-muted-foreground">Nhãn riêng cho lần này (không bắt buộc)</span>
           <Input
             placeholder={strategy}
             value={label}
@@ -197,14 +197,14 @@ export function QuickGenerate({ onAppend }: Props) {
           />
         </label>
         <Button onClick={handleGenerate} disabled={busy || !isSupported}>
-          {busy ? "Đang sinh…" : "Sinh + append vào CSV"}
+          {busy ? "Đang sinh…" : "Sinh và thêm vào ô tra"}
         </Button>
       </div>
 
       {!isSupported && (
         <div className="text-xs text-muted-foreground">
-          <Badge variant="outline">{game}</Badge> chưa có evaluator — bạn vẫn có thể sinh tickets,
-          nhưng kết quả check-rate sẽ báo &ldquo;chưa hỗ trợ&rdquo;. Đợi các phase sau.
+          <Badge variant="outline">{game}</Badge> hiện chưa hỗ trợ tra trúng — anh vẫn sinh được các
+          bộ số nhưng phần tra sẽ báo &ldquo;chưa hỗ trợ&rdquo; (sẽ bổ sung sau).
         </div>
       )}
 

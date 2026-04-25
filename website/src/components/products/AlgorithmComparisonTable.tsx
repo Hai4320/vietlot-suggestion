@@ -26,22 +26,22 @@ const DEFAULT_DIR: Record<SortKey, SortDir> = {
 
 const PROFILE_META: Record<C22ProfileName, { label: string; icon: string; bg: string; description: string }> = {
   winrate: {
-    label: "Trúng",
+    label: "Trúng nhiều",
     icon: "🎯",
     bg: "bg-green-600",
-    description: "Trọng số 60% Δ_win / 20% Δ_ROI / 10% Sharpe / 10% −log(p)",
+    description: "Ưu tiên cách giúp trúng nhiều nhất",
   },
   roi: {
     label: "Lỗ ít",
     icon: "💰",
     bg: "bg-yellow-600",
-    description: "Trọng số 20% Δ_win / 60% Δ_ROI / 10% Sharpe / 10% −log(p)",
+    description: "Ưu tiên cách giúp lỗ ít nhất",
   },
   balanced: {
     label: "Cân bằng",
     icon: "⚖",
     bg: "bg-slate-600",
-    description: "Trọng số 40% Δ_win / 40% Δ_ROI / 10% Sharpe / 10% −log(p)",
+    description: "Cân bằng giữa trúng nhiều và lỗ ít",
   },
 };
 
@@ -175,16 +175,16 @@ export function AlgorithmComparisonTable({
     <details className="group rounded-xl border" style={{ borderColor: `${color}40`, background: `${color}04` }} open>
       <summary className="cursor-pointer list-none px-4 py-3 flex items-center gap-2 text-sm font-semibold">
         <span>📊</span>
-        <span>So sánh các thuật toán</span>
+        <span>So sánh các cách chơi</span>
         <span className="text-[11px] font-normal text-muted-foreground">
-          · {rows.filter((r) => !r.isBaseline).length} chiến lược · vs Random baseline
+          · {rows.filter((r) => !r.isBaseline).length} cách · so với chọn ngẫu nhiên
         </span>
         <span className="ml-auto text-[10px] text-muted-foreground group-open:hidden">▼ mở</span>
         <span className="ml-auto text-[10px] text-muted-foreground hidden group-open:inline">▲ thu gọn</span>
       </summary>
 
       <div className="px-4 pb-4 pt-1 space-y-3">
-        {/* Profile tabs — pick which composite scoring to sort by */}
+        {/* Tab sắp xếp — chọn góc nhìn để xếp hạng */}
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Sắp xếp theo:</span>
           {(["winrate", "roi", "balanced"] as C22ProfileName[]).map((p) => {
@@ -205,24 +205,23 @@ export function AlgorithmComparisonTable({
             );
           })}
           <span className="text-[10px] text-muted-foreground ml-auto hidden sm:inline">
-            Click row để chọn thuật toán
+            Bấm vào hàng để chọn cách
           </span>
         </div>
 
-        {/* The main comparison table */}
+        {/* Bảng so sánh chính */}
         <div className="overflow-x-auto rounded-lg border">
           <table className="w-full text-xs font-mono">
             <thead className="bg-muted/40">
               <tr className="border-b">
-                <SortHead {...sortProps} k="rank" label="#" hint="Rank theo composite profile đang chọn" />
-                <th className="text-left px-2 py-1.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider whitespace-nowrap">Thuật toán</th>
-                <SortHead {...sortProps} k="deltaWin" label="Δ trúng (pp)" hint="Chênh lệch win rate so với Random, đơn vị điểm phần trăm" />
-                <SortHead {...sortProps} k="rawWin" label={primaryMetricLabel} hint="Tỷ lệ trúng tuyệt đối trên backtest" />
-                <SortHead {...sortProps} k="deltaRoi" label="Δ ROI (%)" hint="Chênh lệch ROI so với Random, đơn vị phần trăm" />
-                <SortHead {...sortProps} k="rawRoi" label="ROI%" hint="ROI tuyệt đối (vẫn âm cho mọi strategy theo EV game)" />
-                <SortHead {...sortProps} k="pValue" label="p" hint="p-value z-test vs Random; p<0.05 = nominal significant" />
-                <SortHead {...sortProps} k="sharpe" label="Sharpe" hint="Sharpe ratio của chuỗi Δ_win per-draw" />
-                <SortHead {...sortProps} k="composite" label="Composite" hint="Điểm tổng hợp z-normalized theo profile đang chọn" />
+                <SortHead {...sortProps} k="rank" label="#" hint="Thứ hạng theo góc nhìn đang chọn" />
+                <th className="text-left px-2 py-1.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider whitespace-nowrap">Cách chơi</th>
+                <SortHead {...sortProps} k="deltaWin" label="Trúng so với ngẫu nhiên" hint="Tỉ lệ trúng tăng/giảm bao nhiêu so với chọn ngẫu nhiên (đơn vị điểm phần trăm)" />
+                <SortHead {...sortProps} k="rawWin" label={primaryMetricLabel} hint="Tỉ lệ trúng tuyệt đối trên dữ liệu mô phỏng" />
+                <SortHead {...sortProps} k="deltaRoi" label="Lãi/lỗ so với ngẫu nhiên" hint="Lãi/lỗ tăng/giảm bao nhiêu so với chọn ngẫu nhiên (đơn vị phần trăm)" />
+                <SortHead {...sortProps} k="rawRoi" label="Lãi/lỗ %" hint="Lãi/lỗ tuyệt đối — gần như luôn âm vì nhà cái có lợi thế" />
+                <SortHead {...sortProps} k="pValue" label="Tin cậy" hint="Mức độ tin cậy thống kê — số càng nhỏ thì kết quả càng chắc chắn không phải may rủi" />
+                <SortHead {...sortProps} k="composite" label="Điểm tổng hợp" hint="Điểm tổng hợp xếp hạng theo góc nhìn đang chọn" />
               </tr>
             </thead>
             <tbody>
@@ -251,17 +250,17 @@ export function AlgorithmComparisonTable({
                       <span className="flex items-center gap-1.5 flex-wrap">
                         <span className={`truncate ${r.isBaseline ? "" : "font-medium"}`}>{r.label}</span>
                         {isWinratePick && (
-                          <Badge className="bg-green-600 text-white text-[9px] px-1 py-0 h-4" title="Pick Trúng">
+                          <Badge className="bg-green-600 text-white text-[9px] px-1 py-0 h-4" title="Gợi ý 'Trúng nhiều'">
                             🎯
                           </Badge>
                         )}
                         {isRoiPick && !isWinratePick && (
-                          <Badge className="bg-yellow-600 text-white text-[9px] px-1 py-0 h-4" title="Pick Lỗ ít">
+                          <Badge className="bg-yellow-600 text-white text-[9px] px-1 py-0 h-4" title="Gợi ý 'Lỗ ít'">
                             💰
                           </Badge>
                         )}
                         {isBalancedPick && !isWinratePick && !isRoiPick && (
-                          <Badge className="bg-slate-600 text-white text-[9px] px-1 py-0 h-4" title="Pick Cân bằng">
+                          <Badge className="bg-slate-600 text-white text-[9px] px-1 py-0 h-4" title="Gợi ý 'Cân bằng'">
                             ⚖
                           </Badge>
                         )}
@@ -273,14 +272,14 @@ export function AlgorithmComparisonTable({
                         {!r.isBaseline && !r.uiKey && (
                           <span
                             className="text-[9px] px-1 py-0.5 rounded bg-amber-500/15 text-amber-700 dark:text-amber-400 cursor-help"
-                            title={researchOnlyReason(r.jsonName) ?? "Chỉ có trong backtest Python, chưa port UI"}
+                            title={researchOnlyReason(r.jsonName) ?? "Chỉ có trong nghiên cứu — chưa tích hợp lên giao diện."}
                           >
-                            📚 Nghiên cứu
+                            📚 Chỉ có trong nghiên cứu
                           </span>
                         )}
                         {!r.pickEligible && !r.isBaseline && (
-                          <span className="text-[9px] px-1 py-0.5 rounded bg-red-500/10 text-red-600 dark:text-red-400" title="Excluded from picks per MEASUREMENT §4">
-                            excluded
+                          <span className="text-[9px] px-1 py-0.5 rounded bg-red-500/10 text-red-600 dark:text-red-400" title="Cách này không được xét vào danh sách gợi ý theo tiêu chí đo lường.">
+                            không xét
                           </span>
                         )}
                       </span>
@@ -308,7 +307,6 @@ export function AlgorithmComparisonTable({
                     }`}>
                       {formatPValue(r.pValue)}
                     </td>
-                    <td className="text-right px-2 py-1 text-muted-foreground">{r.sharpe.toFixed(2)}</td>
                     <td className={`text-right px-2 py-1 font-semibold ${
                       r.isBaseline ? ""
                         : r.composite[profile] > 0 ? "text-foreground"
@@ -323,23 +321,23 @@ export function AlgorithmComparisonTable({
           </table>
         </div>
 
-        {/* Expand/collapse toggle + legend */}
+        {/* Chú giải + nút xem thêm */}
         <div className="flex items-center justify-between gap-2 flex-wrap text-[10px] text-muted-foreground">
           <div className="flex items-center gap-2 flex-wrap">
-            <span>🎯 Trúng</span>
+            <span>🎯 Trúng nhiều</span>
             <span>💰 Lỗ ít</span>
             <span>⚖ Cân bằng</span>
-            <span className="text-amber-700 dark:text-amber-400" title="Chỉ có trong backtest Python, chưa port vào UI — không chọn được. Hover badge để xem lý do cụ thể.">
-              📚 Nghiên cứu = không click được
+            <span className="text-amber-700 dark:text-amber-400" title="Cách chỉ có trong nghiên cứu nội bộ — chưa tích hợp lên giao diện. Không bấm chọn được.">
+              📚 Chỉ có trong nghiên cứu
             </span>
-            <span className="opacity-50">· Δ = vs Random · pp = điểm phần trăm · p&lt;0.05 tô xanh</span>
+            <span className="opacity-50">· So sánh đều quy về &ldquo;chọn ngẫu nhiên&rdquo; · Cột &ldquo;Tin cậy&rdquo; nhỏ hơn 0.05 sẽ tô xanh</span>
           </div>
           {hiddenCount > 0 && (
             <button
               onClick={() => setExpanded((e) => !e)}
               className="text-[11px] px-2 py-0.5 rounded-md border bg-background hover:bg-muted transition-colors font-medium"
             >
-              {expanded ? "Ẩn bớt" : `Xem thêm ${hiddenCount} thuật toán`}
+              {expanded ? "Ẩn bớt" : `Xem thêm ${hiddenCount} cách`}
             </button>
           )}
         </div>
