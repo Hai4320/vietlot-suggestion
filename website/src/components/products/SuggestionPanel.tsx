@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { NumberBall } from "./NumberBall";
 import { CopyAsCheckRateCsv } from "@/components/check-rate/CopyAsCheckRateCsv";
+import { SaveToTestFolder, type SaveTestTicket } from "@/components/check-rate/SaveToTestFolder";
 import { AlgorithmComparisonTable } from "./AlgorithmComparisonTable";
 import { AlgorithmLiftSummary } from "./AlgorithmLiftSummary";
 import type { SuggestionStrategy, SuggestionSet, ThreeDSuggestionSet } from "@/lib/types";
@@ -577,6 +578,35 @@ export function SuggestionPanel(props: SuggestionPanelProps) {
                   label="🎯 Tra vé"
                 />
               )}
+              {(() => {
+                // Quy đổi slug → tên trò trong check-rate (max-3d → 3d, max-3d-pro → 3d_pro)
+                const game =
+                  props.slug === "max-3d"
+                    ? "3d"
+                    : props.slug === "max-3d-pro"
+                      ? "3d_pro"
+                      : props.slug.replace(/-/g, "_");
+                const tickets: SaveTestTicket[] =
+                  props.type === "matrix"
+                    ? results.map((set) => {
+                        const ms = set as SuggestionSet;
+                        return {
+                          numbers: ms.numbers,
+                          special: props.slug === "power-535" ? ms.special ?? null : null,
+                        };
+                      })
+                    : results.map((set) => {
+                        const ts = set as ThreeDSuggestionSet;
+                        return { numbers: ts.numbers, special: null };
+                      });
+                return (
+                  <SaveToTestFolder
+                    game={game}
+                    algorithm={strategy}
+                    tickets={tickets}
+                  />
+                );
+              })()}
             </div>
           </div>
 
