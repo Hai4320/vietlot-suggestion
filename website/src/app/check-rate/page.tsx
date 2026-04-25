@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CsvInput } from "@/components/check-rate/CsvInput";
 import { QuickGenerate } from "@/components/check-rate/QuickGenerate";
 import { ResultCard } from "@/components/check-rate/ResultCard";
+import { SummaryCard } from "@/components/check-rate/SummaryCard";
 import { Badge } from "@/components/ui/badge";
 import {
   CsvFormatError,
@@ -181,6 +182,18 @@ export default function CheckRatePage() {
 
       {reports && (
         <section className="space-y-4">
+          {/* Tổng hợp toàn bộ — chỉ hiển thị khi có ít nhất 1 nhóm tra được */}
+          {(() => {
+            const supportedGroups = reports
+              .filter((r): r is GroupReport => !r.unsupported)
+              .map((r) => {
+                const [game, algorithm] = r.key.split("|");
+                return { key: r.key, game, algorithm, result: r.result };
+              });
+            return supportedGroups.length > 0 ? <SummaryCard groups={supportedGroups} /> : null;
+          })()}
+
+          {/* Chi tiết từng nhóm */}
           {reports.map((r) =>
             r.unsupported ? (
               <div
