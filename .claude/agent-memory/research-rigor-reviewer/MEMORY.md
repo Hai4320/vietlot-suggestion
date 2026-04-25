@@ -1,0 +1,5 @@
+- [Project context](project_vietlott_suggestion.md) — vietlott-data ships a "suggestion engine" + check-rate UI; user is actively tracking generated tickets against future real draws
+- [Power 5/35 baseline](domain_power535_iid.md) — empirical chi-square (p=0.70 main, p=0.81 sp on 551 draws) is consistent with i.i.d. uniform; theoretical house edge ~74%
+- [Recurring fallacies](fallacies_recurring.md) — gambler's fallacy in long_absence/cold; reverse gambler's fallacy in hot/exp_decay; Texas sharpshooter in strategy comparison
+- [Backtest pitfalls](backtest_pitfalls.md) — the suggest.py backtest only credits prize for "best ticket per draw" while charging cost for all; the readme ROI table shows a single 5-match win driving 1800% "profit" (variance, not edge)
+- [User goal & ethics](user_lottery_tooling_ethics.md) — user is building tooling that, regardless of intent, encourages bet-tracking behavior; reviewer should call this out plainly
