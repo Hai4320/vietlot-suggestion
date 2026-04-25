@@ -38,12 +38,14 @@ export function Navbar() {
       <div className="flex h-14 items-center px-4 gap-4">
         {/* Mobile hamburger */}
         <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger className="lg:hidden">
-            <Button variant="ghost" size="icon" className="shrink-0">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </Button>
+          <SheetTrigger
+            render={
+              <Button variant="ghost" size="icon" className="lg:hidden shrink-0" />
+            }
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
           </SheetTrigger>
           <SheetContent side="left" className="w-64 p-0">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
