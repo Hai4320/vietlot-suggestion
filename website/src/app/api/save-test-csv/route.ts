@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     await writeFile(fullPath, csv, "utf-8");
 
     // Đếm số vé thật: tổng dòng không rỗng - 1 (trừ header)
-    const ticketCount = Math.max(0, csv.split(/\r?\n/).filter((l) => l.length > 0).length - 1);
+    const ticketCount = Math.max(0, csv.split(/\r?\n/).filter((l: string) => l.length > 0).length - 1);
 
     return NextResponse.json({
       success: true,

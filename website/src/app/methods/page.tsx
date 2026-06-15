@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -391,9 +391,8 @@ export default function MethodsPage() {
                 const expanded = expandedIds.has(m.id);
                 const selected_ = selectedIds.has(m.id);
                 return (
-                  <>
+                  <Fragment key={m.id}>
                     <tr
-                      key={m.id}
                       className={`border-b hover:bg-muted/30 cursor-pointer ${m.status === "accept" ? "bg-green-500/5" : ""} ${selected_ ? "bg-primary/5" : ""}`}
                       onClick={() => toggleExpanded(m.id)}
                     >
@@ -506,7 +505,7 @@ export default function MethodsPage() {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </Fragment>
                 );
               })}
             </tbody>
