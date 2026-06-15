@@ -12,14 +12,14 @@ The base config is at `vietlott.config.products.ProductConfig`, with settings mo
 
 Key points:
 - cookies used to needed to crawl but not anymore (disabled for all products)
-- data on website are in [pages](https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-655) so the fetching are designed around that mechanism (also the detect missing and back-filled mechanism at [missing.py](https://github.com/vietvudanh/vietlott-data/blob/89c6aaa632011c6ef248e43178f38e05daeee1b9/src/vietlott/cli/missing.py#L22))  
+- data on website are in [pages](https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-655) so the fetching are designed around that mechanism (also the detect missing and back-filled mechanism at [missing.py](https://github.com/Hai4320/vietlot-suggestion/blob/89c6aaa632011c6ef248e43178f38e05daeee1b9/src/vietlott/cli/missing.py#L22))  
 
 ## runner
 
-The project uses Github Actions with [config](https://github.com/vietvudanh/vietlott-data/blob/master/.github/workflows/crawl.yaml) 
+The project uses Github Actions with [config](https://github.com/Hai4320/vietlot-suggestion/blob/master/.github/workflows/crawl.yaml) 
 to schedule the run daily to crawl & push to itself. So no server required.
 
-To make it easier (for me) to dev, the [binary file](https://github.com/vietvudanh/vietlott-data/blob/master/.github/workflows/crawl.yaml)
+To make it easier (for me) to dev, the [binary file](https://github.com/Hai4320/vietlot-suggestion/blob/master/.github/workflows/crawl.yaml)
 set `PYTHONPATH` to `/src`, but it can and should be using installed cli:
 
 ```toml

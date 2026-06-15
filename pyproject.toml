@@ -8,8 +8,8 @@ where = ["src"] # list of folders that contain the packages (["."] by default)
 [project]
 name = "vietlott-data"
 version = "0.2.6"
-description = "crawl & store vietlott data"
-authors = [{ name = "Viet Vu", email = "vietvudanh@gmail.com" }]
+description = "Vietlott Analytics — crawl, analyze, and suggest numbers for the Vietnamese lottery"
+authors = [{ name = "Duc Hai", email = "duchai4320@gmail.com" }]
 dependencies = [
     "bs4",
     "polars",
@@ -28,8 +28,8 @@ readme = "README.md"
 license = { text = "MIT" }
 
 [project.urls]
-Homepage = "https://github.com/vietvudanh/vietlott-data"
-Issues = "https://github.com/vietvudanh/vietlott-data/issues"
+Homepage = "https://github.com/Hai4320/vietlot-suggestion"
+Issues = "https://github.com/Hai4320/vietlot-suggestion/issues"
 
 
 [project.optional-dependencies]
@@ -42,8 +42,6 @@ vietlott-missing = "vietlott.cli.missing:detect_missing_data"
 vietlott-suggest = "vietlott.cli.suggest:suggest"
 vietlott-check-rate = "vietlott.cli.check_rate:check_rate"
 vietlott-budget = "vietlott.cli.budget:budget"
-vietlott-render-readme = "src.render_readme:main"
-vietlott-render-docs = "src.render_docs:main"
 
 [tool.ruff]
 line-length = 120
