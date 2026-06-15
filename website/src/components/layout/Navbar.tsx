@@ -34,7 +34,7 @@ export function Navbar() {
   }, [crawling, router]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-border bg-card/70 backdrop-blur-md">
       <div className="flex h-14 items-center px-4 gap-4">
         {/* Mobile hamburger */}
         <Sheet open={open} onOpenChange={setOpen}>
@@ -50,49 +50,51 @@ export function Navbar() {
           <SheetContent side="left" className="w-64 p-0">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
             <nav className="flex flex-col gap-1 p-4 pt-12">
-              <Link href="/" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent", pathname === "/" && "bg-accent")}>
+              <Link href="/" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-foreground", pathname === "/" && "bg-primary/10 text-primary font-medium")}>
                 🏠 Trang chủ
               </Link>
-              <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Xổ số Ma trận</div>
+              <div className="terminal-label mt-5 mb-2 px-3">Xổ số Ma trận</div>
               {MATRIX_PRODUCTS.map((p) => (
-                <Link key={p.slug} href={`/${p.slug}`} onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === `/${p.slug}` && "bg-accent font-medium")}>
+                <Link key={p.slug} href={`/${p.slug}`} onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground", pathname === `/${p.slug}` && "bg-primary/10 text-primary font-medium")}>
                   <span>{p.emoji}</span><span>{p.name}</span>
                 </Link>
               ))}
-              <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Xổ số Dãy số</div>
+              <div className="terminal-label mt-5 mb-2 px-3">Xổ số Dãy số</div>
               {THREE_D_PRODUCTS.map((p) => (
-                <Link key={p.slug} href={`/${p.slug}`} onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === `/${p.slug}` && "bg-accent font-medium")}>
+                <Link key={p.slug} href={`/${p.slug}`} onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground", pathname === `/${p.slug}` && "bg-primary/10 text-primary font-medium")}>
                   <span>{p.emoji}</span><span>{p.name}</span>
                 </Link>
               ))}
-              <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Công cụ</div>
-              <Link href="/suggest" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/suggest" && "bg-accent font-medium")}>
+              <div className="terminal-label mt-5 mb-2 px-3">Công cụ</div>
+              <Link href="/suggest" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground", pathname === "/suggest" && "bg-primary/10 text-primary font-medium")}>
                 <span>✨</span><span>Gợi ý số</span>
               </Link>
-              <Link href="/check-rate" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/check-rate" && "bg-accent font-medium")}>
+              <Link href="/check-rate" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground", pathname === "/check-rate" && "bg-primary/10 text-primary font-medium")}>
                 <span>🎯</span><span>Tra vé đã trúng chưa</span>
               </Link>
-              <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Nghiên cứu</div>
-              <Link href="/methods" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/methods" && "bg-accent font-medium")}>
+              <div className="terminal-label mt-5 mb-2 px-3">Nghiên cứu</div>
+              <Link href="/methods" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground", pathname === "/methods" && "bg-primary/10 text-primary font-medium")}>
                 <span>📋</span><span>Cách chơi (73)</span>
               </Link>
-              <Link href="/algorithms" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/algorithms" && "bg-accent font-medium")}>
+              <Link href="/algorithms" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground", pathname === "/algorithms" && "bg-primary/10 text-primary font-medium")}>
                 <span>🔬</span><span>Thuật toán</span>
               </Link>
-              <Link href="/research" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/research" && "bg-accent font-medium")}>
+              <Link href="/research" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground", pathname === "/research" && "bg-primary/10 text-primary font-medium")}>
                 <span>📊</span><span>Nghiên cứu</span>
               </Link>
-              <Link href="/glossary" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", pathname === "/glossary" && "bg-accent font-medium")}>
+              <Link href="/glossary" onClick={() => setOpen(false)} className={cn("flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground", pathname === "/glossary" && "bg-primary/10 text-primary font-medium")}>
                 <span>📚</span><span>Thuật ngữ</span>
               </Link>
             </nav>
           </SheetContent>
         </Sheet>
 
-        {/* Title */}
-        <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-          <span className="text-primary">Vietlott</span>
-          <span className="hidden sm:inline text-muted-foreground font-normal text-sm">Analytics</span>
+        {/* Title — terminal prompt */}
+        <Link href="/" className="group flex items-baseline gap-1.5 font-mono font-bold text-lg tracking-tight">
+          <span className="text-primary">❯</span>
+          <span>vietlott</span>
+          <span className="hidden sm:inline text-muted-foreground font-normal text-sm">/analytics</span>
+          <span className="ml-0.5 inline-block h-4 w-2 translate-y-0.5 bg-primary/80 animate-pulse" aria-hidden />
         </Link>
 
         <div className="flex-1" />
@@ -104,8 +106,8 @@ export function Navbar() {
               key={p.slug}
               href={`/${p.slug}`}
               className={cn(
-                "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
-                pathname === `/${p.slug}` && "bg-accent font-medium text-primary"
+                "px-3 py-1.5 rounded-sm text-sm font-mono transition-colors hover:bg-accent hover:text-foreground",
+                pathname === `/${p.slug}` && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
               )}
             >
               {p.name}
@@ -117,8 +119,8 @@ export function Navbar() {
               key={p.slug}
               href={`/${p.slug}`}
               className={cn(
-                "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
-                pathname === `/${p.slug}` && "bg-accent font-medium text-primary"
+                "px-3 py-1.5 rounded-sm text-sm font-mono transition-colors hover:bg-accent hover:text-foreground",
+                pathname === `/${p.slug}` && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
               )}
             >
               {p.name}
@@ -128,8 +130,8 @@ export function Navbar() {
           <Link
             href="/suggest"
             className={cn(
-              "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
-              pathname === "/suggest" && "bg-accent font-medium text-primary"
+              "px-3 py-1.5 rounded-sm text-sm font-mono transition-colors hover:bg-accent hover:text-foreground",
+              pathname === "/suggest" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
             )}
           >
             ✨ Gợi ý
@@ -137,8 +139,8 @@ export function Navbar() {
           <Link
             href="/check-rate"
             className={cn(
-              "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
-              pathname === "/check-rate" && "bg-accent font-medium text-primary"
+              "px-3 py-1.5 rounded-sm text-sm font-mono transition-colors hover:bg-accent hover:text-foreground",
+              pathname === "/check-rate" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
             )}
           >
             🎯 Tra vé
@@ -146,8 +148,8 @@ export function Navbar() {
           <Link
             href="/methods"
             className={cn(
-              "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
-              pathname === "/methods" && "bg-accent font-medium text-primary"
+              "px-3 py-1.5 rounded-sm text-sm font-mono transition-colors hover:bg-accent hover:text-foreground",
+              pathname === "/methods" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
             )}
           >
             📋 Cách chơi
@@ -155,8 +157,8 @@ export function Navbar() {
           <Link
             href="/algorithms"
             className={cn(
-              "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
-              pathname === "/algorithms" && "bg-accent font-medium text-primary"
+              "px-3 py-1.5 rounded-sm text-sm font-mono transition-colors hover:bg-accent hover:text-foreground",
+              pathname === "/algorithms" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
             )}
           >
             🔬 Thuật toán
@@ -164,8 +166,8 @@ export function Navbar() {
           <Link
             href="/research"
             className={cn(
-              "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
-              pathname === "/research" && "bg-accent font-medium text-primary"
+              "px-3 py-1.5 rounded-sm text-sm font-mono transition-colors hover:bg-accent hover:text-foreground",
+              pathname === "/research" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
             )}
           >
             📊 Nghiên cứu
@@ -173,8 +175,8 @@ export function Navbar() {
           <Link
             href="/glossary"
             className={cn(
-              "px-3 py-1.5 rounded-md text-sm transition-colors hover:bg-accent",
-              pathname === "/glossary" && "bg-accent font-medium text-primary"
+              "px-3 py-1.5 rounded-sm text-sm font-mono transition-colors hover:bg-accent hover:text-foreground",
+              pathname === "/glossary" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
             )}
           >
             📚 Thuật ngữ

@@ -2,6 +2,7 @@ import { MATRIX_PRODUCTS, THREE_D_PRODUCTS, PRODUCTS } from "@/lib/products-conf
 import { ProductCard } from "@/components/products/ProductCard";
 import type { MatrixDraw, ThreeDDraw } from "@/lib/types";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import fsNode from "fs";
 import path from "path";
 
@@ -34,51 +35,55 @@ export default function HomePage() {
   const snaps = getProductSnapshots();
   const totalDraws = Object.values(snaps).reduce((s, m) => s + m.totalDraws, 0);
 
+  const lastUpdated = Object.values(snaps)
+    .map((s) => s.endDate)
+    .filter(Boolean)
+    .sort()
+    .at(-1);
+
   return (
-    <div className="space-y-10">
-      {/* Hero */}
-      <div className="relative text-center py-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent rounded-2xl -z-10" />
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-3">
-          <span className="text-primary">Vietlott</span> Analytics
+    <div className="space-y-14">
+      {/* Hero — terminal readout */}
+      <section className="reveal" style={{ "--i": 0 } as CSSProperties}>
+        <p className="terminal-label mb-4 flex items-center gap-2">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+          // vietlott data terminal
+        </p>
+        <h1 className="font-mono text-4xl md:text-6xl font-bold tracking-tighter leading-[1.05]">
+          Phân tích xổ số
+          <br />
+          <span className="text-primary">không hứa hẹn</span>, chỉ dữ liệu.
         </h1>
-        <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-          Thống kê tần suất, biểu đồ xu hướng và gợi ý số may mắn cho các sản
-          phẩm xổ số Vietlott.
+        <p className="mt-5 max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed">
+          Tần suất, xu hướng và backtest gợi ý số cho mọi sản phẩm Vietlott —
+          mọi con số bên dưới đều bắt nguồn từ kết quả quay thực tế đã được kiểm chứng.
         </p>
 
-        {/* Stats strip */}
-        <div className="flex justify-center gap-8 mt-6">
-          <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">{PRODUCTS.length}</div>
-            <div className="text-xs text-muted-foreground mt-0.5">Sản phẩm</div>
-          </div>
-          <div className="h-10 w-px bg-border" />
-          <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">
-              {totalDraws.toLocaleString()}
+        {/* Stat readout panel */}
+        <dl className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-md border border-border bg-border">
+          {[
+            { v: PRODUCTS.length.toString(), l: "Sản phẩm" },
+            { v: totalDraws.toLocaleString("vi-VN"), l: "Kỳ quay đã lưu" },
+            { v: "6", l: "Loại thống kê" },
+            { v: lastUpdated ?? "—", l: "Cập nhật mới nhất" },
+          ].map((s) => (
+            <div key={s.l} className="bg-card px-5 py-4">
+              <dt className="terminal-label">{s.l}</dt>
+              <dd className="mt-1.5 font-mono text-2xl font-bold tabular-nums text-primary">
+                {s.v}
+              </dd>
             </div>
-            <div className="text-xs text-muted-foreground mt-0.5">Kỳ quay số</div>
-          </div>
-          <div className="h-10 w-px bg-border" />
-          <div className="text-center">
-            <div className="text-3xl font-extrabold text-primary">6</div>
-            <div className="text-xs text-muted-foreground mt-0.5">Loại thống kê</div>
-          </div>
-        </div>
-      </div>
+          ))}
+        </dl>
+      </section>
 
       {/* Matrix Products */}
-      <section>
-        <div className="flex items-center gap-3 mb-5">
-          <div className="h-8 w-1 rounded-full bg-red-500" />
-          <div>
-            <h2 className="text-xl font-bold">Xổ số Ma trận</h2>
-            <p className="text-sm text-muted-foreground">
-              Săn Jackpot lên đến hàng trăm tỷ đồng
-            </p>
-          </div>
-        </div>
+      <section className="reveal" style={{ "--i": 1 } as CSSProperties}>
+        <SectionHeader
+          index="01"
+          title="Xổ số Ma trận"
+          subtitle="Săn Jackpot lên đến hàng trăm tỷ đồng"
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {MATRIX_PRODUCTS.map((p) => (
             <ProductCard
@@ -93,16 +98,12 @@ export default function HomePage() {
       </section>
 
       {/* 3D Products */}
-      <section>
-        <div className="flex items-center gap-3 mb-5">
-          <div className="h-8 w-1 rounded-full bg-purple-500" />
-          <div>
-            <h2 className="text-xl font-bold">Xổ số Dãy số</h2>
-            <p className="text-sm text-muted-foreground">
-              Giải cố định, nhiều hạng giải, dễ dò kết quả
-            </p>
-          </div>
-        </div>
+      <section className="reveal" style={{ "--i": 2 } as CSSProperties}>
+        <SectionHeader
+          index="02"
+          title="Xổ số Dãy số"
+          subtitle="Giải cố định, nhiều hạng giải, dễ dò kết quả"
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {THREE_D_PRODUCTS.map((p) => (
             <ProductCard
@@ -115,58 +116,86 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
       {/* Khám phá thêm */}
-      <section>
-        <div className="flex items-center gap-3 mb-5">
-          <div className="h-8 w-1 rounded-full bg-green-500" />
-          <div>
-            <h2 className="text-xl font-bold">Khám phá thêm</h2>
-            <p className="text-sm text-muted-foreground">
-              Danh mục đầy đủ các cách chơi và kết quả nghiên cứu của dự án
-            </p>
-          </div>
-        </div>
+      <section className="reveal" style={{ "--i": 3 } as CSSProperties}>
+        <SectionHeader
+          index="03"
+          title="Khám phá thêm"
+          subtitle="Danh mục đầy đủ các cách chơi và kết quả nghiên cứu của dự án"
+        />
         <div className="grid gap-4 md:grid-cols-2">
-          <Link
+          <ExploreCard
             href="/methods"
-            className="group flex items-center gap-4 rounded-xl border border-border p-5 transition-all hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
-          >
-            <div className="shrink-0 w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-              📋
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold group-hover:text-primary transition-colors">
-                Danh mục 73 cách chơi Vietlott
-              </h3>
-              <p className="text-sm text-muted-foreground mt-1">
-                Đầy đủ các cách đã được thử và phân loại — bao gồm 1 cách đầu tiên có lợi thế thật.
-              </p>
-            </div>
-            <svg className="shrink-0 w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
-            </svg>
-          </Link>
-          <Link
+            emoji="📋"
+            title="Danh mục 73 cách chơi Vietlott"
+            desc="Đầy đủ các cách đã được thử và phân loại — bao gồm 1 cách đầu tiên có lợi thế thật."
+          />
+          <ExploreCard
             href="/algorithms"
-            className="group flex items-center gap-4 rounded-xl border border-border p-5 transition-all hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
-          >
-            <div className="shrink-0 w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-              🔬
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold group-hover:text-primary transition-colors">
-                Các thuật toán gợi ý số
-              </h3>
-              <p className="text-sm text-muted-foreground mt-1">
-                Hơn 6 thuật toán đã được mô phỏng trên hàng nghìn kỳ quay thực tế.
-              </p>
-            </div>
-            <svg className="shrink-0 w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
-            </svg>
-          </Link>
+            emoji="🔬"
+            title="Các thuật toán gợi ý số"
+            desc="Hơn 6 thuật toán đã được mô phỏng trên hàng nghìn kỳ quay thực tế."
+          />
         </div>
       </section>
     </div>
+  );
+}
+
+function SectionHeader({
+  index,
+  title,
+  subtitle,
+}: {
+  index: string;
+  title: string;
+  subtitle: string;
+}) {
+  return (
+    <div className="mb-5 flex items-center gap-4 border-b border-border pb-4">
+      <span className="font-mono text-sm font-bold text-primary tabular-nums">
+        {index}
+      </span>
+      <div className="h-8 w-px bg-border" />
+      <div>
+        <h2 className="font-mono text-xl font-bold tracking-tight">{title}</h2>
+        <p className="text-sm text-muted-foreground">{subtitle}</p>
+      </div>
+    </div>
+  );
+}
+
+function ExploreCard({
+  href,
+  emoji,
+  title,
+  desc,
+}: {
+  href: string;
+  emoji: string;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group relative flex items-center gap-4 overflow-hidden rounded-md border border-border bg-card p-5 transition-colors hover:border-primary/40 hover:bg-accent/40"
+    >
+      {/* left lime rail on hover */}
+      <span className="absolute inset-y-0 left-0 w-0.5 bg-primary scale-y-0 group-hover:scale-y-100 origin-top transition-transform" />
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md border border-border bg-secondary text-2xl">
+        {emoji}
+      </div>
+      <div className="flex-1">
+        <h3 className="font-mono font-bold group-hover:text-primary transition-colors">
+          {title}
+        </h3>
+        <p className="mt-1 text-sm text-muted-foreground">{desc}</p>
+      </div>
+      <span className="shrink-0 font-mono text-primary opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
+        →
+      </span>
+    </Link>
   );
 }

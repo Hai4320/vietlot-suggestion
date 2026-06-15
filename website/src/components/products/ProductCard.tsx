@@ -17,7 +17,7 @@ function isMatrixDraw(draw: MatrixDraw | ThreeDDraw): draw is MatrixDraw {
 export function ProductCard({ product, totalDraws, lastDate, latestDraw }: ProductCardProps) {
   return (
     <Link href={`/${product.slug}`}>
-      <Card className="h-full transition-all hover:shadow-lg hover:shadow-primary/5 hover:border-primary/40 hover:-translate-y-0.5 cursor-pointer group overflow-hidden">
+      <Card className="h-full transition-all hover:border-primary/50 hover:-translate-y-0.5 cursor-pointer group overflow-hidden">
         {/* Color accent bar */}
         <div className="h-1" style={{ background: product.color }} />
         <CardContent className="p-5 space-y-4">
@@ -26,7 +26,7 @@ export function ProductCard({ product, totalDraws, lastDate, latestDraw }: Produ
             <div className="flex items-center gap-3">
               <span className="text-3xl">{product.emoji}</span>
               <div>
-                <h3 className="font-bold text-lg group-hover:text-primary transition-colors">
+                <h3 className="font-mono font-bold text-lg group-hover:text-primary transition-colors">
                   {product.name}
                 </h3>
                 <p className="text-xs text-muted-foreground line-clamp-1">
@@ -45,9 +45,9 @@ export function ProductCard({ product, totalDraws, lastDate, latestDraw }: Produ
 
           {/* Latest result */}
           {latestDraw && (
-            <div className="bg-muted/50 rounded-lg p-3 space-y-2">
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>Kỳ #{latestDraw.id}</span>
+            <div className="bg-secondary/60 rounded-md border border-border p-3 space-y-2">
+              <div className="flex items-center justify-between font-mono text-xs text-muted-foreground tabular-nums">
+                <span className="text-primary">#{latestDraw.id}</span>
                 <span>{latestDraw.date}</span>
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -56,14 +56,14 @@ export function ProductCard({ product, totalDraws, lastDate, latestDraw }: Produ
                     {latestDraw.result.map((n, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold text-white shadow-sm"
+                        className="inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-mono font-bold tabular-nums text-white shadow-sm"
                         style={{ backgroundColor: product.color }}
                       >
                         {String(n).padStart(2, "0")}
                       </span>
                     ))}
                     {latestDraw.special !== undefined && (
-                      <span className="inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold bg-yellow-500 text-black shadow-sm">
+                      <span className="inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-mono font-bold tabular-nums bg-yellow-500 text-black shadow-sm">
                         {String(latestDraw.special).padStart(2, "0")}
                       </span>
                     )}
