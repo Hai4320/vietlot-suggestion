@@ -14,23 +14,23 @@ export function Sidebar() {
         <Link
           href="/"
           className={cn(
-            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent",
-            pathname === "/" && "bg-accent text-accent-foreground"
+            "flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-foreground",
+            pathname === "/" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
           )}
         >
           🏠 Trang chủ
         </Link>
 
-        <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Xổ số Ma trận
+        <div className="terminal-label mt-5 mb-2 px-3 flex items-center gap-2">
+          <span className="text-primary">/</span> Xổ số Ma trận
         </div>
         {MATRIX_PRODUCTS.map((p) => (
           <Link
             key={p.slug}
             href={`/${p.slug}`}
             className={cn(
-              "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
-              pathname === `/${p.slug}` && "bg-accent text-accent-foreground font-medium"
+              "flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground",
+              pathname === `/${p.slug}` && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
             )}
           >
             <span>{p.emoji}</span>
@@ -38,16 +38,16 @@ export function Sidebar() {
           </Link>
         ))}
 
-        <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Xổ số Dãy số
+        <div className="terminal-label mt-5 mb-2 px-3 flex items-center gap-2">
+          <span className="text-primary">/</span> Xổ số Dãy số
         </div>
         {THREE_D_PRODUCTS.map((p) => (
           <Link
             key={p.slug}
             href={`/${p.slug}`}
             className={cn(
-              "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
-              pathname === `/${p.slug}` && "bg-accent text-accent-foreground font-medium"
+              "flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground",
+              pathname === `/${p.slug}` && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
             )}
           >
             <span>{p.emoji}</span>
@@ -55,14 +55,14 @@ export function Sidebar() {
           </Link>
         ))}
 
-        <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Công cụ
+        <div className="terminal-label mt-5 mb-2 px-3 flex items-center gap-2">
+          <span className="text-primary">/</span> Công cụ
         </div>
         <Link
           href="/suggest"
           className={cn(
-            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
-            pathname === "/suggest" && "bg-accent text-accent-foreground font-medium"
+            "flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground",
+            pathname === "/suggest" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
           )}
         >
           <span>✨</span>
@@ -71,22 +71,22 @@ export function Sidebar() {
         <Link
           href="/check-rate"
           className={cn(
-            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
-            pathname === "/check-rate" && "bg-accent text-accent-foreground font-medium"
+            "flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground",
+            pathname === "/check-rate" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
           )}
         >
           <span>🎯</span>
           <span>Tra vé đã trúng chưa</span>
         </Link>
 
-        <div className="mt-4 mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Nghiên cứu
+        <div className="terminal-label mt-5 mb-2 px-3 flex items-center gap-2">
+          <span className="text-primary">/</span> Nghiên cứu
         </div>
         <Link
           href="/methods"
           className={cn(
-            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
-            pathname === "/methods" && "bg-accent text-accent-foreground font-medium"
+            "flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground",
+            pathname === "/methods" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
           )}
         >
           <span>📋</span>
@@ -95,8 +95,8 @@ export function Sidebar() {
         <Link
           href="/algorithms"
           className={cn(
-            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
-            pathname === "/algorithms" && "bg-accent text-accent-foreground font-medium"
+            "flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground",
+            pathname === "/algorithms" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
           )}
         >
           <span>🔬</span>
@@ -105,8 +105,8 @@ export function Sidebar() {
         <Link
           href="/research"
           className={cn(
-            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
-            pathname === "/research" && "bg-accent text-accent-foreground font-medium"
+            "flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground",
+            pathname === "/research" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
           )}
         >
           <span>📊</span>
@@ -115,8 +115,8 @@ export function Sidebar() {
         <Link
           href="/glossary"
           className={cn(
-            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent",
-            pathname === "/glossary" && "bg-accent text-accent-foreground font-medium"
+            "flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-foreground",
+            pathname === "/glossary" && "bg-primary/10 text-primary font-medium ring-1 ring-inset ring-primary/25"
           )}
         >
           <span>📚</span>
