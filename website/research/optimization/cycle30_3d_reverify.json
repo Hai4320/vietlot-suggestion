@@ -1,0 +1,3672 @@
+{
+  "cycle": 30,
+  "timestamp": "2026-11-09 09:09:38",
+  "tickets_cache": {
+    "created": "2026-11-09 07:50:32",
+    "record_elapsed_s": 250.5
+  },
+  "products": {
+    "max_3d": {
+      "self_check_vs_original_evaluators": {
+        "pairs_or_tickets_checked": 8974,
+        "status": "ok"
+      },
+      "A_replication": {
+        "values_compared": 816,
+        "mismatches": 0,
+        "examples": [],
+        "picks_reproduced": true,
+        "frozen_picks": {
+          "winrate": "D3: PairExploiter_T0.5",
+          "roi": "B1: CoverageOpt",
+          "balanced": "FreqWholeHot"
+        }
+      },
+      "B_legacy_protocol_new_data": {
+        "n_draws": 1155,
+        "picks": {
+          "winrate": null,
+          "roi": null,
+          "balanced": null
+        },
+        "full_segment": {
+          "Random": {
+            "exact_match_rate": 1.8914,
+            "roi_pct": -48.17,
+            "p_value_raw": null,
+            "decision": null
+          },
+          "FreqWholeHot": {
+            "exact_match_rate": 2.1086,
+            "roi_pct": -39.67,
+            "p_value_raw": 0.248847,
+            "decision": "Reject"
+          },
+          "A1: JointBias_T1.0": {
+            "exact_match_rate": 2.0181,
+            "roi_pct": -45.81,
+            "p_value_raw": 0.496342,
+            "decision": "Reject"
+          },
+          "A1: JointBias_T0.7": {
+            "exact_match_rate": 1.9005,
+            "roi_pct": -47.48,
+            "p_value_raw": 0.960662,
+            "decision": "Reject"
+          },
+          "A2: CondChain_T0.8": {
+            "exact_match_rate": 1.9638,
+            "roi_pct": -40.36,
+            "p_value_raw": 0.695508,
+            "decision": "Reject"
+          },
+          "A2: CondChain_T0.6": {
+            "exact_match_rate": 1.9819,
+            "roi_pct": -41.37,
+            "p_value_raw": 0.625466,
+            "decision": "Reject"
+          },
+          "B1: CoverageOpt": {
+            "exact_match_rate": 2.1719,
+            "roi_pct": -36.11,
+            "p_value_raw": 0.139388,
+            "decision": "Reject"
+          },
+          "B2: TierWeighted": {
+            "exact_match_rate": 1.991,
+            "roi_pct": -48.91,
+            "p_value_raw": 0.59174,
+            "decision": "Reject"
+          },
+          "B3: StratifiedDigit": {
+            "exact_match_rate": 1.9186,
+            "roi_pct": -49.95,
+            "p_value_raw": 0.88264,
+            "decision": "Reject"
+          },
+          "C2: MultiSignal": {
+            "exact_match_rate": 1.9095,
+            "roi_pct": -47.47,
+            "p_value_raw": 0.921511,
+            "decision": "Reject"
+          },
+          "C3: Portfolio": {
+            "exact_match_rate": 1.991,
+            "roi_pct": -46.65,
+            "p_value_raw": 0.59174,
+            "decision": "Reject"
+          },
+          "D1: EVMaximizer": {
+            "exact_match_rate": 1.8552,
+            "roi_pct": -53.85,
+            "p_value_raw": 0.842688,
+            "decision": "Reject"
+          },
+          "D2: KLMinimizer": {
+            "exact_match_rate": 2.0633,
+            "roi_pct": -42.5,
+            "p_value_raw": 0.358611,
+            "decision": "Reject"
+          },
+          "D3: PairExploiter_T0.7": {
+            "exact_match_rate": 1.7919,
+            "roi_pct": -50.62,
+            "p_value_raw": 0.582086,
+            "decision": "Reject"
+          },
+          "D3: PairExploiter_T0.5": {
+            "exact_match_rate": 2.2534,
+            "roi_pct": -38.11,
+            "p_value_raw": 0.058925,
+            "decision": "Reject"
+          },
+          "ULTIMATE_v1": {
+            "exact_match_rate": 2.1719,
+            "roi_pct": -48.1,
+            "p_value_raw": 0.139388,
+            "decision": "Reject"
+          },
+          "ULTIMATE_v2_sharp": {
+            "exact_match_rate": 2.0362,
+            "roi_pct": -45.75,
+            "p_value_raw": 0.437939,
+            "decision": "Reject"
+          }
+        }
+      },
+      "C_exact_tests_full": {
+        "Random": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 209.0,
+            "expected_H0": 218.68,
+            "delta": -0.0876,
+            "ci95": [
+              -0.3474,
+              0.1721
+            ],
+            "z": -0.661,
+            "mde_80pct_power": 0.3711,
+            "p_two_sided": 0.509,
+            "p_one_sided_gt": 0.746
+          },
+          "roi_pct": {
+            "observed": -47.8,
+            "expected_H0": -45.4,
+            "delta": -2.4009,
+            "ci95": [
+              -12.326,
+              7.5242
+            ],
+            "z": -0.474,
+            "p_two_sided": 0.635
+          }
+        },
+        "FreqWholeHot": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 233.0,
+            "expected_H0": 218.68,
+            "delta": 0.1296,
+            "ci95": [
+              -0.1485,
+              0.4077
+            ],
+            "z": 0.913,
+            "mde_80pct_power": 0.3973,
+            "p_two_sided": 0.361,
+            "p_one_sided_gt": 0.181,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -39.49,
+            "expected_H0": -45.4,
+            "delta": 5.9068,
+            "ci95": [
+              -4.7202,
+              16.5338
+            ],
+            "z": 1.089,
+            "p_two_sided": 0.276
+          }
+        },
+        "A1: JointBias_T1.0": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 223.0,
+            "expected_H0": 218.68,
+            "delta": 0.0391,
+            "ci95": [
+              -0.2208,
+              0.299
+            ],
+            "z": 0.295,
+            "mde_80pct_power": 0.3712,
+            "p_two_sided": 0.768,
+            "p_one_sided_gt": 0.384,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -45.44,
+            "expected_H0": -45.4,
+            "delta": -0.0389,
+            "ci95": [
+              -9.9694,
+              9.8915
+            ],
+            "z": -0.008,
+            "p_two_sided": 0.994
+          }
+        },
+        "A1: JointBias_T0.7": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 210.0,
+            "expected_H0": 218.68,
+            "delta": -0.0786,
+            "ci95": [
+              -0.3382,
+              0.1811
+            ],
+            "z": -0.593,
+            "mde_80pct_power": 0.3709,
+            "p_two_sided": 0.553,
+            "p_one_sided_gt": 0.723,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -47.48,
+            "expected_H0": -45.4,
+            "delta": -2.0751,
+            "ci95": [
+              -11.9972,
+              7.847
+            ],
+            "z": -0.41,
+            "p_two_sided": 0.682
+          }
+        },
+        "A2: CondChain_T0.8": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 217.0,
+            "expected_H0": 218.68,
+            "delta": -0.0152,
+            "ci95": [
+              -0.2751,
+              0.2447
+            ],
+            "z": -0.115,
+            "mde_80pct_power": 0.3713,
+            "p_two_sided": 0.909,
+            "p_one_sided_gt": 0.546,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -39.58,
+            "expected_H0": -45.4,
+            "delta": 5.8163,
+            "ci95": [
+              -4.1141,
+              15.7467
+            ],
+            "z": 1.148,
+            "p_two_sided": 0.251
+          }
+        },
+        "A2: CondChain_T0.6": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 219.0,
+            "expected_H0": 218.68,
+            "delta": 0.0029,
+            "ci95": [
+              -0.257,
+              0.2628
+            ],
+            "z": 0.022,
+            "mde_80pct_power": 0.3712,
+            "p_two_sided": 0.983,
+            "p_one_sided_gt": 0.491,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -40.49,
+            "expected_H0": -45.4,
+            "delta": 4.9113,
+            "ci95": [
+              -5.0184,
+              14.841
+            ],
+            "z": 0.969,
+            "p_two_sided": 0.332
+          }
+        },
+        "B1: CoverageOpt": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 240.0,
+            "expected_H0": 218.68,
+            "delta": 0.1929,
+            "ci95": [
+              -0.3875,
+              0.7733
+            ],
+            "z": 0.652,
+            "mde_80pct_power": 0.8291,
+            "p_two_sided": 0.515,
+            "p_one_sided_gt": 0.257,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -36.11,
+            "expected_H0": -45.4,
+            "delta": 9.2914,
+            "ci95": [
+              -12.8868,
+              31.4696
+            ],
+            "z": 0.821,
+            "p_two_sided": 0.412
+          }
+        },
+        "B2: TierWeighted": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 220.0,
+            "expected_H0": 218.68,
+            "delta": 0.0119,
+            "ci95": [
+              -0.2482,
+              0.2721
+            ],
+            "z": 0.09,
+            "mde_80pct_power": 0.3716,
+            "p_two_sided": 0.928,
+            "p_one_sided_gt": 0.464,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -48.72,
+            "expected_H0": -45.4,
+            "delta": -3.324,
+            "ci95": [
+              -13.265,
+              6.6171
+            ],
+            "z": -0.655,
+            "p_two_sided": 0.512
+          }
+        },
+        "B3: StratifiedDigit": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 212.0,
+            "expected_H0": 218.68,
+            "delta": -0.0605,
+            "ci95": [
+              -0.325,
+              0.2041
+            ],
+            "z": -0.448,
+            "mde_80pct_power": 0.378,
+            "p_two_sided": 0.654,
+            "p_one_sided_gt": 0.673,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -49.86,
+            "expected_H0": -45.4,
+            "delta": -4.4552,
+            "ci95": [
+              -14.5646,
+              5.6542
+            ],
+            "z": -0.864,
+            "p_two_sided": 0.388
+          }
+        },
+        "C2: MultiSignal": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 211.0,
+            "expected_H0": 218.68,
+            "delta": -0.0695,
+            "ci95": [
+              -0.3291,
+              0.1901
+            ],
+            "z": -0.525,
+            "mde_80pct_power": 0.3708,
+            "p_two_sided": 0.6,
+            "p_one_sided_gt": 0.7,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -47.19,
+            "expected_H0": -45.4,
+            "delta": -1.7855,
+            "ci95": [
+              -11.7044,
+              8.1334
+            ],
+            "z": -0.353,
+            "p_two_sided": 0.724
+          }
+        },
+        "C3: Portfolio": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 220.0,
+            "expected_H0": 218.68,
+            "delta": 0.0119,
+            "ci95": [
+              -0.5684,
+              0.5923
+            ],
+            "z": 0.04,
+            "mde_80pct_power": 0.8291,
+            "p_two_sided": 0.968,
+            "p_one_sided_gt": 0.484,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -46.65,
+            "expected_H0": -45.4,
+            "delta": -1.2516,
+            "ci95": [
+              -23.4298,
+              20.9266
+            ],
+            "z": -0.111,
+            "p_two_sided": 0.912
+          }
+        },
+        "D1: EVMaximizer": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 205.0,
+            "expected_H0": 218.68,
+            "delta": -0.1238,
+            "ci95": [
+              -0.7042,
+              0.4566
+            ],
+            "z": -0.418,
+            "mde_80pct_power": 0.8291,
+            "p_two_sided": 0.676,
+            "p_one_sided_gt": 0.662,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -53.85,
+            "expected_H0": -45.4,
+            "delta": -8.4462,
+            "ci95": [
+              -30.6244,
+              13.7321
+            ],
+            "z": -0.746,
+            "p_two_sided": 0.455
+          }
+        },
+        "D2: KLMinimizer": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 228.0,
+            "expected_H0": 218.68,
+            "delta": 0.0843,
+            "ci95": [
+              -0.1753,
+              0.344
+            ],
+            "z": 0.637,
+            "mde_80pct_power": 0.371,
+            "p_two_sided": 0.524,
+            "p_one_sided_gt": 0.262,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -42.04,
+            "expected_H0": -45.4,
+            "delta": 3.3638,
+            "ci95": [
+              -6.559,
+              13.2866
+            ],
+            "z": 0.664,
+            "p_two_sided": 0.506
+          }
+        },
+        "D3: PairExploiter_T0.7": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 198.0,
+            "expected_H0": 218.68,
+            "delta": -0.1871,
+            "ci95": [
+              -0.4468,
+              0.0725
+            ],
+            "z": -1.413,
+            "mde_80pct_power": 0.3709,
+            "p_two_sided": 0.158,
+            "p_one_sided_gt": 0.921,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -50.44,
+            "expected_H0": -45.4,
+            "delta": -5.0434,
+            "ci95": [
+              -14.9647,
+              4.8778
+            ],
+            "z": -0.996,
+            "p_two_sided": 0.319
+          }
+        },
+        "D3: PairExploiter_T0.5": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 249.0,
+            "expected_H0": 218.68,
+            "delta": 0.2744,
+            "ci95": [
+              0.0145,
+              0.5343
+            ],
+            "z": 2.069,
+            "mde_80pct_power": 0.3713,
+            "p_two_sided": 0.0385,
+            "p_one_sided_gt": 0.0193,
+            "p_holm": 0.616
+          },
+          "roi_pct": {
+            "observed": -37.73,
+            "expected_H0": -45.4,
+            "delta": 7.6715,
+            "ci95": [
+              -2.2596,
+              17.6026
+            ],
+            "z": 1.514,
+            "p_two_sided": 0.13
+          }
+        },
+        "ULTIMATE_v1": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 240.0,
+            "expected_H0": 218.68,
+            "delta": 0.1929,
+            "ci95": [
+              -0.3875,
+              0.7733
+            ],
+            "z": 0.652,
+            "mde_80pct_power": 0.8291,
+            "p_two_sided": 0.515,
+            "p_one_sided_gt": 0.257,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -48.1,
+            "expected_H0": -45.4,
+            "delta": -2.6995,
+            "ci95": [
+              -24.8778,
+              19.4787
+            ],
+            "z": -0.239,
+            "p_two_sided": 0.811
+          }
+        },
+        "ULTIMATE_v2_sharp": {
+          "n_draws": 1105,
+          "n_tickets": 11050,
+          "number_hit_rate_pp": {
+            "observed": 225.0,
+            "expected_H0": 218.68,
+            "delta": 0.0572,
+            "ci95": [
+              -0.5232,
+              0.6376
+            ],
+            "z": 0.193,
+            "mde_80pct_power": 0.8291,
+            "p_two_sided": 0.847,
+            "p_one_sided_gt": 0.423,
+            "p_holm": 1.0
+          },
+          "roi_pct": {
+            "observed": -45.75,
+            "expected_H0": -45.4,
+            "delta": -0.3466,
+            "ci95": [
+              -22.5248,
+              21.8316
+            ],
+            "z": -0.031,
+            "p_two_sided": 0.976
+          }
+        }
+      },
+      "D_out_of_sample": {
+        "first_oos_draw": {
+          "id": "01070",
+          "date": "2026-04-22"
+        },
+        "n_oos_draws": 86,
+        "tests": {
+          "Random": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 22.0,
+              "expected_H0": 17.08,
+              "delta": 0.5721,
+              "ci95": [
+                -0.3638,
+                1.508
+              ],
+              "z": 1.198,
+              "mde_80pct_power": 1.337,
+              "p_two_sided": 0.231,
+              "p_one_sided_gt": 0.115
+            },
+            "roi_pct": {
+              "observed": -33.02,
+              "expected_H0": -45.4,
+              "delta": 12.3767,
+              "ci95": [
+                -23.2212,
+                47.9747
+              ],
+              "z": 0.681,
+              "p_two_sided": 0.496
+            }
+          },
+          "FreqWholeHot": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 17.0,
+              "expected_H0": 17.08,
+              "delta": -0.0093,
+              "ci95": [
+                -0.9987,
+                0.98
+              ],
+              "z": -0.018,
+              "mde_80pct_power": 1.4134,
+              "p_two_sided": 0.985,
+              "p_one_sided_gt": 0.507,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -51.63,
+              "expected_H0": -45.4,
+              "delta": -6.2279,
+              "ci95": [
+                -43.8677,
+                31.4119
+              ],
+              "z": -0.324,
+              "p_two_sided": 0.746
+            }
+          },
+          "A1: JointBias_T1.0": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 20.0,
+              "expected_H0": 17.08,
+              "delta": 0.3395,
+              "ci95": [
+                -0.5919,
+                1.271
+              ],
+              "z": 0.714,
+              "mde_80pct_power": 1.3307,
+              "p_two_sided": 0.475,
+              "p_one_sided_gt": 0.237,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -33.26,
+              "expected_H0": -45.4,
+              "delta": 12.1442,
+              "ci95": [
+                -23.2908,
+                47.5791
+              ],
+              "z": 0.672,
+              "p_two_sided": 0.502
+            }
+          },
+          "A1: JointBias_T0.7": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 19.0,
+              "expected_H0": 17.08,
+              "delta": 0.2233,
+              "ci95": [
+                -0.7114,
+                1.1579
+              ],
+              "z": 0.468,
+              "mde_80pct_power": 1.3353,
+              "p_two_sided": 0.64,
+              "p_one_sided_gt": 0.32,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -32.79,
+              "expected_H0": -45.4,
+              "delta": 12.6093,
+              "ci95": [
+                -22.9495,
+                48.1681
+              ],
+              "z": 0.695,
+              "p_two_sided": 0.487
+            }
+          },
+          "A2: CondChain_T0.8": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 16.0,
+              "expected_H0": 17.08,
+              "delta": -0.1256,
+              "ci95": [
+                -1.0571,
+                0.806
+              ],
+              "z": -0.264,
+              "mde_80pct_power": 1.3308,
+              "p_two_sided": 0.792,
+              "p_one_sided_gt": 0.604,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -46.63,
+              "expected_H0": -45.4,
+              "delta": -1.2279,
+              "ci95": [
+                -36.6616,
+                34.2058
+              ],
+              "z": -0.068,
+              "p_two_sided": 0.946
+            }
+          },
+          "A2: CondChain_T0.6": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 14.0,
+              "expected_H0": 17.08,
+              "delta": -0.3581,
+              "ci95": [
+                -1.2886,
+                0.5723
+              ],
+              "z": -0.754,
+              "mde_80pct_power": 1.3292,
+              "p_two_sided": 0.451,
+              "p_one_sided_gt": 0.775,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -59.77,
+              "expected_H0": -45.4,
+              "delta": -14.3674,
+              "ci95": [
+                -49.76,
+                21.0251
+              ],
+              "z": -0.796,
+              "p_two_sided": 0.426
+            }
+          },
+          "B1: CoverageOpt": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 25.0,
+              "expected_H0": 17.08,
+              "delta": 0.9209,
+              "ci95": [
+                -1.1631,
+                3.005
+              ],
+              "z": 0.866,
+              "mde_80pct_power": 2.9772,
+              "p_two_sided": 0.386,
+              "p_one_sided_gt": 0.193,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": 2.33,
+              "expected_H0": -45.4,
+              "delta": 47.7256,
+              "ci95": [
+                -31.5484,
+                126.9996
+              ],
+              "z": 1.18,
+              "p_two_sided": 0.238
+            }
+          },
+          "B2: TierWeighted": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 13.0,
+              "expected_H0": 17.08,
+              "delta": -0.4744,
+              "ci95": [
+                -1.4092,
+                0.4604
+              ],
+              "z": -0.995,
+              "mde_80pct_power": 1.3354,
+              "p_two_sided": 0.32,
+              "p_one_sided_gt": 0.84,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -57.67,
+              "expected_H0": -45.4,
+              "delta": -12.2744,
+              "ci95": [
+                -47.832,
+                23.2832
+              ],
+              "z": -0.677,
+              "p_two_sided": 0.499
+            }
+          },
+          "B3: StratifiedDigit": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 9.0,
+              "expected_H0": 17.08,
+              "delta": -0.9395,
+              "ci95": [
+                -1.8915,
+                0.0124
+              ],
+              "z": -1.934,
+              "mde_80pct_power": 1.36,
+              "p_two_sided": 0.0531,
+              "p_one_sided_gt": 0.973,
+              "p_holm": 0.85
+            },
+            "roi_pct": {
+              "observed": -79.53,
+              "expected_H0": -45.4,
+              "delta": -34.1349,
+              "ci95": [
+                -70.3436,
+                2.0739
+              ],
+              "z": -1.848,
+              "p_two_sided": 0.0646
+            }
+          },
+          "C2: MultiSignal": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 19.0,
+              "expected_H0": 17.08,
+              "delta": 0.2233,
+              "ci95": [
+                -0.7116,
+                1.1581
+              ],
+              "z": 0.468,
+              "mde_80pct_power": 1.3355,
+              "p_two_sided": 0.64,
+              "p_one_sided_gt": 0.32,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -48.14,
+              "expected_H0": -45.4,
+              "delta": -2.7395,
+              "ci95": [
+                -38.2965,
+                32.8174
+              ],
+              "z": -0.151,
+              "p_two_sided": 0.88
+            }
+          },
+          "C3: Portfolio": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 10.0,
+              "expected_H0": 17.08,
+              "delta": -0.8233,
+              "ci95": [
+                -2.9073,
+                1.2608
+              ],
+              "z": -0.774,
+              "mde_80pct_power": 2.9772,
+              "p_two_sided": 0.439,
+              "p_one_sided_gt": 0.781,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -73.84,
+              "expected_H0": -45.4,
+              "delta": -28.4372,
+              "ci95": [
+                -107.7112,
+                50.8368
+              ],
+              "z": -0.703,
+              "p_two_sided": 0.482
+            }
+          },
+          "D1: EVMaximizer": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 10.0,
+              "expected_H0": 17.08,
+              "delta": -0.8233,
+              "ci95": [
+                -2.9073,
+                1.2608
+              ],
+              "z": -0.774,
+              "mde_80pct_power": 2.9772,
+              "p_two_sided": 0.439,
+              "p_one_sided_gt": 0.781,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -73.84,
+              "expected_H0": -45.4,
+              "delta": -28.4372,
+              "ci95": [
+                -107.7112,
+                50.8368
+              ],
+              "z": -0.703,
+              "p_two_sided": 0.482
+            }
+          },
+          "D2: KLMinimizer": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 15.0,
+              "expected_H0": 17.08,
+              "delta": -0.2419,
+              "ci95": [
+                -1.1745,
+                0.6907
+              ],
+              "z": -0.508,
+              "mde_80pct_power": 1.3323,
+              "p_two_sided": 0.611,
+              "p_one_sided_gt": 0.694,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -23.49,
+              "expected_H0": -45.4,
+              "delta": 21.9116,
+              "ci95": [
+                -13.5638,
+                57.3871
+              ],
+              "z": 1.211,
+              "p_two_sided": 0.226
+            }
+          },
+          "D3: PairExploiter_T0.7": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 23.0,
+              "expected_H0": 17.08,
+              "delta": 0.6884,
+              "ci95": [
+                -0.2475,
+                1.6243
+              ],
+              "z": 1.442,
+              "mde_80pct_power": 1.337,
+              "p_two_sided": 0.149,
+              "p_one_sided_gt": 0.0747,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -31.51,
+              "expected_H0": -45.4,
+              "delta": 13.8884,
+              "ci95": [
+                -21.7102,
+                49.487
+              ],
+              "z": 0.765,
+              "p_two_sided": 0.444
+            }
+          },
+          "D3: PairExploiter_T0.5": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 18.0,
+              "expected_H0": 17.08,
+              "delta": 0.107,
+              "ci95": [
+                -0.8245,
+                1.0385
+              ],
+              "z": 0.225,
+              "mde_80pct_power": 1.3307,
+              "p_two_sided": 0.822,
+              "p_one_sided_gt": 0.411,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -38.49,
+              "expected_H0": -45.4,
+              "delta": 6.9116,
+              "ci95": [
+                -28.5227,
+                42.346
+              ],
+              "z": 0.382,
+              "p_two_sided": 0.702
+            }
+          },
+          "ULTIMATE_v1": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 20.0,
+              "expected_H0": 17.08,
+              "delta": 0.3395,
+              "ci95": [
+                -1.7445,
+                2.4236
+              ],
+              "z": 0.319,
+              "mde_80pct_power": 2.9772,
+              "p_two_sided": 0.749,
+              "p_one_sided_gt": 0.375,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -62.21,
+              "expected_H0": -45.4,
+              "delta": -16.8093,
+              "ci95": [
+                -96.0833,
+                62.4647
+              ],
+              "z": -0.416,
+              "p_two_sided": 0.678
+            }
+          },
+          "ULTIMATE_v2_sharp": {
+            "n_draws": 86,
+            "n_tickets": 860,
+            "number_hit_rate_pp": {
+              "observed": 15.0,
+              "expected_H0": 17.08,
+              "delta": -0.2419,
+              "ci95": [
+                -2.3259,
+                1.8422
+              ],
+              "z": -0.227,
+              "mde_80pct_power": 2.9772,
+              "p_two_sided": 0.82,
+              "p_one_sided_gt": 0.59,
+              "p_holm": 1.0
+            },
+            "roi_pct": {
+              "observed": -68.02,
+              "expected_H0": -45.4,
+              "delta": -22.6233,
+              "ci95": [
+                -101.8973,
+                56.6508
+              ],
+              "z": -0.559,
+              "p_two_sided": 0.576
+            }
+          }
+        }
+      },
+      "E_expected_value_per_10k_ticket": {
+        "legacy (advanced_backtest.evaluate_prediction — 1 giải/số)": {
+          "ev_vnd": 5429.5,
+          "payout_pct": 54.3,
+          "roi_pct": -45.7
+        },
+        "check_rate/p3d.py (cộng dồn + 'KK 2 số cuối')": {
+          "ev_vnd": 7260.0,
+          "payout_pct": 72.6,
+          "roi_pct": -27.4
+        },
+        "quy chế (cộng dồn, không có KK)": {
+          "ev_vnd": 5460.0,
+          "payout_pct": 54.6,
+          "roi_pct": -45.4
+        }
+      },
+      "F_pipeline_calibration_H0": {
+        "n_sims": 1000,
+        "elapsed_s": 20.2,
+        "P_pick_non_null": {
+          "winrate": 0.843,
+          "roi": 0.851,
+          "balanced": 0.842
+        },
+        "most_common_null_picks": {
+          "winrate": [
+            [
+              "D1: EVMaximizer",
+              130
+            ],
+            [
+              "C3: Portfolio",
+              115
+            ],
+            [
+              "B1: CoverageOpt",
+              93
+            ]
+          ],
+          "roi": [
+            [
+              "C3: Portfolio",
+              124
+            ],
+            [
+              "D1: EVMaximizer",
+              111
+            ],
+            [
+              "B1: CoverageOpt",
+              100
+            ]
+          ],
+          "balanced": [
+            [
+              "D1: EVMaximizer",
+              128
+            ],
+            [
+              "C3: Portfolio",
+              115
+            ],
+            [
+              "B1: CoverageOpt",
+              87
+            ]
+          ]
+        },
+        "P_any_strategy_Suggestive_or_Accept_full": 0.434,
+        "false_positive_rate_p_lt_0.05_full_segment": {
+          "FreqWholeHot": 0.059,
+          "A1: JointBias_T1.0": 0.048,
+          "A1: JointBias_T0.7": 0.054,
+          "A2: CondChain_T0.8": 0.041,
+          "A2: CondChain_T0.6": 0.054,
+          "B1: CoverageOpt": 0.25,
+          "B2: TierWeighted": 0.046,
+          "B3: StratifiedDigit": 0.056,
+          "C2: MultiSignal": 0.03,
+          "C3: Portfolio": 0.261,
+          "D1: EVMaximizer": 0.26,
+          "D2: KLMinimizer": 0.052,
+          "D3: PairExploiter_T0.7": 0.041,
+          "D3: PairExploiter_T0.5": 0.048,
+          "ULTIMATE_v1": 0.286,
+          "ULTIMATE_v2_sharp": 0.259
+        },
+        "nominal_rate": 0.05
+      }
+    },
+    "max_3d_pro": {
+      "self_check_vs_original_evaluators": {
+        "pairs_or_tickets_checked": 160750,
+        "status": "ok"
+      },
+      "A_replication": {
+        "values_compared": 816,
+        "mismatches": 0,
+        "examples": [],
+        "picks_reproduced": true,
+        "frozen_picks": {
+          "winrate": null,
+          "roi": null,
+          "balanced": null
+        }
+      },
+      "B_legacy_protocol_new_data": {
+        "n_draws": 802,
+        "picks": {
+          "winrate": {
+            "strategy": "D1: EVMaximizer",
+            "split_half": "consistent: h1=+0.940, h2=+0.349",
+            "attempt": 2,
+            "raw_p": 0.03051,
+            "delta_win_pp": 0.5319,
+            "raw_roi_pct": -17.75
+          },
+          "roi": {
+            "strategy": "D1: EVMaximizer",
+            "split_half": "consistent: h1=+16.600, h2=+30.000",
+            "attempt": 2,
+            "raw_p": 0.03051,
+            "delta_win_pp": 0.5319,
+            "raw_roi_pct": -17.75
+          },
+          "balanced": {
+            "strategy": "D1: EVMaximizer",
+            "split_half": "consistent: h1=+0.940, h2=+0.349",
+            "attempt": 2,
+            "raw_p": 0.03051,
+            "delta_win_pp": 0.5319,
+            "raw_roi_pct": -17.75
+          }
+        },
+        "full_segment": {
+          "Random": {
+            "exact_match_rate": 2.0612,
+            "roi_pct": -41.76,
+            "p_value_raw": null,
+            "decision": null
+          },
+          "FreqWholeHot": {
+            "exact_match_rate": 2.0213,
+            "roi_pct": -46.24,
+            "p_value_raw": 0.862656,
+            "decision": "Reject"
+          },
+          "A1: JointBias_T1.0": {
+            "exact_match_rate": 2.2207,
+            "roi_pct": -41.18,
+            "p_value_raw": 0.499035,
+            "decision": "Reject"
+          },
+          "A1: JointBias_T0.7": {
+            "exact_match_rate": 2.0745,
+            "roi_pct": -45.04,
+            "p_value_raw": 0.954306,
+            "decision": "Reject"
+          },
+          "A2: CondChain_T0.8": {
+            "exact_match_rate": 1.9149,
+            "roi_pct": -45.72,
+            "p_value_raw": 0.520506,
+            "decision": "Reject"
+          },
+          "A2: CondChain_T0.6": {
+            "exact_match_rate": 2.1144,
+            "roi_pct": -40.78,
+            "p_value_raw": 0.819548,
+            "decision": "Reject"
+          },
+          "B1: CoverageOpt": {
+            "exact_match_rate": 1.7952,
+            "roi_pct": -42.49,
+            "p_value_raw": 0.23565,
+            "decision": "Reject"
+          },
+          "B2: TierWeighted": {
+            "exact_match_rate": 2.3404,
+            "roi_pct": -35.82,
+            "p_value_raw": 0.243138,
+            "decision": "Reject"
+          },
+          "B3: StratifiedDigit": {
+            "exact_match_rate": 2.367,
+            "roi_pct": -40.76,
+            "p_value_raw": 0.202457,
+            "decision": "Reject"
+          },
+          "C2: MultiSignal": {
+            "exact_match_rate": 1.7952,
+            "roi_pct": -50.89,
+            "p_value_raw": 0.23565,
+            "decision": "Reject"
+          },
+          "C3: Portfolio": {
+            "exact_match_rate": 2.1941,
+            "roi_pct": -51.8,
+            "p_value_raw": 0.572033,
+            "decision": "Reject"
+          },
+          "D1: EVMaximizer": {
+            "exact_match_rate": 2.5931,
+            "roi_pct": -17.75,
+            "p_value_raw": 0.03051,
+            "decision": "Suggestive"
+          },
+          "D2: KLMinimizer": {
+            "exact_match_rate": 2.0745,
+            "roi_pct": -45.68,
+            "p_value_raw": 0.954306,
+            "decision": "Reject"
+          },
+          "D3: PairExploiter_T0.7": {
+            "exact_match_rate": 2.141,
+            "roi_pct": -44.64,
+            "p_value_raw": 0.733006,
+            "decision": "Reject"
+          },
+          "D3: PairExploiter_T0.5": {
+            "exact_match_rate": 2.141,
+            "roi_pct": -42.55,
+            "p_value_raw": 0.733006,
+            "decision": "Reject"
+          },
+          "ULTIMATE_v1": {
+            "exact_match_rate": 1.9947,
+            "roi_pct": -43.09,
+            "p_value_raw": 0.772392,
+            "decision": "Reject"
+          },
+          "ULTIMATE_v2_sharp": {
+            "exact_match_rate": 2.6596,
+            "roi_pct": -10.57,
+            "p_value_raw": 0.015647,
+            "decision": "Suggestive"
+          }
+        }
+      },
+      "C_exact_tests_full": {
+        "Random": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 155.0,
+            "expected_H0": 149.0,
+            "delta": 0.0798,
+            "ci95": [
+              -0.2352,
+              0.3947
+            ],
+            "z": 0.497,
+            "mde_80pct_power": 0.4499,
+            "p_two_sided": 0.62,
+            "p_one_sided_gt": 0.31
+          },
+          "ticket_win_rate_pp": {
+            "observed": 154.0,
+            "expected_H0": 147.5571,
+            "delta": 0.1714,
+            "ci95": [
+              -0.4494,
+              0.7921
+            ],
+            "z": 0.541,
+            "mde_80pct_power": 0.8868,
+            "p_two_sided": 0.588,
+            "p_one_sided_gt": 0.294
+          },
+          "roi_pct": {
+            "observed": -78.35,
+            "expected_H0": -46.55,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.209
+            },
+            "Giải Tư": {
+              "observed": 1,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 17,
+              "expected_H0": 14.753
+            },
+            "Giải Sáu": {
+              "observed": 136,
+              "expected_H0": 131.401
+            }
+          },
+          "n_ab_tickets": 2
+        },
+        "FreqWholeHot": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 152.0,
+            "expected_H0": 149.0,
+            "delta": 0.0399,
+            "ci95": [
+              -0.2965,
+              0.3763
+            ],
+            "z": 0.232,
+            "mde_80pct_power": 0.4806,
+            "p_two_sided": 0.816,
+            "p_one_sided_gt": 0.408,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 152.0,
+            "expected_H0": 147.5963,
+            "delta": 0.1171,
+            "ci95": [
+              -0.5458,
+              0.78
+            ],
+            "z": 0.346,
+            "mde_80pct_power": 0.947,
+            "p_two_sided": 0.729,
+            "p_one_sided_gt": 0.365
+          },
+          "roi_pct": {
+            "observed": -81.12,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 0,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 17,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 135,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "A1: JointBias_T1.0": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 167.0,
+            "expected_H0": 149.0,
+            "delta": 0.2394,
+            "ci95": [
+              -0.0754,
+              0.5541
+            ],
+            "z": 1.49,
+            "mde_80pct_power": 0.4497,
+            "p_two_sided": 0.136,
+            "p_one_sided_gt": 0.0681,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 165.0,
+            "expected_H0": 147.5963,
+            "delta": 0.4629,
+            "ci95": [
+              -0.1578,
+              1.0835
+            ],
+            "z": 1.462,
+            "mde_80pct_power": 0.8866,
+            "p_two_sided": 0.144,
+            "p_one_sided_gt": 0.0719
+          },
+          "roi_pct": {
+            "observed": -74.31,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 2,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 19,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 144,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "A1: JointBias_T0.7": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 156.0,
+            "expected_H0": 149.0,
+            "delta": 0.0931,
+            "ci95": [
+              -0.2216,
+              0.4077
+            ],
+            "z": 0.58,
+            "mde_80pct_power": 0.4495,
+            "p_two_sided": 0.562,
+            "p_one_sided_gt": 0.281,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 155.0,
+            "expected_H0": 147.5963,
+            "delta": 0.1969,
+            "ci95": [
+              -0.4235,
+              0.8173
+            ],
+            "z": 0.622,
+            "mde_80pct_power": 0.8863,
+            "p_two_sided": 0.534,
+            "p_one_sided_gt": 0.267
+          },
+          "roi_pct": {
+            "observed": -78.4,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 1,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 16,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 138,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "A2: CondChain_T0.8": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 144.0,
+            "expected_H0": 149.0,
+            "delta": -0.0665,
+            "ci95": [
+              -0.3814,
+              0.2485
+            ],
+            "z": -0.414,
+            "mde_80pct_power": 0.4499,
+            "p_two_sided": 0.679,
+            "p_one_sided_gt": 0.66,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 141.0,
+            "expected_H0": 147.5963,
+            "delta": -0.1754,
+            "ci95": [
+              -0.7964,
+              0.4455
+            ],
+            "z": -0.554,
+            "mde_80pct_power": 0.8871,
+            "p_two_sided": 0.58,
+            "p_one_sided_gt": 0.71
+          },
+          "roi_pct": {
+            "observed": -74.79,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 3,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 16,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 122,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "A2: CondChain_T0.6": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 159.0,
+            "expected_H0": 149.0,
+            "delta": 0.133,
+            "ci95": [
+              -0.1824,
+              0.4483
+            ],
+            "z": 0.826,
+            "mde_80pct_power": 0.4505,
+            "p_two_sided": 0.409,
+            "p_one_sided_gt": 0.204,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 158.0,
+            "expected_H0": 147.5963,
+            "delta": 0.2767,
+            "ci95": [
+              -0.3451,
+              0.8985
+            ],
+            "z": 0.872,
+            "mde_80pct_power": 0.8883,
+            "p_two_sided": 0.383,
+            "p_one_sided_gt": 0.192
+          },
+          "roi_pct": {
+            "observed": -77.61,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 1,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 19,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 138,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "B1: CoverageOpt": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 135.0,
+            "expected_H0": 149.0,
+            "delta": -0.1862,
+            "ci95": [
+              -0.8901,
+              0.5178
+            ],
+            "z": -0.518,
+            "mde_80pct_power": 1.0057,
+            "p_two_sided": 0.604,
+            "p_one_sided_gt": 0.698,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 135.0,
+            "expected_H0": 147.5963,
+            "delta": -0.335,
+            "ci95": [
+              -1.723,
+              1.053
+            ],
+            "z": -0.473,
+            "mde_80pct_power": 1.9829,
+            "p_two_sided": 0.636,
+            "p_one_sided_gt": 0.682
+          },
+          "roi_pct": {
+            "observed": -82.45,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 0,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 20,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 115,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "B2: TierWeighted": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 176.0,
+            "expected_H0": 149.0,
+            "delta": 0.359,
+            "ci95": [
+              0.0435,
+              0.6746
+            ],
+            "z": 2.23,
+            "mde_80pct_power": 0.4508,
+            "p_two_sided": 0.0257,
+            "p_one_sided_gt": 0.0129,
+            "p_holm": 0.386
+          },
+          "ticket_win_rate_pp": {
+            "observed": 173.0,
+            "expected_H0": 147.5963,
+            "delta": 0.6756,
+            "ci95": [
+              0.0534,
+              1.2978
+            ],
+            "z": 2.128,
+            "mde_80pct_power": 0.8889,
+            "p_two_sided": 0.0333,
+            "p_one_sided_gt": 0.0167
+          },
+          "roi_pct": {
+            "observed": 5.9,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 1,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 2,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 17,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 153,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "B3: StratifiedDigit": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 178.0,
+            "expected_H0": 149.0,
+            "delta": 0.3856,
+            "ci95": [
+              0.0639,
+              0.7073
+            ],
+            "z": 2.35,
+            "mde_80pct_power": 0.4596,
+            "p_two_sided": 0.0188,
+            "p_one_sided_gt": 0.0094,
+            "p_holm": 0.301
+          },
+          "ticket_win_rate_pp": {
+            "observed": 177.0,
+            "expected_H0": 147.5963,
+            "delta": 0.782,
+            "ci95": [
+              0.1478,
+              1.4162
+            ],
+            "z": 2.417,
+            "mde_80pct_power": 0.906,
+            "p_two_sided": 0.0157,
+            "p_one_sided_gt": 0.00783
+          },
+          "roi_pct": {
+            "observed": -52.45,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 1,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 0,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 14,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 162,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "C2: MultiSignal": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 135.0,
+            "expected_H0": 149.0,
+            "delta": -0.1862,
+            "ci95": [
+              -0.5007,
+              0.1284
+            ],
+            "z": -1.16,
+            "mde_80pct_power": 0.4493,
+            "p_two_sided": 0.246,
+            "p_one_sided_gt": 0.877,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 134.0,
+            "expected_H0": 147.5963,
+            "delta": -0.3616,
+            "ci95": [
+              -0.9818,
+              0.2586
+            ],
+            "z": -1.143,
+            "mde_80pct_power": 0.886,
+            "p_two_sided": 0.253,
+            "p_one_sided_gt": 0.873
+          },
+          "roi_pct": {
+            "observed": -80.8,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 1,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 15,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 118,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "C3: Portfolio": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 165.0,
+            "expected_H0": 149.0,
+            "delta": 0.2128,
+            "ci95": [
+              -0.4912,
+              0.9167
+            ],
+            "z": 0.592,
+            "mde_80pct_power": 1.0057,
+            "p_two_sided": 0.554,
+            "p_one_sided_gt": 0.277,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 165.0,
+            "expected_H0": 147.5963,
+            "delta": 0.4629,
+            "ci95": [
+              -0.9251,
+              1.8509
+            ],
+            "z": 0.654,
+            "mde_80pct_power": 1.9829,
+            "p_two_sided": 0.513,
+            "p_one_sided_gt": 0.257
+          },
+          "roi_pct": {
+            "observed": -80.85,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 0,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 10,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 155,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "D1: EVMaximizer": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 195.0,
+            "expected_H0": 149.0,
+            "delta": 0.6117,
+            "ci95": [
+              -0.0923,
+              1.3157
+            ],
+            "z": 1.703,
+            "mde_80pct_power": 1.0057,
+            "p_two_sided": 0.0885,
+            "p_one_sided_gt": 0.0443,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 190.0,
+            "expected_H0": 147.5963,
+            "delta": 1.1278,
+            "ci95": [
+              -0.2602,
+              2.5158
+            ],
+            "z": 1.593,
+            "mde_80pct_power": 1.9829,
+            "p_two_sided": 0.111,
+            "p_one_sided_gt": 0.0556
+          },
+          "roi_pct": {
+            "observed": -22.34,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 5,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 0,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 30,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 155,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "D2: KLMinimizer": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 156.0,
+            "expected_H0": 149.0,
+            "delta": 0.0931,
+            "ci95": [
+              -0.2216,
+              0.4078
+            ],
+            "z": 0.58,
+            "mde_80pct_power": 0.4496,
+            "p_two_sided": 0.562,
+            "p_one_sided_gt": 0.281,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 156.0,
+            "expected_H0": 147.5963,
+            "delta": 0.2235,
+            "ci95": [
+              -0.397,
+              0.844
+            ],
+            "z": 0.706,
+            "mde_80pct_power": 0.8864,
+            "p_two_sided": 0.48,
+            "p_one_sided_gt": 0.24
+          },
+          "roi_pct": {
+            "observed": -80.69,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 0,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 17,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 139,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "D3: PairExploiter_T0.7": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 161.0,
+            "expected_H0": 149.0,
+            "delta": 0.1596,
+            "ci95": [
+              -0.1552,
+              0.4743
+            ],
+            "z": 0.994,
+            "mde_80pct_power": 0.4497,
+            "p_two_sided": 0.32,
+            "p_one_sided_gt": 0.16,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 156.0,
+            "expected_H0": 147.5963,
+            "delta": 0.2235,
+            "ci95": [
+              -0.3971,
+              0.8441
+            ],
+            "z": 0.706,
+            "mde_80pct_power": 0.8866,
+            "p_two_sided": 0.48,
+            "p_one_sided_gt": 0.24
+          },
+          "roi_pct": {
+            "observed": -67.93,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 5,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 17,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 134,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "D3: PairExploiter_T0.5": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 161.0,
+            "expected_H0": 149.0,
+            "delta": 0.1596,
+            "ci95": [
+              -0.1554,
+              0.4746
+            ],
+            "z": 0.993,
+            "mde_80pct_power": 0.45,
+            "p_two_sided": 0.321,
+            "p_one_sided_gt": 0.16,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 160.0,
+            "expected_H0": 147.5963,
+            "delta": 0.3299,
+            "ci95": [
+              -0.2912,
+              0.9509
+            ],
+            "z": 1.041,
+            "mde_80pct_power": 0.8872,
+            "p_two_sided": 0.298,
+            "p_one_sided_gt": 0.149
+          },
+          "roi_pct": {
+            "observed": -77.87,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 1,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 16,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 143,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "ULTIMATE_v1": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 150.0,
+            "expected_H0": 149.0,
+            "delta": 0.0133,
+            "ci95": [
+              -0.6907,
+              0.7173
+            ],
+            "z": 0.037,
+            "mde_80pct_power": 1.0057,
+            "p_two_sided": 0.97,
+            "p_one_sided_gt": 0.485,
+            "p_holm": 1.0
+          },
+          "ticket_win_rate_pp": {
+            "observed": 150.0,
+            "expected_H0": 147.5963,
+            "delta": 0.0639,
+            "ci95": [
+              -1.3241,
+              1.4519
+            ],
+            "z": 0.09,
+            "mde_80pct_power": 1.9829,
+            "p_two_sided": 0.928,
+            "p_one_sided_gt": 0.464
+          },
+          "roi_pct": {
+            "observed": -80.85,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 0,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 20,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 130,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        },
+        "ULTIMATE_v2_sharp": {
+          "n_draws": 752,
+          "n_tickets": 3760,
+          "number_hit_rate_pp": {
+            "observed": 200.0,
+            "expected_H0": 149.0,
+            "delta": 0.6782,
+            "ci95": [
+              -0.0258,
+              1.3822
+            ],
+            "z": 1.888,
+            "mde_80pct_power": 1.0057,
+            "p_two_sided": 0.059,
+            "p_one_sided_gt": 0.0295,
+            "p_holm": 0.826
+          },
+          "ticket_win_rate_pp": {
+            "observed": 200.0,
+            "expected_H0": 147.5963,
+            "delta": 1.3937,
+            "ci95": [
+              0.0057,
+              2.7817
+            ],
+            "z": 1.968,
+            "mde_80pct_power": 1.9829,
+            "p_two_sided": 0.0491,
+            "p_one_sided_gt": 0.0245
+          },
+          "roi_pct": {
+            "observed": -73.14,
+            "expected_H0": -46.53,
+            "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+          },
+          "tier_counts": {
+            "Giải Nhất": {
+              "observed": 0,
+              "expected_H0": 0.045
+            },
+            "Giải Nhì": {
+              "observed": 0,
+              "expected_H0": 0.112
+            },
+            "Giải Ba": {
+              "observed": 0,
+              "expected_H0": 0.21
+            },
+            "Giải Tư": {
+              "observed": 0,
+              "expected_H0": 1.029
+            },
+            "Giải Năm": {
+              "observed": 35,
+              "expected_H0": 14.757
+            },
+            "Giải Sáu": {
+              "observed": 165,
+              "expected_H0": 131.436
+            }
+          },
+          "n_ab_tickets": 0
+        }
+      },
+      "D_out_of_sample": {
+        "first_oos_draw": {
+          "id": "00716",
+          "date": "2026-04-21"
+        },
+        "n_oos_draws": 87,
+        "tests": {
+          "Random": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 16.0,
+              "expected_H0": 17.22,
+              "delta": -0.1402,
+              "ci95": [
+                -1.0638,
+                0.7833
+              ],
+              "z": -0.298,
+              "mde_80pct_power": 1.3194,
+              "p_two_sided": 0.766,
+              "p_one_sided_gt": 0.617
+            },
+            "ticket_win_rate_pp": {
+              "observed": 16.0,
+              "expected_H0": 17.0579,
+              "delta": -0.2432,
+              "ci95": [
+                -2.0642,
+                1.5778
+              ],
+              "z": -0.262,
+              "mde_80pct_power": 2.6015,
+              "p_two_sided": 0.794,
+              "p_one_sided_gt": 0.603
+            },
+            "roi_pct": {
+              "observed": -85.29,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 0,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 16,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "FreqWholeHot": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 10.0,
+              "expected_H0": 17.22,
+              "delta": -0.8299,
+              "ci95": [
+                -1.8185,
+                0.1588
+              ],
+              "z": -1.645,
+              "mde_80pct_power": 1.4124,
+              "p_two_sided": 0.0999,
+              "p_one_sided_gt": 0.95,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 10.0,
+              "expected_H0": 17.0579,
+              "delta": -1.6225,
+              "ci95": [
+                -3.5707,
+                0.3257
+              ],
+              "z": -1.632,
+              "mde_80pct_power": 2.7831,
+              "p_two_sided": 0.103,
+              "p_one_sided_gt": 0.949
+            },
+            "roi_pct": {
+              "observed": -86.67,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 3,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 7,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "A1: JointBias_T1.0": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 23.0,
+              "expected_H0": 17.22,
+              "delta": 0.6644,
+              "ci95": [
+                -0.2603,
+                1.589
+              ],
+              "z": 1.408,
+              "mde_80pct_power": 1.3209,
+              "p_two_sided": 0.159,
+              "p_one_sided_gt": 0.0795,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 23.0,
+              "expected_H0": 17.0579,
+              "delta": 1.366,
+              "ci95": [
+                -0.4571,
+                3.1891
+              ],
+              "z": 1.469,
+              "mde_80pct_power": 2.6045,
+              "p_two_sided": 0.142,
+              "p_one_sided_gt": 0.071
+            },
+            "roi_pct": {
+              "observed": -74.71,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 3,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 20,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "A1: JointBias_T0.7": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 21.0,
+              "expected_H0": 17.22,
+              "delta": 0.4345,
+              "ci95": [
+                -0.4891,
+                1.358
+              ],
+              "z": 0.922,
+              "mde_80pct_power": 1.3194,
+              "p_two_sided": 0.356,
+              "p_one_sided_gt": 0.178,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 21.0,
+              "expected_H0": 17.0579,
+              "delta": 0.9062,
+              "ci95": [
+                -0.9148,
+                2.7272
+              ],
+              "z": 0.975,
+              "mde_80pct_power": 2.6015,
+              "p_two_sided": 0.329,
+              "p_one_sided_gt": 0.165
+            },
+            "roi_pct": {
+              "observed": -76.55,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 3,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 18,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "A2: CondChain_T0.8": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 13.0,
+              "expected_H0": 17.22,
+              "delta": -0.4851,
+              "ci95": [
+                -1.4139,
+                0.4438
+              ],
+              "z": -1.024,
+              "mde_80pct_power": 1.327,
+              "p_two_sided": 0.306,
+              "p_one_sided_gt": 0.847,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 13.0,
+              "expected_H0": 17.0579,
+              "delta": -0.9329,
+              "ci95": [
+                -2.7643,
+                0.8986
+              ],
+              "z": -0.998,
+              "mde_80pct_power": 2.6163,
+              "p_two_sided": 0.318,
+              "p_one_sided_gt": 0.841
+            },
+            "roi_pct": {
+              "observed": -88.05,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 0,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 13,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "A2: CondChain_T0.6": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 12.0,
+              "expected_H0": 17.22,
+              "delta": -0.6,
+              "ci95": [
+                -1.5278,
+                0.3278
+              ],
+              "z": -1.268,
+              "mde_80pct_power": 1.3254,
+              "p_two_sided": 0.205,
+              "p_one_sided_gt": 0.898,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 12.0,
+              "expected_H0": 17.0579,
+              "delta": -1.1627,
+              "ci95": [
+                -2.9921,
+                0.6666
+              ],
+              "z": -1.246,
+              "mde_80pct_power": 2.6133,
+              "p_two_sided": 0.213,
+              "p_one_sided_gt": 0.894
+            },
+            "roi_pct": {
+              "observed": -86.21,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 2,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 10,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "B1: CoverageOpt": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 35.0,
+              "expected_H0": 17.22,
+              "delta": 2.0437,
+              "ci95": [
+                -0.0249,
+                4.1123
+              ],
+              "z": 1.936,
+              "mde_80pct_power": 2.9552,
+              "p_two_sided": 0.0528,
+              "p_one_sided_gt": 0.0264,
+              "p_holm": 0.792
+            },
+            "ticket_win_rate_pp": {
+              "observed": 35.0,
+              "expected_H0": 17.0579,
+              "delta": 4.1246,
+              "ci95": [
+                0.0459,
+                8.2033
+              ],
+              "z": 1.982,
+              "mde_80pct_power": 5.8268,
+              "p_two_sided": 0.0475,
+              "p_one_sided_gt": 0.0237
+            },
+            "roi_pct": {
+              "observed": -54.02,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 10,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 25,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "B2: TierWeighted": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 27.0,
+              "expected_H0": 17.22,
+              "delta": 1.1241,
+              "ci95": [
+                0.1984,
+                2.0498
+              ],
+              "z": 2.38,
+              "mde_80pct_power": 1.3224,
+              "p_two_sided": 0.0173,
+              "p_one_sided_gt": 0.00865,
+              "p_holm": 0.277
+            },
+            "ticket_win_rate_pp": {
+              "observed": 26.0,
+              "expected_H0": 17.0579,
+              "delta": 2.0556,
+              "ci95": [
+                0.2304,
+                3.8809
+              ],
+              "z": 2.207,
+              "mde_80pct_power": 2.6075,
+              "p_two_sided": 0.0273,
+              "p_one_sided_gt": 0.0136
+            },
+            "roi_pct": {
+              "observed": -49.89,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 1,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 3,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 22,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "B3: StratifiedDigit": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 23.0,
+              "expected_H0": 17.22,
+              "delta": 0.6644,
+              "ci95": [
+                -0.2709,
+                1.5996
+              ],
+              "z": 1.392,
+              "mde_80pct_power": 1.336,
+              "p_two_sided": 0.164,
+              "p_one_sided_gt": 0.0819,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 22.0,
+              "expected_H0": 17.0579,
+              "delta": 1.1361,
+              "ci95": [
+                -0.7077,
+                2.9799
+              ],
+              "z": 1.208,
+              "mde_80pct_power": 2.634,
+              "p_two_sided": 0.227,
+              "p_one_sided_gt": 0.114
+            },
+            "roi_pct": {
+              "observed": 150.57,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 1,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 1,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 20,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "C2: MultiSignal": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 14.0,
+              "expected_H0": 17.22,
+              "delta": -0.3701,
+              "ci95": [
+                -1.2969,
+                0.5567
+              ],
+              "z": -0.783,
+              "mde_80pct_power": 1.324,
+              "p_two_sided": 0.434,
+              "p_one_sided_gt": 0.783,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 14.0,
+              "expected_H0": 17.0579,
+              "delta": -0.703,
+              "ci95": [
+                -2.5303,
+                1.1243
+              ],
+              "z": -0.754,
+              "mde_80pct_power": 2.6105,
+              "p_two_sided": 0.451,
+              "p_one_sided_gt": 0.775
+            },
+            "roi_pct": {
+              "observed": -84.37,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 2,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 12,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "C3: Portfolio": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 20.0,
+              "expected_H0": 17.22,
+              "delta": 0.3195,
+              "ci95": [
+                -1.7491,
+                2.3881
+              ],
+              "z": 0.303,
+              "mde_80pct_power": 2.9552,
+              "p_two_sided": 0.762,
+              "p_one_sided_gt": 0.381,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 20.0,
+              "expected_H0": 17.0579,
+              "delta": 0.6763,
+              "ci95": [
+                -3.4024,
+                4.7551
+              ],
+              "z": 0.325,
+              "mde_80pct_power": 5.8268,
+              "p_two_sided": 0.745,
+              "p_one_sided_gt": 0.373
+            },
+            "roi_pct": {
+              "observed": -74.71,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 5,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 15,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "D1: EVMaximizer": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 25.0,
+              "expected_H0": 17.22,
+              "delta": 0.8943,
+              "ci95": [
+                -1.1744,
+                2.9629
+              ],
+              "z": 0.847,
+              "mde_80pct_power": 2.9552,
+              "p_two_sided": 0.397,
+              "p_one_sided_gt": 0.198,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 25.0,
+              "expected_H0": 17.0579,
+              "delta": 1.8258,
+              "ci95": [
+                -2.253,
+                5.9045
+              ],
+              "z": 0.877,
+              "mde_80pct_power": 5.8268,
+              "p_two_sided": 0.38,
+              "p_one_sided_gt": 0.19
+            },
+            "roi_pct": {
+              "observed": -63.22,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 10,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 15,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "D2: KLMinimizer": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 14.0,
+              "expected_H0": 17.22,
+              "delta": -0.3701,
+              "ci95": [
+                -1.2957,
+                0.5554
+              ],
+              "z": -0.784,
+              "mde_80pct_power": 1.3222,
+              "p_two_sided": 0.433,
+              "p_one_sided_gt": 0.783,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 14.0,
+              "expected_H0": 17.0579,
+              "delta": -0.703,
+              "ci95": [
+                -2.5279,
+                1.122
+              ],
+              "z": -0.755,
+              "mde_80pct_power": 2.607,
+              "p_two_sided": 0.45,
+              "p_one_sided_gt": 0.775
+            },
+            "roi_pct": {
+              "observed": -85.75,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 1,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 13,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "D3: PairExploiter_T0.7": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 25.0,
+              "expected_H0": 17.22,
+              "delta": 0.8943,
+              "ci95": [
+                -0.0282,
+                1.8167
+              ],
+              "z": 1.9,
+              "mde_80pct_power": 1.3178,
+              "p_two_sided": 0.0574,
+              "p_one_sided_gt": 0.0287,
+              "p_holm": 0.804
+            },
+            "ticket_win_rate_pp": {
+              "observed": 23.0,
+              "expected_H0": 17.0579,
+              "delta": 1.366,
+              "ci95": [
+                -0.4529,
+                3.1849
+              ],
+              "z": 1.472,
+              "mde_80pct_power": 2.5984,
+              "p_two_sided": 0.141,
+              "p_one_sided_gt": 0.0705
+            },
+            "roi_pct": {
+              "observed": -30.57,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 2,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 3,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 18,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "D3: PairExploiter_T0.5": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 19.0,
+              "expected_H0": 17.22,
+              "delta": 0.2046,
+              "ci95": [
+                -0.719,
+                1.1281
+              ],
+              "z": 0.434,
+              "mde_80pct_power": 1.3194,
+              "p_two_sided": 0.664,
+              "p_one_sided_gt": 0.332,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 19.0,
+              "expected_H0": 17.0579,
+              "delta": 0.4464,
+              "ci95": [
+                -1.3746,
+                2.2675
+              ],
+              "z": 0.481,
+              "mde_80pct_power": 2.6015,
+              "p_two_sided": 0.631,
+              "p_one_sided_gt": 0.315
+            },
+            "roi_pct": {
+              "observed": -82.53,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 0,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 19,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "ULTIMATE_v1": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 25.0,
+              "expected_H0": 17.22,
+              "delta": 0.8943,
+              "ci95": [
+                -1.1744,
+                2.9629
+              ],
+              "z": 0.847,
+              "mde_80pct_power": 2.9552,
+              "p_two_sided": 0.397,
+              "p_one_sided_gt": 0.198,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 25.0,
+              "expected_H0": 17.0579,
+              "delta": 1.8258,
+              "ci95": [
+                -2.253,
+                5.9045
+              ],
+              "z": 0.877,
+              "mde_80pct_power": 5.8268,
+              "p_two_sided": 0.38,
+              "p_one_sided_gt": 0.19
+            },
+            "roi_pct": {
+              "observed": -63.22,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 10,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 15,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          },
+          "ULTIMATE_v2_sharp": {
+            "n_draws": 87,
+            "n_tickets": 435,
+            "number_hit_rate_pp": {
+              "observed": 30.0,
+              "expected_H0": 17.22,
+              "delta": 1.469,
+              "ci95": [
+                -0.5996,
+                3.5376
+              ],
+              "z": 1.392,
+              "mde_80pct_power": 2.9552,
+              "p_two_sided": 0.164,
+              "p_one_sided_gt": 0.082,
+              "p_holm": 1.0
+            },
+            "ticket_win_rate_pp": {
+              "observed": 30.0,
+              "expected_H0": 17.0579,
+              "delta": 2.9752,
+              "ci95": [
+                -1.1035,
+                7.0539
+              ],
+              "z": 1.43,
+              "mde_80pct_power": 5.8268,
+              "p_two_sided": 0.153,
+              "p_one_sided_gt": 0.0764
+            },
+            "roi_pct": {
+              "observed": -51.72,
+              "expected_H0": -46.53,
+              "note": "ROI 3D Pro bị chi phối bởi giải hiếm (ĐB 2 tỷ, Nhất 30tr) — không kiểm định được ở cỡ mẫu này"
+            },
+            "tier_counts": {
+              "Giải Nhất": {
+                "observed": 0,
+                "expected_H0": 0.005
+              },
+              "Giải Nhì": {
+                "observed": 0,
+                "expected_H0": 0.013
+              },
+              "Giải Ba": {
+                "observed": 0,
+                "expected_H0": 0.024
+              },
+              "Giải Tư": {
+                "observed": 0,
+                "expected_H0": 0.119
+              },
+              "Giải Năm": {
+                "observed": 15,
+                "expected_H0": 1.707
+              },
+              "Giải Sáu": {
+                "observed": 15,
+                "expected_H0": 15.189
+              }
+            },
+            "n_ab_tickets": 0
+          }
+        }
+      },
+      "E_expected_value_per_10k_ticket": {
+        "code hiện tại (set: X ra 1 lần là đủ)": {
+          "A!=B": {
+            "ev_vnd": 5347.4,
+            "roi_pct": -46.53
+          },
+          "A=B (C6)": {
+            "ev_vnd": 425830.4,
+            "roi_pct": 4158.3,
+            "p_win_any_pct": 1.982,
+            "ev_by_tier_vnd": {
+              "Giải Nhất": 239476.3,
+              "Giải Nhì": 119177.1,
+              "Giải Ba": 63261.8,
+              "Giải Tư": 3915.2
+            }
+          }
+        },
+        "quy chế (multiset: (X,X) cần X ra 2 lần; Năm/Sáu ×2)": {
+          "A!=B": {
+            "ev_vnd": 5347.4,
+            "roi_pct": -46.53
+          },
+          "A=B (C6)": {
+            "ev_vnd": 3114.6,
+            "roi_pct": -68.85,
+            "p_win_any_pct": 1.982,
+            "ev_by_tier_vnd": {
+              "Giải Nhất": 523.7,
+              "Giải Nhì": 324.2,
+              "Giải Ba": 189.5,
+              "Giải Tư": 271.8,
+              "Giải Năm": 391.5,
+              "Giải Sáu": 1413.9
+            }
+          }
+        },
+        "quy chế, biến thể bảo thủ (multiset, (X,X) không có Năm/Sáu)": {
+          "A!=B": {
+            "ev_vnd": 5347.4,
+            "roi_pct": -46.53
+          },
+          "A=B (C6)": {
+            "ev_vnd": 1309.2,
+            "roi_pct": -86.91,
+            "p_win_any_pct": 0.018,
+            "ev_by_tier_vnd": {
+              "Giải Nhất": 523.7,
+              "Giải Nhì": 324.2,
+              "Giải Ba": 189.5,
+              "Giải Tư": 271.8
+            }
+          }
+        }
+      },
+      "E_expected_value_theoretical_iid": {
+        "A=B set (code)": {
+          "ev_vnd": 428328.4,
+          "roi_pct": 4183.28
+        },
+        "A=B multiset (quy chế)": {
+          "ev_vnd": 5363.0,
+          "roi_pct": -46.37
+        },
+        "A=B multiset, không Năm/Sáu": {
+          "ev_vnd": 3557.6,
+          "roi_pct": -64.42
+        },
+        "A!=B": {
+          "ev_vnd": 5344.8,
+          "roi_pct": -46.55
+        }
+      },
+      "F_pipeline_calibration_H0": {
+        "n_sims": 1000,
+        "elapsed_s": 13.6,
+        "P_pick_non_null": {
+          "winrate": 0.834,
+          "roi": 0.843,
+          "balanced": 0.837
+        },
+        "most_common_null_picks": {
+          "winrate": [
+            [
+              "C3: Portfolio",
+              129
+            ],
+            [
+              "D1: EVMaximizer",
+              112
+            ],
+            [
+              "B1: CoverageOpt",
+              108
+            ]
+          ],
+          "roi": [
+            [
+              "C3: Portfolio",
+              122
+            ],
+            [
+              "B1: CoverageOpt",
+              110
+            ],
+            [
+              "D1: EVMaximizer",
+              101
+            ]
+          ],
+          "balanced": [
+            [
+              "C3: Portfolio",
+              135
+            ],
+            [
+              "D1: EVMaximizer",
+              109
+            ],
+            [
+              "B1: CoverageOpt",
+              102
+            ]
+          ]
+        },
+        "P_any_strategy_Suggestive_or_Accept_full": 0.425,
+        "false_positive_rate_p_lt_0.05_full_segment": {
+          "FreqWholeHot": 0.067,
+          "A1: JointBias_T1.0": 0.06,
+          "A1: JointBias_T0.7": 0.058,
+          "A2: CondChain_T0.8": 0.044,
+          "A2: CondChain_T0.6": 0.054,
+          "B1: CoverageOpt": 0.265,
+          "B2: TierWeighted": 0.058,
+          "B3: StratifiedDigit": 0.065,
+          "C2: MultiSignal": 0.037,
+          "C3: Portfolio": 0.286,
+          "D1: EVMaximizer": 0.258,
+          "D2: KLMinimizer": 0.064,
+          "D3: PairExploiter_T0.7": 0.055,
+          "D3: PairExploiter_T0.5": 0.048,
+          "ULTIMATE_v1": 0.259,
+          "ULTIMATE_v2_sharp": 0.275
+        },
+        "nominal_rate": 0.05
+      }
+    }
+  },
+  "total_elapsed_s": 36.9
+}
